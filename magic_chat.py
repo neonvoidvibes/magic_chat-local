@@ -21,7 +21,6 @@ TOKEN_LIMIT = 4096
 AVERAGE_TOKENS_PER_MESSAGE = 50
 MAX_MESSAGES = TOKEN_LIMIT // AVERAGE_TOKENS_PER_MESSAGE
 
-# AWS S3 Configuration
 region_name = 'eu-north-1'
 bucket_name = 'aiademomagicaudio'
 s3_client = boto3.client('s3', region_name=region_name)
@@ -32,6 +31,10 @@ def parse_arguments():
     parser.add_argument('--memory', nargs='*', help='Names of agents to load chat history from.', default=None)
     parser.add_argument('--debug', action='store_true', help='Enable debug mode.')
     parser.add_argument('--listen', action='store_true', help='Enable summary listening at startup.')
+    parser.add_argument('--listen-transcript', action='store_true', help='Enable transcript listening at startup.')
+    parser.add_argument('--listen-analysis', action='store_true', help='Enable analysis listening at startup.')
+    parser.add_argument('--listen-deep', action='store_true', help='Enable summary and analysis listening at startup.')
+    parser.add_argument('--listen-all', action='store_true', help='Enable all listening at startup.')
     return parser.parse_args()
 
 def get_anthropic_api_key():
@@ -71,7 +74,6 @@ def get_latest_summary_file():
         if 'Contents' not in response:
             return None
         summary_files = response['Contents']
-        # Filter files that end with '.txt'
         summary_files = [obj for obj in summary_files if obj['Key'].endswith('.txt')]
         if not summary_files:
             return None
@@ -80,6 +82,34 @@ def get_latest_summary_file():
         return latest_file_key
     except Exception as e:
         logging.error(f"Error finding summary files in S3: {e}")
+        return None
+
+def get_latest_transcript_file():
+    try:
+        response = s3_client.list_objects_v2(Bucket=bucket_name, Prefix='transcript_')
+        if 'Contents' not in response:
+            return None
+        transcript_files = [obj for obj in response['Contents'] if obj['Key'].endswith('.txt')]
+        if not transcript_files:
+            return None
+        latest_file = max(transcript_files, key=lambda x: x['LastModified'])
+        return latest_file['Key']
+    except Exception as e:
+        logging.error(f"Error finding transcript files in S3: {e}")
+        return None
+
+def get_latest_analysis_file():
+    try:
+        response = s3_client.list_objects_v2(Bucket=bucket_name, Prefix='analysis_')
+        if 'Contents' not in response:
+            return None
+        analysis_files = [obj for obj in response['Contents'] if obj['Key'].endswith('.txt')]
+        if not analysis_files:
+            return None
+        latest_file = max(analysis_files, key=lambda x: x['LastModified'])
+        return latest_file['Key']
+    except Exception as e:
+        logging.error(f"Error finding analysis files in S3: {e}")
         return None
 
 def read_file_content(file_key, description):
@@ -96,8 +126,22 @@ def read_file_content(file_key, description):
         logging.error(f"Error reading {description} file '{file_key}' from S3: {e}")
         return None
 
-def summarize_text(text, max_length=500):
-    if max_length and len(text) > max_length:
+def read_file_content_local(file_path, description):
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            content = file.read()
+        if not content.strip():
+            return None
+    except FileNotFoundError:
+        logging.error(f"No {description} file at '{file_path}'.")
+        return None
+    except Exception as e:
+        logging.error(f"Error reading {description} file '{file_path}': {e}")
+        return None
+    return content
+
+def summarize_text(text, max_length=2000):
+    if len(text) > max_length:
         return text[:max_length] + "..."
     else:
         return text
@@ -121,7 +165,6 @@ def analyze_with_claude(client, messages, system_prompt):
             abort_requested = False
             return None
         try:
-            # Start timer to show delay message after 7 seconds
             timer = threading.Timer(7, show_delay_message)
             timer.start()
 
@@ -133,8 +176,8 @@ def analyze_with_claude(client, messages, system_prompt):
                 messages=messages
             ) as stream:
                 for text in stream.text_stream:
-                    response_received.set()  # Signal that response has started
-                    timer.cancel()  # Cancel the delay message
+                    response_received.set()
+                    timer.cancel()
                     print(text, end='', flush=True)
                     full_response += text
                     if sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
@@ -218,20 +261,6 @@ def load_existing_chats(folder, agent_name, memory_agents):
                     chats.append({"file": file, "messages": messages})
     return chats
 
-def read_file_content_local(file_path, description):
-    try:
-        with open(file_path, 'r', encoding='utf-8') as file:
-            content = file.read()
-        if not content.strip():
-            return None
-        return content
-    except FileNotFoundError:
-        logging.error(f"No {description} file at '{file_path}'.")
-        return None
-    except Exception as e:
-        logging.error(f"Error reading {description} file '{file_path}': {e}")
-        return None
-
 def get_agent_from_filename(file_path):
     basename = os.path.basename(file_path)
     parts = basename.split('_')
@@ -278,7 +307,6 @@ def generate_summary_of_chats(chats):
 def reload_memory(chat_history_folder, agent_name, memory_agents, initial_system_prompt):
     previous_chats = load_existing_chats(chat_history_folder, agent_name, memory_agents)
     chat_summary = generate_summary_of_chats(previous_chats)
-    # Ensure the chat summary does not exceed a certain length
     summarized_chat = summarize_text(chat_summary, max_length=2000)
     new_system_prompt = initial_system_prompt + "\nSummary of past conversations:\n" + summarized_chat
     return new_system_prompt
@@ -286,13 +314,17 @@ def reload_memory(chat_history_folder, agent_name, memory_agents, initial_system
 def display_help():
     help_text = """
 Available Commands:
-!listen           - Start listening to summaries.
-!silent           - Stop listening to summaries.
-!reload-memory    - Reload chat histories of the agent and specified memory agents.
-!memory [agents]  - Load chat history of same agent. Append multiple agent names option.
-!back             - Abort the current message request.
-!help             - Display this help message.
-!exit             - Exit the chat.
+!listen                  - Start listening to summaries.
+!listen-transcript       - Start listening to transcripts.
+!listen-analysis         - Start listening to analyses.
+!listen-deep             - Start listening to summaries and analyses.
+!listen-all              - Start listening to all files.
+!silent                  - Stop listening to all files.
+!reload-memory           - Reload chat histories of the agent and specified memory agents.
+!memory [agents]         - Load chat history of same agent. Append multiple agent names option.
+!back                    - Abort the current message request.
+!help                    - Display this help message.
+!exit                    - Exit the chat.
 """
     print(help_text)
 
@@ -313,8 +345,18 @@ def main():
     global abort_requested
     args = parse_arguments()
     agent_name = args.agent
-    listening = args.listen
-    memory_loaded = False
+    listening_summary = args.listen
+    listening_transcript = args.listen_transcript
+    listening_analysis = args.listen_analysis
+    listening_deep = args.listen_deep
+
+    if args.listen_all:
+        listening_summary = True
+        listening_transcript = True
+        listening_analysis = True
+    if args.listen_deep:
+        listening_summary = True
+        listening_analysis = True
 
     setup_logging(args.debug)
     print(f"Chat agent '{agent_name}' is running. Enter your message or type '!help' for commands.\n")
@@ -350,7 +392,6 @@ def main():
         else:
             memory_agents = args.memory
         system_prompt = reload_memory(chat_history_folder, agent_name, memory_agents, initial_system_prompt)
-        memory_loaded = True
     else:
         system_prompt = initial_system_prompt
 
@@ -386,12 +427,33 @@ def main():
             display_help()
             continue
         if user_input.lower() == '!listen':
-            listening = True
+            listening_summary = True
             print("Listening to summaries activated.\n")
             continue
+        if user_input.lower() == '!listen-transcript':
+            listening_transcript = True
+            print("Listening to transcripts activated.\n")
+            continue
+        if user_input.lower() == '!listen-analysis':
+            listening_analysis = True
+            print("Listening to analyses activated.\n")
+            continue
+        if user_input.lower() == '!listen-all':
+            listening_summary = True
+            listening_transcript = True
+            listening_analysis = True
+            print("Listening to all files activated.\n")
+            continue
+        if user_input.lower() == '!listen-deep':
+            listening_summary = True
+            listening_analysis = True
+            print("Listening to summaries and analyses activated.\n")
+            continue
         if user_input.lower() == '!silent':
-            listening = False
-            print("Listening to summaries paused.\n")
+            listening_summary = False
+            listening_transcript = False
+            listening_analysis = False
+            print("Listening paused.\n")
             continue
         if user_input.lower().startswith('!memory'):
             parts = user_input.split()
@@ -400,7 +462,6 @@ def main():
                 agents_to_load = [agent_name]
             memory_agents = agents_to_load
             system_prompt = reload_memory(chat_history_folder, agent_name, memory_agents, initial_system_prompt)
-            memory_loaded = True
             print("Memory loaded.\n")
             continue
         if user_input.lower() == '!back':
@@ -408,20 +469,56 @@ def main():
             print("[info] No active request to abort.\n")
             continue
 
-        summary = ""
-        if listening:
+        content_pieces = []
+        
+        if listening_summary:
             summary_file = get_latest_summary_file()
             if summary_file:
                 summary = read_file_content(summary_file, "summary")
-                if not summary:
+                if summary:
+                    content_pieces.append("Summary:\n" + summary)
+                else:
                     print("Summary file is empty or unreadable.\n")
-                if args.debug and summary:
-                    logging.debug(f"Summary loaded: {summarize_text(summary)}")
             else:
                 print("No summary file found.\n")
+        
+        if listening_transcript:
+            transcript_file = get_latest_transcript_file()
+            if transcript_file:
+                transcript = read_file_content(transcript_file, "transcript")
+                if transcript:
+                    content_pieces.append("Transcript:\n" + transcript)
+                else:
+                    print("Transcript file is empty or unreadable.\n")
+            else:
+                print("No transcript file found.\n")
+        
+        if listening_analysis:
+            analysis_file = get_latest_analysis_file()
+            if analysis_file:
+                analysis = read_file_content(analysis_file, "analysis")
+                if analysis:
+                    content_pieces.append("Analysis:\n" + analysis)
+                else:
+                    print("Analysis file is empty or unreadable.\n")
+            else:
+                print("No analysis file found.\n")
+        
+        combined_content = ""
+        if content_pieces:
+            combined_content = "\n\n".join(content_pieces)
+            combined_content = summarize_text(combined_content, max_length=2000)
+        
+        if combined_content and memory_agents:
+            system_prompt = initial_system_prompt + "\nSummary of past conversations:\n" + chat_summary + "\n\n" + combined_content
+        elif combined_content:
+            system_prompt = initial_system_prompt + "\n" + combined_content
+        elif memory_agents:
+            system_prompt = initial_system_prompt + "\nSummary of past conversations:\n" + chat_summary
+        else:
+            system_prompt = initial_system_prompt
 
         current_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
         user_content = f"On {current_timestamp}, user said: {user_input}"
         conversation_history.append({"role": "user", "content": user_content})
         append_to_chat_history(chat_history_file, "User", user_input)
@@ -429,15 +526,6 @@ def main():
         truncate_conversation(conversation_history, max_tokens=TOKEN_LIMIT - 500)
 
         messages = conversation_history.copy()
-        
-        if summary and memory_loaded:
-            system_prompt = initial_system_prompt + "\nSummary of past conversations:\n" + chat_summary + "\n\nFull summary:\n" + summary
-        elif summary:
-            system_prompt = initial_system_prompt + "\nFull summary:\n" + summary
-        elif memory_loaded:
-            pass
-        else:
-            system_prompt = initial_system_prompt
 
         messages_to_send = [{'role': msg['role'], 'content': msg['content']} for msg in messages]
 
