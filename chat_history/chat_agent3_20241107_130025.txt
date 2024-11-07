@@ -1,0 +1,15 @@
+### Chat Session Start ###
+
+AI: agent3
+Date and Time (yyyy-mm-dd hh:mm:ss): 2024-11-07 13:00:25
+
+System: You have access to the entire chat history in this file, including conversations from other agents you are listening to. Use this information to provide contextually relevant responses and reference past interactions when appropriate.
+
+<session>
+User: what's the last line in the summary file?
+
+Assistant: The last line in the summary is "There's recognition that this represents a shift in how the..." - it appears to be an incomplete sentence.
+
+</session>
+
+### Chat Session End ###

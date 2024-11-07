@@ -140,8 +140,8 @@ def read_file_content_local(file_path, description):
         return None
     return content
 
-def summarize_text(text, max_length=2000):
-    if len(text) > max_length:
+def summarize_text(text, max_length=None):
+    if max_length is None or len(text) <= max_length:
         return text[:max_length] + "..."
     else:
         return text
@@ -307,7 +307,7 @@ def generate_summary_of_chats(chats):
 def reload_memory(chat_history_folder, agent_name, memory_agents, initial_system_prompt):
     previous_chats = load_existing_chats(chat_history_folder, agent_name, memory_agents)
     chat_summary = generate_summary_of_chats(previous_chats)
-    summarized_chat = summarize_text(chat_summary, max_length=2000)
+    summarized_chat = summarize_text(chat_summary, max_length=None)
     new_system_prompt = initial_system_prompt + "\nSummary of past conversations:\n" + summarized_chat
     return new_system_prompt
 
@@ -507,7 +507,7 @@ def main():
         combined_content = ""
         if content_pieces:
             combined_content = "\n\n".join(content_pieces)
-            combined_content = summarize_text(combined_content, max_length=2000)
+            combined_content = summarize_text(combined_content, max_length=None)
         
         if combined_content and memory_agents:
             system_prompt = initial_system_prompt + "\nSummary of past conversations:\n" + chat_summary + "\n\n" + combined_content
