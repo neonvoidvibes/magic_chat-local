@@ -1,0 +1,24 @@
+--- Prompt: what is this meeting about? ---
+Based on the transcript, this meeting appears to be a roundtable discussion or workshop focused on leadership, organizational change, and exploring how to balance performance and wellbeing in organizations. Some key points:
+
+1. It involved business leaders discussing their experiences driving change in their organizations.
+
+2. There was discussion about redefining performance and success to include both traditional metrics and cultivating joy/wellbeing.
+
+3. An AI system was used to provide summaries and insights throughout the conversation. 
+
+4. Topics covered included:
+- Balancing accountability and joy in organizations
+- Challenging traditional notions of performance and success
+- Creating psychological safety and trust
+- Measuring outcomes vs outputs
+- The role of relationships and purpose in organizational success
+
+5. There were reflections on how to use AI as a tool to augment human wisdom rather than replace it.
+
+6. The session involved rounds of discussion followed by AI-generated summaries and questions to prompt further dialogue.
+
+7. At the end, participants reflected on the experience of having AI involved in the conversation and its potential uses and limitations.
+
+The overall aim seemed to be exploring how to create more holistic, purpose-driven organizations that balance performance and human flourishing, with AI as a tool to facilitate that exploration.
+

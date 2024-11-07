@@ -1,0 +1,648 @@
+2024-10-24 11:01:20,459 [DEBUG] load_ssl_context verify=True cert=None trust_env=True http2=False
+2024-10-24 11:01:20,462 [DEBUG] load_verify_locations cafile='/opt/homebrew/lib/python3.11/site-packages/certifi/cacert.pem'
+2024-10-24 11:01:37,763 [DEBUG] Transcript loaded: # River och WLG möte om nästa steg
+
+## Objective
+
+...
+2024-10-24 11:01:37,798 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=None
+2024-10-24 11:01:37,818 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x10680fed0>
+2024-10-24 11:01:37,818 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x10670a600> server_hostname='api.anthropic.com' timeout=5.0
+2024-10-24 11:01:37,836 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x10681da90>
+2024-10-24 11:01:37,836 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2024-10-24 11:01:37,836 [DEBUG] send_request_headers.complete
+2024-10-24 11:01:37,836 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2024-10-24 11:01:37,836 [DEBUG] send_request_body.complete
+2024-10-24 11:01:37,836 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2024-10-24 11:01:42,838 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 24 Oct 2024 09:01:42 GMT'), (b'Content-Type', b'text/event-stream; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Cache-Control', b'no-cache'), (b'anthropic-ratelimit-requests-limit', b'1000'), (b'anthropic-ratelimit-requests-remaining', b'999'), (b'anthropic-ratelimit-requests-reset', b'2024-10-24T09:01:41Z'), (b'anthropic-ratelimit-tokens-limit', b'80000'), (b'anthropic-ratelimit-tokens-remaining', b'49000'), (b'anthropic-ratelimit-tokens-reset', b'2024-10-24T09:02:01Z'), (b'request-id', b'req_01RdB9xZ4jcMuEhwwEV9LZZZ'), (b'via', b'1.1 google'), (b'CF-Cache-Status', b'DYNAMIC'), (b'X-Robots-Tag', b'none'), (b'Server', b'cloudflare'), (b'CF-RAY', b'8d78c887beab70d4-ARN')])
+2024-10-24 11:01:42,839 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-24 11:01:42,840 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2024-10-24 11:01:44,301 [DEBUG] receive_response_body.complete
+2024-10-24 11:01:44,301 [DEBUG] response_closed.started
+2024-10-24 11:01:44,302 [DEBUG] response_closed.complete
+2024-10-24 11:19:05,297 [DEBUG] load_ssl_context verify=True cert=None trust_env=True http2=False
+2024-10-24 11:19:05,298 [DEBUG] load_verify_locations cafile='/opt/homebrew/lib/python3.11/site-packages/certifi/cacert.pem'
+2024-10-24 11:19:07,165 [DEBUG] Transcript loaded: # River och WLG möte om nästa steg
+
+## Objective
+
+...
+2024-10-24 11:19:07,188 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=None
+2024-10-24 11:19:07,198 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x102d34910>
+2024-10-24 11:19:07,198 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x102c3e600> server_hostname='api.anthropic.com' timeout=5.0
+2024-10-24 11:19:07,212 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x102d3e350>
+2024-10-24 11:19:07,212 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2024-10-24 11:19:07,212 [DEBUG] send_request_headers.complete
+2024-10-24 11:19:07,212 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2024-10-24 11:19:07,213 [DEBUG] send_request_body.complete
+2024-10-24 11:19:07,213 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2024-10-24 11:19:12,184 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 24 Oct 2024 09:19:12 GMT'), (b'Content-Type', b'text/event-stream; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Cache-Control', b'no-cache'), (b'anthropic-ratelimit-requests-limit', b'1000'), (b'anthropic-ratelimit-requests-remaining', b'999'), (b'anthropic-ratelimit-requests-reset', b'2024-10-24T09:19:41Z'), (b'anthropic-ratelimit-tokens-limit', b'80000'), (b'anthropic-ratelimit-tokens-remaining', b'50000'), (b'anthropic-ratelimit-tokens-reset', b'2024-10-24T09:19:29Z'), (b'request-id', b'req_01Av4WqKX9kHPq3xLRX6za9X'), (b'via', b'1.1 google'), (b'CF-Cache-Status', b'DYNAMIC'), (b'X-Robots-Tag', b'none'), (b'Server', b'cloudflare'), (b'CF-RAY', b'8d78e22609880a1c-ARN')])
+2024-10-24 11:19:12,186 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-24 11:19:12,187 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2024-10-24 11:19:13,142 [DEBUG] receive_response_body.complete
+2024-10-24 11:19:13,143 [DEBUG] response_closed.started
+2024-10-24 11:19:13,143 [DEBUG] response_closed.complete
+2024-10-24 11:19:21,856 [DEBUG] Transcript loaded: # River och WLG möte om nästa steg
+
+## Objective
+
+...
+2024-10-24 11:19:21,862 [DEBUG] close.started
+2024-10-24 11:19:21,862 [DEBUG] close.complete
+2024-10-24 11:19:21,862 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=None
+2024-10-24 11:19:21,876 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x102d8b590>
+2024-10-24 11:19:21,876 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x102c3e600> server_hostname='api.anthropic.com' timeout=5.0
+2024-10-24 11:19:21,890 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x102d8b5d0>
+2024-10-24 11:19:21,890 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2024-10-24 11:19:21,891 [DEBUG] send_request_headers.complete
+2024-10-24 11:19:21,891 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2024-10-24 11:19:21,892 [DEBUG] send_request_body.complete
+2024-10-24 11:19:21,893 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2024-10-24 11:19:26,824 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 24 Oct 2024 09:19:26 GMT'), (b'Content-Type', b'text/event-stream; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Cache-Control', b'no-cache'), (b'anthropic-ratelimit-requests-limit', b'1000'), (b'anthropic-ratelimit-requests-remaining', b'999'), (b'anthropic-ratelimit-requests-reset', b'2024-10-24T09:19:41Z'), (b'anthropic-ratelimit-tokens-limit', b'80000'), (b'anthropic-ratelimit-tokens-remaining', b'28000'), (b'anthropic-ratelimit-tokens-reset', b'2024-10-24T09:20:01Z'), (b'request-id', b'req_01WwaJwHniSFqiBHyXa85Xhc'), (b'via', b'1.1 google'), (b'CF-Cache-Status', b'DYNAMIC'), (b'X-Robots-Tag', b'none'), (b'Server', b'cloudflare'), (b'CF-RAY', b'8d78e281ca1a82d3-ARN')])
+2024-10-24 11:19:26,825 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-24 11:19:26,826 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2024-10-24 11:19:30,206 [DEBUG] receive_response_body.complete
+2024-10-24 11:19:30,207 [DEBUG] response_closed.started
+2024-10-24 11:19:30,207 [DEBUG] response_closed.complete
+2024-10-24 11:19:46,659 [DEBUG] Transcript loaded: # River och WLG möte om nästa steg
+
+## Objective
+
+...
+2024-10-24 11:19:46,664 [DEBUG] close.started
+2024-10-24 11:19:46,665 [DEBUG] close.complete
+2024-10-24 11:19:46,665 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=None
+2024-10-24 11:19:46,677 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x102d99b50>
+2024-10-24 11:19:46,677 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x102c3e600> server_hostname='api.anthropic.com' timeout=5.0
+2024-10-24 11:19:46,687 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x102d99a50>
+2024-10-24 11:19:46,687 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2024-10-24 11:19:46,687 [DEBUG] send_request_headers.complete
+2024-10-24 11:19:46,688 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2024-10-24 11:19:46,688 [DEBUG] send_request_body.complete
+2024-10-24 11:19:46,688 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2024-10-24 11:19:51,506 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 24 Oct 2024 09:19:51 GMT'), (b'Content-Type', b'text/event-stream; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Cache-Control', b'no-cache'), (b'anthropic-ratelimit-requests-limit', b'1000'), (b'anthropic-ratelimit-requests-remaining', b'999'), (b'anthropic-ratelimit-requests-reset', b'2024-10-24T09:20:41Z'), (b'anthropic-ratelimit-tokens-limit', b'80000'), (b'anthropic-ratelimit-tokens-remaining', b'18000'), (b'anthropic-ratelimit-tokens-reset', b'2024-10-24T09:20:33Z'), (b'request-id', b'req_012xMA3ksjASLWG3rw9hquQ7'), (b'via', b'1.1 google'), (b'CF-Cache-Status', b'DYNAMIC'), (b'X-Robots-Tag', b'none'), (b'Server', b'cloudflare'), (b'CF-RAY', b'8d78e31cb9e30a23-ARN')])
+2024-10-24 11:19:51,507 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-24 11:19:51,507 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2024-10-24 11:19:55,289 [DEBUG] receive_response_body.complete
+2024-10-24 11:19:55,291 [DEBUG] response_closed.started
+2024-10-24 11:19:55,291 [DEBUG] response_closed.complete
+2024-10-24 11:20:05,685 [DEBUG] Transcript loaded: # River och WLG möte om nästa steg
+
+## Objective
+
+...
+2024-10-24 11:20:05,699 [DEBUG] close.started
+2024-10-24 11:20:05,700 [DEBUG] close.complete
+2024-10-24 11:20:05,700 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=None
+2024-10-24 11:20:05,710 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x102dad450>
+2024-10-24 11:20:05,711 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x102c3e600> server_hostname='api.anthropic.com' timeout=5.0
+2024-10-24 11:20:05,724 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x102dad490>
+2024-10-24 11:20:05,725 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2024-10-24 11:20:05,727 [DEBUG] send_request_headers.complete
+2024-10-24 11:20:05,727 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2024-10-24 11:20:05,728 [DEBUG] send_request_body.complete
+2024-10-24 11:20:05,728 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2024-10-24 11:20:10,655 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 24 Oct 2024 09:20:10 GMT'), (b'Content-Type', b'text/event-stream; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Cache-Control', b'no-cache'), (b'anthropic-ratelimit-requests-limit', b'1000'), (b'anthropic-ratelimit-requests-remaining', b'999'), (b'anthropic-ratelimit-requests-reset', b'2024-10-24T09:20:41Z'), (b'anthropic-ratelimit-tokens-limit', b'80000'), (b'anthropic-ratelimit-tokens-remaining', b'0'), (b'anthropic-ratelimit-tokens-reset', b'2024-10-24T09:21:06Z'), (b'request-id', b'req_01MupdHM4Y1RsW38hvfbNZcY'), (b'via', b'1.1 google'), (b'CF-Cache-Status', b'DYNAMIC'), (b'X-Robots-Tag', b'none'), (b'Server', b'cloudflare'), (b'CF-RAY', b'8d78e393bd369915-ARN')])
+2024-10-24 11:20:10,657 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-24 11:20:10,658 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2024-10-24 11:20:11,863 [DEBUG] receive_response_body.complete
+2024-10-24 11:20:11,864 [DEBUG] response_closed.started
+2024-10-24 11:20:11,864 [DEBUG] response_closed.complete
+2024-10-24 11:20:19,498 [DEBUG] Transcript loaded: # River och WLG möte om nästa steg
+
+## Objective
+
+...
+2024-10-24 11:20:19,509 [DEBUG] close.started
+2024-10-24 11:20:19,509 [DEBUG] close.complete
+2024-10-24 11:20:19,509 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=None
+2024-10-24 11:20:19,519 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x102db1150>
+2024-10-24 11:20:19,519 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x102c3e600> server_hostname='api.anthropic.com' timeout=5.0
+2024-10-24 11:20:19,535 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x102db1050>
+2024-10-24 11:20:19,535 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2024-10-24 11:20:19,536 [DEBUG] send_request_headers.complete
+2024-10-24 11:20:19,536 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2024-10-24 11:20:19,537 [DEBUG] send_request_body.complete
+2024-10-24 11:20:19,537 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2024-10-24 11:20:24,682 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 24 Oct 2024 09:20:24 GMT'), (b'Content-Type', b'text/event-stream; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Cache-Control', b'no-cache'), (b'anthropic-ratelimit-requests-limit', b'1000'), (b'anthropic-ratelimit-requests-remaining', b'999'), (b'anthropic-ratelimit-requests-reset', b'2024-10-24T09:20:41Z'), (b'anthropic-ratelimit-tokens-limit', b'80000'), (b'anthropic-ratelimit-tokens-remaining', b'0'), (b'anthropic-ratelimit-tokens-reset', b'2024-10-24T09:21:39Z'), (b'request-id', b'req_0177FwejYrbWodFkMw8MQaTT'), (b'via', b'1.1 google'), (b'CF-Cache-Status', b'DYNAMIC'), (b'X-Robots-Tag', b'none'), (b'Server', b'cloudflare'), (b'CF-RAY', b'8d78e3ea0e139900-ARN')])
+2024-10-24 11:20:24,682 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-24 11:20:24,683 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2024-10-24 11:20:25,521 [DEBUG] receive_response_body.complete
+2024-10-24 11:20:25,522 [DEBUG] response_closed.started
+2024-10-24 11:20:25,522 [DEBUG] response_closed.complete
+2024-10-24 11:20:31,854 [DEBUG] Transcript loaded: # River och WLG möte om nästa steg
+
+## Objective
+
+...
+2024-10-24 11:20:31,866 [DEBUG] close.started
+2024-10-24 11:20:31,867 [DEBUG] close.complete
+2024-10-24 11:20:31,867 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=None
+2024-10-24 11:20:31,876 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x102dbce50>
+2024-10-24 11:20:31,876 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x102c3e600> server_hostname='api.anthropic.com' timeout=5.0
+2024-10-24 11:20:31,890 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x102dbcd50>
+2024-10-24 11:20:31,890 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2024-10-24 11:20:31,890 [DEBUG] send_request_headers.complete
+2024-10-24 11:20:31,890 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2024-10-24 11:20:31,891 [DEBUG] send_request_body.complete
+2024-10-24 11:20:31,891 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2024-10-24 11:20:32,181 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 429, b'Too Many Requests', [(b'Date', b'Thu, 24 Oct 2024 09:20:32 GMT'), (b'Content-Type', b'application/json'), (b'Content-Length', b'428'), (b'Connection', b'keep-alive'), (b'x-should-retry', b'true'), (b'anthropic-ratelimit-requests-limit', b'1000'), (b'anthropic-ratelimit-requests-remaining', b'999'), (b'anthropic-ratelimit-requests-reset', b'2024-10-24T09:20:41Z'), (b'anthropic-ratelimit-tokens-limit', b'80000'), (b'anthropic-ratelimit-tokens-remaining', b'0'), (b'anthropic-ratelimit-tokens-reset', b'2024-10-24T09:21:48Z'), (b'retry-after', b'42'), (b'request-id', b'req_01EvKLviPtUGVt9seHYPQPhj'), (b'via', b'1.1 google'), (b'CF-Cache-Status', b'DYNAMIC'), (b'X-Robots-Tag', b'none'), (b'Server', b'cloudflare'), (b'CF-RAY', b'8d78e4374bb62e0f-ARN')])
+2024-10-24 11:20:32,182 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 429 Too Many Requests"
+2024-10-24 11:20:32,182 [DEBUG] response_closed.started
+2024-10-24 11:20:32,183 [DEBUG] response_closed.complete
+2024-10-24 11:21:14,189 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=None
+2024-10-24 11:21:14,212 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x102dbe010>
+2024-10-24 11:21:14,212 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x102c3e600> server_hostname='api.anthropic.com' timeout=5.0
+2024-10-24 11:21:14,226 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x102dbdfd0>
+2024-10-24 11:21:14,227 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2024-10-24 11:21:14,228 [DEBUG] send_request_headers.complete
+2024-10-24 11:21:14,228 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2024-10-24 11:21:14,229 [DEBUG] send_request_body.complete
+2024-10-24 11:21:14,229 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2024-10-24 11:21:19,981 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 24 Oct 2024 09:21:19 GMT'), (b'Content-Type', b'text/event-stream; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Cache-Control', b'no-cache'), (b'anthropic-ratelimit-requests-limit', b'1000'), (b'anthropic-ratelimit-requests-remaining', b'999'), (b'anthropic-ratelimit-requests-reset', b'2024-10-24T09:21:41Z'), (b'anthropic-ratelimit-tokens-limit', b'80000'), (b'anthropic-ratelimit-tokens-remaining', b'2000'), (b'anthropic-ratelimit-tokens-reset', b'2024-10-24T09:22:13Z'), (b'request-id', b'req_01PDW8U2jfVX8MK4z1xomdTi'), (b'via', b'1.1 google'), (b'CF-Cache-Status', b'DYNAMIC'), (b'X-Robots-Tag', b'none'), (b'Server', b'cloudflare'), (b'CF-RAY', b'8d78e53fdc740a23-ARN')])
+2024-10-24 11:21:19,982 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-24 11:21:19,982 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2024-10-24 11:21:20,593 [DEBUG] receive_response_body.complete
+2024-10-24 11:21:20,593 [DEBUG] response_closed.started
+2024-10-24 11:21:20,593 [DEBUG] response_closed.complete
+2024-10-24 11:31:31,480 [DEBUG] close.started
+2024-10-24 11:31:31,487 [DEBUG] close.complete
+2024-10-24 11:31:36,891 [DEBUG] load_ssl_context verify=True cert=None trust_env=True http2=False
+2024-10-24 11:31:36,893 [DEBUG] load_verify_locations cafile='/opt/homebrew/lib/python3.11/site-packages/certifi/cacert.pem'
+2024-10-24 11:35:05,848 [DEBUG] load_ssl_context verify=True cert=None trust_env=True http2=False
+2024-10-24 11:35:05,849 [DEBUG] load_verify_locations cafile='/opt/homebrew/lib/python3.11/site-packages/certifi/cacert.pem'
+2024-10-24 11:39:56,436 [DEBUG] load_ssl_context verify=True cert=None trust_env=True http2=False
+2024-10-24 11:39:56,438 [DEBUG] load_verify_locations cafile='/opt/homebrew/lib/python3.11/site-packages/certifi/cacert.pem'
+2024-10-24 11:39:57,963 [DEBUG] Transcript loaded: # River och WLG möte om nästa steg
+
+## Objective
+
+...
+2024-10-24 11:39:57,986 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=None
+2024-10-24 11:39:58,033 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x105f24390>
+2024-10-24 11:39:58,033 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x10580e690> server_hostname='api.anthropic.com' timeout=5.0
+2024-10-24 11:39:58,044 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x104e233d0>
+2024-10-24 11:39:58,044 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2024-10-24 11:39:58,044 [DEBUG] send_request_headers.complete
+2024-10-24 11:39:58,044 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2024-10-24 11:39:58,044 [DEBUG] send_request_body.complete
+2024-10-24 11:39:58,044 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2024-10-24 11:40:02,800 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 24 Oct 2024 09:40:02 GMT'), (b'Content-Type', b'text/event-stream; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Cache-Control', b'no-cache'), (b'anthropic-ratelimit-requests-limit', b'1000'), (b'anthropic-ratelimit-requests-remaining', b'999'), (b'anthropic-ratelimit-requests-reset', b'2024-10-24T09:40:41Z'), (b'anthropic-ratelimit-tokens-limit', b'80000'), (b'anthropic-ratelimit-tokens-remaining', b'50000'), (b'anthropic-ratelimit-tokens-reset', b'2024-10-24T09:40:20Z'), (b'request-id', b'req_01FmngQSToFvVq4GJahhzhsn'), (b'via', b'1.1 google'), (b'CF-Cache-Status', b'DYNAMIC'), (b'X-Robots-Tag', b'none'), (b'Server', b'cloudflare'), (b'CF-RAY', b'8d7900afba7209a8-ARN')])
+2024-10-24 11:40:02,803 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-24 11:40:02,804 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2024-10-24 11:40:04,042 [DEBUG] receive_response_body.complete
+2024-10-24 11:40:04,042 [DEBUG] response_closed.started
+2024-10-24 11:40:04,043 [DEBUG] response_closed.complete
+2024-10-24 11:40:27,267 [DEBUG] Transcript loaded: # River och WLG möte om nästa steg
+
+## Objective
+
+...
+2024-10-24 11:40:27,271 [DEBUG] close.started
+2024-10-24 11:40:27,272 [DEBUG] close.complete
+2024-10-24 11:40:27,272 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=None
+2024-10-24 11:40:27,279 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x105f4aad0>
+2024-10-24 11:40:27,279 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x10580e690> server_hostname='api.anthropic.com' timeout=5.0
+2024-10-24 11:40:27,291 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x1058f4410>
+2024-10-24 11:40:27,291 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2024-10-24 11:40:27,292 [DEBUG] send_request_headers.complete
+2024-10-24 11:40:27,292 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2024-10-24 11:40:27,292 [DEBUG] send_request_body.complete
+2024-10-24 11:40:27,292 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2024-10-24 11:40:32,903 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 24 Oct 2024 09:40:32 GMT'), (b'Content-Type', b'text/event-stream; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Cache-Control', b'no-cache'), (b'anthropic-ratelimit-requests-limit', b'1000'), (b'anthropic-ratelimit-requests-remaining', b'999'), (b'anthropic-ratelimit-requests-reset', b'2024-10-24T09:40:41Z'), (b'anthropic-ratelimit-tokens-limit', b'80000'), (b'anthropic-ratelimit-tokens-remaining', b'47000'), (b'anthropic-ratelimit-tokens-reset', b'2024-10-24T09:40:52Z'), (b'request-id', b'req_01DYRoGVqNqP2NmroAigm6Jo'), (b'via', b'1.1 google'), (b'CF-Cache-Status', b'DYNAMIC'), (b'X-Robots-Tag', b'none'), (b'Server', b'cloudflare'), (b'CF-RAY', b'8d79016688fe2e07-ARN')])
+2024-10-24 11:40:32,904 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-24 11:40:32,905 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2024-10-24 11:40:34,088 [DEBUG] receive_response_body.complete
+2024-10-24 11:40:34,089 [DEBUG] response_closed.started
+2024-10-24 11:40:34,089 [DEBUG] response_closed.complete
+2024-10-24 11:40:52,838 [DEBUG] Transcript loaded: # River och WLG möte om nästa steg
+
+## Objective
+
+...
+2024-10-24 11:40:52,844 [DEBUG] close.started
+2024-10-24 11:40:52,845 [DEBUG] close.complete
+2024-10-24 11:40:52,845 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=None
+2024-10-24 11:40:52,854 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x105f6bbd0>
+2024-10-24 11:40:52,855 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x10580e690> server_hostname='api.anthropic.com' timeout=5.0
+2024-10-24 11:40:52,867 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x105f6bad0>
+2024-10-24 11:40:52,868 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2024-10-24 11:40:52,868 [DEBUG] send_request_headers.complete
+2024-10-24 11:40:52,868 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2024-10-24 11:40:52,869 [DEBUG] send_request_body.complete
+2024-10-24 11:40:52,869 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2024-10-24 11:40:57,778 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 24 Oct 2024 09:40:57 GMT'), (b'Content-Type', b'text/event-stream; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Cache-Control', b'no-cache'), (b'anthropic-ratelimit-requests-limit', b'1000'), (b'anthropic-ratelimit-requests-remaining', b'999'), (b'anthropic-ratelimit-requests-reset', b'2024-10-24T09:41:41Z'), (b'anthropic-ratelimit-tokens-limit', b'80000'), (b'anthropic-ratelimit-tokens-remaining', b'39000'), (b'anthropic-ratelimit-tokens-reset', b'2024-10-24T09:41:23Z'), (b'request-id', b'req_01AVsswuF3ia5HbSznoqq3E6'), (b'via', b'1.1 google'), (b'CF-Cache-Status', b'DYNAMIC'), (b'X-Robots-Tag', b'none'), (b'Server', b'cloudflare'), (b'CF-RAY', b'8d7902066d6c0a3c-ARN')])
+2024-10-24 11:40:57,779 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-24 11:40:57,780 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2024-10-24 11:41:00,833 [DEBUG] receive_response_body.complete
+2024-10-24 11:41:00,833 [DEBUG] response_closed.started
+2024-10-24 11:41:00,833 [DEBUG] response_closed.complete
+2024-10-24 11:41:10,241 [DEBUG] Transcript loaded: # River och WLG möte om nästa steg
+
+## Objective
+
+...
+2024-10-24 11:41:10,245 [DEBUG] close.started
+2024-10-24 11:41:10,245 [DEBUG] close.complete
+2024-10-24 11:41:10,245 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=None
+2024-10-24 11:41:10,255 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x105f4a890>
+2024-10-24 11:41:10,255 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x10580e690> server_hostname='api.anthropic.com' timeout=5.0
+2024-10-24 11:41:10,271 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x105f4aad0>
+2024-10-24 11:41:10,271 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2024-10-24 11:41:10,272 [DEBUG] send_request_headers.complete
+2024-10-24 11:41:10,272 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2024-10-24 11:41:10,272 [DEBUG] send_request_body.complete
+2024-10-24 11:41:10,272 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2024-10-24 11:41:16,007 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 24 Oct 2024 09:41:15 GMT'), (b'Content-Type', b'text/event-stream; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Cache-Control', b'no-cache'), (b'anthropic-ratelimit-requests-limit', b'1000'), (b'anthropic-ratelimit-requests-remaining', b'999'), (b'anthropic-ratelimit-requests-reset', b'2024-10-24T09:41:41Z'), (b'anthropic-ratelimit-tokens-limit', b'80000'), (b'anthropic-ratelimit-tokens-remaining', b'20000'), (b'anthropic-ratelimit-tokens-reset', b'2024-10-24T09:41:55Z'), (b'request-id', b'req_01VhtQjCZ46fdVWT59VqJcqb'), (b'via', b'1.1 google'), (b'CF-Cache-Status', b'DYNAMIC'), (b'X-Robots-Tag', b'none'), (b'Server', b'cloudflare'), (b'CF-RAY', b'8d7902733c7c70d2-ARN')])
+2024-10-24 11:41:16,008 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-24 11:41:16,008 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2024-10-24 11:41:19,310 [DEBUG] receive_response_body.complete
+2024-10-24 11:41:19,310 [DEBUG] response_closed.started
+2024-10-24 11:41:19,311 [DEBUG] response_closed.complete
+2024-10-24 11:41:30,617 [DEBUG] Transcript loaded: # River och WLG möte om nästa steg
+
+## Objective
+
+...
+2024-10-24 11:41:30,621 [DEBUG] close.started
+2024-10-24 11:41:30,622 [DEBUG] close.complete
+2024-10-24 11:41:30,622 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=None
+2024-10-24 11:41:30,631 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x105f81850>
+2024-10-24 11:41:30,632 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x10580e690> server_hostname='api.anthropic.com' timeout=5.0
+2024-10-24 11:41:30,649 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x105f81750>
+2024-10-24 11:41:30,649 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2024-10-24 11:41:30,650 [DEBUG] send_request_headers.complete
+2024-10-24 11:41:30,650 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2024-10-24 11:41:30,650 [DEBUG] send_request_body.complete
+2024-10-24 11:41:30,650 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2024-10-24 11:41:35,566 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 24 Oct 2024 09:41:35 GMT'), (b'Content-Type', b'text/event-stream; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Cache-Control', b'no-cache'), (b'anthropic-ratelimit-requests-limit', b'1000'), (b'anthropic-ratelimit-requests-remaining', b'999'), (b'anthropic-ratelimit-requests-reset', b'2024-10-24T09:41:41Z'), (b'anthropic-ratelimit-tokens-limit', b'80000'), (b'anthropic-ratelimit-tokens-remaining', b'4000'), (b'anthropic-ratelimit-tokens-reset', b'2024-10-24T09:42:28Z'), (b'request-id', b'req_01SbkqdGg5xJ9JTnbbFpm2e8'), (b'via', b'1.1 google'), (b'CF-Cache-Status', b'DYNAMIC'), (b'X-Robots-Tag', b'none'), (b'Server', b'cloudflare'), (b'CF-RAY', b'8d7902f29c4f991a-ARN')])
+2024-10-24 11:41:35,567 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-24 11:41:35,568 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2024-10-24 11:41:38,979 [DEBUG] receive_response_body.complete
+2024-10-24 11:41:38,979 [DEBUG] response_closed.started
+2024-10-24 11:41:38,980 [DEBUG] response_closed.complete
+2024-10-24 11:42:18,559 [DEBUG] close.started
+2024-10-24 11:42:18,561 [DEBUG] close.complete
+2024-10-24 11:58:52,196 [DEBUG] load_ssl_context verify=True cert=None trust_env=True http2=False
+2024-10-24 11:58:52,199 [DEBUG] load_verify_locations cafile='/opt/homebrew/lib/python3.11/site-packages/certifi/cacert.pem'
+2024-10-24 12:02:58,569 [DEBUG] load_ssl_context verify=True cert=None trust_env=True http2=False
+2024-10-24 12:02:58,570 [DEBUG] load_verify_locations cafile='/opt/homebrew/lib/python3.11/site-packages/certifi/cacert.pem'
+2024-10-24 12:03:00,080 [DEBUG] Transcript loaded: # River och WLG möte om nästa steg
+
+## Objective
+
+...
+2024-10-24 12:03:00,114 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=None
+2024-10-24 12:03:00,160 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x1031db410>
+2024-10-24 12:03:00,160 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x1030ea570> server_hostname='api.anthropic.com' timeout=5.0
+2024-10-24 12:03:00,176 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x1031ba690>
+2024-10-24 12:03:00,176 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2024-10-24 12:03:00,176 [DEBUG] send_request_headers.complete
+2024-10-24 12:03:00,176 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2024-10-24 12:03:00,177 [DEBUG] send_request_body.complete
+2024-10-24 12:03:00,177 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2024-10-24 12:03:05,618 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 24 Oct 2024 10:03:05 GMT'), (b'Content-Type', b'text/event-stream; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Cache-Control', b'no-cache'), (b'anthropic-ratelimit-requests-limit', b'1000'), (b'anthropic-ratelimit-requests-remaining', b'999'), (b'anthropic-ratelimit-requests-reset', b'2024-10-24T10:03:41Z'), (b'anthropic-ratelimit-tokens-limit', b'80000'), (b'anthropic-ratelimit-tokens-remaining', b'50000'), (b'anthropic-ratelimit-tokens-reset', b'2024-10-24T10:03:22Z'), (b'request-id', b'req_01J7yLeok7oEJKDH5kocdYWe'), (b'via', b'1.1 google'), (b'CF-Cache-Status', b'DYNAMIC'), (b'X-Robots-Tag', b'none'), (b'Server', b'cloudflare'), (b'CF-RAY', b'8d79226e18a39927-ARN')])
+2024-10-24 12:03:05,620 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-24 12:03:05,620 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2024-10-24 12:03:06,390 [DEBUG] receive_response_body.complete
+2024-10-24 12:03:06,390 [DEBUG] response_closed.started
+2024-10-24 12:03:06,390 [DEBUG] response_closed.complete
+2024-10-24 12:03:17,181 [DEBUG] Transcript loaded: # River och WLG möte om nästa steg
+
+## Objective
+
+...
+2024-10-24 12:03:17,186 [DEBUG] close.started
+2024-10-24 12:03:17,186 [DEBUG] close.complete
+2024-10-24 12:03:17,186 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=None
+2024-10-24 12:03:17,196 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x103212090>
+2024-10-24 12:03:17,196 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x1030ea570> server_hostname='api.anthropic.com' timeout=5.0
+2024-10-24 12:03:17,209 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x103212390>
+2024-10-24 12:03:17,210 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2024-10-24 12:03:17,210 [DEBUG] send_request_headers.complete
+2024-10-24 12:03:17,210 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2024-10-24 12:03:17,211 [DEBUG] send_request_body.complete
+2024-10-24 12:03:17,211 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2024-10-24 12:03:22,304 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 24 Oct 2024 10:03:22 GMT'), (b'Content-Type', b'text/event-stream; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Cache-Control', b'no-cache'), (b'anthropic-ratelimit-requests-limit', b'1000'), (b'anthropic-ratelimit-requests-remaining', b'999'), (b'anthropic-ratelimit-requests-reset', b'2024-10-24T10:03:41Z'), (b'anthropic-ratelimit-tokens-limit', b'80000'), (b'anthropic-ratelimit-tokens-remaining', b'31000'), (b'anthropic-ratelimit-tokens-reset', b'2024-10-24T10:03:54Z'), (b'request-id', b'req_01XPJfX9C93wN1ikPX7PcMnU'), (b'via', b'1.1 google'), (b'CF-Cache-Status', b'DYNAMIC'), (b'X-Robots-Tag', b'none'), (b'Server', b'cloudflare'), (b'CF-RAY', b'8d7922d88aa62d74-ARN')])
+2024-10-24 12:03:22,305 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-24 12:03:22,306 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2024-10-24 12:03:25,490 [DEBUG] receive_response_body.complete
+2024-10-24 12:03:25,490 [DEBUG] response_closed.started
+2024-10-24 12:03:25,490 [DEBUG] response_closed.complete
+2024-10-24 12:03:37,936 [DEBUG] Transcript loaded: # River och WLG möte om nästa steg
+
+## Objective
+
+...
+2024-10-24 12:03:37,941 [DEBUG] close.started
+2024-10-24 12:03:37,942 [DEBUG] close.complete
+2024-10-24 12:03:37,942 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=None
+2024-10-24 12:03:37,951 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x103208f90>
+2024-10-24 12:03:37,951 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x1030ea570> server_hostname='api.anthropic.com' timeout=5.0
+2024-10-24 12:03:37,968 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x103208e90>
+2024-10-24 12:03:37,968 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2024-10-24 12:03:37,969 [DEBUG] send_request_headers.complete
+2024-10-24 12:03:37,969 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2024-10-24 12:03:37,970 [DEBUG] send_request_body.complete
+2024-10-24 12:03:37,970 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2024-10-24 12:03:43,400 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 24 Oct 2024 10:03:43 GMT'), (b'Content-Type', b'text/event-stream; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Cache-Control', b'no-cache'), (b'anthropic-ratelimit-requests-limit', b'1000'), (b'anthropic-ratelimit-requests-remaining', b'999'), (b'anthropic-ratelimit-requests-reset', b'2024-10-24T10:03:41Z'), (b'anthropic-ratelimit-tokens-limit', b'80000'), (b'anthropic-ratelimit-tokens-remaining', b'16000'), (b'anthropic-ratelimit-tokens-reset', b'2024-10-24T10:04:26Z'), (b'request-id', b'req_01VFduBpN2pRVQtMyu9cuCN8'), (b'via', b'1.1 google'), (b'CF-Cache-Status', b'DYNAMIC'), (b'X-Robots-Tag', b'none'), (b'Server', b'cloudflare'), (b'CF-RAY', b'8d79235a48b89920-ARN')])
+2024-10-24 12:03:43,401 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-24 12:03:43,402 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2024-10-24 12:03:48,120 [DEBUG] receive_response_body.complete
+2024-10-24 12:03:48,120 [DEBUG] response_closed.started
+2024-10-24 12:03:48,121 [DEBUG] response_closed.complete
+2024-10-24 12:03:57,083 [DEBUG] Transcript loaded: # River och WLG möte om nästa steg
+
+## Objective
+
+...
+2024-10-24 12:03:57,087 [DEBUG] close.started
+2024-10-24 12:03:57,088 [DEBUG] close.complete
+2024-10-24 12:03:57,088 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=None
+2024-10-24 12:03:57,096 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x1032332d0>
+2024-10-24 12:03:57,097 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x1030ea570> server_hostname='api.anthropic.com' timeout=5.0
+2024-10-24 12:03:57,109 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x103233c50>
+2024-10-24 12:03:57,109 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2024-10-24 12:03:57,110 [DEBUG] send_request_headers.complete
+2024-10-24 12:03:57,110 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2024-10-24 12:03:57,110 [DEBUG] send_request_body.complete
+2024-10-24 12:03:57,110 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2024-10-24 12:04:02,755 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 24 Oct 2024 10:04:02 GMT'), (b'Content-Type', b'text/event-stream; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Cache-Control', b'no-cache'), (b'anthropic-ratelimit-requests-limit', b'1000'), (b'anthropic-ratelimit-requests-remaining', b'999'), (b'anthropic-ratelimit-requests-reset', b'2024-10-24T10:04:41Z'), (b'anthropic-ratelimit-tokens-limit', b'80000'), (b'anthropic-ratelimit-tokens-remaining', b'0'), (b'anthropic-ratelimit-tokens-reset', b'2024-10-24T10:04:58Z'), (b'request-id', b'req_019ixq4wxi3qwuJEsY3f4mLm'), (b'via', b'1.1 google'), (b'CF-Cache-Status', b'DYNAMIC'), (b'X-Robots-Tag', b'none'), (b'Server', b'cloudflare'), (b'CF-RAY', b'8d7923d1ec7a95f1-ARN')])
+2024-10-24 12:04:02,756 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-24 12:04:02,756 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2024-10-24 12:04:06,821 [DEBUG] receive_response_body.complete
+2024-10-24 12:04:06,821 [DEBUG] response_closed.started
+2024-10-24 12:04:06,821 [DEBUG] response_closed.complete
+2024-10-24 12:04:12,175 [DEBUG] Transcript loaded: # River och WLG möte om nästa steg
+
+## Objective
+
+...
+2024-10-24 12:04:12,181 [DEBUG] close.started
+2024-10-24 12:04:12,182 [DEBUG] close.complete
+2024-10-24 12:04:12,182 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=None
+2024-10-24 12:04:12,189 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x10320ac90>
+2024-10-24 12:04:12,189 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x1030ea570> server_hostname='api.anthropic.com' timeout=5.0
+2024-10-24 12:04:12,200 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x10320ab90>
+2024-10-24 12:04:12,200 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2024-10-24 12:04:12,200 [DEBUG] send_request_headers.complete
+2024-10-24 12:04:12,201 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2024-10-24 12:04:12,201 [DEBUG] send_request_body.complete
+2024-10-24 12:04:12,201 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2024-10-24 12:04:17,195 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 24 Oct 2024 10:04:17 GMT'), (b'Content-Type', b'text/event-stream; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Cache-Control', b'no-cache'), (b'anthropic-ratelimit-requests-limit', b'1000'), (b'anthropic-ratelimit-requests-remaining', b'999'), (b'anthropic-ratelimit-requests-reset', b'2024-10-24T10:04:41Z'), (b'anthropic-ratelimit-tokens-limit', b'80000'), (b'anthropic-ratelimit-tokens-remaining', b'0'), (b'anthropic-ratelimit-tokens-reset', b'2024-10-24T10:05:30Z'), (b'request-id', b'req_01CoPvanferQJhspZBbJ29LS'), (b'via', b'1.1 google'), (b'CF-Cache-Status', b'DYNAMIC'), (b'X-Robots-Tag', b'none'), (b'Server', b'cloudflare'), (b'CF-RAY', b'8d7924303afb98fc-ARN')])
+2024-10-24 12:04:17,196 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-24 12:04:17,196 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2024-10-24 12:04:18,591 [DEBUG] receive_response_body.complete
+2024-10-24 12:04:18,591 [DEBUG] response_closed.started
+2024-10-24 12:04:18,591 [DEBUG] response_closed.complete
+2024-10-24 12:04:35,167 [DEBUG] Transcript loaded: # River och WLG möte om nästa steg
+
+## Objective
+
+...
+2024-10-24 12:04:35,194 [DEBUG] close.started
+2024-10-24 12:04:35,198 [DEBUG] close.complete
+2024-10-24 12:04:35,201 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=None
+2024-10-24 12:04:35,209 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x103252c90>
+2024-10-24 12:04:35,209 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x1030ea570> server_hostname='api.anthropic.com' timeout=5.0
+2024-10-24 12:04:35,218 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x103252b90>
+2024-10-24 12:04:35,218 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2024-10-24 12:04:35,219 [DEBUG] send_request_headers.complete
+2024-10-24 12:04:35,219 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2024-10-24 12:04:35,223 [DEBUG] send_request_body.complete
+2024-10-24 12:04:35,223 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2024-10-24 12:04:36,050 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 429, b'Too Many Requests', [(b'Date', b'Thu, 24 Oct 2024 10:04:36 GMT'), (b'Content-Type', b'application/json'), (b'Content-Length', b'428'), (b'Connection', b'keep-alive'), (b'x-should-retry', b'true'), (b'anthropic-ratelimit-requests-limit', b'1000'), (b'anthropic-ratelimit-requests-remaining', b'999'), (b'anthropic-ratelimit-requests-reset', b'2024-10-24T10:04:41Z'), (b'anthropic-ratelimit-tokens-limit', b'80000'), (b'anthropic-ratelimit-tokens-remaining', b'0'), (b'anthropic-ratelimit-tokens-reset', b'2024-10-24T10:05:40Z'), (b'retry-after', b'30'), (b'request-id', b'req_0137m1CUkRzfE4uxnVdxTuL6'), (b'via', b'1.1 google'), (b'CF-Cache-Status', b'DYNAMIC'), (b'X-Robots-Tag', b'none'), (b'Server', b'cloudflare'), (b'CF-RAY', b'8d7924c0193a0a24-ARN')])
+2024-10-24 12:04:36,050 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 429 Too Many Requests"
+2024-10-24 12:04:36,051 [DEBUG] response_closed.started
+2024-10-24 12:04:36,051 [DEBUG] response_closed.complete
+2024-10-24 12:05:06,059 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=None
+2024-10-24 12:05:06,071 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x103253f90>
+2024-10-24 12:05:06,071 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x1030ea570> server_hostname='api.anthropic.com' timeout=5.0
+2024-10-24 12:05:06,092 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x103253e90>
+2024-10-24 12:05:06,092 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2024-10-24 12:05:06,093 [DEBUG] send_request_headers.complete
+2024-10-24 12:05:06,093 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2024-10-24 12:05:06,099 [DEBUG] send_request_body.complete
+2024-10-24 12:05:06,099 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2024-10-24 12:05:11,255 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 24 Oct 2024 10:05:11 GMT'), (b'Content-Type', b'text/event-stream; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Cache-Control', b'no-cache'), (b'anthropic-ratelimit-requests-limit', b'1000'), (b'anthropic-ratelimit-requests-remaining', b'999'), (b'anthropic-ratelimit-requests-reset', b'2024-10-24T10:05:41Z'), (b'anthropic-ratelimit-tokens-limit', b'80000'), (b'anthropic-ratelimit-tokens-remaining', b'2000'), (b'anthropic-ratelimit-tokens-reset', b'2024-10-24T10:06:05Z'), (b'request-id', b'req_011NdXL4enyfrivKD3NeuDck'), (b'via', b'1.1 google'), (b'CF-Cache-Status', b'DYNAMIC'), (b'X-Robots-Tag', b'none'), (b'Server', b'cloudflare'), (b'CF-RAY', b'8d7925810b710a30-ARN')])
+2024-10-24 12:05:11,256 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-24 12:05:11,256 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2024-10-24 12:05:14,928 [DEBUG] receive_response_body.complete
+2024-10-24 12:05:14,929 [DEBUG] response_closed.started
+2024-10-24 12:05:14,929 [DEBUG] response_closed.complete
+2024-10-24 12:12:22,369 [DEBUG] Transcript loaded: # River och WLG möte om nästa steg
+
+## Objective
+
+...
+2024-10-24 12:12:22,389 [DEBUG] close.started
+2024-10-24 12:12:22,390 [DEBUG] close.complete
+2024-10-24 12:12:22,390 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=None
+2024-10-24 12:12:22,409 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x1031e9950>
+2024-10-24 12:12:22,409 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x1030ea570> server_hostname='api.anthropic.com' timeout=5.0
+2024-10-24 12:12:22,423 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x1031e9ed0>
+2024-10-24 12:12:22,423 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2024-10-24 12:12:22,423 [DEBUG] send_request_headers.complete
+2024-10-24 12:12:22,423 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2024-10-24 12:12:22,429 [DEBUG] send_request_body.complete
+2024-10-24 12:12:22,429 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2024-10-24 12:12:27,490 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 24 Oct 2024 10:12:27 GMT'), (b'Content-Type', b'text/event-stream; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Cache-Control', b'no-cache'), (b'anthropic-ratelimit-requests-limit', b'1000'), (b'anthropic-ratelimit-requests-remaining', b'999'), (b'anthropic-ratelimit-requests-reset', b'2024-10-24T10:12:41Z'), (b'anthropic-ratelimit-tokens-limit', b'80000'), (b'anthropic-ratelimit-tokens-remaining', b'46000'), (b'anthropic-ratelimit-tokens-reset', b'2024-10-24T10:12:48Z'), (b'request-id', b'req_01AuMmzhCN4tjRsx7ymweVhF'), (b'via', b'1.1 google'), (b'CF-Cache-Status', b'DYNAMIC'), (b'X-Robots-Tag', b'none'), (b'Server', b'cloudflare'), (b'CF-RAY', b'8d7930281cfe82b3-ARN')])
+2024-10-24 12:12:27,492 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-24 12:12:27,493 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2024-10-24 12:12:28,516 [DEBUG] receive_response_body.complete
+2024-10-24 12:12:28,517 [DEBUG] response_closed.started
+2024-10-24 12:12:28,517 [DEBUG] response_closed.complete
+2024-10-24 12:12:33,170 [DEBUG] close.started
+2024-10-24 12:12:33,171 [DEBUG] close.complete
+2024-10-24 12:28:58,916 [DEBUG] load_ssl_context verify=True cert=None trust_env=True http2=False
+2024-10-24 12:28:58,920 [DEBUG] load_verify_locations cafile='/opt/homebrew/lib/python3.11/site-packages/certifi/cacert.pem'
+2024-10-24 12:29:00,581 [DEBUG] Transcript loaded: # River och WLG möte om nästa steg
+
+## Objective
+
+...
+2024-10-24 12:29:00,609 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=None
+2024-10-24 12:29:00,631 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x1028d45d0>
+2024-10-24 12:29:00,631 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x102ade570> server_hostname='api.anthropic.com' timeout=5.0
+2024-10-24 12:29:00,646 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x102bd6610>
+2024-10-24 12:29:00,646 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2024-10-24 12:29:00,647 [DEBUG] send_request_headers.complete
+2024-10-24 12:29:00,647 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2024-10-24 12:29:00,647 [DEBUG] send_request_body.complete
+2024-10-24 12:29:00,647 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2024-10-24 12:29:05,371 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 24 Oct 2024 10:29:05 GMT'), (b'Content-Type', b'text/event-stream; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Cache-Control', b'no-cache'), (b'anthropic-ratelimit-requests-limit', b'1000'), (b'anthropic-ratelimit-requests-remaining', b'999'), (b'anthropic-ratelimit-requests-reset', b'2024-10-24T10:29:41Z'), (b'anthropic-ratelimit-tokens-limit', b'80000'), (b'anthropic-ratelimit-tokens-remaining', b'50000'), (b'anthropic-ratelimit-tokens-reset', b'2024-10-24T10:29:23Z'), (b'request-id', b'req_01FsB6vGWsg8SeQwRcBc3R6W'), (b'via', b'1.1 google'), (b'CF-Cache-Status', b'DYNAMIC'), (b'X-Robots-Tag', b'none'), (b'Server', b'cloudflare'), (b'CF-RAY', b'8d794887194070d4-ARN')])
+2024-10-24 12:29:05,374 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-24 12:29:05,374 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2024-10-24 12:29:05,804 [DEBUG] receive_response_body.complete
+2024-10-24 12:29:05,804 [DEBUG] response_closed.started
+2024-10-24 12:29:05,804 [DEBUG] response_closed.complete
+2024-10-24 12:29:17,273 [DEBUG] Transcript loaded: # River och WLG möte om nästa steg
+
+## Objective
+
+...
+2024-10-24 12:29:17,279 [DEBUG] close.started
+2024-10-24 12:29:17,279 [DEBUG] close.complete
+2024-10-24 12:29:17,280 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=None
+2024-10-24 12:29:17,289 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x102c0b0d0>
+2024-10-24 12:29:17,289 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x102ade570> server_hostname='api.anthropic.com' timeout=5.0
+2024-10-24 12:29:17,301 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x102c0aa10>
+2024-10-24 12:29:17,302 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2024-10-24 12:29:17,302 [DEBUG] send_request_headers.complete
+2024-10-24 12:29:17,303 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2024-10-24 12:29:17,303 [DEBUG] send_request_body.complete
+2024-10-24 12:29:17,304 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2024-10-24 12:29:22,571 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 24 Oct 2024 10:29:22 GMT'), (b'Content-Type', b'text/event-stream; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Cache-Control', b'no-cache'), (b'anthropic-ratelimit-requests-limit', b'1000'), (b'anthropic-ratelimit-requests-remaining', b'999'), (b'anthropic-ratelimit-requests-reset', b'2024-10-24T10:29:41Z'), (b'anthropic-ratelimit-tokens-limit', b'80000'), (b'anthropic-ratelimit-tokens-remaining', b'30000'), (b'anthropic-ratelimit-tokens-reset', b'2024-10-24T10:29:54Z'), (b'request-id', b'req_01NzwVy8Bf2VcJV9TqKCuWtJ'), (b'via', b'1.1 google'), (b'CF-Cache-Status', b'DYNAMIC'), (b'X-Robots-Tag', b'none'), (b'Server', b'cloudflare'), (b'CF-RAY', b'8d7948ef289c0a2b-ARN')])
+2024-10-24 12:29:22,572 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-24 12:29:22,573 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2024-10-24 12:29:25,515 [DEBUG] receive_response_body.complete
+2024-10-24 12:29:25,515 [DEBUG] response_closed.started
+2024-10-24 12:29:25,516 [DEBUG] response_closed.complete
+2024-10-24 12:29:43,157 [DEBUG] Transcript loaded: # River och WLG möte om nästa steg
+
+## Objective
+
+...
+2024-10-24 12:29:43,163 [DEBUG] close.started
+2024-10-24 12:29:43,164 [DEBUG] close.complete
+2024-10-24 12:29:43,164 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=None
+2024-10-24 12:29:43,177 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x102c3d590>
+2024-10-24 12:29:43,177 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x102ade570> server_hostname='api.anthropic.com' timeout=5.0
+2024-10-24 12:29:43,190 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x102c3d490>
+2024-10-24 12:29:43,191 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2024-10-24 12:29:43,191 [DEBUG] send_request_headers.complete
+2024-10-24 12:29:43,191 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2024-10-24 12:29:43,192 [DEBUG] send_request_body.complete
+2024-10-24 12:29:43,192 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2024-10-24 12:29:47,970 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 24 Oct 2024 10:29:47 GMT'), (b'Content-Type', b'text/event-stream; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Cache-Control', b'no-cache'), (b'anthropic-ratelimit-requests-limit', b'1000'), (b'anthropic-ratelimit-requests-remaining', b'999'), (b'anthropic-ratelimit-requests-reset', b'2024-10-24T10:30:41Z'), (b'anthropic-ratelimit-tokens-limit', b'80000'), (b'anthropic-ratelimit-tokens-remaining', b'22000'), (b'anthropic-ratelimit-tokens-reset', b'2024-10-24T10:30:26Z'), (b'request-id', b'req_01CbQuqvwn4XYoWqQt9Ma3wp'), (b'via', b'1.1 google'), (b'CF-Cache-Status', b'DYNAMIC'), (b'X-Robots-Tag', b'none'), (b'Server', b'cloudflare'), (b'CF-RAY', b'8d794990faea09a5-ARN')])
+2024-10-24 12:29:47,971 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-24 12:29:47,971 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2024-10-24 12:29:51,814 [DEBUG] receive_response_body.complete
+2024-10-24 12:29:51,815 [DEBUG] response_closed.started
+2024-10-24 12:29:51,815 [DEBUG] response_closed.complete
+2024-10-24 12:30:07,000 [DEBUG] Transcript loaded: # River och WLG möte om nästa steg
+
+## Objective
+
+...
+2024-10-24 12:30:07,006 [DEBUG] close.started
+2024-10-24 12:30:07,007 [DEBUG] close.complete
+2024-10-24 12:30:07,007 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=None
+2024-10-24 12:30:07,013 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x102c0b190>
+2024-10-24 12:30:07,014 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x102ade570> server_hostname='api.anthropic.com' timeout=5.0
+2024-10-24 12:30:07,028 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x102c08d10>
+2024-10-24 12:30:07,028 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2024-10-24 12:30:07,029 [DEBUG] send_request_headers.complete
+2024-10-24 12:30:07,029 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2024-10-24 12:30:07,029 [DEBUG] send_request_body.complete
+2024-10-24 12:30:07,030 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2024-10-24 12:30:12,105 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 24 Oct 2024 10:30:12 GMT'), (b'Content-Type', b'text/event-stream; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Cache-Control', b'no-cache'), (b'anthropic-ratelimit-requests-limit', b'1000'), (b'anthropic-ratelimit-requests-remaining', b'999'), (b'anthropic-ratelimit-requests-reset', b'2024-10-24T10:30:41Z'), (b'anthropic-ratelimit-tokens-limit', b'80000'), (b'anthropic-ratelimit-tokens-remaining', b'11000'), (b'anthropic-ratelimit-tokens-reset', b'2024-10-24T10:30:59Z'), (b'request-id', b'req_01L445u832NSkFq9EnCVWvVR'), (b'via', b'1.1 google'), (b'CF-Cache-Status', b'DYNAMIC'), (b'X-Robots-Tag', b'none'), (b'Server', b'cloudflare'), (b'CF-RAY', b'8d794a25fcc65f0f-ARN')])
+2024-10-24 12:30:12,106 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-24 12:30:12,106 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2024-10-24 12:30:16,126 [DEBUG] receive_response_body.complete
+2024-10-24 12:30:16,127 [DEBUG] response_closed.started
+2024-10-24 12:30:16,127 [DEBUG] response_closed.complete
+2024-10-24 12:30:48,872 [DEBUG] Transcript loaded: # River och WLG möte om nästa steg
+
+## Objective
+
+...
+2024-10-24 12:30:48,887 [DEBUG] close.started
+2024-10-24 12:30:48,887 [DEBUG] close.complete
+2024-10-24 12:30:48,888 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=None
+2024-10-24 12:30:48,895 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x102c33050>
+2024-10-24 12:30:48,895 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x102ade570> server_hostname='api.anthropic.com' timeout=5.0
+2024-10-24 12:30:48,906 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x102c32c50>
+2024-10-24 12:30:48,907 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2024-10-24 12:30:48,908 [DEBUG] send_request_headers.complete
+2024-10-24 12:30:48,908 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2024-10-24 12:30:48,914 [DEBUG] send_request_body.complete
+2024-10-24 12:30:48,914 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2024-10-24 12:30:54,936 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 24 Oct 2024 10:30:54 GMT'), (b'Content-Type', b'text/event-stream; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Cache-Control', b'no-cache'), (b'anthropic-ratelimit-requests-limit', b'1000'), (b'anthropic-ratelimit-requests-remaining', b'999'), (b'anthropic-ratelimit-requests-reset', b'2024-10-24T10:31:41Z'), (b'anthropic-ratelimit-tokens-limit', b'80000'), (b'anthropic-ratelimit-tokens-remaining', b'21000'), (b'anthropic-ratelimit-tokens-reset', b'2024-10-24T10:31:33Z'), (b'request-id', b'req_01Sfus3qCEKwLAvNGUYb3mBX'), (b'via', b'1.1 google'), (b'CF-Cache-Status', b'DYNAMIC'), (b'X-Robots-Tag', b'none'), (b'Server', b'cloudflare'), (b'CF-RAY', b'8d794b2bbd9e82b8-ARN')])
+2024-10-24 12:30:54,937 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-24 12:30:54,938 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2024-10-24 12:30:56,509 [DEBUG] receive_response_body.complete
+2024-10-24 12:30:56,510 [DEBUG] response_closed.started
+2024-10-24 12:30:56,510 [DEBUG] response_closed.complete
+2024-10-24 12:31:15,522 [DEBUG] Transcript loaded: # River och WLG möte om nästa steg
+
+## Objective
+
+...
+2024-10-24 12:31:15,541 [DEBUG] close.started
+2024-10-24 12:31:15,541 [DEBUG] close.complete
+2024-10-24 12:31:15,541 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=None
+2024-10-24 12:31:15,549 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x102c4e5d0>
+2024-10-24 12:31:15,549 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x102ade570> server_hostname='api.anthropic.com' timeout=5.0
+2024-10-24 12:31:15,561 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x102c4e2d0>
+2024-10-24 12:31:15,561 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2024-10-24 12:31:15,561 [DEBUG] send_request_headers.complete
+2024-10-24 12:31:15,561 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2024-10-24 12:31:15,570 [DEBUG] send_request_body.complete
+2024-10-24 12:31:15,570 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2024-10-24 12:31:21,254 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 24 Oct 2024 10:31:21 GMT'), (b'Content-Type', b'text/event-stream; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Cache-Control', b'no-cache'), (b'anthropic-ratelimit-requests-limit', b'1000'), (b'anthropic-ratelimit-requests-remaining', b'999'), (b'anthropic-ratelimit-requests-reset', b'2024-10-24T10:31:41Z'), (b'anthropic-ratelimit-tokens-limit', b'80000'), (b'anthropic-ratelimit-tokens-remaining', b'9000'), (b'anthropic-ratelimit-tokens-reset', b'2024-10-24T10:32:09Z'), (b'request-id', b'req_016iFf9zJF8o5HGaSzKSLcwZ'), (b'via', b'1.1 google'), (b'CF-Cache-Status', b'DYNAMIC'), (b'X-Robots-Tag', b'none'), (b'Server', b'cloudflare'), (b'CF-RAY', b'8d794bd2492809ad-ARN')])
+2024-10-24 12:31:21,255 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-24 12:31:21,256 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2024-10-24 12:31:22,053 [DEBUG] receive_response_body.complete
+2024-10-24 12:31:22,053 [DEBUG] response_closed.started
+2024-10-24 12:31:22,053 [DEBUG] response_closed.complete
+2024-10-24 12:31:30,767 [DEBUG] Transcript loaded: # River och WLG möte om nästa steg
+
+## Objective
+
+...
+2024-10-24 12:31:30,797 [DEBUG] close.started
+2024-10-24 12:31:30,798 [DEBUG] close.complete
+2024-10-24 12:31:30,798 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=None
+2024-10-24 12:31:30,805 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x102c3e410>
+2024-10-24 12:31:30,805 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x102ade570> server_hostname='api.anthropic.com' timeout=5.0
+2024-10-24 12:31:30,818 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x102c3c9d0>
+2024-10-24 12:31:30,818 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2024-10-24 12:31:30,818 [DEBUG] send_request_headers.complete
+2024-10-24 12:31:30,818 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2024-10-24 12:31:30,825 [DEBUG] send_request_body.complete
+2024-10-24 12:31:30,826 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2024-10-24 12:31:35,878 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 24 Oct 2024 10:31:35 GMT'), (b'Content-Type', b'text/event-stream; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Cache-Control', b'no-cache'), (b'anthropic-ratelimit-requests-limit', b'1000'), (b'anthropic-ratelimit-requests-remaining', b'999'), (b'anthropic-ratelimit-requests-reset', b'2024-10-24T10:31:41Z'), (b'anthropic-ratelimit-tokens-limit', b'80000'), (b'anthropic-ratelimit-tokens-remaining', b'0'), (b'anthropic-ratelimit-tokens-reset', b'2024-10-24T10:32:44Z'), (b'request-id', b'req_017ze5sFtFHjMEPKYsZ2WyNR'), (b'via', b'1.1 google'), (b'CF-Cache-Status', b'DYNAMIC'), (b'X-Robots-Tag', b'none'), (b'Server', b'cloudflare'), (b'CF-RAY', b'8d794c31ac902d8c-ARN')])
+2024-10-24 12:31:35,880 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-24 12:31:35,880 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2024-10-24 12:31:38,091 [DEBUG] receive_response_body.complete
+2024-10-24 12:31:38,091 [DEBUG] response_closed.started
+2024-10-24 12:31:38,091 [DEBUG] response_closed.complete
+2024-10-24 12:31:46,447 [DEBUG] Transcript loaded: # River och WLG möte om nästa steg
+
+## Objective
+
+...
+2024-10-24 12:31:46,463 [DEBUG] close.started
+2024-10-24 12:31:46,463 [DEBUG] close.complete
+2024-10-24 12:31:46,463 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=None
+2024-10-24 12:31:46,471 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x102c4b310>
+2024-10-24 12:31:46,471 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x102ade570> server_hostname='api.anthropic.com' timeout=5.0
+2024-10-24 12:31:46,486 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x102c4ad50>
+2024-10-24 12:31:46,486 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2024-10-24 12:31:46,486 [DEBUG] send_request_headers.complete
+2024-10-24 12:31:46,487 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2024-10-24 12:31:46,492 [DEBUG] send_request_body.complete
+2024-10-24 12:31:46,492 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2024-10-24 12:31:46,780 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 429, b'Too Many Requests', [(b'Date', b'Thu, 24 Oct 2024 10:31:46 GMT'), (b'Content-Type', b'application/json'), (b'Content-Length', b'428'), (b'Connection', b'keep-alive'), (b'x-should-retry', b'true'), (b'anthropic-ratelimit-requests-limit', b'1000'), (b'anthropic-ratelimit-requests-remaining', b'999'), (b'anthropic-ratelimit-requests-reset', b'2024-10-24T10:32:41Z'), (b'anthropic-ratelimit-tokens-limit', b'80000'), (b'anthropic-ratelimit-tokens-remaining', b'0'), (b'anthropic-ratelimit-tokens-reset', b'2024-10-24T10:32:54Z'), (b'retry-after', b'34'), (b'request-id', b'req_01DRd1Q6PvksKzsAGY4bNwXX'), (b'via', b'1.1 google'), (b'CF-Cache-Status', b'DYNAMIC'), (b'X-Robots-Tag', b'none'), (b'Server', b'cloudflare'), (b'CF-RAY', b'8d794c939afa70d2-ARN')])
+2024-10-24 12:31:46,781 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 429 Too Many Requests"
+2024-10-24 12:31:46,781 [DEBUG] response_closed.started
+2024-10-24 12:31:46,782 [DEBUG] response_closed.complete
+2024-10-24 12:32:20,791 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=None
+2024-10-24 12:32:20,806 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x102c0bfd0>
+2024-10-24 12:32:20,806 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x102ade570> server_hostname='api.anthropic.com' timeout=5.0
+2024-10-24 12:32:20,826 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x102c0ba10>
+2024-10-24 12:32:20,826 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2024-10-24 12:32:20,827 [DEBUG] send_request_headers.complete
+2024-10-24 12:32:20,827 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2024-10-24 12:32:20,834 [DEBUG] send_request_body.complete
+2024-10-24 12:32:20,834 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2024-10-24 12:32:27,373 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 24 Oct 2024 10:32:27 GMT'), (b'Content-Type', b'text/event-stream; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Cache-Control', b'no-cache'), (b'anthropic-ratelimit-requests-limit', b'1000'), (b'anthropic-ratelimit-requests-remaining', b'999'), (b'anthropic-ratelimit-requests-reset', b'2024-10-24T10:32:41Z'), (b'anthropic-ratelimit-tokens-limit', b'80000'), (b'anthropic-ratelimit-tokens-remaining', b'2000'), (b'anthropic-ratelimit-tokens-reset', b'2024-10-24T10:33:19Z'), (b'request-id', b'req_01ToWbCiyXugNiR4xCCmWGbe'), (b'via', b'1.1 google'), (b'CF-Cache-Status', b'DYNAMIC'), (b'X-Robots-Tag', b'none'), (b'Server', b'cloudflare'), (b'CF-RAY', b'8d794d6a399b0a20-ARN')])
+2024-10-24 12:32:27,375 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-24 12:32:27,376 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2024-10-24 12:32:27,377 [DEBUG] response_closed.started
+2024-10-24 12:32:27,378 [DEBUG] response_closed.complete
+2024-10-24 12:38:31,968 [DEBUG] receive_response_body.failed exception=GeneratorExit()
+2024-10-24 13:18:24,632 [ERROR] Error generating summary: Missing required arguments; Expected either ('max_tokens_to_sample', 'model' and 'prompt') or ('max_tokens_to_sample', 'model', 'prompt' and 'stream') arguments to be given
+2024-10-24 16:14:33,734 [ERROR] No unique system prompt file at '/Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_chat/system_prompt_agent3.txt'.
+2024-11-01 13:52:20,212 [ERROR] Anthropic API error: {'type': 'error', 'error': {'details': None, 'type': 'overloaded_error', 'message': 'Overloaded'}}

@@ -1,0 +1,23 @@
+### Chat Session Start ###
+
+AI: agent1
+Date and Time (yyyy-mm-dd hh:mm:ss): 2024-10-28 12:41:54
+
+System: You have access to the entire chat history in this file, including conversations from other agents you are listening to. Use this information to provide contextually relevant responses and reference past interactions when appropriate.
+
+<session>
+User: hello
+
+Assistant: Hi! How can I help you today?
+
+User: what is the meeting about?
+
+Assistant: Looking at the transcript, this appears to be a brief test or setup session. You are exchanging greetings and testing different languages, including both English and Swedish. There's no substantial discussion of specific topics or agenda items happening in the conversation.
+
+User: ok, great, thanks
+
+Assistant: You're welcome! Let me know if you need anything else.
+
+</session>
+
+### Chat Session End ###

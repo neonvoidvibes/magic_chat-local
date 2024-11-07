@@ -1,0 +1,73 @@
+2024-10-17 14:40:23,697 [INFO] Logging configured.
+2024-10-17 14:40:23,697 [INFO] Analyzer started.
+2024-10-17 14:40:23,705 [INFO] Anthropic client initialized.
+2024-10-17 14:40:23,705 [INFO] Read system prompt from '/Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_analyze-2/system_prompt.txt'. Length: 19011 characters.
+2024-10-17 14:40:23,705 [INFO] New analysis session: 'analyzed_20241017_144023.txt'.
+2024-10-17 14:41:07,657 [INFO] current analysis file is empty: '/Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_analyze/analyzed_20241017_144023.txt'
+2024-10-17 14:41:07,660 [INFO] Latest transcription file: /Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_audio/transcription_20241016_185639.txt
+2024-10-17 14:41:07,663 [INFO] Read transcript from '/Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_audio/transcription_20241016_185639.txt'. Length: 93512 characters.
+2024-10-17 14:41:07,663 [INFO] Sending prompt to Claude.
+2024-10-17 14:41:13,108 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-17 14:41:17,827 [INFO] Analysis completed.
+2024-10-17 14:41:17,827 [INFO] Writing response to analysis file.
+2024-10-17 14:41:17,828 [INFO] Awaiting next input.
+2024-10-17 14:48:21,973 [INFO] Exiting due to interruption.
+2024-10-17 14:48:23,411 [INFO] Logging configured.
+2024-10-17 14:48:23,411 [INFO] Analyzer started.
+2024-10-17 14:48:23,420 [INFO] Anthropic client initialized.
+2024-10-17 14:48:23,420 [INFO] Read system prompt from '/Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_analyze-2/system_prompt.txt'. Length: 2276 characters.
+2024-10-17 14:48:23,420 [INFO] New analysis session: 'analyzed_20241017_144823.txt'.
+2024-10-17 14:48:34,627 [INFO] current analysis file is empty: '/Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_analyze-2/analyzed_20241017_144823.txt'
+2024-10-17 14:48:34,630 [INFO] Latest transcription file: /Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_audio/transcription_20241016_185639.txt
+2024-10-17 14:48:34,631 [INFO] Read transcript from '/Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_audio/transcription_20241016_185639.txt'. Length: 93512 characters.
+2024-10-17 14:48:34,632 [INFO] Sending prompt to Claude.
+2024-10-17 14:48:39,540 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-17 14:48:45,542 [INFO] Analysis completed.
+2024-10-17 14:48:45,542 [INFO] Writing response to analysis file.
+2024-10-17 14:48:45,543 [INFO] Awaiting next input.
+2024-10-17 14:49:07,496 [INFO] Read current analysis from '/Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_analyze-2/analyzed_20241017_144823.txt'. Length: 1480 characters.
+2024-10-17 14:49:07,498 [INFO] Summarized previous analyses. Length: 0 characters.
+2024-10-17 14:49:07,499 [INFO] Latest transcription file: /Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_audio/transcription_20241016_185639.txt
+2024-10-17 14:49:07,501 [INFO] Read transcript from '/Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_audio/transcription_20241016_185639.txt'. Length: 93512 characters.
+2024-10-17 14:49:07,502 [INFO] Sending prompt to Claude.
+2024-10-17 14:49:12,525 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-17 14:49:17,290 [INFO] Analysis completed.
+2024-10-17 14:49:17,292 [INFO] Writing response to analysis file.
+2024-10-17 14:49:17,293 [INFO] Awaiting next input.
+2024-10-17 14:49:40,731 [INFO] Read current analysis from '/Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_analyze-2/analyzed_20241017_144823.txt'. Length: 1480 characters.
+2024-10-17 14:49:40,733 [INFO] Summarized previous analyses. Length: 0 characters.
+2024-10-17 14:49:40,736 [INFO] Latest transcription file: /Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_audio/transcription_20241016_185639.txt
+2024-10-17 14:49:40,738 [INFO] Read transcript from '/Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_audio/transcription_20241016_185639.txt'. Length: 93512 characters.
+2024-10-17 14:49:40,738 [INFO] Sending prompt to Claude.
+2024-10-17 14:49:45,703 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-17 14:49:51,918 [INFO] Analysis completed.
+2024-10-17 14:49:51,919 [INFO] Writing response to analysis file.
+2024-10-17 14:49:51,921 [INFO] Awaiting next input.
+2024-10-17 14:51:04,258 [INFO] Read current analysis from '/Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_analyze-2/analyzed_20241017_144823.txt'. Length: 3547 characters.
+2024-10-17 14:51:04,262 [INFO] Summarized previous analyses. Length: 0 characters.
+2024-10-17 14:51:04,264 [INFO] Latest transcription file: /Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_audio/transcription_20241016_185639.txt
+2024-10-17 14:51:04,266 [INFO] Read transcript from '/Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_audio/transcription_20241016_185639.txt'. Length: 93512 characters.
+2024-10-17 14:51:04,266 [INFO] Sending prompt to Claude.
+2024-10-17 14:51:09,261 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-17 14:51:17,580 [INFO] Analysis completed.
+2024-10-17 14:51:17,581 [INFO] Writing response to analysis file.
+2024-10-17 14:51:17,582 [INFO] Awaiting next input.
+2024-10-17 14:51:57,930 [INFO] Read current analysis from '/Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_analyze-2/analyzed_20241017_144823.txt'. Length: 5689 characters.
+2024-10-17 14:51:57,931 [INFO] Summarized previous analyses. Length: 0 characters.
+2024-10-17 14:51:57,931 [INFO] Latest transcription file: /Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_audio/transcription_20241016_185639.txt
+2024-10-17 14:51:57,933 [INFO] Read transcript from '/Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_audio/transcription_20241016_185639.txt'. Length: 93512 characters.
+2024-10-17 14:51:57,933 [INFO] Sending prompt to Claude.
+2024-10-17 14:52:03,020 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-17 14:52:08,645 [INFO] Analysis completed.
+2024-10-17 14:52:08,645 [INFO] Writing response to analysis file.
+2024-10-17 14:52:08,648 [INFO] Awaiting next input.
+2024-10-17 14:52:43,643 [INFO] Read current analysis from '/Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_analyze-2/analyzed_20241017_144823.txt'. Length: 7379 characters.
+2024-10-17 14:52:43,644 [INFO] Summarized previous analyses. Length: 0 characters.
+2024-10-17 14:52:43,645 [INFO] Latest transcription file: /Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_audio/transcription_20241016_185639.txt
+2024-10-17 14:52:43,647 [INFO] Read transcript from '/Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_audio/transcription_20241016_185639.txt'. Length: 93512 characters.
+2024-10-17 14:52:43,647 [INFO] Sending prompt to Claude.
+2024-10-17 14:52:48,179 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-17 14:52:54,861 [INFO] Analysis completed.
+2024-10-17 14:52:54,862 [INFO] Writing response to analysis file.
+2024-10-17 14:52:54,865 [INFO] Awaiting next input.
+2024-10-17 14:55:22,748 [INFO] Exiting due to interruption.
