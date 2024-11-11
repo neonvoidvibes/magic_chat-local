@@ -1,0 +1,134 @@
+{
+  "structure_metadata": {
+    "organizations": [{
+      "name": "River",
+      "type": "Technology Innovation",
+      "focus": "Wisdom-guided AI systems and transformation",
+      "key_objectives": [
+        "Building next-generation decision-making applications",
+        "Combining AI with human wisdom",
+        "Accelerating transition to generative society",
+        "Creating decentralized, context-aware AI systems"
+      ]
+    }, {
+      "name": "Worklife Academy",
+      "type": "Learning & Development",
+      "focus": "Human-centered organizational transformation",
+      "key_objectives": [
+        "Combining human capabilities with AI tools",
+        "Facilitating effective meetings and workshops",
+        "Developing self-organizing teams",
+        "Creating sustainable work environments"
+      ]
+    }, {
+      "name": "Edshage Ekman",
+      "type": "Organizational Development",
+      "focus": "Human development and organizational culture",
+      "key_objectives": [
+        "Leadership development",
+        "Team effectiveness",
+        "Culture transformation",
+        "Research-based solutions"
+      ]
+    }],
+    "teams": [{
+      "name": "River Core Team",
+      "organization": "River",
+      "focus": "Cross-functional development and implementation",
+      "domains": [
+        "AI and collective intelligence",
+        "Transformative learning",
+        "Leadership and organization",
+        "Technology and development"
+      ]
+    }, {
+      "name": "Facilitation Team",
+      "organization": "Worklife Academy",
+      "focus": "Workshop delivery and organizational development",
+      "domains": [
+        "Leadership development",
+        "Team effectiveness",
+        "AI integration",
+        "Meeting facilitation"
+      ]
+    }, {
+      "name": "Consultancy Team",
+      "organization": "Edshage Ekman",
+      "focus": "Organizational and leadership development",
+      "domains": [
+        "Leadership training",
+        "Team development",
+        "Executive coaching",
+        "Culture transformation",
+        "Learning design"
+      ]
+    }],
+    "events": [{
+      "name": "AI-Enhanced Meetings Workshop",
+      "duration": "1.5 hours",
+      "format": "Interactive breakfast session with dialogues",
+      "type": "Lab exploration",
+      "participants": "Business leaders and decision makers",
+      "key_objectives": [
+        "Testing human-AI collaboration",
+        "Exploring AI-enhanced leadership",
+        "Understanding future meeting dynamics",
+        "Maximizing meeting value"
+      ],
+      "key_questions": [
+        "How can human development be enhanced by AI?",
+        "How can AI unlock organizational potential?",
+        "What is your role in co-creating the future with AI?"
+      ],
+      "delivery_partners": [
+        "River",
+        "Worklife Academy",
+        "Edshage Ekman"
+      ]
+    }, {
+      "name": "Wisdom-Guided AI Workshop",
+      "duration": "1.5 hours",
+      "format": "Interactive workshop with breakout groups",
+      "participants": "Business representatives"
+    }]
+  },
+  "process_metadata": {
+    "documentation_type": "Strategic",
+    "environment": {
+      "market": "Transformation of work and technology",
+      "economic": "Integration of AI with human capabilities",
+      "geopolitical": "Shift toward sustainable and regenerative practices"
+    },
+    "success_metrics": {
+      "immediate": [
+        "Participant engagement level",
+        "Pattern recognition quality",
+        "Insight connection relevance",
+        "Facilitator effectiveness"
+      ],
+      "long_term": [
+        "Organizational adaptation capability",
+        "System scalability",
+        "Framework integration effectiveness",
+        "Learning loop establishment",
+        "Societal impact measurement",
+        "Cultural transformation success"
+      ]
+    },
+    "constraints": {
+      "technical": [
+        "Real-time processing capabilities",
+        "Pattern recognition accuracy",
+        "Integration complexity",
+        "AI system limitations"
+      ],
+      "experiential": [
+        "Balance of human and AI interaction",
+        "Value demonstration clarity",
+        "Participant engagement maintenance",
+        "Cultural transformation pace",
+        "Cross-organizational alignment"
+      ]
+    }
+  }
+}

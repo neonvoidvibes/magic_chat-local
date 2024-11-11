@@ -10,6 +10,9 @@ from datetime import datetime
 import boto3
 import io
 import threading
+import json
+from models import InsightsOutput
+from dotenv import load_dotenv
 
 SESSION_START_TAG = '<session>'
 SESSION_END_TAG = '</session>'
@@ -21,9 +24,39 @@ TOKEN_LIMIT = 4096
 AVERAGE_TOKENS_PER_MESSAGE = 50
 MAX_MESSAGES = TOKEN_LIMIT // AVERAGE_TOKENS_PER_MESSAGE
 
-region_name = 'eu-north-1'
-bucket_name = 'aiademomagicaudio'
-s3_client = boto3.client('s3', region_name=region_name)
+# Load environment variables from .env file
+load_dotenv()
+
+# Retrieve AWS configurations from environment variables
+AWS_REGION = os.getenv('AWS_REGION')
+AWS_S3_BUCKET = os.getenv('AWS_S3_BUCKET')
+
+# Retrieve API keys from environment variables
+ANTHROPIC_API_KEY = os.getenv('ANTHROPIC_API_KEY')
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+
+# Validate required environment variables
+missing_vars = []
+if not AWS_REGION:
+    missing_vars.append('AWS_REGION')
+if not AWS_S3_BUCKET:
+    missing_vars.append('AWS_S3_BUCKET')
+if not ANTHROPIC_API_KEY:
+    missing_vars.append('ANTHROPIC_API_KEY')
+if not OPENAI_API_KEY:
+    missing_vars.append('OPENAI_API_KEY')
+
+if missing_vars:
+    logging.error(f"Missing environment variables in .env file: {', '.join(missing_vars)}")
+    sys.exit(1)
+
+# Initialize AWS S3 client
+s3_client = boto3.client(
+    's3',
+    region_name=AWS_REGION,
+    aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
+    aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY')
+)
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Run a Claude agent instance.")
@@ -36,17 +69,6 @@ def parse_arguments():
     parser.add_argument('--listen-deep', action='store_true', help='Enable summary and analysis listening at startup.')
     parser.add_argument('--listen-all', action='store_true', help='Enable all listening at startup.')
     return parser.parse_args()
-
-def get_anthropic_api_key():
-    try:
-        with open('anthropic_api_key.txt', 'r') as file:
-            return file.read().strip()
-    except FileNotFoundError:
-        print("Error: File 'anthropic_api_key.txt' not found.")
-        sys.exit(1)
-    except Exception as e:
-        print(f"Error reading API key: {e}")
-        sys.exit(1)
 
 def setup_logging(debug):
     log_filename = 'claude_chat.log'
@@ -70,7 +92,7 @@ def setup_logging(debug):
 
 def get_latest_summary_file():
     try:
-        response = s3_client.list_objects_v2(Bucket=bucket_name, Prefix='summary_')
+        response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix='summary_')
         if 'Contents' not in response:
             return None
         summary_files = response['Contents']
@@ -86,7 +108,7 @@ def get_latest_summary_file():
 
 def get_latest_transcript_file():
     try:
-        response = s3_client.list_objects_v2(Bucket=bucket_name, Prefix='transcript_')
+        response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix='transcript_')
         if 'Contents' not in response:
             return None
         transcript_files = [obj for obj in response['Contents'] if obj['Key'].endswith('.txt')]
@@ -100,7 +122,7 @@ def get_latest_transcript_file():
 
 def get_latest_analysis_file():
     try:
-        response = s3_client.list_objects_v2(Bucket=bucket_name, Prefix='analysis_')
+        response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix='analysis_')
         if 'Contents' not in response:
             return None
         analysis_files = [obj for obj in response['Contents'] if obj['Key'].endswith('.txt')]
@@ -114,7 +136,7 @@ def get_latest_analysis_file():
 
 def read_file_content(file_key, description):
     try:
-        response = s3_client.get_object(Bucket=bucket_name, Key=file_key)
+        response = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=file_key)
         content = response['Body'].read().decode('utf-8')
         if not content.strip():
             return None
@@ -142,9 +164,9 @@ def read_file_content_local(file_path, description):
 
 def summarize_text(text, max_length=None):
     if max_length is None or len(text) <= max_length:
-        return text[:max_length] + "..."
-    else:
         return text
+    else:
+        return text[:max_length] + "..."
 
 def analyze_with_claude(client, messages, system_prompt):
     global abort_requested
@@ -341,6 +363,59 @@ def truncate_conversation(conversation, max_tokens=TOKEN_LIMIT - 500):
     if len(conversation) * AVERAGE_TOKENS_PER_MESSAGE > max_tokens:
         logging.warning("Conversation history exceeds token limit even after truncation.")
 
+def generate_insights(conversation_history, frameworks_content, context_content):
+    try:
+        conversation_text = "\n".join([msg['content'] for msg in conversation_history if msg['role'] == 'user'])
+        prompt = f"""
+Using the following frameworks and context, analyze the conversation and provide insights in the specified JSON schema.
+
+Frameworks:
+{frameworks_content}
+
+Context:
+{context_content}
+
+Conversation:
+{conversation_text}
+
+Provide the output in JSON format according to the schema:
+{InsightsOutput.schema_json(indent=4)}
+
+**Important:** Provide the output as raw JSON without any code block formatting or additional text. Do not include markdown or any explanations.
+"""
+
+        import openai
+        if not OPENAI_API_KEY:
+            logging.error("OPENAI_API_KEY not set.")
+            return None
+        openai.api_key = OPENAI_API_KEY
+
+        response = openai.chat.completions.create(
+            model='gpt-4o-mini',
+            messages=[
+                {'role': 'system', 'content': 'You are an AI assistant that generates insights based on provided frameworks and context.'},
+                {'role': 'user', 'content': prompt}
+            ],
+            max_tokens=1500,
+            temperature=0.7
+        )
+
+        insights_json = response.choices[0].message.content
+
+        # Clean the response
+        insights_json = insights_json.strip()
+        if insights_json.startswith('```json'):
+            insights_json = insights_json[len('```json'):].strip()
+        if insights_json.endswith('```'):
+            insights_json = insights_json[:-3].strip()
+
+        insights = InsightsOutput.parse_raw(insights_json)
+
+        return insights
+    except Exception as e:
+        logging.error(f"Error generating insights: {e}")
+        return None
+
 def main():
     global abort_requested
     args = parse_arguments()
@@ -361,7 +436,6 @@ def main():
     setup_logging(args.debug)
     print(f"Chat agent '{agent_name}' is running. Enter your message or type '!help' for commands.\n")
 
-    ANTHROPIC_API_KEY = get_anthropic_api_key()
     client = Anthropic(api_key=ANTHROPIC_API_KEY)
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -398,6 +472,25 @@ def main():
     chat_history_file = create_new_chat_file(chat_history_folder, agent_name)
 
     conversation_history = []
+
+    frameworks_content = ""
+    org_id = 'WorklifeAcademy-River-EdshageEkman'  # Replace with actual organization ID as needed
+    frameworks_content = ""
+    context_content = ""
+
+    # Load frameworks and context
+    try:
+        response = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key='frameworks.txt')
+        frameworks_content = response['Body'].read().decode('utf-8')
+    except Exception as e:
+        logging.error(f"Error loading frameworks: {e}")
+
+    try:
+        context_filename = f'context_{org_id}.txt'
+        response = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=context_filename)
+        context_content = response['Body'].read().decode('utf-8')
+    except Exception as e:
+        logging.error(f"Error loading context for {org_id}: {e}")
 
     while True:
         try:
@@ -449,12 +542,6 @@ def main():
             listening_analysis = True
             print("Listening to summaries and analyses activated.\n")
             continue
-        if user_input.lower() == '!silent':
-            listening_summary = False
-            listening_transcript = False
-            listening_analysis = False
-            print("Listening paused.\n")
-            continue
         if user_input.lower().startswith('!memory'):
             parts = user_input.split()
             agents_to_load = parts[1:] if len(parts) > 1 else [agent_name]
@@ -467,6 +554,25 @@ def main():
         if user_input.lower() == '!back':
             abort_requested = True
             print("[info] No active request to abort.\n")
+            continue
+        if user_input.lower() == '!insights':
+            insights = generate_insights(conversation_history, frameworks_content, context_content)
+            if insights:
+                insights_filename = f"insights_{datetime.now().strftime('%Y%m%d-%H%M%S')}_uID-0112_oID-{org_id}_sID-{agent_name}.txt"
+                try:
+                    s3_key = f"live/insights/{insights_filename}"
+                    s3_client.put_object(
+                        Bucket=AWS_S3_BUCKET,
+                        Key=s3_key,
+                        Body=json.dumps(insights.dict(), indent=4),
+                        ContentType='application/json'
+                    )
+                    print(f"Insights have been saved to S3 at key: {s3_key}\n")
+                except Exception as e:
+                    logging.error(f"Error saving insights to S3: {e}")
+                    print("Failed to save insights to S3.\n")
+            else:
+                print("No insights were generated.\n")
             continue
 
         content_pieces = []
@@ -517,6 +623,12 @@ def main():
             system_prompt = initial_system_prompt + "\nSummary of past conversations:\n" + chat_summary
         else:
             system_prompt = initial_system_prompt
+
+        # Integrate frameworks and context into the system prompt
+        if frameworks_content:
+            system_prompt += f"\nFrameworks:\n{frameworks_content}"
+        if context_content:
+            system_prompt += f"\nContext:\n{context_content}"
 
         current_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         user_content = f"On {current_timestamp}, user said: {user_input}"
