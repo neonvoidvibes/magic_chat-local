@@ -396,7 +396,7 @@ def truncate_conversation(conversation, max_tokens=TOKEN_LIMIT - 500):
 def generate_insights(transcript_content, frameworks_content, context_content):
     try:
         prompt = f"""
-Using the following frameworks and context, analyze the conversation and provide insights in the specified JSON schema.
+Using the following frameworks and context, analyze the conversation and provide comprehensive insights in the specified JSON schema.
 
 Frameworks:
 {frameworks_content}
@@ -425,7 +425,7 @@ Provide the output in JSON format according to the schema:
                 {'role': 'system', 'content': 'You are an AI assistant specialized in analyzing conversations to extract actionable insights that can drive improvements and inform decision-making. Focus on generating high-quality, specific, and relevant insights based on the provided frameworks and transcript.'},
                 {'role': 'user', 'content': prompt}
             ],
-            max_tokens=1500,
+            max_tokens=2000,
             temperature=0.7
         )
 
