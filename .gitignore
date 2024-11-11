@@ -5,3 +5,5 @@ anthropic_api_key.txt
 /archive
 /transcripts
 /venv
+/chat_history
+/live
