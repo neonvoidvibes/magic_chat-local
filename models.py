@@ -11,6 +11,10 @@ class OrganizationalNeed(BaseModel):
     urgency_score: float
     evidence: str
 
+class LatentInsight(BaseModel):
+    insight: str
+    transformation_potential: str
+
 class EmergingTrajectory(BaseModel):
     trajectory: str
     implications: str
@@ -18,10 +22,6 @@ class EmergingTrajectory(BaseModel):
 class LeveragePoint(BaseModel):
     point: str
     potential_impact: str
-
-class LatentInsight(BaseModel):
-    insight: str
-    transformation_potential: str
 
 class WeightedConclusion(BaseModel):
     weight: float

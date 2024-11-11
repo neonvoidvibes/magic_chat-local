@@ -231,16 +231,27 @@ def analyze_with_claude(client, messages, system_prompt):
     logging.error(f"Failed after {max_retries} attempts.")
     return None
 
-def append_to_chat_history(file_path, role, content):
+def append_to_chat_history(file_path, role, content, is_insight=False):
     try:
         with open(file_path, 'r+', encoding='utf-8') as f:
             lines = f.readlines()
             f.seek(0)
-            for line in lines:
-                if line.strip() == SESSION_END_TAG:
-                    break
-                f.write(line)
-            f.write(f"{role.capitalize()}: {content}\n\n")
+            new_lines = []
+            insights_marker = "[Insights]"
+            # Remove previous insights messages if appending a new insight
+            if is_insight:
+                for line in lines:
+                    if insights_marker not in line:
+                        new_lines.append(line)
+            else:
+                new_lines = lines
+            f.truncate(0)
+            f.writelines(new_lines)
+            # Append the new message
+            if is_insight:
+                f.write(f"[Insights] {role.capitalize()}: {content}\n\n")
+            else:
+                f.write(f"{role.capitalize()}: {content}\n\n")
             f.write(f"{SESSION_END_TAG}\n")
             f.write(f"{SESSION_END_MARKER}\n")
     except Exception as e:
@@ -331,7 +342,25 @@ def reload_memory(chat_history_folder, agent_name, memory_agents, initial_system
     previous_chats = load_existing_chats(chat_history_folder, agent_name, memory_agents)
     chat_summary = generate_summary_of_chats(previous_chats)
     summarized_chat = summarize_text(chat_summary, max_length=None)
-    new_system_prompt = initial_system_prompt + "\nSummary of past conversations:\n" + summarized_chat
+    
+    # Extract insights from conversation history
+    insights = []
+    for chat in previous_chats:
+        for msg in chat['messages']:
+            if msg['role'] == 'assistant' and msg['content'].startswith("[Insights]"):
+                insights.append(msg['content'].replace("[Insights] ", ""))
+    
+    insights_summary = "\n".join(insights) if insights else ""
+    
+    if insights_summary:
+        new_system_prompt = (
+            initial_system_prompt +
+            "\nSummary of past conversations:\n" + summarized_chat +
+            "\n\nLatest Insights:\n" + insights_summary
+        )
+    else:
+        new_system_prompt = initial_system_prompt + "\nSummary of past conversations:\n" + summarized_chat
+    
     return new_system_prompt
 
 def display_help():
@@ -393,7 +422,7 @@ Provide the output in JSON format according to the schema:
         response = openai.chat.completions.create(
             model='gpt-4o-mini',
             messages=[
-                {'role': 'system', 'content': 'You are an AI assistant that generates insights based on provided frameworks and context.'},
+                {'role': 'system', 'content': 'You are an AI assistant specialized in analyzing conversations to extract actionable insights that can drive improvements and inform decision-making. Focus on generating high-quality, specific, and relevant insights based on the provided frameworks and transcript.'},
                 {'role': 'user', 'content': prompt}
             ],
             max_tokens=1500,
@@ -585,7 +614,7 @@ def main():
                     if insights_content:
                         assistant_message = f"Insights:\n{insights_content}"
                         conversation_history.append({"role": "assistant", "content": assistant_message})
-                        append_to_chat_history(chat_history_file, "Assistant", assistant_message)
+                        append_to_chat_history(chat_history_file, "Assistant", assistant_message, is_insight=True)
                         print("Insights have been appended to the conversation history.\n")
                     else:
                         print("Insights file is empty or unreadable.\n")
