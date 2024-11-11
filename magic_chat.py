@@ -65,8 +65,8 @@ def parse_arguments():
     parser.add_argument('--debug', action='store_true', help='Enable debug mode.')
     parser.add_argument('--listen', action='store_true', help='Enable summary listening at startup.')
     parser.add_argument('--listen-transcript', action='store_true', help='Enable transcript listening at startup.')
-    parser.add_argument('--listen-analysis', action='store_true', help='Enable analysis listening at startup.')
-    parser.add_argument('--listen-deep', action='store_true', help='Enable summary and analysis listening at startup.')
+    parser.add_argument('--listen-insights', action='store_true', help='Enable insights listening at startup.')
+    parser.add_argument('--listen-deep', action='store_true', help='Enable summary and insights listening at startup.')
     parser.add_argument('--listen-all', action='store_true', help='Enable all listening at startup.')
     return parser.parse_args()
 
@@ -120,18 +120,19 @@ def get_latest_transcript_file():
         logging.error(f"Error finding transcript files in S3: {e}")
         return None
 
-def get_latest_analysis_file():
+def get_latest_insights_file():
     try:
-        response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix='analysis_')
+        response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix='insights_')
         if 'Contents' not in response:
             return None
-        analysis_files = [obj for obj in response['Contents'] if obj['Key'].endswith('.txt')]
-        if not analysis_files:
+        insights_files = [obj for obj in response['Contents'] if obj['Key'].endswith('.txt')]
+        if not insights_files:
             return None
-        latest_file = max(analysis_files, key=lambda x: x['LastModified'])
-        return latest_file['Key']
+        latest_file = max(insights_files, key=lambda x: x['LastModified'])
+        latest_file_key = latest_file['Key']
+        return latest_file_key
     except Exception as e:
-        logging.error(f"Error finding analysis files in S3: {e}")
+        logging.error(f"Error finding insights files in S3: {e}")
         return None
 
 def read_file_content(file_key, description):
@@ -336,17 +337,17 @@ def reload_memory(chat_history_folder, agent_name, memory_agents, initial_system
 def display_help():
     help_text = """
 Available Commands:
-!listen                  - Start listening to summaries.
-!listen-transcript       - Start listening to transcripts.
-!listen-analysis         - Start listening to analyses.
-!listen-deep             - Start listening to summaries and analyses.
-!listen-all              - Start listening to all files.
-!silent                  - Stop listening to all files.
-!reload-memory           - Reload chat histories of the agent and specified memory agents.
-!memory [agents]         - Load chat history of same agent. Append multiple agent names option.
-!back                    - Abort the current message request.
-!help                    - Display this help message.
-!exit                    - Exit the chat.
+!listen                - Start listening to summaries.
+!listen-transcript     - Start listening to transcripts.
+!listen-insights       - Start listening to insights.
+!listen-deep           - Start listening to summaries and insights.
+!listen-all            - Start listening to summaries, transcripts, and insights.
+!silent                - Stop listening to all files.
+!reload-memory         - Reload chat histories of the agent and specified memory agents.
+!memory [agents]       - Load chat history of same agent. Append multiple agent names option.
+!back                  - Abort the current message request.
+!help                  - Display this help message.
+!exit                  - Exit the chat.
 """
     print(help_text)
 
@@ -363,9 +364,8 @@ def truncate_conversation(conversation, max_tokens=TOKEN_LIMIT - 500):
     if len(conversation) * AVERAGE_TOKENS_PER_MESSAGE > max_tokens:
         logging.warning("Conversation history exceeds token limit even after truncation.")
 
-def generate_insights(conversation_history, frameworks_content, context_content):
+def generate_insights(transcript_content, frameworks_content, context_content):
     try:
-        conversation_text = "\n".join([msg['content'] for msg in conversation_history if msg['role'] == 'user'])
         prompt = f"""
 Using the following frameworks and context, analyze the conversation and provide insights in the specified JSON schema.
 
@@ -375,8 +375,8 @@ Frameworks:
 Context:
 {context_content}
 
-Conversation:
-{conversation_text}
+Transcript:
+{transcript_content}
 
 Provide the output in JSON format according to the schema:
 {InsightsOutput.schema_json(indent=4)}
@@ -422,16 +422,16 @@ def main():
     agent_name = args.agent
     listening_summary = args.listen
     listening_transcript = args.listen_transcript
-    listening_analysis = args.listen_analysis
+    listening_insights = args.listen_insights
     listening_deep = args.listen_deep
 
     if args.listen_all:
         listening_summary = True
         listening_transcript = True
-        listening_analysis = True
+        listening_insights = True
     if args.listen_deep:
         listening_summary = True
-        listening_analysis = True
+        listening_insights = True
 
     setup_logging(args.debug)
     print(f"Chat agent '{agent_name}' is running. Enter your message or type '!help' for commands.\n")
@@ -527,20 +527,20 @@ def main():
             listening_transcript = True
             print("Listening to transcripts activated.\n")
             continue
-        if user_input.lower() == '!listen-analysis':
-            listening_analysis = True
-            print("Listening to analyses activated.\n")
+        if user_input.lower() == '!listen-insights':
+            listening_insights = True
+            print("Listening to insights activated.\n")
             continue
         if user_input.lower() == '!listen-all':
             listening_summary = True
             listening_transcript = True
-            listening_analysis = True
-            print("Listening to all files activated.\n")
+            listening_insights = True
+            print("Listening to summaries, transcripts, and insights activated.\n")
             continue
         if user_input.lower() == '!listen-deep':
             listening_summary = True
-            listening_analysis = True
-            print("Listening to summaries and analyses activated.\n")
+            listening_insights = True
+            print("Listening to summaries and insights activated.\n")
             continue
         if user_input.lower().startswith('!memory'):
             parts = user_input.split()
@@ -556,7 +556,18 @@ def main():
             print("[info] No active request to abort.\n")
             continue
         if user_input.lower() == '!insights':
-            insights = generate_insights(conversation_history, frameworks_content, context_content)
+            # Fetch the latest transcript from S3
+            transcript_file = get_latest_transcript_file()
+            if not transcript_file:
+                print("No transcript file found in S3 to generate insights.\n")
+                continue
+            transcript_content = read_file_content(transcript_file, "transcript")
+            if not transcript_content:
+                print("Transcript file is empty or unreadable.\n")
+                continue
+
+            # Generate insights based on the transcript
+            insights = generate_insights(transcript_content, frameworks_content, context_content)
             if insights:
                 insights_filename = f"insights_{datetime.now().strftime('%Y%m%d-%H%M%S')}_uID-0112_oID-{org_id}_sID-{agent_name}.txt"
                 try:
@@ -568,6 +579,16 @@ def main():
                         ContentType='application/json'
                     )
                     print(f"Insights have been saved to S3 at key: {s3_key}\n")
+
+                    # Automatically read and use the insights file
+                    insights_content = read_file_content(s3_key, "insights")
+                    if insights_content:
+                        assistant_message = f"Insights:\n{insights_content}"
+                        conversation_history.append({"role": "assistant", "content": assistant_message})
+                        append_to_chat_history(chat_history_file, "Assistant", assistant_message)
+                        print("Insights have been appended to the conversation history.\n")
+                    else:
+                        print("Insights file is empty or unreadable.\n")
                 except Exception as e:
                     logging.error(f"Error saving insights to S3: {e}")
                     print("Failed to save insights to S3.\n")
@@ -599,16 +620,16 @@ def main():
             else:
                 print("No transcript file found.\n")
         
-        if listening_analysis:
-            analysis_file = get_latest_analysis_file()
-            if analysis_file:
-                analysis = read_file_content(analysis_file, "analysis")
-                if analysis:
-                    content_pieces.append("Analysis:\n" + analysis)
+        if listening_insights:
+            insights_file = get_latest_insights_file()
+            if insights_file:
+                insights = read_file_content(insights_file, "insights")
+                if insights:
+                    content_pieces.append("Insights:\n" + insights)
                 else:
-                    print("Analysis file is empty or unreadable.\n")
+                    print("Insights file is empty or unreadable.\n")
             else:
-                print("No analysis file found.\n")
+                print("No insights file found.\n")
         
         combined_content = ""
         if content_pieces:
