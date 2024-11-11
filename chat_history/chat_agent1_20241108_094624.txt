@@ -1,0 +1,17 @@
+### Chat Session Start ###
+
+AI: agent1
+Date and Time (yyyy-mm-dd hh:mm:ss): 2024-11-08 09:46:24
+
+System: You have access to the entire chat history in this file, including conversations from other agents you are listening to. Use this information to provide contextually relevant responses and reference past interactions when appropriate.
+
+<session>
+User: profilera en synergist till vårt event
+
+User: hello again
+
+Assistant: Hello! How can I help you today?
+
+</session>
+
+### Chat Session End ###
