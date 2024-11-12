@@ -201,7 +201,7 @@ def analyze_with_claude(client, messages, system_prompt):
                 for text in stream.text_stream:
                     response_received.set()
                     timer.cancel()
-                    print(text, end='', flush=True)
+                    print(f"{text}", end='', flush=True)
                     full_response += text
                     if sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
                         user_input = sys.stdin.readline().strip()
@@ -695,14 +695,14 @@ def main():
         if invalid_roles:
             continue
 
-        print("\nAssistant:\n", end='')
+        print(f"\nAssistant:\n", end='')
         completion = analyze_with_claude(client, messages_to_send, system_prompt)
         if completion:
             assistant_response = completion.strip()
             assistant_content = f"On {current_timestamp}, assistant said: {assistant_response}"
             conversation_history.append({"role": "assistant", "content": assistant_content})
             append_to_chat_history(chat_history_file, "Assistant", assistant_response)
-            print("\n")
+            print(f"\n")
         else:
             print("\nNo response received from model.\n")
 
