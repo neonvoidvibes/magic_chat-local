@@ -500,20 +500,20 @@ def main():
 
     conversation_history = []
 
-    frameworks_content = ""
-    org_id = 'WorklifeAcademy-River-EdshageEkman'  # Replace with actual organization ID as needed
+    org_id = 'River'  # Replace with actual organization ID as needed
     frameworks_content = ""
     context_content = ""
 
     try:
-        response = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key='frameworks.txt')
+        frameworks_key = 'frameworks/frameworks.txt'
+        response = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=frameworks_key)
         frameworks_content = response['Body'].read().decode('utf-8')
     except Exception as e:
-        logging.error(f"Error loading frameworks: {e}")
+        logging.error(f"Error loading frameworks from S3: {e}")
 
     try:
-        context_filename = f'context_{org_id}.txt'
-        response = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=context_filename)
+        context_key = f'context/context_{org_id}.txt'
+        response = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=context_key)
         context_content = response['Body'].read().decode('utf-8')
     except Exception as e:
         logging.error(f"Error loading context for {org_id}: {e}")
