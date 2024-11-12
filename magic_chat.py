@@ -201,7 +201,7 @@ def analyze_with_claude(client, messages, system_prompt):
                 for text in stream.text_stream:
                     response_received.set()
                     timer.cancel()
-                    print(f"{text}", end='', flush=True)
+                    print(text, end='', flush=True)
                     full_response += text
                     if sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
                         user_input = sys.stdin.readline().strip()
@@ -238,7 +238,6 @@ def append_to_chat_history(file_path, role, content, is_insight=False):
             f.seek(0)
             new_lines = []
             insights_marker = "[Insights]"
-            # Remove previous insights messages if appending a new insight
             if is_insight:
                 for line in lines:
                     if insights_marker not in line:
@@ -247,9 +246,10 @@ def append_to_chat_history(file_path, role, content, is_insight=False):
                 new_lines = lines
             f.truncate(0)
             f.writelines(new_lines)
-            # Append the new message
-            if is_insight:
-                f.write(f"[Insights] {role.capitalize()}: {content}\n\n")
+            if role.lower() == 'user':
+                f.write(f"**User:**\n{content}\n\n")
+            elif role.lower() == 'agent':
+                f.write(f"**Agent:**\n{content}\n\n")
             else:
                 f.write(f"{role.capitalize()}: {content}\n\n")
             f.write(f"{SESSION_END_TAG}\n")
@@ -321,13 +321,13 @@ def extract_messages(chat_content, timestamp, agent_name):
             within_session = False
             continue
         if within_session:
-            if line.startswith("User: "):
-                content = line[len("User: "):].strip()
+            if line.startswith("**User:**"):
+                content = line[len("**User:**"):].strip()
                 content = f"On {timestamp}, user said: {content}"
                 messages.append({"role": "user", "content": content})
-            elif line.startswith("Assistant: "):
-                content = line[len("Assistant: "):].strip()
-                content = f"On {timestamp}, assistant ({agent_name}) said: {content}"
+            elif line.startswith("**Agent:**"):
+                content = line[len("**Agent:**"):].strip()
+                content = f"On {timestamp}, agent ({agent_name}) said: {content}"
                 messages.append({"role": "assistant", "content": content})
     return messages
 
@@ -343,7 +343,6 @@ def reload_memory(chat_history_folder, agent_name, memory_agents, initial_system
     chat_summary = generate_summary_of_chats(previous_chats)
     summarized_chat = summarize_text(chat_summary, max_length=None)
     
-    # Extract insights from conversation history
     insights = []
     for chat in previous_chats:
         for msg in chat['messages']:
@@ -431,7 +430,6 @@ Provide the output in JSON format according to the schema:
 
         insights_json = response.choices[0].message.content
 
-        # Clean the response
         insights_json = insights_json.strip()
         if insights_json.startswith('```json'):
             insights_json = insights_json[len('```json'):].strip()
@@ -507,7 +505,6 @@ def main():
     frameworks_content = ""
     context_content = ""
 
-    # Load frameworks and context
     try:
         response = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key='frameworks.txt')
         frameworks_content = response['Body'].read().decode('utf-8')
@@ -523,7 +520,7 @@ def main():
 
     while True:
         try:
-            print("User: ", end='', flush=True)
+            print("User:\n", end='', flush=True)
             ready, _, _ = select.select([sys.stdin], [], [], None)
             if ready:
                 user_input = sys.stdin.readline().strip()
@@ -585,7 +582,6 @@ def main():
             print("[info] No active request to abort.\n")
             continue
         if user_input.lower() == '!insights':
-            # Fetch the latest transcript from S3
             transcript_file = get_latest_transcript_file()
             if not transcript_file:
                 print("No transcript file found in S3 to generate insights.\n")
@@ -595,7 +591,6 @@ def main():
                 print("Transcript file is empty or unreadable.\n")
                 continue
 
-            # Generate insights based on the transcript
             insights = generate_insights(transcript_content, frameworks_content, context_content)
             if insights:
                 insights_filename = f"insights_{datetime.now().strftime('%Y%m%d-%H%M%S')}_uID-0112_oID-{org_id}_sID-{agent_name}.txt"
@@ -609,12 +604,11 @@ def main():
                     )
                     print(f"Insights have been saved to S3 at key: {s3_key}\n")
 
-                    # Automatically read and use the insights file
                     insights_content = read_file_content(s3_key, "insights")
                     if insights_content:
-                        assistant_message = f"Insights:\n{insights_content}"
-                        conversation_history.append({"role": "assistant", "content": assistant_message})
-                        append_to_chat_history(chat_history_file, "Assistant", assistant_message, is_insight=True)
+                        agent_message = f"Insights:\n{insights_content}"
+                        conversation_history.append({"role": "agent", "content": agent_message})
+                        append_to_chat_history(chat_history_file, "Agent", agent_message, is_insight=True)
                         print("Insights have been appended to the conversation history.\n")
                     else:
                         print("Insights file is empty or unreadable.\n")
@@ -674,7 +668,6 @@ def main():
         else:
             system_prompt = initial_system_prompt
 
-        # Integrate frameworks and context into the system prompt
         if frameworks_content:
             system_prompt += f"\nFrameworks:\n{frameworks_content}"
         if context_content:
@@ -689,20 +682,23 @@ def main():
 
         messages = conversation_history.copy()
 
-        messages_to_send = [{'role': msg['role'], 'content': msg['content']} for msg in messages]
+        messages_to_send = [
+            {'role': 'assistant' if msg['role'] == 'agent' else msg['role'], 'content': msg['content']}
+            for msg in messages
+        ]
 
         invalid_roles = [msg['role'] for msg in messages_to_send if msg['role'] not in ['user', 'assistant']]
         if invalid_roles:
             continue
 
-        print(f"\nAssistant:\n", end='')
+        print("\nAgent:\n", end='')
         completion = analyze_with_claude(client, messages_to_send, system_prompt)
         if completion:
-            assistant_response = completion.strip()
-            assistant_content = f"On {current_timestamp}, assistant said: {assistant_response}"
-            conversation_history.append({"role": "assistant", "content": assistant_content})
-            append_to_chat_history(chat_history_file, "Assistant", assistant_response)
-            print(f"\n")
+            agent_response = completion.strip()
+            agent_content = f"On {current_timestamp}, agent said: {agent_response}"
+            conversation_history.append({"role": "agent", "content": agent_content})
+            append_to_chat_history(chat_history_file, "Agent", agent_response)
+            print("\n")
         else:
             print("\nNo response received from model.\n")
 
