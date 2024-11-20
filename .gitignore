@@ -7,3 +7,5 @@ anthropic_api_key.txt
 /venv
 /chat_history
 /live
+__pycache__/
+*.pyc
