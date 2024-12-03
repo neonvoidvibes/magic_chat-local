@@ -1,6 +1,6 @@
 {
-  "version": "1.1.0",
-  "last_updated": "2024-12-03",
+  "version": "1.0.0",
+  "last_updated": "2024-11-19",
   "meta_framework": {
     "objective": "improve_holistic_outcomes",
     "core_principles": {
@@ -10,31 +10,6 @@
       "goodness": "Ethical considerations and positive impact"
     },
     "frameworks": [
-      {
-        "name": "warm_data_labs",
-        "source": "Bateson",
-        "key_patterns": [
-          "Transcontextual understanding",
-          "Multiple perspective integration",
-          "Living systems recognition",
-          "Relationship pattern identification",
-          "Contextual interdependence awareness",
-          "Complex system navigation",
-          "Paradox engagement capacity",
-          "Collective sense-making"
-        ],
-        "markers": [
-          "Cross-context pattern recognition",
-          "Relational understanding",
-          "Systems thinking application",
-          "Contextual shifting ability",
-          "Collective intelligence facilitation",
-          "Paradox holding capacity",
-          "Multi-dimensional analysis",
-          "Living systems awareness"
-        ],
-        "weight": 0.9
-      },
       {
         "name": "relevance_realization",
         "source": "Vervaeke",
@@ -186,11 +161,6 @@
       }
     ],
     "integration_points": [
-      {
-        "frameworks": ["warm_data_labs", "relevance_realization"],
-        "connection": "Multi-contextual pattern recognition and meaning-making",
-        "weight": 0.9
-      },
       {
         "frameworks": ["relevance_realization", "sovereignty"],
         "connection": "Pattern recognition supporting independent decision-making",

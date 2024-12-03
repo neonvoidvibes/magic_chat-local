@@ -584,11 +584,11 @@ def main():
         if user_input.lower() == '!insights':
             transcript_file = get_latest_transcript_file()
             if not transcript_file:
-                print("No transcript file found in S3 to generate insights.\n")
+                print("<<No transcript file found in S3 to generate insights>>\n")
                 continue
             transcript_content = read_file_content(transcript_file, "transcript")
             if not transcript_content:
-                print("Transcript file is empty or unreadable.\n")
+                print("<<Transcript file is empty or unreadable>>\n")
                 continue
 
             insights = generate_insights(transcript_content, frameworks_content, context_content)
@@ -630,7 +630,7 @@ def main():
                 else:
                     print("Summary file is empty or unreadable.\n")
             else:
-                print("No summary file found.\n")
+                print("<<No summary file found>>\n")
         
         if listening_transcript:
             transcript_file = get_latest_transcript_file()
@@ -641,7 +641,7 @@ def main():
                 else:
                     print("Transcript file is empty or unreadable.\n")
             else:
-                print("No transcript file found.\n")
+                print("<<No transcript file found>>\n")
         
         if listening_insights:
             insights_file = get_latest_insights_file()
@@ -652,7 +652,7 @@ def main():
                 else:
                     print("Insights file is empty or unreadable.\n")
             else:
-                print("No insights file found.\n")
+                print("<<No insights file found>>\n")
         
         combined_content = ""
         if content_pieces:
