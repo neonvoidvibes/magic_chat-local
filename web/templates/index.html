@@ -107,6 +107,52 @@
             87% { border-color: rgba(74, 86, 255, 0.75); }
         }
 
+        @keyframes letterGlow {
+            0%, 100% { color: rgba(146, 53, 189, 1); }
+            12% { color: rgba(254, 68, 154, 1); }
+            25% { color: rgba(255, 126, 100, 1); }
+            37% { color: rgba(236, 194, 24, 1); }
+            50% { color: rgba(140, 255, 118, 1); }
+            62% { color: rgba(0, 131, 226, 1); }
+            75% { color: rgba(0, 170, 255, 1); }
+            87% { color: rgba(74, 86, 255, 1); }
+        }
+
+        @keyframes typeAndGlow {
+            0% { 
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            100% { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .glow-text {
+            display: inline-block;
+            opacity: 0;
+            margin-right: 0.1em;  
+            white-space: pre;  
+            font-weight: 700;
+        }
+
+        .glow-text.active {
+            animation: typeAndGlow 0.3s ease-out forwards,
+                       letterGlow 7s ease-in-out infinite;
+        }
+
+        #welcome-container {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.8em;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 700;
+            letter-spacing: -0.02em;  
+        }
+
         .message {
             margin-bottom: 15px;
             padding: 18px 22px;
@@ -234,8 +280,8 @@
     <div id="chat-container">
         <h2>River AI Streamer</h2>
         <div id="chat-messages">
-            <div id="initial-message" style="height: 100%; display: flex; justify-content: center; align-items: center;">
-                <h1 style="font-size: 1.6em; color: rgba(255, 255, 255, 0.7);">What can I help with?</h1>
+            <div id="welcome-container">
+                <span id="welcome-text"></span>
             </div>
         </div>
         <div id="input-container">
@@ -339,6 +385,38 @@
             document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
             return messageDiv;
         }
+
+        // Initialize the welcome text animation
+        const welcomeText = "What can I help with?";
+        const welcomeContainer = document.getElementById('welcome-text');
+        
+        function initializeWelcomeText() {
+            welcomeContainer.innerHTML = '';
+            [...welcomeText].forEach((char, index) => {
+                const span = document.createElement('span');
+                span.textContent = char;
+                span.className = 'glow-text';
+                welcomeContainer.appendChild(span);
+            });
+        }
+
+        function animateWelcomeText(firstTime = false) {
+            const letters = welcomeContainer.querySelectorAll('.glow-text');
+            letters.forEach((letter, index) => {
+                if (!firstTime) letter.style.opacity = '1';
+                letter.classList.remove('active');
+                setTimeout(() => {
+                    letter.classList.add('active');
+                }, index * 100);
+            });
+        }
+
+        // Initial setup
+        initializeWelcomeText();
+        animateWelcomeText(true);
+
+        // Repeat animation every 7 seconds
+        setInterval(() => animateWelcomeText(), 7000);
 
         // Handle Enter key
         document.getElementById('message-input').addEventListener('keypress', function(e) {
