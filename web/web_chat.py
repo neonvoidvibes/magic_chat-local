@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template, current_app
+from flask import Flask, request, jsonify, render_template, current_app, Response
 from typing import Optional
 import threading
 from config import AppConfig
@@ -6,6 +6,7 @@ import os
 import boto3
 import logging
 from datetime import datetime
+import json
 
 def read_file_content_local(file_path, file_name):
     try:
@@ -104,21 +105,26 @@ class WebChat:
                     messages.append({"role": "assistant", "content": chat['assistant']})
                 messages.append({"role": "user", "content": user_content})
                 
-                message = self.client.messages.create(
-                    model="claude-3-opus-20240229",
-                    max_tokens=1024,
-                    system=self.system_prompt,
-                    messages=messages
-                )
-                response = message.content[0].text
+                def generate():
+                    full_response = ""
+                    with self.client.messages.stream(
+                        model="claude-3-opus-20240229",
+                        max_tokens=1024,
+                        system=self.system_prompt,
+                        messages=messages
+                    ) as stream:
+                        for text in stream.text_stream:
+                            full_response += text
+                            yield f"data: {json.dumps({'delta': text})}\n\n"
+                    
+                    # Store in chat history after completion
+                    self.chat_history.append({
+                        'user': user_content,
+                        'assistant': full_response
+                    })
+                    yield f"data: {json.dumps({'done': True})}\n\n"
                 
-                # Store in chat history
-                self.chat_history.append({
-                    'user': user_content,
-                    'assistant': response
-                })
-                
-                return jsonify({'response': response})
+                return Response(generate(), mimetype='text/event-stream')
             except Exception as e:
                 return jsonify({'error': str(e)}), 500
             

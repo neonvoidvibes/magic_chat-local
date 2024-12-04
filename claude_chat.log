@@ -7339,3 +7339,18 @@ AWS4-HMAC-SHA256
 2024-12-04 15:25:36,192 [INFO] 127.0.0.1 - - [04/Dec/2024 15:25:36] "GET /api/status HTTP/1.1" 200 -
 2024-12-04 15:25:41,151 [INFO] 127.0.0.1 - - [04/Dec/2024 15:25:41] "GET /api/status HTTP/1.1" 200 -
 2024-12-04 15:25:46,133 [INFO] 127.0.0.1 - - [04/Dec/2024 15:25:46] "GET /api/status HTTP/1.1" 200 -
+2024-12-04 15:32:17,197 [ERROR] Error on request:
+Traceback (most recent call last):
+  File "/Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_chat-local/venv/lib/python3.11/site-packages/werkzeug/serving.py", line 370, in run_wsgi
+    execute(self.server.app)
+  File "/Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_chat-local/venv/lib/python3.11/site-packages/werkzeug/serving.py", line 333, in execute
+    for data in application_iter:
+  File "/Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_chat-local/venv/lib/python3.11/site-packages/werkzeug/wsgi.py", line 256, in __next__
+    return self._next()
+           ^^^^^^^^^^^^
+  File "/Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_chat-local/venv/lib/python3.11/site-packages/werkzeug/wrappers/response.py", line 32, in _iter_encoded
+    for item in iterable:
+  File "/Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_chat-local/web/web_chat.py", line 117, in generate
+    yield f"data: {json.dumps({'delta': text})}\n\n"
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+NameError: name 'json' is not defined
