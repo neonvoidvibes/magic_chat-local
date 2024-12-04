@@ -118,6 +118,23 @@
             100% { color: rgba(255, 255, 255, 0.7); }
         }
 
+        @keyframes firstRevealGlow {
+            0% { 
+                opacity: 0;
+                color: rgba(146, 53, 189, 1);
+            }
+            15% { 
+                opacity: 1;
+                color: rgba(254, 68, 154, 1);
+            }
+            30% { color: rgba(255, 126, 100, 1); }
+            45% { color: rgba(236, 194, 24, 1); }
+            60% { color: rgba(140, 255, 118, 1); }
+            75% { color: rgba(0, 131, 226, 1); }
+            90% { color: rgba(74, 86, 255, 1); }
+            100% { color: rgba(255, 255, 255, 0.7); }
+        }
+
         @keyframes typeAndGlow {
             0% { 
                 opacity: 0;
@@ -135,6 +152,10 @@
             margin-right: 0.1em;  
             white-space: pre;  
             font-weight: 700;
+        }
+
+        .glow-text.first-reveal {
+            animation: firstRevealGlow 2s ease-out forwards;
         }
 
         .glow-text.active {
@@ -407,11 +428,10 @@
         function animateWelcomeText(firstTime = false) {
             const letters = welcomeContainer.querySelectorAll('.glow-text');
             letters.forEach((letter, index) => {
-                letter.classList.remove('active', 'glowing');
+                letter.classList.remove('glowing', 'first-reveal');
                 setTimeout(() => {
                     if (firstTime) {
-                        letter.classList.add('active');
-                        letter.classList.add('glowing');
+                        letter.classList.add('first-reveal');
                     } else {
                         letter.style.opacity = '1';
                         letter.classList.add('glowing');
