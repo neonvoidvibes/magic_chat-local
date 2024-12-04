@@ -73,18 +73,31 @@
             flex-direction: column;
             position: relative;
             border: 4px solid transparent;
-            transition: border-color 2.5s ease-in-out;
         }
 
         #chat-messages.thinking {
             border-color: rgba(66, 220, 219, 0.5);
-            animation: neonGlow 3s linear infinite;
+            animation: fadeInGlow 0.5s ease-in forwards,
+                       neonGlow 3s ease-in-out infinite 0.5s;
+        }
+
+        #chat-messages.thinking-end {
+            animation: fadeOutGlow 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeInGlow {
+            from { border-color: transparent; }
+            to { border-color: rgba(66, 220, 219, 0.5); }
+        }
+
+        @keyframes fadeOutGlow {
+            from { border-color: rgba(66, 220, 219, 0.5); }
+            to { border-color: transparent; }
         }
 
         @keyframes neonGlow {
             0%, 100% { border-color: rgba(66, 220, 219, 0.5); }
-            33% { border-color: rgba(217, 66, 220, 0.5); }
-            66% { border-color: rgba(220, 66, 77, 0.5); }
+            50% { border-color: rgba(217, 66, 220, 0.5); }
         }
 
         .message {
@@ -280,7 +293,12 @@
                                 if (data.delta) {
                                     if (assistantMessage === '') {
                                         assistantElement.innerHTML = ''; // Remove "Thinking..." message
-                                        document.getElementById('chat-messages').classList.remove('thinking');
+                                        const chatMessages = document.getElementById('chat-messages');
+                                        chatMessages.classList.add('thinking-end');
+                                        setTimeout(() => {
+                                            chatMessages.classList.remove('thinking');
+                                            chatMessages.classList.remove('thinking-end');
+                                        }, 500);
                                     }
                                     assistantMessage += data.delta;
                                     assistantElement.innerHTML += data.delta;
