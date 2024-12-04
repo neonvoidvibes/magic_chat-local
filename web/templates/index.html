@@ -181,6 +181,19 @@
             100% { transform: scale(1); }
         }
 
+        @keyframes neonGlow {
+            0% { border-color: #ff00ff; box-shadow: 0 0 20px #ff00ff; }
+            33% { border-color: #00ffff; box-shadow: 0 0 20px #00ffff; }
+            66% { border-color: #ff3377; box-shadow: 0 0 20px #ff3377; }
+            100% { border-color: #ff00ff; box-shadow: 0 0 20px #ff00ff; }
+        }
+
+        #chat-messages.thinking {
+            border: 4px solid #ff00ff;
+            animation: neonGlow 3s linear infinite;
+            transition: all 0.3s ease;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -250,6 +263,7 @@
             });
             
             let assistantMessage = '';
+            document.getElementById('chat-messages').classList.add('thinking');
             const assistantElement = appendMessage('assistant', '<span class="waiting"></span>');
             
             // Set up event stream from response
@@ -259,7 +273,10 @@
             reader.then(reader => {
                 function readChunk() {
                     reader.read().then(({done, value}) => {
-                        if (done) return;
+                        if (done) {
+                            document.getElementById('chat-messages').classList.remove('thinking');
+                            return;
+                        }
                         
                         const chunk = decoder.decode(value);
                         const lines = chunk.split('\n');
