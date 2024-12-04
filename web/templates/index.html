@@ -132,7 +132,10 @@
             60% { color: rgba(140, 255, 118, 1); }
             75% { color: rgba(0, 131, 226, 1); }
             90% { color: rgba(74, 86, 255, 1); }
-            100% { color: rgba(255, 255, 255, 0.7); }
+            100% { 
+                color: rgba(255, 255, 255, 0.7);
+                opacity: 1;
+            }
         }
 
         @keyframes typeAndGlow {
@@ -433,13 +436,20 @@
         function animateWelcomeText(firstTime = false) {
             const letters = welcomeContainer.querySelectorAll('.glow-text');
             letters.forEach((letter, index) => {
-                letter.classList.remove('glowing', 'first-reveal', 'visible');
+                // Force remove all animation classes
+                letter.classList.remove('glowing', 'first-reveal');
+                // Reset animation by triggering reflow
+                void letter.offsetWidth;
+                
+                if (!firstTime && !letter.style.color) {
+                    letter.style.color = 'rgba(255, 255, 255, 0.7)';
+                    letter.style.opacity = '1';
+                }
+                
                 setTimeout(() => {
                     if (firstTime) {
-                        letter.classList.add('visible');
                         letter.classList.add('first-reveal');
                     } else {
-                        letter.classList.add('visible');
                         letter.classList.add('glowing');
                     }
                 }, index * 100);
