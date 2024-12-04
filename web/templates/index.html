@@ -216,6 +216,17 @@
             letter-spacing: -0.05em;  
         }
 
+        #welcome-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 100%;
+            white-space: pre-wrap;
+            pointer-events: none;
+        }
+
         .message {
             margin-bottom: 15px;
             padding: 18px 22px;
@@ -379,6 +390,9 @@
             const messageInput = document.getElementById('message-input');
             const message = messageInput.value.trim();
             if (!message) return;
+            
+            const welcomeText = document.getElementById('welcome-text');
+            if (welcomeText) welcomeText.remove();
             
             appendMessage('user', message);
             messageInput.value = '';
