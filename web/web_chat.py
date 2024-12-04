@@ -2,6 +2,18 @@ from flask import Flask, request, jsonify, render_template, current_app
 from typing import Optional
 import threading
 from config import AppConfig
+import os
+import boto3
+import logging
+from datetime import datetime
+
+def read_file_content_local(file_path, file_name):
+    try:
+        with open(file_path, 'r') as file:
+            return file.read()
+    except Exception as e:
+        logging.error(f"Error reading {file_name} from local file: {e}")
+        return ""
 
 class WebChat:
     def __init__(self, config: AppConfig):
@@ -9,7 +21,54 @@ class WebChat:
         self.app = Flask(__name__)
         self.setup_routes()
         self.chat_history = []
-        self.client = None  # Will be initialized when needed
+        self.client = None
+        self.context = None
+        self.frameworks = None
+        self.transcript = None
+        self.system_prompt = None
+        self.load_resources()
+        
+    def load_resources(self):
+        """Load context, frameworks, and transcript from S3"""
+        s3 = boto3.client('s3')
+        bucket = 'aiademomagicaudio'
+        
+        # Load standard and unique system prompts
+        script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        standard_prompt_file = os.path.join(script_dir, 'system_prompt_standard.txt')
+        unique_prompt_file = os.path.join(script_dir, f'system_prompt_{self.config.agent_name}.txt')
+        
+        standard_system_prompt = read_file_content_local(standard_prompt_file, "standard system prompt")
+        unique_system_prompt = read_file_content_local(unique_prompt_file, "unique system prompt")
+        self.system_prompt = standard_system_prompt + "\n" + unique_system_prompt
+        
+        # Load frameworks
+        try:
+            frameworks_obj = s3.get_object(Bucket=bucket, Key='frameworks/frameworks.txt')
+            self.frameworks = frameworks_obj['Body'].read().decode('utf-8')
+            if self.frameworks:
+                self.system_prompt += f"\nFrameworks:\n{self.frameworks}"
+        except Exception as e:
+            logging.error(f"Error loading frameworks from S3: {e}")
+        
+        # Load context
+        try:
+            context_obj = s3.get_object(Bucket=bucket, Key='context/context_River.txt')
+            self.context = context_obj['Body'].read().decode('utf-8')
+            if self.context:
+                self.system_prompt += f"\nContext:\n{self.context}"
+        except Exception as e:
+            logging.error(f"Error loading context from S3: {e}")
+        
+        # Load transcript if listening is enabled
+        if self.config.listen_transcript:
+            try:
+                transcript_obj = s3.get_object(Bucket=bucket, Key='transcript/transcript.txt')
+                self.transcript = transcript_obj['Body'].read().decode('utf-8')
+                if self.transcript:
+                    self.system_prompt += f"\nTranscript:\n{self.transcript}"
+            except Exception as e:
+                logging.error(f"Error loading transcript from S3: {e}")
         
     def setup_routes(self):
         @self.app.route('/')
@@ -30,16 +89,20 @@ class WebChat:
             
             # Process the chat message
             try:
+                current_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                user_content = f"On {current_timestamp}, user said: {data['message']}"
+                
                 message = self.client.messages.create(
                     model="claude-3-opus-20240229",
                     max_tokens=1024,
-                    messages=[{"role": "user", "content": data['message']}]
+                    system=self.system_prompt,
+                    messages=[{"role": "user", "content": user_content}]
                 )
                 response = message.content[0].text
                 
                 # Store in chat history
                 self.chat_history.append({
-                    'user': data['message'],
+                    'user': user_content,
                     'assistant': response
                 })
                 
