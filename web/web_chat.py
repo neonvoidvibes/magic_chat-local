@@ -63,10 +63,15 @@ class WebChat:
         # Load transcript if listening is enabled
         if self.config.listen_transcript:
             try:
-                transcript_obj = s3.get_object(Bucket=bucket, Key='transcript/transcript.txt')
-                self.transcript = transcript_obj['Body'].read().decode('utf-8')
-                if self.transcript:
-                    self.system_prompt += f"\nTranscript:\n{self.transcript}"
+                response = s3.list_objects_v2(Bucket=bucket, Prefix='transcript_')
+                if 'Contents' in response:
+                    transcript_files = [obj for obj in response['Contents'] if obj['Key'].endswith('.txt')]
+                    if transcript_files:
+                        latest_file = max(transcript_files, key=lambda x: x['LastModified'])
+                        transcript_obj = s3.get_object(Bucket=bucket, Key=latest_file['Key'])
+                        self.transcript = transcript_obj['Body'].read().decode('utf-8')
+                        if self.transcript:
+                            self.system_prompt += f"\nTranscript:\n{self.transcript}"
             except Exception as e:
                 logging.error(f"Error loading transcript from S3: {e}")
         
@@ -92,11 +97,18 @@ class WebChat:
                 current_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 user_content = f"On {current_timestamp}, user said: {data['message']}"
                 
+                # Build conversation history from previous messages
+                messages = []
+                for chat in self.chat_history:
+                    messages.append({"role": "user", "content": chat['user']})
+                    messages.append({"role": "assistant", "content": chat['assistant']})
+                messages.append({"role": "user", "content": user_content})
+                
                 message = self.client.messages.create(
                     model="claude-3-opus-20240229",
                     max_tokens=1024,
                     system=self.system_prompt,
-                    messages=[{"role": "user", "content": user_content}]
+                    messages=messages
                 )
                 response = message.content[0].text
                 
