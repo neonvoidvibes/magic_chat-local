@@ -29,7 +29,7 @@
             margin: 0;
             padding: 0;
             color: var(--text-color);
-            font-size: 22px;
+            font-size: 20px;
             line-height: 1.5;
             /* background-color: var(--bg-color); */
             background-image: url('../static/images/river_bg01.jpg');
@@ -75,9 +75,9 @@
             margin-bottom: 15px;
             padding: 18px 22px;
             border-radius: 35px;
-            font-size: 22px;
-            width: fit-content;
+            font-size: 20px;
             animation: fadeIn 0.3s ease-out;
+            white-space: pre-wrap;
         }
 
         @keyframes fadeIn {
@@ -91,6 +91,7 @@
             border-bottom-right-radius: 5px;
             text-align: right;
             max-width: 66%;
+            width: fit-content;
         }
 
         .assistant-message {
@@ -98,6 +99,7 @@
             margin-right: auto;
             border-bottom-left-radius: 5px;
             width: 95%;
+            display: block;
         }
 
         .system-message {
@@ -117,7 +119,7 @@
             padding: 27px 70px 27px 25px;
             border: none;
             border-radius: 55px;
-            font-size: 22px;
+            font-size: 20px;
             background: var(--input-field-bg);
             color: var(--text-color);
             outline: none;
