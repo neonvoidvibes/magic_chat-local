@@ -101,8 +101,6 @@ When asked about conversation patterns, organizational needs, emerging trajector
 
 ## Message Formatting
 
-- **Important:** Output all your responses with **line breaks** every 65 characters
-- **Important:** Also format line breaks with **word wrapping**
 - **Important:** Output in natural language only, never in JSON or other format unless explicitly asked
 
 # Paths
