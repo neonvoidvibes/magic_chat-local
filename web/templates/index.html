@@ -7,12 +7,12 @@
     <style>
         :root {
             --bg-color: #1a1a1a;
-            --chat-bg: #2a2a2a;
+            --chat-bg: transparent;
             --text-color: #ffffff;
             --input-bg: #3a3a3a;
-            --accent-color: #4a90e2;
-            --message-user-bg: #3a3a3a;
-            --message-assistant-bg: #2a2a2a;
+            --accent-color: #ffffff;
+            --message-user-bg: #000000;
+            --message-assistant-bg: transparent;
             --message-system-bg: #4a4a4a;
         }
 
@@ -29,7 +29,7 @@
             padding: 0;
             background-color: var(--bg-color);
             color: var(--text-color);
-            font-size: 16px;
+            font-size: 20px;
             line-height: 1.5;
             /* Uncomment the next line and replace with your image path for a background image */
             /* background-image: url('path-to-your-background-image.jpg'); */
@@ -43,8 +43,8 @@
 
         #chat-container {
             background: var(--chat-bg);
-            border-radius: 20px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            border-radius: 0;
+            box-shadow: 0;
             padding: 30px;
             width: 90%;
             max-width: 800px;
@@ -71,9 +71,10 @@
         .message {
             margin-bottom: 15px;
             padding: 12px 16px;
-            border-radius: 18px;
-            font-size: 16px;
-            max-width: 80%;
+            border-radius: 35px;
+            font-size: 20px;
+            max-width: 66%;
+            width: fit-content;
             animation: fadeIn 0.3s ease-out;
         }
 
@@ -86,6 +87,7 @@
             background: var(--message-user-bg);
             margin-left: auto;
             border-bottom-right-radius: 5px;
+            text-align: right;
         }
 
         .assistant-message {
@@ -108,24 +110,24 @@
 
         #message-input {
             flex-grow: 1;
-            padding: 15px 60px 15px 20px;
+            padding: 18px 70px 18px 25px;
             border: none;
-            border-radius: 25px;
-            font-size: 16px;
+            border-radius: 30px;
+            font-size: 20px;
             background: var(--input-bg);
             color: var(--text-color);
         }
 
         #send-button {
             position: absolute;
-            right: 5px;
+            right: 8px;
             top: 50%;
             transform: translateY(-50%);
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             background: var(--accent-color);
-            color: white;
+            color: black;
             border: none;
             cursor: pointer;
             display: flex;
@@ -135,7 +137,7 @@
         }
 
         #send-button:hover {
-            background: #3a80d2;
+            background: #e0e0e0;
         }
 
         #send-button svg {
@@ -145,20 +147,28 @@
 
         #status-bar {
             font-size: 14px;
-            color: #888;
+            color: #6a6a6a;
             margin-top: 15px;
             text-align: center;
         }
 
         .waiting {
             display: inline-block;
-            animation: pulse 1s infinite;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
         }
 
-        @keyframes pulse {
-            0% { opacity: 0.5; }
-            50% { opacity: 1; }
-            100% { opacity: 0.5; }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @media (max-width: 600px) {
@@ -176,7 +186,7 @@
 </head>
 <body>
     <div id="chat-container">
-        <h2>Magic Chat - {{ agent_name }}</h2>
+        <h2>River AI Streamer</h2>
         <div id="chat-messages"></div>
         <div id="input-container">
             <input type="text" id="message-input" placeholder="Type your message...">
@@ -221,7 +231,7 @@
             });
             
             let assistantMessage = '';
-            const assistantElement = appendMessage('assistant', '<span class="waiting">Thinking...</span>');
+            const assistantElement = appendMessage('assistant', '<span class="waiting"></span>');
             
             // Set up event stream from response
             const reader = response.then(res => res.body.getReader());
