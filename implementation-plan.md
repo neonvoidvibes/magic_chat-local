@@ -92,7 +92,6 @@ Here's the refined implementation plan, v2:
         
         ```
         python
-        CopyInsert
         class AppConfig:
             agent_name: str
             memory_agents: List[str]
@@ -105,12 +104,12 @@ Here's the refined implementation plan, v2:
     - Move all argument parsing to this layer
     - Make configuration accessible to both CLI and web interfaces
     - Keep all existing argparse functionality
+
 2. **Phase 2: Core Refactoring**
     - Extract core chat logic into **`ChatCore`** with dependency injection:
         
         ```
         python
-        CopyInsert
         class ChatCore:
             def __init__(self, config: AppConfig, storage_client=None):
                 self.config = config
@@ -120,13 +119,13 @@ Here's the refined implementation plan, v2:
         
     - Create interface abstractions
     - Ensure all current CLI functionality works through the new structure
+
 3. **Phase 3: Web Interface**
     - Minimal Flask implementation
     - Pass configuration through environment or startup:
         
         ```
         python
-        CopyInsert
         def create_app(config: AppConfig) -> Flask:
             app = Flask(__name__)
             app.config['CHAT_CONFIG'] = config
@@ -136,11 +135,11 @@ Here's the refined implementation plan, v2:
     - Support all CLI flags via both:
         - Command line: **`python magic_chat.py --web --agent main`**
         - Environment: For containerized/production deployment
+
 4. **Launch Modes**
     
     ```
     bash
-    CopyInsert
     # Current CLI mode (unchanged)
     python magic_chat.py --agent main --memory agent2
     
@@ -160,11 +159,11 @@ Here's the refined implementation plan, v2:
     - Environment variables take precedence
     - Command line arguments override defaults
     - Web interface inherits all settings
+
 2. **Startup Flow**
     
     ```
     Code
-    CopyInsert
     Load Environment
          ↓
     Parse Arguments
@@ -182,6 +181,7 @@ Here's the refined implementation plan, v2:
     - Graceful fallback to CLI if web server fails
     - Clear error messages for misconfiguration
     - Logging for all mode transitions
+
 4. **Future Scalability**
     - Configuration system ready for new parameters
     - Interface abstraction allows new UI types

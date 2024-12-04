@@ -10,6 +10,7 @@ class AppConfig:
     # Core settings
     agent_name: str
     interface_mode: str  # 'cli', 'web', or 'web_only'
+    web_port: int = 5001  # Default web port
     
     # Optional settings with defaults
     memory: List[str] = None
@@ -41,6 +42,7 @@ class AppConfig:
         parser.add_argument('--debug', action='store_true', help='Enable debug mode.')
         parser.add_argument('--web', action='store_true', help='Run with web interface.')
         parser.add_argument('--web-only', action='store_true', help='Run with web interface only (no CLI fallback).')
+        parser.add_argument('--web-port', type=int, default=5001, help='Port for web interface (default: 5001)')
         
         # Listener arguments
         parser.add_argument('--listen', action='store_true', help='Enable summary listening at startup.')
@@ -68,6 +70,7 @@ class AppConfig:
         config = cls(
             agent_name=args.agent,
             interface_mode=interface_mode,
+            web_port=args.web_port,
             memory=args.memory,
             debug=args.debug,
             listen_summary=listen_summary,

@@ -14,6 +14,7 @@ import json
 from models import InsightsOutput
 from dotenv import load_dotenv
 from config import AppConfig
+from web.web_chat import WebChat
 
 SESSION_START_TAG = '<session>'
 SESSION_END_TAG = '</session>'
@@ -69,6 +70,7 @@ def parse_arguments():
     parser.add_argument('--listen-insights', action='store_true', help='Enable insights listening at startup.')
     parser.add_argument('--listen-deep', action='store_true', help='Enable summary and insights listening at startup.')
     parser.add_argument('--listen-all', action='store_true', help='Enable all listening at startup.')
+    parser.add_argument('--interface-mode', choices=['cli', 'web', 'web_only'], default='cli', help='Interface mode.')
     return parser.parse_args()
 
 def setup_logging(debug):
@@ -446,246 +448,273 @@ Provide the output in JSON format according to the schema:
 
 def main():
     global abort_requested
-    config = AppConfig.from_env_and_args()
-    
-    setup_logging(config.debug)
-    print(f"Chat agent '{config.agent_name}' is running. Enter your message or type '!help' for commands.\n")
-
-    client = Anthropic(api_key=ANTHROPIC_API_KEY)
-
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    
-    standard_prompt_file = os.path.join(script_dir, 'system_prompt_standard.txt')
-    standard_system_prompt = read_file_content_local(standard_prompt_file, "standard system prompt")
-    if not standard_system_prompt:
-        print("Error: Standard system prompt is empty or unreadable. Check the log for details.")
-        sys.exit(1)
-    
-    unique_prompt_file = os.path.join(script_dir, f'system_prompt_{config.agent_name}.txt')
-    unique_system_prompt = read_file_content_local(unique_prompt_file, "unique system prompt")
-    if not unique_system_prompt:
-        print("Error: Unique system prompt is empty or unreadable. Check the log for details.")
-        sys.exit(1)
-    
-    initial_system_prompt = standard_system_prompt + "\n" + unique_system_prompt
-
-    chat_history_folder = os.path.join(script_dir, 'chat_history')
-    os.makedirs(chat_history_folder, exist_ok=True)
-
-    chat_summary = ""
-    if config.memory is not None:
-        if len(config.memory) == 0:
-            config.memory = [config.agent_name]
-        system_prompt = reload_memory(chat_history_folder, config.agent_name, config.memory, initial_system_prompt)
-    else:
-        system_prompt = initial_system_prompt
-
-    chat_history_file = create_new_chat_file(chat_history_folder, config.agent_name)
-
-    conversation_history = []
-
-    org_id = 'River'  # Replace with actual organization ID as needed
-    frameworks_content = ""
-    context_content = ""
-
     try:
-        frameworks_key = 'frameworks/frameworks.txt'
-        response = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=frameworks_key)
-        frameworks_content = response['Body'].read().decode('utf-8')
-    except Exception as e:
-        logging.error(f"Error loading frameworks from S3: {e}")
-
-    try:
-        context_key = f'context/context_{org_id}.txt'
-        response = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=context_key)
-        context_content = response['Body'].read().decode('utf-8')
-    except Exception as e:
-        logging.error(f"Error loading context for {org_id}: {e}")
-
-    while True:
-        try:
-            print("User:\n", end='', flush=True)
-            ready, _, _ = select.select([sys.stdin], [], [], None)
-            if ready:
-                user_input = sys.stdin.readline().strip()
-            else:
-                user_input = ''
-        except (EOFError, KeyboardInterrupt):
-            print("\nExiting the chat.")
-            break
-        if not user_input:
-            continue
-        if user_input.lower() == '!exit':
-            print("Exiting the chat.")
-            break
-        if user_input.lower() == '!reload-memory':
-            system_prompt = reload_memory(
-                chat_history_folder, config.agent_name, config.memory, initial_system_prompt
-            )
-            if config.debug:
-                logging.debug("Memory reloaded.")
-            print("Memory reloaded.\n")
-            continue
-        if user_input.lower() == '!help':
-            display_help()
-            continue
-        if user_input.lower() == '!listen':
-            config.listen_summary = True
-            print("Listening to summaries activated.\n")
-            continue
-        if user_input.lower() == '!listen-transcript':
-            config.listen_transcript = True
-            print("Listening to transcripts activated.\n")
-            continue
-        if user_input.lower() == '!listen-insights':
-            config.listen_insights = True
-            print("Listening to insights activated.\n")
-            continue
-        if user_input.lower() == '!listen-all':
-            config.listen_summary = True
-            config.listen_transcript = True
-            config.listen_insights = True
-            config.listen_all = True
-            print("Listening to summaries, transcripts, and insights activated.\n")
-            continue
-        if user_input.lower() == '!listen-deep':
-            config.listen_summary = True
-            config.listen_insights = True
-            config.listen_deep = True
-            print("Listening to summaries and insights activated.\n")
-            continue
-        if user_input.lower().startswith('!memory'):
-            parts = user_input.split()
-            agents_to_load = parts[1:] if len(parts) > 1 else [config.agent_name]
-            if len(parts) == 1:
-                agents_to_load = [config.agent_name]
-            config.memory = agents_to_load
-            system_prompt = reload_memory(chat_history_folder, config.agent_name, config.memory, initial_system_prompt)
-            print("Memory loaded.\n")
-            continue
-        if user_input.lower() == '!back':
-            abort_requested = True
-            print("[info] No active request to abort.\n")
-            continue
-        if user_input.lower() == '!insights':
-            transcript_file = get_latest_transcript_file()
-            if not transcript_file:
-                print("<<No transcript file found in S3 to generate insights>>\n")
-                continue
-            transcript_content = read_file_content(transcript_file, "transcript")
-            if not transcript_content:
-                print("<<Transcript file is empty or unreadable>>\n")
-                continue
-
-            insights = generate_insights(transcript_content, frameworks_content, context_content)
-            if insights:
-                insights_filename = f"insights_{datetime.now().strftime('%Y%m%d-%H%M%S')}_uID-0112_oID-{org_id}_sID-{config.agent_name}.txt"
+        # Load configuration
+        config = AppConfig.from_env_and_args()
+        
+        # Setup logging
+        setup_logging(config.debug)
+        
+        # Start web interface if requested
+        if config.interface_mode in ['web', 'web_only']:
+            web_interface = WebChat(config)
+            web_thread = web_interface.run(port=config.web_port, debug=config.debug)
+            print(f"\nWeb interface available at http://127.0.0.1:{config.web_port}")
+            
+            if config.interface_mode == 'web_only':
+                print("\nRunning in web-only mode. Press Ctrl+C to exit.")
+                # In web-only mode, just keep the main thread alive
                 try:
-                    s3_key = f"live/insights/{insights_filename}"
-                    s3_client.put_object(
-                        Bucket=AWS_S3_BUCKET,
-                        Key=s3_key,
-                        Body=json.dumps(insights.dict(), indent=4),
-                        ContentType='application/json'
-                    )
-                    print(f"Insights have been saved to S3 at key: {s3_key}\n")
+                    while True:
+                        time.sleep(1)
+                except KeyboardInterrupt:
+                    print("\nShutting down...")
+                    return
+        
+        # Continue with CLI if not web-only
+        if config.interface_mode != 'web_only':
+            if config.interface_mode == 'web':
+                print("CLI interface also available. Type '!help' for commands.\n")
+            print(f"Chat agent '{config.agent_name}' is running. Enter your message or type '!help' for commands.\n")
+        
+            client = Anthropic(api_key=ANTHROPIC_API_KEY)
 
-                    insights_content = read_file_content(s3_key, "insights")
-                    if insights_content:
-                        agent_message = f"Insights:\n{insights_content}"
-                        conversation_history.append({"role": "agent", "content": agent_message})
-                        append_to_chat_history(chat_history_file, "Agent", agent_message, is_insight=True)
-                        print("Insights have been appended to the conversation history.\n")
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            
+            standard_prompt_file = os.path.join(script_dir, 'system_prompt_standard.txt')
+            standard_system_prompt = read_file_content_local(standard_prompt_file, "standard system prompt")
+            if not standard_system_prompt:
+                print("Error: Standard system prompt is empty or unreadable. Check the log for details.")
+                sys.exit(1)
+            
+            unique_prompt_file = os.path.join(script_dir, f'system_prompt_{config.agent_name}.txt')
+            unique_system_prompt = read_file_content_local(unique_prompt_file, "unique system prompt")
+            if not unique_system_prompt:
+                print("Error: Unique system prompt is empty or unreadable. Check the log for details.")
+                sys.exit(1)
+            
+            initial_system_prompt = standard_system_prompt + "\n" + unique_system_prompt
+
+            chat_history_folder = os.path.join(script_dir, 'chat_history')
+            os.makedirs(chat_history_folder, exist_ok=True)
+
+            chat_summary = ""
+            if config.memory is not None:
+                if len(config.memory) == 0:
+                    config.memory = [config.agent_name]
+                system_prompt = reload_memory(chat_history_folder, config.agent_name, config.memory, initial_system_prompt)
+            else:
+                system_prompt = initial_system_prompt
+
+            chat_history_file = create_new_chat_file(chat_history_folder, config.agent_name)
+
+            conversation_history = []
+
+            org_id = 'River'  # Replace with actual organization ID as needed
+            frameworks_content = ""
+            context_content = ""
+
+            try:
+                frameworks_key = 'frameworks/frameworks.txt'
+                response = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=frameworks_key)
+                frameworks_content = response['Body'].read().decode('utf-8')
+            except Exception as e:
+                logging.error(f"Error loading frameworks from S3: {e}")
+
+            try:
+                context_key = f'context/context_{org_id}.txt'
+                response = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=context_key)
+                context_content = response['Body'].read().decode('utf-8')
+            except Exception as e:
+                logging.error(f"Error loading context for {org_id}: {e}")
+
+            while True:
+                try:
+                    print("User:\n", end='', flush=True)
+                    ready, _, _ = select.select([sys.stdin], [], [], None)
+                    if ready:
+                        user_input = sys.stdin.readline().strip()
                     else:
-                        print("Insights file is empty or unreadable.\n")
-                except Exception as e:
-                    logging.error(f"Error saving insights to S3: {e}")
-                    print("Failed to save insights to S3.\n")
-            else:
-                print("No insights were generated.\n")
-            continue
+                        user_input = ''
+                except (EOFError, KeyboardInterrupt):
+                    print("\nExiting the chat.")
+                    break
+                if not user_input:
+                    continue
+                if user_input.lower() == '!exit':
+                    print("Exiting the chat.")
+                    break
+                if user_input.lower() == '!reload-memory':
+                    system_prompt = reload_memory(
+                        chat_history_folder, config.agent_name, config.memory, initial_system_prompt
+                    )
+                    if config.debug:
+                        logging.debug("Memory reloaded.")
+                    print("Memory reloaded.\n")
+                    continue
+                if user_input.lower() == '!help':
+                    display_help()
+                    continue
+                if user_input.lower() == '!listen':
+                    config.listen_summary = True
+                    print("Listening to summaries activated.\n")
+                    continue
+                if user_input.lower() == '!listen-transcript':
+                    config.listen_transcript = True
+                    print("Listening to transcripts activated.\n")
+                    continue
+                if user_input.lower() == '!listen-insights':
+                    config.listen_insights = True
+                    print("Listening to insights activated.\n")
+                    continue
+                if user_input.lower() == '!listen-all':
+                    config.listen_summary = True
+                    config.listen_transcript = True
+                    config.listen_insights = True
+                    config.listen_all = True
+                    print("Listening to summaries, transcripts, and insights activated.\n")
+                    continue
+                if user_input.lower() == '!listen-deep':
+                    config.listen_summary = True
+                    config.listen_insights = True
+                    config.listen_deep = True
+                    print("Listening to summaries and insights activated.\n")
+                    continue
+                if user_input.lower().startswith('!memory'):
+                    parts = user_input.split()
+                    agents_to_load = parts[1:] if len(parts) > 1 else [config.agent_name]
+                    if len(parts) == 1:
+                        agents_to_load = [config.agent_name]
+                    config.memory = agents_to_load
+                    system_prompt = reload_memory(chat_history_folder, config.agent_name, config.memory, initial_system_prompt)
+                    print("Memory loaded.\n")
+                    continue
+                if user_input.lower() == '!back':
+                    abort_requested = True
+                    print("[info] No active request to abort.\n")
+                    continue
+                if user_input.lower() == '!insights':
+                    transcript_file = get_latest_transcript_file()
+                    if not transcript_file:
+                        print("<<No transcript file found in S3 to generate insights>>\n")
+                        continue
+                    transcript_content = read_file_content(transcript_file, "transcript")
+                    if not transcript_content:
+                        print("<<Transcript file is empty or unreadable>>\n")
+                        continue
 
-        content_pieces = []
-        
-        if config.listen_summary:
-            summary_file = get_latest_summary_file()
-            if summary_file:
-                summary = read_file_content(summary_file, "summary")
-                if summary:
-                    content_pieces.append(f"\nLatest Summary:\n{summary}")
-                    print("<<Latest summary loaded>>\n")
-            else:
-                print("<<No summary file found>>\n")
-        
-        if config.listen_transcript:
-            transcript_file = get_latest_transcript_file()
-            if transcript_file:
-                transcript = read_file_content(transcript_file, "transcript")
-                if transcript:
-                    content_pieces.append("Transcript:\n" + transcript)
+                    insights = generate_insights(transcript_content, frameworks_content, context_content)
+                    if insights:
+                        insights_filename = f"insights_{datetime.now().strftime('%Y%m%d-%H%M%S')}_uID-0112_oID-{org_id}_sID-{config.agent_name}.txt"
+                        try:
+                            s3_key = f"live/insights/{insights_filename}"
+                            s3_client.put_object(
+                                Bucket=AWS_S3_BUCKET,
+                                Key=s3_key,
+                                Body=json.dumps(insights.dict(), indent=4),
+                                ContentType='application/json'
+                            )
+                            print(f"Insights have been saved to S3 at key: {s3_key}\n")
+
+                            insights_content = read_file_content(s3_key, "insights")
+                            if insights_content:
+                                agent_message = f"Insights:\n{insights_content}"
+                                conversation_history.append({"role": "agent", "content": agent_message})
+                                append_to_chat_history(chat_history_file, "Agent", agent_message, is_insight=True)
+                                print("Insights have been appended to the conversation history.\n")
+                            else:
+                                print("Insights file is empty or unreadable.\n")
+                        except Exception as e:
+                            logging.error(f"Error saving insights to S3: {e}")
+                            print("Failed to save insights to S3.\n")
+                    else:
+                        print("No insights were generated.\n")
+                    continue
+
+                content_pieces = []
+                
+                if config.listen_summary:
+                    summary_file = get_latest_summary_file()
+                    if summary_file:
+                        summary = read_file_content(summary_file, "summary")
+                        if summary:
+                            content_pieces.append(f"\nLatest Summary:\n{summary}")
+                            print("<<Latest summary loaded>>\n")
+                    else:
+                        print("<<No summary file found>>\n")
+                
+                if config.listen_transcript:
+                    transcript_file = get_latest_transcript_file()
+                    if transcript_file:
+                        transcript = read_file_content(transcript_file, "transcript")
+                        if transcript:
+                            content_pieces.append("Transcript:\n" + transcript)
+                        else:
+                            print("Transcript file is empty or unreadable.\n")
+                    else:
+                        print("<<No transcript file found>>\n")
+                
+                if config.listen_insights:
+                    insights_file = get_latest_insights_file()
+                    if insights_file:
+                        insights = read_file_content(insights_file, "insights")
+                        if insights:
+                            content_pieces.append("Insights:\n" + insights)
+                        else:
+                            print("Insights file is empty or unreadable.\n")
+                    else:
+                        print("<<No insights file found>>\n")
+                
+                combined_content = ""
+                if content_pieces:
+                    combined_content = "\n\n".join(content_pieces)
+                    combined_content = summarize_text(combined_content, max_length=None)
+                
+                if combined_content and config.memory:
+                    system_prompt = initial_system_prompt + "\nSummary of past conversations:\n" + chat_summary + "\n\n" + combined_content
+                elif combined_content:
+                    system_prompt = initial_system_prompt + "\n" + combined_content
+                elif config.memory:
+                    system_prompt = initial_system_prompt + "\nSummary of past conversations:\n" + chat_summary
                 else:
-                    print("Transcript file is empty or unreadable.\n")
-            else:
-                print("<<No transcript file found>>\n")
-        
-        if config.listen_insights:
-            insights_file = get_latest_insights_file()
-            if insights_file:
-                insights = read_file_content(insights_file, "insights")
-                if insights:
-                    content_pieces.append("Insights:\n" + insights)
+                    system_prompt = initial_system_prompt
+
+                if frameworks_content:
+                    system_prompt += f"\nFrameworks:\n{frameworks_content}"
+                if context_content:
+                    system_prompt += f"\nContext:\n{context_content}"
+
+                current_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                user_content = f"On {current_timestamp}, user said: {user_input}"
+                conversation_history.append({"role": "user", "content": user_content})
+                append_to_chat_history(chat_history_file, "User", user_input)
+
+                truncate_conversation(conversation_history, max_tokens=TOKEN_LIMIT - 500)
+
+                messages = conversation_history.copy()
+
+                messages_to_send = [
+                    {'role': 'assistant' if msg['role'] == 'agent' else msg['role'], 'content': msg['content']}
+                    for msg in messages
+                ]
+
+                invalid_roles = [msg['role'] for msg in messages_to_send if msg['role'] not in ['user', 'assistant']]
+                if invalid_roles:
+                    continue
+
+                print("\nAgent:\n", end='')
+                completion = analyze_with_claude(client, messages_to_send, system_prompt)
+                if completion:
+                    agent_response = completion.strip()
+                    agent_content = f"On {current_timestamp}, agent said: {agent_response}"
+                    conversation_history.append({"role": "agent", "content": agent_content})
+                    append_to_chat_history(chat_history_file, "Agent", agent_response)
+                    print("\n")
                 else:
-                    print("Insights file is empty or unreadable.\n")
-            else:
-                print("<<No insights file found>>\n")
-        
-        combined_content = ""
-        if content_pieces:
-            combined_content = "\n\n".join(content_pieces)
-            combined_content = summarize_text(combined_content, max_length=None)
-        
-        if combined_content and config.memory:
-            system_prompt = initial_system_prompt + "\nSummary of past conversations:\n" + chat_summary + "\n\n" + combined_content
-        elif combined_content:
-            system_prompt = initial_system_prompt + "\n" + combined_content
-        elif config.memory:
-            system_prompt = initial_system_prompt + "\nSummary of past conversations:\n" + chat_summary
-        else:
-            system_prompt = initial_system_prompt
+                    print("\nNo response received from model.\n")
 
-        if frameworks_content:
-            system_prompt += f"\nFrameworks:\n{frameworks_content}"
-        if context_content:
-            system_prompt += f"\nContext:\n{context_content}"
-
-        current_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        user_content = f"On {current_timestamp}, user said: {user_input}"
-        conversation_history.append({"role": "user", "content": user_content})
-        append_to_chat_history(chat_history_file, "User", user_input)
-
-        truncate_conversation(conversation_history, max_tokens=TOKEN_LIMIT - 500)
-
-        messages = conversation_history.copy()
-
-        messages_to_send = [
-            {'role': 'assistant' if msg['role'] == 'agent' else msg['role'], 'content': msg['content']}
-            for msg in messages
-        ]
-
-        invalid_roles = [msg['role'] for msg in messages_to_send if msg['role'] not in ['user', 'assistant']]
-        if invalid_roles:
-            continue
-
-        print("\nAgent:\n", end='')
-        completion = analyze_with_claude(client, messages_to_send, system_prompt)
-        if completion:
-            agent_response = completion.strip()
-            agent_content = f"On {current_timestamp}, agent said: {agent_response}"
-            conversation_history.append({"role": "agent", "content": agent_content})
-            append_to_chat_history(chat_history_file, "Agent", agent_response)
-            print("\n")
-        else:
-            print("\nNo response received from model.\n")
+    except Exception as e:
+        logging.error(f"Error in main loop: {e}")
 
 if __name__ == '__main__':
     main()
