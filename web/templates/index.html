@@ -108,14 +108,14 @@
         }
 
         @keyframes letterGlow {
-            0%, 100% { color: rgba(146, 53, 189, 1); }
-            12% { color: rgba(254, 68, 154, 1); }
-            25% { color: rgba(255, 126, 100, 1); }
-            37% { color: rgba(236, 194, 24, 1); }
-            50% { color: rgba(140, 255, 118, 1); }
-            62% { color: rgba(0, 131, 226, 1); }
-            75% { color: rgba(0, 170, 255, 1); }
-            87% { color: rgba(74, 86, 255, 1); }
+            0% { color: rgba(146, 53, 189, 1); }
+            15% { color: rgba(254, 68, 154, 1); }
+            30% { color: rgba(255, 126, 100, 1); }
+            45% { color: rgba(236, 194, 24, 1); }
+            60% { color: rgba(140, 255, 118, 1); }
+            75% { color: rgba(0, 131, 226, 1); }
+            90% { color: rgba(74, 86, 255, 1); }
+            100% { color: rgba(255, 255, 255, 0.7); }
         }
 
         @keyframes typeAndGlow {
@@ -138,8 +138,11 @@
         }
 
         .glow-text.active {
-            animation: typeAndGlow 0.3s ease-out forwards,
-                       letterGlow 7s ease-in-out infinite;
+            animation: typeAndGlow 0.3s ease-out forwards;
+        }
+
+        .glow-text.glowing {
+            animation: letterGlow 2s ease-out forwards;
         }
 
         #welcome-container {
@@ -150,7 +153,7 @@
             font-size: 1.8em;
             color: rgba(255, 255, 255, 0.7);
             font-weight: 700;
-            letter-spacing: -0.02em;  
+            letter-spacing: -0.05em;  
         }
 
         .message {
@@ -403,10 +406,15 @@
         function animateWelcomeText(firstTime = false) {
             const letters = welcomeContainer.querySelectorAll('.glow-text');
             letters.forEach((letter, index) => {
-                if (!firstTime) letter.style.opacity = '1';
-                letter.classList.remove('active');
+                letter.classList.remove('active', 'glowing');
                 setTimeout(() => {
-                    letter.classList.add('active');
+                    if (firstTime) {
+                        letter.classList.add('active');
+                        setTimeout(() => letter.classList.add('glowing'), 300);
+                    } else {
+                        letter.style.opacity = '1';
+                        letter.classList.add('glowing');
+                    }
                 }, index * 100);
             });
         }
