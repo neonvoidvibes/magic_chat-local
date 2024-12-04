@@ -73,7 +73,6 @@
             padding: 18px 22px;
             border-radius: 35px;
             font-size: 22px;
-            max-width: 66%;
             width: fit-content;
             animation: fadeIn 0.3s ease-out;
         }
@@ -88,12 +87,14 @@
             margin-left: auto;
             border-bottom-right-radius: 5px;
             text-align: right;
+            max-width: 66%;
         }
 
         .assistant-message {
             background: var(--message-assistant-bg);
             margin-right: auto;
             border-bottom-left-radius: 5px;
+            width: 100%;
         }
 
         .system-message {
@@ -116,6 +117,11 @@
             font-size: 22px;
             background: var(--input-field-bg);
             color: var(--text-color);
+            outline: none;
+        }
+
+        #message-input::placeholder {
+            color: rgba(85, 85, 85, 0.5);
         }
 
         #send-button {
@@ -187,7 +193,11 @@
 <body>
     <div id="chat-container">
         <h2>River AI Streamer</h2>
-        <div id="chat-messages"></div>
+        <div id="chat-messages">
+            <div id="initial-message" style="height: 100%; display: flex; justify-content: center; align-items: center;">
+                <h1 style="font-size: 2.5em; color: rgba(255, 255, 255, 0.7);">What can I help with?</h1>
+            </div>
+        </div>
         <div id="input-container">
             <input type="text" id="message-input" placeholder="Message AI">
             <button id="send-button" onclick="sendMessage()">
@@ -270,13 +280,17 @@
         }
 
         function appendMessage(sender, text) {
-            const messages = document.getElementById('chat-messages');
-            const div = document.createElement('div');
-            div.className = `message ${sender.toLowerCase()}-message`;
-            div.innerHTML = text;
-            messages.appendChild(div);
-            messages.scrollTop = messages.scrollHeight;
-            return div;
+            const initialMessage = document.getElementById('initial-message');
+            if (initialMessage) {
+                initialMessage.remove();
+            }
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender.toLowerCase()}-message`;
+            messageDiv.innerHTML = text;
+            document.getElementById('chat-messages').appendChild(messageDiv);
+            document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
+            return messageDiv;
         }
 
         // Handle Enter key
