@@ -204,3 +204,10 @@ Here's the refined implementation plan, v2:
     - Easy rollback path
     - Comprehensive logging
     - Configuration validation
+
+### **Remember: Instructions**
+
+- **Aim for simplicity: Be conservative, safe, effective, and efficient**
+- **Ensure robustness:Retain all current functionality, and strive hard to not break current ui or functionality**
+- **Simplicity: NO other creativity or changes**
+- **Continuty: Always print a brief one-line commit message after submitting your changes**
