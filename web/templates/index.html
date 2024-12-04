@@ -432,6 +432,11 @@
                 setTimeout(() => {
                     if (firstTime) {
                         letter.classList.add('first-reveal');
+                        // After first reveal animation, ensure letter stays visible in gray
+                        setTimeout(() => {
+                            letter.style.opacity = '1';
+                            letter.style.color = 'rgba(255, 255, 255, 0.7)';
+                        }, 2000);
                     } else {
                         letter.style.opacity = '1';
                         letter.classList.add('glowing');
