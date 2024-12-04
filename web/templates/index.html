@@ -152,10 +152,15 @@
             margin-right: 0.1em;  
             white-space: pre;  
             font-weight: 700;
+            color: rgba(255, 255, 255, 0.7);
         }
 
         .glow-text.first-reveal {
             animation: firstRevealGlow 2s ease-out forwards;
+        }
+
+        .glow-text.visible {
+            opacity: 1;
         }
 
         .glow-text.active {
@@ -428,17 +433,13 @@
         function animateWelcomeText(firstTime = false) {
             const letters = welcomeContainer.querySelectorAll('.glow-text');
             letters.forEach((letter, index) => {
-                letter.classList.remove('glowing', 'first-reveal');
+                letter.classList.remove('glowing', 'first-reveal', 'visible');
                 setTimeout(() => {
                     if (firstTime) {
+                        letter.classList.add('visible');
                         letter.classList.add('first-reveal');
-                        // After first reveal animation, ensure letter stays visible in gray
-                        setTimeout(() => {
-                            letter.style.opacity = '1';
-                            letter.style.color = 'rgba(255, 255, 255, 0.7)';
-                        }, 2000);
                     } else {
-                        letter.style.opacity = '1';
+                        letter.classList.add('visible');
                         letter.classList.add('glowing');
                     }
                 }, index * 100);
