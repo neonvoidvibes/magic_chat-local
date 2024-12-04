@@ -72,32 +72,19 @@
             display: flex;
             flex-direction: column;
             position: relative;
+            border: 4px solid transparent;
+            transition: border-color 2.5s ease-in-out;
         }
 
-        #chat-messages::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border-radius: 35px;
-            border: 4px solid transparent;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        #chat-messages.thinking {
+            border-color: rgba(66, 220, 219, 0.5);
             animation: neonGlow 3s linear infinite;
         }
 
-        #chat-messages.thinking::before {
-            opacity: 1;
-        }
-
         @keyframes neonGlow {
-            0% { border-color: #ff00ff; box-shadow: 0 0 20px #ff00ff; }
-            33% { border-color: #00ffff; box-shadow: 0 0 20px #00ffff; }
-            66% { border-color: #ff3377; box-shadow: 0 0 20px #ff3377; }
-            100% { border-color: #ff00ff; box-shadow: 0 0 20px #ff00ff; }
+            0%, 100% { border-color: rgba(66, 220, 219, 0.5); }
+            33% { border-color: rgba(217, 66, 220, 0.5); }
+            66% { border-color: rgba(220, 66, 77, 0.5); }
         }
 
         .message {
@@ -105,7 +92,7 @@
             padding: 18px 22px;
             border-radius: 35px;
             font-size: 20px;
-            animation: fadeIn 0.3s ease-out;
+            animation: fadeIn 0.5s ease-out;
             white-space: pre-wrap;
         }
 
@@ -293,9 +280,7 @@
                                 if (data.delta) {
                                     if (assistantMessage === '') {
                                         assistantElement.innerHTML = ''; // Remove "Thinking..." message
-                                        setTimeout(() => {
-                                            document.getElementById('chat-messages').classList.remove('thinking');
-                                        }, 800); // 800ms delay before starting fade out
+                                        document.getElementById('chat-messages').classList.remove('thinking');
                                     }
                                     assistantMessage += data.delta;
                                     assistantElement.innerHTML += data.delta;
