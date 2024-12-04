@@ -159,7 +159,7 @@
         }
 
         .glow-text.first-reveal {
-            animation: firstRevealGlow 2s ease-out forwards;
+            animation: firstRevealGlow 1.5s ease-out forwards;
         }
 
         .glow-text.visible {
@@ -172,7 +172,7 @@
         }
 
         .glow-text.glowing {
-            animation: letterGlow 2s ease-out forwards;
+            animation: letterGlow 1.5s ease-out forwards;
         }
 
         #welcome-container {
@@ -460,8 +460,8 @@
         initializeWelcomeText();
         animateWelcomeText(true);
 
-        // Repeat animation every 7 seconds
-        setInterval(() => animateWelcomeText(), 7000);
+        // Repeat animation every 10 seconds
+        setInterval(() => animateWelcomeText(), 5000);
 
         // Handle Enter key
         document.getElementById('message-input').addEventListener('keypress', function(e) {
