@@ -139,6 +139,7 @@
 
         .glow-text.active {
             animation: typeAndGlow 0.3s ease-out forwards;
+            opacity: 1;
         }
 
         .glow-text.glowing {
@@ -410,7 +411,7 @@
                 setTimeout(() => {
                     if (firstTime) {
                         letter.classList.add('active');
-                        setTimeout(() => letter.classList.add('glowing'), 300);
+                        letter.classList.add('glowing');
                     } else {
                         letter.style.opacity = '1';
                         letter.classList.add('glowing');
