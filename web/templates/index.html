@@ -32,14 +32,25 @@
             color: var(--text-color);
             font-size: 22px;
             line-height: 1.5;
-            /* background-color: var(--bg-color); */
-            background-image: url('../static/images/river_bg01.jpg');
-            background-size: cover;
-            background-position: center;
-            min-height: 100vh;
+            overflow: hidden;
+            height: 100vh;
+            position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
+        }
+
+        #bg-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: url('../static/images/river_bg01.jpg');
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
         #chat-container {
@@ -109,7 +120,7 @@
 
         @keyframes letterGlow {
             0% { 
-                color: rgba(146, 53, 189, 0);
+                color: rgba(146, 53, 189, 1);
                 opacity: 0.7;
             }
             15% { 
@@ -124,6 +135,10 @@
                 color: rgba(74, 86, 255, 1);
                 opacity: 1;
             }
+            95% { 
+                color: rgba(74, 86, 255, 1);
+                opacity: 1;
+            }
             100% { 
                 color: rgba(255, 255, 255, 0.7);
                 opacity: 0.7;
@@ -133,7 +148,7 @@
         @keyframes firstRevealGlow {
             0% { 
                 opacity: 0;
-                color: rgba(146, 53, 189, 0);
+                color: rgba(146, 53, 189, 1);
             }
             15% { 
                 opacity: 1;
@@ -144,6 +159,10 @@
             60% { color: rgba(140, 255, 118, 1); }
             75% { color: rgba(0, 131, 226, 1); }
             90% { 
+                color: rgba(74, 86, 255, 1);
+                opacity: 1;
+            }
+            95% { 
                 color: rgba(74, 86, 255, 1);
                 opacity: 1;
             }
@@ -184,10 +203,6 @@
         .glow-text.active {
             animation: typeAndGlow 0.3s ease-out forwards;
             opacity: 1;
-        }
-
-        .glow-text.glowing {
-            animation: letterGlow 1.5s ease-out forwards;
         }
 
         #welcome-container {
@@ -325,6 +340,7 @@
     </style>
 </head>
 <body>
+    <div id="bg-wrapper"></div>
     <div id="chat-container">
         <h2>River AI Streamer</h2>
         <div id="chat-messages">
@@ -448,35 +464,18 @@
             });
         }
 
-        function animateWelcomeText(firstTime = false) {
+        function animateWelcomeText() {
             const letters = welcomeContainer.querySelectorAll('.glow-text');
             letters.forEach((letter, index) => {
-                // Force remove all animation classes
-                letter.classList.remove('glowing', 'first-reveal');
-                // Reset animation by triggering reflow
-                void letter.offsetWidth;
-                
-                if (!firstTime && !letter.style.color) {
-                    letter.style.color = 'rgba(255, 255, 255, 0.7)';
-                    letter.style.opacity = '1';
-                }
-                
                 setTimeout(() => {
-                    if (firstTime) {
-                        letter.classList.add('first-reveal');
-                    } else {
-                        letter.classList.add('glowing');
-                    }
+                    letter.classList.add('first-reveal');
                 }, index * 100);
             });
         }
 
         // Initial setup
         initializeWelcomeText();
-        animateWelcomeText(true);
-
-        // Repeat animation every 10 seconds
-        setInterval(() => animateWelcomeText(), 5000);
+        animateWelcomeText();
 
         // Handle Enter key
         document.getElementById('message-input').addEventListener('keypress', function(e) {
