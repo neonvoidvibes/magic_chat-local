@@ -1,69 +1,176 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Magic Chat - {{ agent_name }}</title>
     <style>
+        :root {
+            --bg-color: #1a1a1a;
+            --chat-bg: #2a2a2a;
+            --text-color: #ffffff;
+            --input-bg: #3a3a3a;
+            --accent-color: #4a90e2;
+            --message-user-bg: #3a3a3a;
+            --message-assistant-bg: #2a2a2a;
+            --message-system-bg: #4a4a4a;
+        }
+
+        @font-face {
+            font-family: 'Avenir Next';
+            src: url('path-to-avenir-next-font.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background: #f5f5f5;
+            font-family: 'Avenir Next', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-size: 16px;
+            line-height: 1.5;
+            /* Uncomment the next line and replace with your image path for a background image */
+            /* background-image: url('path-to-your-background-image.jpg'); */
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
+
         #chat-container {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            padding: 20px;
-            margin-bottom: 20px;
+            background: var(--chat-bg);
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            padding: 30px;
+            width: 90%;
+            max-width: 800px;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
         }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
         #chat-messages {
-            height: 400px;
+            flex-grow: 1;
             overflow-y: auto;
             margin-bottom: 20px;
             padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 15px;
+            background: var(--input-bg);
         }
+
         .message {
-            margin-bottom: 10px;
-            padding: 8px 12px;
-            border-radius: 4px;
+            margin-bottom: 15px;
+            padding: 12px 16px;
+            border-radius: 18px;
+            font-size: 16px;
+            max-width: 80%;
+            animation: fadeIn 0.3s ease-out;
         }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .user-message {
-            background: #e3f2fd;
-            margin-left: 20%;
+            background: var(--message-user-bg);
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
         }
-        .ai-message {
-            background: #f5f5f5;
-            margin-right: 20%;
+
+        .assistant-message {
+            background: var(--message-assistant-bg);
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
         }
+
+        .system-message {
+            background: var(--message-system-bg);
+            margin: 15px auto;
+            text-align: center;
+        }
+
         #input-container {
             display: flex;
             gap: 10px;
+            position: relative;
         }
+
         #message-input {
             flex-grow: 1;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
+            padding: 15px 60px 15px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            background: var(--input-bg);
+            color: var(--text-color);
         }
-        button {
-            padding: 8px 16px;
-            background: #2196f3;
+
+        #send-button {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--accent-color);
             color: white;
             border: none;
-            border-radius: 4px;
             cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.3s ease;
         }
-        button:hover {
-            background: #1976d2;
+
+        #send-button:hover {
+            background: #3a80d2;
         }
+
+        #send-button svg {
+            width: 20px;
+            height: 20px;
+        }
+
         #status-bar {
-            font-size: 12px;
-            color: #666;
-            margin-top: 10px;
+            font-size: 14px;
+            color: #888;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .waiting {
+            display: inline-block;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+
+        @media (max-width: 600px) {
+            #chat-container {
+                width: 95%;
+                height: 90vh;
+                padding: 20px;
+            }
+
+            .message {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
@@ -73,7 +180,12 @@
         <div id="chat-messages"></div>
         <div id="input-container">
             <input type="text" id="message-input" placeholder="Type your message...">
-            <button onclick="sendMessage()">Send</button>
+            <button id="send-button" onclick="sendMessage()">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="19" x2="12" y2="5"></line>
+                    <polyline points="5 12 12 5 19 12"></polyline>
+                </svg>
+            </button>
         </div>
         <div id="status-bar"></div>
     </div>
@@ -109,7 +221,7 @@
             });
             
             let assistantMessage = '';
-            const assistantElement = appendMessage('assistant', '');
+            const assistantElement = appendMessage('assistant', '<span class="waiting">Thinking...</span>');
             
             // Set up event stream from response
             const reader = response.then(res => res.body.getReader());
@@ -127,8 +239,11 @@
                             if (line.startsWith('data: ')) {
                                 const data = JSON.parse(line.slice(6));
                                 if (data.delta) {
+                                    if (assistantMessage === '') {
+                                        assistantElement.innerHTML = ''; // Remove "Thinking..." message
+                                    }
                                     assistantMessage += data.delta;
-                                    assistantElement.textContent = assistantMessage;
+                                    assistantElement.innerHTML += data.delta;
                                     assistantElement.scrollIntoView({ behavior: 'smooth' });
                                 }
                             }
@@ -148,7 +263,7 @@
             const messages = document.getElementById('chat-messages');
             const div = document.createElement('div');
             div.className = `message ${sender.toLowerCase()}-message`;
-            div.textContent = `${sender}: ${text}`;
+            div.innerHTML = text;
             messages.appendChild(div);
             messages.scrollTop = messages.scrollHeight;
             return div;
