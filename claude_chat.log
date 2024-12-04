@@ -5527,3 +5527,4 @@ b'<?xml version="1.0" encoding="UTF-8"?>\n<ListBucketResult xmlns="http://s3.ama
 2024-12-03 23:41:15,962 [DEBUG] close.complete
 2024-12-03 23:41:15,992 [DEBUG] close.started
 2024-12-03 23:41:15,993 [DEBUG] close.complete
+2024-12-04 11:06:35,715 [ERROR] Anthropic API error: {'type': 'error', 'error': {'details': None, 'type': 'overloaded_error', 'message': 'Overloaded'}}

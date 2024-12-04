@@ -51,11 +51,33 @@ class LeverageOpportunity(BaseModel):
     effort_score: float
     evidence: str
 
-class TripleLearningLoop(BaseModel):
-    loop_type: str  # "single", "double", or "triple"
-    insight: str
+class SingleLoopLearning(BaseModel):
+    explicit_learning: str
+    hidden_learning: str
     implications: str
-    action_items: List[str]
+
+class DoubleLoopLearning(BaseModel):
+    explicit_learning: str
+    hidden_learning: str
+    implications: str
+
+class TripleLoopLearning(BaseModel):
+    explicit_learning: str
+    hidden_learning: str
+    implications: str
+
+class Sovereignty(BaseModel):
+    sentience: str
+    intelligence: str
+    agency: str
+    evolution: str
+
+class Integral(BaseModel):
+    subjective_perspective: str
+    objective_perspective: str
+    individual_domain: str
+    collective_domain: str
+    integral_capacity: float
 
 class InsightsOutput(BaseModel):
     keywords: List[KeywordAnalysis]
@@ -67,4 +89,8 @@ class InsightsOutput(BaseModel):
     emerging_insights: List[EmergingInsight]
     trajectory_forecasts: List[TrajectoryForecast]
     leverage_opportunities: List[LeverageOpportunity]
-    learning_loops: List[LearningLoop]
+    single_loop_learning: List[SingleLoopLearning]
+    double_loop_learning: List[DoubleLoopLearning]
+    triple_loop_learning: List[TripleLoopLearning]
+    sovereignty_level: List[Sovereignty]
+    integral_perspective: List[Integral]
