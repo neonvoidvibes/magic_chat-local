@@ -45,12 +45,13 @@
             background: var(--chat-bg);
             border-radius: 35px;
             box-shadow: 0;
-            padding: 30px;
-            width: 90%;
-            max-width: 800px;
+            padding: 40px;
+            width: calc(95% - 80px);
+            max-width: calc(1000px - 80px);
             height: 90vh;
             display: flex;
             flex-direction: column;
+            overflow-x: hidden;
         }
 
         h2 {
@@ -62,10 +63,12 @@
         #chat-messages {
             flex-grow: 1;
             overflow-y: auto;
+            overflow-x: hidden;
             margin-bottom: 20px;
             padding: 20px;
             border-radius: 35px;
             background: var(--input-bg);
+            width: calc(100% - 40px);
         }
 
         .message {
@@ -94,7 +97,7 @@
             background: var(--message-assistant-bg);
             margin-right: auto;
             border-bottom-left-radius: 5px;
-            width: 100%;
+            width: 95%;
         }
 
         .system-message {
@@ -147,8 +150,8 @@
         }
 
         #send-button svg {
-            width: 24px;
-            height: 24px;
+            width: 32px;
+            height: 32px;
         }
 
         #status-bar {
@@ -196,13 +199,13 @@
         <h2>River AI Streamer</h2>
         <div id="chat-messages">
             <div id="initial-message" style="height: 100%; display: flex; justify-content: center; align-items: center;">
-                <h1 style="font-size: 2.5em; color: rgba(255, 255, 255, 0.7);">What can I help with?</h1>
+                <h1 style="font-size: 1.6em; color: rgba(255, 255, 255, 0.7);">What can I help with?</h1>
             </div>
         </div>
         <div id="input-container">
             <input type="text" id="message-input" placeholder="Message AI">
             <button id="send-button" onclick="sendMessage()">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width: 24px; height: 24px;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" style="width: 32px; height: 32px;">
                     <line x1="12" y1="19" x2="12" y2="5"></line>
                     <polyline points="5 12 12 5 19 12"></polyline>
                 </svg>
