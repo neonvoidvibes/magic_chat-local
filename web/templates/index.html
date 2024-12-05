@@ -11,8 +11,10 @@
             --text-color: #f0f0f0;
             --input-bg: transparent;
             --input-field-bg: rgb(0, 0, 0, 1.0);
-            --accent-color: #f0f0f0;
+            --accent-color: #e2e2e2;
             --accent-color-hover: #e0e0e0;
+            --action-color: #777777;
+            --action-color-hover: #e0e0e0;
             --message-user-bg: #000000;
             --message-assistant-bg: transparent;
             --message-system-bg: #4a4a4a;
@@ -290,17 +292,17 @@
             align-items: center;
             gap: 8px;
             position: absolute;
-            left: 30px;
-            bottom: 24px;
+            left: 32px;
+            bottom: 18px;
             z-index: 1;
         }
 
         .action-button {
             background: transparent;
             border: none;
-            color: var(--accent-color);
-            width: 26px;
-            height: 26px;
+            color: var(--action-color);
+            width: 35px;
+            height: 35px;
             padding: 4px;
             cursor: pointer;
             display: flex;
@@ -310,25 +312,25 @@
         }
 
         .action-button:hover {
-            color: var(--accent-color-hover);
+            color: var(--action-color-hover);
         }
 
         .action-button svg {
-            width: 18px;
-            height: 18px;
+            width: 100%;
+            height: 100%;
         }
 
         #record-button {
-            color: var(--accent-color);
+            color: var(--action-color);
         }
 
         #record-button:hover {
-            color: var(--accent-color-hover);
+            color: var(--action-color-hover);
         }
 
         #message-input {
             flex-grow: 1;
-            padding: 22px 70px 22px 140px;
+            padding: 22px 78px 22px 200px;
             border: none;
             border-radius: 35px;
             font-size: 22px;
@@ -336,7 +338,7 @@
             color: var(--text-color);
             outline: none;
             font-family: 'Avenir Next', 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            font-weight: 600;
+            font-weight: 400;
             resize: none;
             overflow-y: auto;
             line-height: 28px;
