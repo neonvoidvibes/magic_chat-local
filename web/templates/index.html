@@ -57,7 +57,7 @@
             background: var(--chat-bg);
             border-radius: 35px;
             box-shadow: 0;
-            padding: 20px;
+            padding: 20px 40px;
             width: calc(95% - 80px);
             max-width: calc(1000px - 80px);
             height: 87vh;
@@ -310,13 +310,13 @@
 
         #send-button {
             position: absolute;
-            right: 22px;
-            bottom: 11px;
-            width: 50px;
-            height: 50px;
+            right: 25px;
+            bottom: 13px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             background: var(--accent-color);
-            color: black;
+            color: rgb(26, 26, 26);
             border: none;
             cursor: pointer;
             display: flex;
@@ -330,8 +330,8 @@
         }
 
         #send-button svg {
-            width: 32px;
-            height: 32px;
+            width: 26px;
+            height: 26px;
         }
 
         #status-bar {
@@ -385,7 +385,7 @@
         <div id="input-container">
             <textarea id="message-input" placeholder="Message AI" rows="1"></textarea>
             <button id="send-button" onclick="sendMessage()">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" style="width: 32px; height: 32px;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="12" y1="19" x2="12" y2="5"></line>
                     <polyline points="5 12 12 5 19 12"></polyline>
                 </svg>
