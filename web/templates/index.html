@@ -245,9 +245,10 @@
         .user-message {
             background: var(--message-user-bg);
             margin-left: auto;
+            padding-left: 35px;
             border-bottom-right-radius: 5px;
-            text-align: right;
-            max-width: 66%;
+            text-align: left;
+            max-width: 60%;
             width: fit-content;
             align-self: flex-end;
         }
@@ -286,7 +287,7 @@
             resize: none;
             overflow-y: auto;
             line-height: 28px;
-            height: 78px;
+            height: 82px;
             min-height: 78px;
             max-height: calc(78px + (28px * 4));
             box-sizing: border-box;
@@ -298,8 +299,8 @@
 
         #send-button {
             position: absolute;
-            right: 14px;
-            bottom: 14px;
+            right: 16px;
+            bottom: 16px;
             width: 50px;
             height: 50px;
             border-radius: 50%;
@@ -552,7 +553,7 @@
 
         // Auto-resize textarea
         const messageInput = document.getElementById('message-input');
-        const initialHeight = 78;  // matches CSS height (27px + 24px + 27px)
+        const initialHeight = 82;  // matches CSS height (27px + 24px + 27px)
 
         messageInput.addEventListener('input', function() {
             if (this.value.trim() === '') {
