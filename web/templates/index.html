@@ -57,10 +57,10 @@
             background: var(--chat-bg);
             border-radius: 35px;
             box-shadow: 0;
-            padding: 40px;
+            padding: 20px;
             width: calc(95% - 80px);
             max-width: calc(1000px - 80px);
-            height: 90vh;
+            height: 87vh;
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
@@ -79,8 +79,10 @@
 
         h2 {
             text-align: center;
-            margin-bottom: 20px;
-            font-size: 28px;
+            margin: 0 0 10px 0;     /* top right bottom left */
+            font-size: 22px;
+            color: var(--message-system-bg);
+            font-weight: 100;
         }
 
         #chat-messages {
@@ -88,7 +90,7 @@
             overflow-y: auto;
             overflow-x: hidden;
             margin-bottom: 20px;
-            padding: 20px;
+            padding: 20px 10px 20px 10px;
             border-radius: 35px;
             background: var(--input-bg);
             width: calc(100% - 40px);
@@ -264,7 +266,6 @@
         .assistant-message {
             background: var(--message-assistant-bg);
             padding-left: 10px;
-            margin-right: 50px;
             border-bottom-left-radius: 5px;
             width: 95%;
             align-self: stretch;
@@ -280,11 +281,12 @@
             display: flex;
             gap: 10px;
             position: relative;
+            padding: 0 10px;
         }
 
         #message-input {
             flex-grow: 1;
-            padding: 27px 70px 27px 30px;
+            padding: 22px 70px 22px 30px;
             border: none;
             border-radius: 35px;
             font-size: 22px;
@@ -296,9 +298,9 @@
             resize: none;
             overflow-y: auto;
             line-height: 28px;
-            height: 82px;
-            min-height: 78px;
-            max-height: calc(78px + (28px * 4));
+            height: 72px;
+            min-height: 72px;
+            max-height: calc(72px + (28px * 4));
             box-sizing: border-box;
         }
 
@@ -308,8 +310,8 @@
 
         #send-button {
             position: absolute;
-            right: 16px;
-            bottom: 16px;
+            right: 22px;
+            bottom: 11px;
             width: 50px;
             height: 50px;
             border-radius: 50%;
@@ -333,7 +335,7 @@
         }
 
         #status-bar {
-            font-size: 14px;
+            font-size: 16px;
             color: #6a6a6a;
             margin-top: 15px;
             text-align: center;
@@ -562,7 +564,7 @@
 
         // Auto-resize textarea
         const messageInput = document.getElementById('message-input');
-        const initialHeight = 82;  // matches CSS height (27px + 24px + 27px)
+        const initialHeight = 72;  // matches CSS height (22px + 24px + 22px)
 
         messageInput.addEventListener('input', function() {
             if (this.value.trim() === '') {
