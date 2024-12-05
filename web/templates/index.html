@@ -7,10 +7,10 @@
     <style>
         :root {
             --bg-color: #1a1a1a;
-            --chat-bg: transparent;
+            --chat-bg: rgb(20, 20, 20, 1.0);
             --text-color: #f0f0f0;
-            --input-bg: rgb(20, 20, 20, 1.0);
-            --input-field-bg: rgb(20, 20, 20, 1.0);
+            --input-bg: transparent;
+            --input-field-bg: rgb(0, 0, 0, 1.0);
             --accent-color: #f0f0f0;
             --message-user-bg: #000000;
             --message-assistant-bg: transparent;
@@ -64,6 +64,17 @@
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
+            border: 4px solid transparent;
+        }
+
+        #chat-container.thinking {
+            border-color: rgba(66, 220, 219, 0.5);
+            animation: fadeInGlow 0.5s ease-in forwards,
+                       neonGlow 3s ease-in-out infinite 0.5s;
+        }
+
+        #chat-container.thinking-end {
+            animation: fadeOutGlow 0.5s ease-out forwards;
         }
 
         h2 {
@@ -84,17 +95,14 @@
             display: flex;
             flex-direction: column;
             position: relative;
-            border: 4px solid transparent;
         }
 
         #chat-messages.thinking {
-            border-color: rgba(66, 220, 219, 0.5);
-            animation: fadeInGlow 0.5s ease-in forwards,
-                       neonGlow 3s ease-in-out infinite 0.5s;
+            display: none;
         }
 
         #chat-messages.thinking-end {
-            animation: fadeOutGlow 0.5s ease-out forwards;
+            display: none;
         }
 
         @keyframes fadeInGlow {
@@ -447,7 +455,7 @@
             });
             
             let assistantMessage = '';
-            document.getElementById('chat-messages').classList.add('thinking');
+            document.getElementById('chat-container').classList.add('thinking');
             const assistantElement = appendMessage('assistant', '<span class="waiting"></span>');
             
             // Set up event stream from response
@@ -468,11 +476,11 @@
                                 if (data.delta) {
                                     if (assistantMessage === '') {
                                         assistantElement.innerHTML = ''; // Remove "Thinking..." message
-                                        const chatMessages = document.getElementById('chat-messages');
-                                        chatMessages.classList.add('thinking-end');
+                                        const chatContainer = document.getElementById('chat-container');
+                                        chatContainer.classList.add('thinking-end');
                                         setTimeout(() => {
-                                            chatMessages.classList.remove('thinking');
-                                            chatMessages.classList.remove('thinking-end');
+                                            chatContainer.classList.remove('thinking');
+                                            chatContainer.classList.remove('thinking-end');
                                         }, 500);
                                     }
                                     assistantMessage += data.delta;
