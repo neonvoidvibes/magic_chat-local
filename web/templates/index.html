@@ -402,12 +402,13 @@
                 .then(response => response.json())
                 .then(data => {
                     const status = [];
-                    if (data.listen_summary) status.push('Summary');
-                    if (data.listen_transcript) status.push('Transcript');
-                    if (data.listen_insights) status.push('Insights');
+                    if (data.listen_summary) status.push('summary');
+                    if (data.listen_transcript) status.push('transcript');
+                    if (data.listen_insights) status.push('insights');
                     
-                    document.getElementById('status-bar').textContent = 
-                        status.length ? 'Listening to: ' + status.join(', ') : 'Not listening';
+                    const statusBar = document.getElementById('status-bar');
+                    const statusText = status.length ? 'Listening to: ' + status.join(', ') : 'Not listening';
+                    statusBar.textContent = 'Agent: ' + '{{ agent_name }}' + ' \u00A0 | \u00A0 ' + statusText;
                 });
         }
 
