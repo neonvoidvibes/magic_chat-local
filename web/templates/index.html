@@ -473,8 +473,13 @@
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${sender.toLowerCase()}-message`;
             messageDiv.innerHTML = text;
-            document.getElementById('chat-messages').appendChild(messageDiv);
-            document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
+            const chatMessages = document.getElementById('chat-messages');
+            if (sender.toLowerCase() === 'assistant') {
+                const userMessage = chatMessages.firstChild;
+                chatMessages.insertBefore(messageDiv, userMessage ? userMessage.nextSibling : chatMessages.firstChild);
+            } else {
+                chatMessages.insertBefore(messageDiv, chatMessages.firstChild);
+            }
             return messageDiv;
         }
 
