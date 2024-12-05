@@ -383,6 +383,8 @@
     </div>
 
     <script>
+        let lastMessage = null;  // Track last message globally
+
         function updateStatus() {
             fetch('/api/status')
                 .then(response => response.json())
@@ -474,12 +476,19 @@
             messageDiv.className = `message ${sender.toLowerCase()}-message`;
             messageDiv.innerHTML = text;
             const chatMessages = document.getElementById('chat-messages');
-            if (sender.toLowerCase() === 'assistant') {
-                const userMessage = chatMessages.firstChild;
-                chatMessages.insertBefore(messageDiv, userMessage ? userMessage.nextSibling : chatMessages.firstChild);
+
+            if (!lastMessage) {
+                if (sender.toLowerCase() === 'assistant') {
+                    const userMessage = chatMessages.firstChild;
+                    chatMessages.insertBefore(messageDiv, userMessage ? userMessage.nextSibling : chatMessages.firstChild);
+                } else {
+                    chatMessages.insertBefore(messageDiv, chatMessages.firstChild);
+                }
             } else {
-                chatMessages.insertBefore(messageDiv, chatMessages.firstChild);
+                chatMessages.insertBefore(messageDiv, lastMessage.nextSibling);
             }
+            
+            lastMessage = messageDiv;
             return messageDiv;
         }
 
