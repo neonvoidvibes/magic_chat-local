@@ -285,10 +285,10 @@
             font-weight: 600;
             resize: none;
             overflow-y: auto;
-            height: 78px; /* exact initial height */
-            min-height: 78px; /* matches total height with padding */
-            max-height: calc(78px + (24px * 4)); /* initial height + 4 additional rows */
             line-height: 35px;
+            height: 89px;
+            min-height: 89px;
+            max-height: calc(89px + (35px * 4));
             box-sizing: border-box;
         }
 
@@ -514,14 +514,15 @@
 
         // Auto-resize textarea
         const messageInput = document.getElementById('message-input');
-        let lastScrollHeight = messageInput.scrollHeight;
+        const initialHeight = 89;  // matches CSS height (27px + 35px + 27px)
 
         messageInput.addEventListener('input', function() {
-            const newScrollHeight = this.scrollHeight;
-            if (newScrollHeight > lastScrollHeight) {
-                this.style.height = Math.min(newScrollHeight, parseInt(getComputedStyle(this).maxHeight)) + 'px';
+            // Reset to initial height first
+            this.style.height = initialHeight + 'px';
+            // Then check if we need more height
+            if (this.scrollHeight > initialHeight) {
+                this.style.height = Math.min(this.scrollHeight, parseInt(getComputedStyle(this).maxHeight)) + 'px';
             }
-            lastScrollHeight = newScrollHeight;
         });
 
         // Initial status update
