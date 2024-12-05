@@ -514,11 +514,14 @@
 
         // Auto-resize textarea
         const messageInput = document.getElementById('message-input');
+        let lastScrollHeight = messageInput.scrollHeight;
+
         messageInput.addEventListener('input', function() {
-            // Reset height to min-height before calculating
-            this.style.height = '78px';
-            // Set height based on content, capped at max-height
-            this.style.height = Math.min(this.scrollHeight, parseInt(getComputedStyle(this).maxHeight)) + 'px';
+            const newScrollHeight = this.scrollHeight;
+            if (newScrollHeight > lastScrollHeight) {
+                this.style.height = Math.min(newScrollHeight, parseInt(getComputedStyle(this).maxHeight)) + 'px';
+            }
+            lastScrollHeight = newScrollHeight;
         });
 
         // Initial status update
