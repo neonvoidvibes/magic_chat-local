@@ -285,10 +285,10 @@
             font-weight: 600;
             resize: none;
             overflow-y: auto;
-            line-height: 24px;
+            line-height: 28px;
             height: 78px;
             min-height: 78px;
-            max-height: calc(78px + (24px * 4));
+            max-height: calc(78px + (28px * 4));
             box-sizing: border-box;
         }
 
@@ -407,9 +407,33 @@
             const welcomeText = document.getElementById('welcome-text');
             if (welcomeText) welcomeText.remove();
 
-            messageInput.value = '';
-            messageInput.style.height = 'auto';
-            messageInput.style.height = messageInput.scrollHeight + 'px';
+            // Create new textarea with same properties
+            const newInput = document.createElement('textarea');
+            newInput.id = 'message-input';
+            newInput.placeholder = 'Message AI';
+            newInput.rows = 1;
+            newInput.style.height = initialHeight + 'px';
+            
+            // Replace old textarea
+            messageInput.parentNode.replaceChild(newInput, messageInput);
+            
+            // Reattach event listeners
+            newInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            newInput.addEventListener('input', function() {
+                if (this.value.trim() === '') {
+                    this.style.height = initialHeight + 'px';
+                } else {
+                    this.style.height = initialHeight + 'px';
+                    if (this.scrollHeight > initialHeight) {
+                        this.style.height = Math.min(this.scrollHeight, parseInt(getComputedStyle(this).maxHeight)) + 'px';
+                    }
+                }
+            });
             
             appendMessage('user', message);
             
@@ -531,11 +555,15 @@
         const initialHeight = 78;  // matches CSS height (27px + 24px + 27px)
 
         messageInput.addEventListener('input', function() {
-            // Reset to initial height first
-            this.style.height = initialHeight + 'px';
-            // Then check if we need more height
-            if (this.scrollHeight > initialHeight) {
-                this.style.height = Math.min(this.scrollHeight, parseInt(getComputedStyle(this).maxHeight)) + 'px';
+            if (this.value.trim() === '') {
+                this.style.height = initialHeight + 'px';
+            } else {
+                // Reset to initial height first
+                this.style.height = initialHeight + 'px';
+                // Then check if we need more height
+                if (this.scrollHeight > initialHeight) {
+                    this.style.height = Math.min(this.scrollHeight, parseInt(getComputedStyle(this).maxHeight)) + 'px';
+                }
             }
         });
 
