@@ -12,6 +12,7 @@
             --input-bg: transparent;
             --input-field-bg: rgb(0, 0, 0, 1.0);
             --accent-color: #f0f0f0;
+            --accent-color-hover: #e0e0e0;
             --message-user-bg: #000000;
             --message-assistant-bg: transparent;
             --message-system-bg: #4a4a4a;
@@ -289,15 +290,15 @@
             align-items: center;
             gap: 8px;
             position: absolute;
-            left: 20px;
-            bottom: 22px;
+            left: 30px;
+            bottom: 24px;
             z-index: 1;
         }
 
         .action-button {
             background: transparent;
             border: none;
-            color: #6a6a6a;
+            color: var(--accent-color);
             width: 26px;
             height: 26px;
             padding: 4px;
@@ -309,15 +310,20 @@
         }
 
         .action-button:hover {
-            color: #909090;
+            color: var(--accent-color-hover);
+        }
+
+        .action-button svg {
+            width: 18px;
+            height: 18px;
         }
 
         #record-button {
-            color: #ff4444;
+            color: var(--accent-color);
         }
 
         #record-button:hover {
-            color: #ff6666;
+            color: var(--accent-color-hover);
         }
 
         #message-input {
@@ -362,7 +368,7 @@
         }
 
         #send-button:hover {
-            background: #e0e0e0;
+            background: var(--accent-color-hover);
         }
 
         #send-button svg {
@@ -420,10 +426,30 @@
         </div>
         <div id="input-container">
             <div class="action-buttons">
-                <button class="action-button" id="record-button">●</button>
-                <button class="action-button">▶</button>
-                <button class="action-button">💾</button>
-                <button class="action-button">📎</button>
+                <button class="action-button" id="record-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                </button>
+                <button class="action-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                    </svg>
+                </button>
+                <button class="action-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                </button>
+                <button class="action-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+                    </svg>
+                </button>
             </div>
             <textarea id="message-input" placeholder="Message AI" rows="1"></textarea>
             <button id="send-button" onclick="sendMessage()">
