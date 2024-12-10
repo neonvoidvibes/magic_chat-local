@@ -63,19 +63,44 @@ class WebChat:
         
         # Load transcript if listening is enabled
         if self.config.listen_transcript:
-            try:
-                response = s3.list_objects_v2(Bucket=bucket, Prefix='transcript_')
-                if 'Contents' in response:
-                    transcript_files = [obj for obj in response['Contents'] if obj['Key'].endswith('.txt')]
-                    if transcript_files:
-                        latest_file = max(transcript_files, key=lambda x: x['LastModified'])
-                        transcript_obj = s3.get_object(Bucket=bucket, Key=latest_file['Key'])
-                        self.transcript = transcript_obj['Body'].read().decode('utf-8')
-                        if self.transcript:
-                            self.system_prompt += f"\nTranscript:\n{self.transcript}"
-            except Exception as e:
-                logging.error(f"Error loading transcript from S3: {e}")
+            self.load_transcript()
         
+    def load_transcript(self):
+        """Load latest transcript from agent's transcript directory"""
+        try:
+            s3 = boto3.client('s3')
+            prefix = f'agents/{self.config.agent_name}/transcripts/'
+            response = s3.list_objects_v2(Bucket=self.config.aws_s3_bucket, Prefix=prefix)
+            
+            if 'Contents' in response:
+                transcript_files = [obj for obj in response['Contents'] if obj['Key'].endswith('.txt')]
+                if transcript_files:
+                    latest_file = max(transcript_files, key=lambda x: x['LastModified'])
+                    transcript_obj = s3.get_object(Bucket=self.config.aws_s3_bucket, Key=latest_file['Key'])
+                    transcript = transcript_obj['Body'].read().decode('utf-8')
+                    if transcript:
+                        self.transcript = transcript
+                        self.system_prompt += f"\n\nTranscript update: {transcript}"
+                        return True
+            
+            # Fallback to root transcript directory
+            response = s3.list_objects_v2(Bucket=self.config.aws_s3_bucket, Prefix='transcript_')
+            if 'Contents' in response:
+                transcript_files = [obj for obj in response['Contents'] if obj['Key'].endswith('.txt')]
+                if transcript_files:
+                    latest_file = max(transcript_files, key=lambda x: x['LastModified'])
+                    transcript_obj = s3.get_object(Bucket=self.config.aws_s3_bucket, Key=latest_file['Key'])
+                    transcript = transcript_obj['Body'].read().decode('utf-8')
+                    if transcript:
+                        self.transcript = transcript
+                        self.system_prompt += f"\n\nTranscript update: {transcript}"
+                        return True
+            
+            return False
+        except Exception as e:
+            logging.error(f"Error loading transcript from S3: {e}")
+            return False
+
     def reload_memory(self):
         """Reload memory from chat history files"""
         script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -255,10 +280,16 @@ class WebChat:
                     return jsonify({'message': 'Memory mode deactivated'})
             elif cmd == 'listen':
                 self.config.listen_summary = True
-                return jsonify({'message': 'Listening to summaries activated'})
+                if self.load_transcript():
+                    return jsonify({'message': 'Listening to summaries activated and transcript loaded'})
+                else:
+                    return jsonify({'message': 'Listening to summaries activated (no transcript found)'})
             elif cmd == 'listen-transcript':
                 self.config.listen_transcript = True
-                return jsonify({'message': 'Listening to transcripts activated'})
+                if self.load_transcript():
+                    return jsonify({'message': 'Transcript loaded and listening mode activated'})
+                else:
+                    return jsonify({'message': 'No transcript files found'})
             elif cmd == 'listen-insights':
                 self.config.listen_insights = True
                 return jsonify({'message': 'Listening to insights activated'})
@@ -267,7 +298,10 @@ class WebChat:
                 self.config.listen_transcript = True
                 self.config.listen_insights = True
                 self.config.listen_all = True
-                return jsonify({'message': 'All listening modes activated'})
+                if self.load_transcript():
+                    return jsonify({'message': 'All listening modes activated and transcript loaded'})
+                else:
+                    return jsonify({'message': 'All listening modes activated (no transcript found)'})
             elif cmd == 'listen-deep':
                 self.config.listen_summary = True
                 self.config.listen_insights = True
