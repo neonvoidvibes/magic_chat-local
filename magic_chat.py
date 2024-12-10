@@ -109,14 +109,24 @@ def get_latest_summary_file():
         logging.error(f"Error finding summary files in S3: {e}")
         return None
 
-def get_latest_transcript_file():
+def get_latest_transcript_file(agent_name=None):
+    """Get the latest transcript file from the agent's transcript directory"""
     try:
-        response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix='transcript_')
+        if agent_name:
+            # Look in agent-specific transcript directory
+            prefix = f'agents/{agent_name}/transcripts/'
+        else:
+            # Fallback to root transcript directory
+            prefix = 'transcript_'
+            
+        response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix=prefix)
         if 'Contents' not in response:
             return None
+            
         transcript_files = [obj for obj in response['Contents'] if obj['Key'].endswith('.txt')]
         if not transcript_files:
             return None
+            
         latest_file = max(transcript_files, key=lambda x: x['LastModified'])
         return latest_file['Key']
     except Exception as e:
@@ -513,6 +523,19 @@ def main():
             except Exception as e:
                 logging.error(f"Error loading context for {org_id}: {e}")
 
+            # Load initial content based on command line arguments
+            if config.listen_transcript:
+                transcript_key = get_latest_transcript_file(config.agent_name)
+                if transcript_key:
+                    transcript_content = read_file_content(transcript_key, "transcript")
+                    if transcript_content:
+                        print("Initial transcript loaded.")
+                        system_prompt += f"\n\nTranscript update: {transcript_content}"
+                    else:
+                        print("No transcript content found.")
+                else:
+                    print("No transcript files found.")
+
             print("\nUser: ", end='', flush=True)  # Initial prompt
             
             # Main chat loop
@@ -556,8 +579,26 @@ def main():
                                 print("\nUser: ", end='', flush=True)
                                 continue
                             elif command in ['listen', 'listen-all', 'listen-deep', 'listen-insights', 'listen-transcript']:
-                                # Handle existing listen commands
-                                pass
+                                # Load transcript if needed
+                                if command in ['listen', 'listen-all', 'listen-transcript']:
+                                    transcript_key = get_latest_transcript_file(config.agent_name)
+                                    if transcript_key:
+                                        transcript_content = read_file_content(transcript_key, "transcript")
+                                        if transcript_content:
+                                            print("Transcript loaded and listening mode activated.")
+                                            system_prompt += f"\n\nTranscript update: {transcript_content}"
+                                        else:
+                                            print("No transcript content found.")
+                                    else:
+                                        print("No transcript files found.")
+                                
+                                # Handle other listen modes
+                                if command in ['listen', 'listen-all', 'listen-deep', 'listen-insights']:
+                                    # Existing insights/summary loading code...
+                                    pass
+                                
+                                print("\nUser: ", end='', flush=True)
+                                continue
                         
                         # Process user message
                         current_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
