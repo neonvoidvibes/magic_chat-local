@@ -194,7 +194,7 @@ def analyze_with_claude(client, messages, system_prompt):
             timer = threading.Timer(7, show_delay_message)
             timer.start()
 
-            print("\nAI: ", end='', flush=True)  
+            print("AI: ", end='', flush=True)  
             with client.messages.stream(
                 model='claude-3-5-sonnet-20241022',
                 max_tokens=4096,
@@ -214,7 +214,7 @@ def analyze_with_claude(client, messages, system_prompt):
                             print("\n[info] Aborting the current request...\n")
                             timer.cancel()
                             return None
-            print("\n")  
+            print()  
             return full_response
         except AnthropicError as e:
             timer.cancel()
