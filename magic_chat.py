@@ -515,11 +515,13 @@ def main():
                         
                         # Process user message
                         current_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                        print(f"\nUser: {user_input}")  
                         user_content = f"On {current_timestamp}, user said: {user_input}"
                         conversation_history.append({"role": "user", "content": user_content})
                         
                         try:
                             response = analyze_with_claude(client, conversation_history, system_prompt)
+                            print(f"\nAI: {response}\n")  
                             conversation_history.append({"role": "assistant", "content": response})
                             
                             # Save chat history to archive folder after each message
