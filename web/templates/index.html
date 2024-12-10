@@ -250,6 +250,10 @@
             white-space: pre-wrap;
         }
 
+        .message.command {
+            color: #20B2AA;  /* Light sea green / teal color */
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -503,7 +507,8 @@
             
             // Reattach event listeners
             newInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
                     sendMessage();
                 }
             });
@@ -518,7 +523,39 @@
                     }
                 }
             });
+
+            // Focus the new input
+            newInput.focus();
             
+            // Handle commands
+            if (message.startsWith('!')) {
+                const command = message.substring(1).toLowerCase();
+                appendMessage('user', message, true);
+                
+                fetch('/api/command', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ command: command })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        appendMessage('assistant', data.message);
+                    }
+                    if (data.error) {
+                        appendMessage('assistant', 'Error: ' + data.error);
+                    }
+                    updateStatus();
+                })
+                .catch(error => {
+                    appendMessage('assistant', 'Error executing command: ' + error);
+                });
+                return;
+            }
+
+            // Regular message handling
             appendMessage('user', message);
             
             // Create a new EventSource for streaming response
@@ -574,7 +611,7 @@
             });
         }
 
-        function appendMessage(sender, text) {
+        function appendMessage(sender, text, isCommand = false) {
             const initialMessage = document.getElementById('initial-message');
             if (initialMessage) {
                 initialMessage.remove();
@@ -582,6 +619,9 @@
             
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${sender.toLowerCase()}-message`;
+            if (isCommand) {
+                messageDiv.classList.add('command');
+            }
             messageDiv.innerHTML = text;
             const chatMessages = document.getElementById('chat-messages');
 

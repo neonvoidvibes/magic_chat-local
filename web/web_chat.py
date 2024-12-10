@@ -76,6 +76,48 @@ class WebChat:
             except Exception as e:
                 logging.error(f"Error loading transcript from S3: {e}")
         
+    def reload_memory(self):
+        """Reload memory from chat history files"""
+        script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        chat_history_folder = os.path.join(script_dir, 'chat_history')
+        
+        # Import the necessary functions
+        from magic_chat import load_existing_chats, generate_summary_of_chats, summarize_text
+        
+        # Load and process chat history
+        previous_chats = load_existing_chats(chat_history_folder, self.config.agent_name, self.config.memory)
+        chat_summary = generate_summary_of_chats(previous_chats)
+        summarized_chat = summarize_text(chat_summary, max_length=None)
+        
+        # Extract insights
+        insights = []
+        for chat in previous_chats:
+            for msg in chat['messages']:
+                if msg['role'] == 'assistant' and msg['content'].startswith("[Insights]"):
+                    insights.append(msg['content'].replace("[Insights] ", ""))
+        
+        insights_summary = "\n".join(insights) if insights else ""
+        
+        # Build new system prompt
+        script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        standard_prompt_file = os.path.join(script_dir, 'system_prompt_standard.txt')
+        unique_prompt_file = os.path.join(script_dir, f'system_prompt_{self.config.agent_name}.txt')
+        
+        standard_system_prompt = read_file_content_local(standard_prompt_file, "standard system prompt")
+        unique_system_prompt = read_file_content_local(unique_prompt_file, "unique system prompt")
+        initial_system_prompt = standard_system_prompt + "\n" + unique_system_prompt
+        
+        if insights_summary:
+            new_system_prompt = (
+                initial_system_prompt +
+                "\nSummary of past conversations:\n" + summarized_chat +
+                "\n\nLatest Insights:\n" + insights_summary
+            )
+        else:
+            new_system_prompt = initial_system_prompt + "\nSummary of past conversations:\n" + summarized_chat
+        
+        return new_system_prompt
+
     def setup_routes(self):
         @self.app.route('/')
         def index():
@@ -166,7 +208,44 @@ class WebChat:
                 return jsonify({'error': 'No command provided'}), 400
                 
             cmd = data['command'].lower()
-            if cmd == 'memory':
+            if cmd == 'help':
+                help_text = (
+                    "Available commands:\n"
+                    "!help          - Display this help message\n"
+                    "!clear         - Clear the chat history\n"
+                    "!save          - Save current chat history to S3 saved folder\n"
+                    "!memory        - Toggle memory mode (load chat history)\n"
+                    "!listen        - Enable summary listening\n"
+                    "!listen-all    - Enable all listening modes\n"
+                    "!listen-deep   - Enable summary and insights listening\n"
+                    "!listen-insights - Enable insights listening\n"
+                    "!listen-transcript - Enable transcript listening"
+                )
+                return jsonify({'message': help_text})
+            elif cmd == 'clear':
+                self.chat_history = []
+                return jsonify({'message': 'Chat history cleared'})
+            elif cmd == 'save':
+                try:
+                    chat_content = ""
+                    for chat in self.chat_history:
+                        chat_content += f"**User:**\n{chat['user']}\n\n"
+                        chat_content += f"**Agent:**\n{chat['assistant']}\n\n"
+                    
+                    s3 = boto3.client('s3')
+                    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+                    filename = f"chat_{self.config.agent_name}_{timestamp}.txt"
+                    s3_key = f"agents/{self.config.agent_name}/chat_history/saved/{filename}"
+                    
+                    s3.put_object(
+                        Bucket=self.config.aws_s3_bucket,
+                        Key=s3_key,
+                        Body=chat_content.encode('utf-8')
+                    )
+                    return jsonify({'message': 'Chat history saved successfully'})
+                except Exception as e:
+                    return jsonify({'error': f'Error saving chat history: {str(e)}'})
+            elif cmd == 'memory':
                 if self.config.memory is None:
                     self.config.memory = [self.config.agent_name]
                     self.system_prompt = self.reload_memory()
