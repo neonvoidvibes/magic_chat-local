@@ -399,6 +399,15 @@ def display_help():
     print("!listen-insights - Enable insights listening")
     print("!listen-transcript - Enable transcript listening")
 
+def format_chat_history(messages):
+    chat_content = ""
+    for msg in messages:
+        if msg["role"] == "user":
+            chat_content += f"**User:**\n{msg['content']}\n\n"
+        else:
+            chat_content += f"**Agent:**\n{msg['content']}\n\n"
+    return chat_content
+
 def main():
     global abort_requested
     try:
@@ -507,13 +516,7 @@ def main():
                                 continue
                             elif command == 'save':
                                 # Save chat history to saved folder
-                                chat_content = ""
-                                for msg in conversation_history:
-                                    if msg["role"] == "user":
-                                        chat_content += f"**User:**\n{msg['content']}\n\n"
-                                    else:
-                                        chat_content += f"**Agent:**\n{msg['content']}\n\n"
-                                
+                                chat_content = format_chat_history(conversation_history)
                                 save_to_s3(chat_content, config.agent_name, f"agents/{config.agent_name}/chat_history/saved")
                                 print("Chat history saved successfully")
                                 print("\nUser: ", end='', flush=True)
@@ -532,18 +535,15 @@ def main():
                             conversation_history.append({"role": "assistant", "content": response})
                             
                             # Save chat history to archive folder after each message
-                            chat_content = ""
-                            for msg in conversation_history:
-                                if msg["role"] == "user":
-                                    chat_content += f"**User:**\n{msg['content']}\n\n"
-                                else:
-                                    chat_content += f"**Agent:**\n{msg['content']}\n\n"
-                            
+                            chat_content = format_chat_history(conversation_history)
                             save_to_s3(chat_content, config.agent_name, f"agents/{config.agent_name}/chat_history/archive")
                             
+                            print("\nUser: ", end='', flush=True)  # Add prompt for next input
+                            
                         except Exception as e:
-                            logging.error(f"Error in chat interaction: {e}")
-                            print(f"An error occurred: {e}")
+                            logging.error(f"Error processing message: {e}")
+                            print(f"\nError: {e}")
+                            print("\nUser: ", end='', flush=True)  # Add prompt even after error
                 except (EOFError, KeyboardInterrupt):
                     print("\nExiting the chat.")
                     break
