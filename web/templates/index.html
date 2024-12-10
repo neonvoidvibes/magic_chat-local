@@ -542,15 +542,15 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.message) {
-                        appendMessage('assistant', data.message);
+                        appendMessage('assistant', data.message, true);
                     }
                     if (data.error) {
-                        appendMessage('assistant', 'Error: ' + data.error);
+                        appendMessage('assistant', 'Error: ' + data.error, true);
                     }
                     updateStatus();
                 })
                 .catch(error => {
-                    appendMessage('assistant', 'Error executing command: ' + error);
+                    appendMessage('assistant', 'Error executing command: ' + error, true);
                 });
                 return;
             }
