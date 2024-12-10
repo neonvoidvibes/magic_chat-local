@@ -1,0 +1,164 @@
+{
+  "structure_metadata": {
+    "host_organizations": [{
+      "name": "River",
+      "type": "Teknisk innovation",
+      "focus": "Visdomsguidade AI-system och transformation",
+      "key_objectives": [
+        "Utveckla nästa generations beslutsstöd",
+        "Kombinera AI med mänsklig visdom",
+        "Accelerera övergången till generativt samhälle",
+        "Skapa decentraliserade, kontextmedvetna AI-system"
+      ]
+    }, {
+      "name": "Worklife Academy",
+      "type": "Lärande & Utveckling",
+      "focus": "Människocentrerad organisationstransformation",
+      "key_objectives": [
+        "Kombinera mänskliga förmågor med AI-verktyg",
+        "Facilitera effektiva möten och workshops",
+        "Utveckla självorganiserande team",
+        "Skapa hållbara arbetsmiljöer"
+      ]
+    }, {
+      "name": "Edshage Ekman",
+      "type": "Organisationsutveckling",
+      "focus": "Mänsklig utveckling och organisationskultur",
+      "key_objectives": [
+        "Facilitering av generativa dialoger"
+        "Ledarskapsutveckling",
+        "Teameffektivitet",
+        "Kulturtransformation",
+        "Forskningsbaserade lösningar"
+      ]
+    }],
+    "event": {
+      "name": "Kombinera AI med mänskliga förmågor",
+      "undertitel": "Skapa kraftfulla och effektiva möten",
+      "längd": "1.5 timmar",
+      "format": "Interaktivt frukostevent",
+      "huvudsyfte": "Att gemensamt utforska vad som är ett bra möte och hur facilitering med stöd av AI kan stötta värdeskapande möten i våra organisationer",
+      "processstruktur": {
+        "öppning": {
+          "syftessättning": "Vårt gemensamma varför",
+          "incheckning": "AI-utveckling farhågor i organisationen"
+        },
+        "ramverk": {
+          "namn": "Generativa dialoger",
+          "källa": "Scharmer",
+          "dimensioner": [
+            "Individuella delar vs Gemensam helhet",
+            "Nytt tänkande vs Upprepa gamla tankemönster"
+          ],
+          "tillstånd": [
+            "Sammanbrott",
+            "Artighet",
+            "Utforskande",
+            "Flow"
+          ]
+        },
+        "dialogrundor": [{
+          "fokus": "Nuläge",
+          "nyckelfrågor": [
+            "Var i matrisen befinner ni er oftast i era dialoger?",
+            "Hur märks det?"
+          ],
+          "ai_stöd": "Inspelning och sammanfattning"
+        }, {
+          "fokus": "Framtida behov",
+          "nyckelfrågor": [
+            "Vilka dialoger har ni inte idag som ni skulle vara hjälpta av?",
+          ],
+          "ai_stöd": "Analys och blind spots"
+        }, {
+          "fokus": "Möjligheter",
+          "nyckelfrågor": [
+            "Vad tycker du att vi behöver tänka på för att ha nytta av dig i våra möten?",
+          ],
+          "ai_stöd": "Framtidsoptimism"
+        },{
+          "fokus": "Processreflektion",
+          "nyckelfråga": "Hur upplevde du den här processen med stöd av AI?"
+        }],
+        "avslut": {
+          "framtidsperspektiv": {
+            "mänskliga_förmågor": [
+              "Öppenhet",
+              "Nyfikenhet",
+              "Perspektivmedvetenhet",
+              "Intuition"
+            ],
+            "faciliteringsfokus": "Tre processfrågor",
+            "ai_värde": "Djupare insikter, snabbare progress"
+          },
+          "call_to_action": {
+            "direkt": "Upplev detta i ert team",
+            "kort_sikt": "Pilota en första version",
+            "lång_sikt": "Installera systemet i er organisation"
+          }
+        }
+      }
+    },
+    "ai_integrationspunkter": {
+      "dialogstöd": [
+        "Realtidsinspelning per bord",
+        "Mönsterigenkänning över diskussioner",
+        "Identifiering av blind spots",
+        "Framåtblickande förslag"
+      ]
+    }
+  },
+  "process_metadata": {
+    "dokumenttyp": "Strategisk",
+    "omgivning": {
+      "marknad": "Transformation av arbete och teknologi",
+      "ekonomi": "Integration av AI och mänskliga förmågor",
+      "organisation": {
+        "förändringsdrivare": [
+          "Möteseffektivitet",
+          "Människa-AI samarbete",
+          "Dialogkvalitet",
+          "Kunskapsdelning"
+        ],
+        "transformationskontext": [
+          "Blandade perspektiv från privat och offentlig sektor",
+          "Olika organisationsstorlekar",
+          "Diverse funktionell expertis",
+          "Svensk företagskultur"
+        ]
+      }
+    },
+    "framgångsmått": {
+      "direkt": [
+        "Engagemang hos deltagare",
+        "Dialogdjup och kvalitet",
+        "Ökade insikter",
+        "AI-integrationsupplevelse",
+        "Organisationsöverskridande lärande",
+        "Identifiering av framtida möjligheter"
+      ],
+      "långsiktigt": [
+        "Organisatorisk anpassningsförmåga",
+        "Mötestransformationsförmåga",
+        "Människa-AI samarbetsberedskap",
+        "Dialogkulturutveckling",
+        "Organisatoriskt kunskapsflöde"
+      ]
+    },
+    "begränsningar": {
+      "tekniska": [
+        "Kapacitet för realtidsprocessering",
+        "Precision i mönsterigenkänning",
+        "Integrationskomplexitet",
+        "AI-systembegränsningar"
+      ],
+      "upplevelsemässiga": [
+        "Balans mellan människa och AI-interaktion",
+        "Tydlighet i värdedemonstration",
+        "Språk- och kulturkontext",
+        "Olika expertisnivåer",
+        "Tidsbegränsningar"
+      ]
+    }
+  }
+}

@@ -122,6 +122,27 @@ class WebChat:
                         'user': user_content,
                         'assistant': full_response
                     })
+                    
+                    # Save chat history to S3 archive folder
+                    try:
+                        chat_content = ""
+                        for chat in self.chat_history:
+                            chat_content += f"**User:**\n{chat['user']}\n\n"
+                            chat_content += f"**Agent:**\n{chat['assistant']}\n\n"
+                        
+                        s3 = boto3.client('s3')
+                        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+                        filename = f"chat_{self.config.agent_name}_{timestamp}.txt"
+                        s3_key = f"agents/{self.config.agent_name}/chat_history/archive/{filename}"
+                        
+                        s3.put_object(
+                            Bucket=self.config.aws_s3_bucket,
+                            Key=s3_key,
+                            Body=chat_content.encode('utf-8')
+                        )
+                    except Exception as e:
+                        logging.error(f"Error saving chat history to S3: {e}")
+                    
                     yield f"data: {json.dumps({'done': True})}\n\n"
                 
                 return Response(generate(), mimetype='text/event-stream')
@@ -166,6 +187,29 @@ class WebChat:
                 return jsonify({'message': 'Deep listening mode activated'})
             else:
                 return jsonify({'error': 'Unknown command'}), 400
+            
+        @self.app.route('/api/save', methods=['POST'])
+        def save_chat():
+            try:
+                chat_content = ""
+                for chat in self.chat_history:
+                    chat_content += f"**User:**\n{chat['user']}\n\n"
+                    chat_content += f"**Agent:**\n{chat['assistant']}\n\n"
+                
+                s3 = boto3.client('s3')
+                timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+                filename = f"chat_{self.config.agent_name}_{timestamp}.txt"
+                s3_key = f"agents/{self.config.agent_name}/chat_history/saved/{filename}"
+                
+                s3.put_object(
+                    Bucket=self.config.aws_s3_bucket,
+                    Key=s3_key,
+                    Body=chat_content.encode('utf-8')
+                )
+                
+                return jsonify({'message': 'Chat history saved successfully', 'file': filename})
+            except Exception as e:
+                return jsonify({'error': str(e)}), 500
     
     def run(self, host: str = '127.0.0.1', port: int = 5001, debug: bool = False):
         if self.config.interface_mode == 'web_only':

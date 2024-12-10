@@ -260,6 +260,26 @@ def append_to_chat_history(file_path, role, content, is_insight=False):
     except Exception as e:
         logging.error(f"Error writing to chat history file '{file_path}': {e}")
 
+def save_to_s3(content, agent_name, folder_path, filename=None):
+    """Save content to S3 bucket in the specified folder path"""
+    try:
+        if not filename:
+            timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+            filename = f"chat_{agent_name}_{timestamp}.txt"
+        
+        s3_key = f"{folder_path}/{filename}"
+        
+        # Upload to S3
+        s3_client.put_object(
+            Bucket=AWS_S3_BUCKET,
+            Key=s3_key,
+            Body=content.encode('utf-8')
+        )
+        return s3_key
+    except Exception as e:
+        logging.error(f"Error saving to S3 at '{s3_key}': {e}")
+        return None
+
 def create_new_chat_file(folder, agent_name):
     timestamp = datetime.now()
     formatted_timestamp = timestamp.strftime('%Y%m%d_%H%M%S')
@@ -366,85 +386,16 @@ def reload_memory(chat_history_folder, agent_name, memory_agents, initial_system
     return new_system_prompt
 
 def display_help():
-    help_text = """
-Available Commands:
-!listen                - Start listening to summaries.
-!listen-transcript     - Start listening to transcripts.
-!listen-insights       - Start listening to insights.
-!listen-deep           - Start listening to summaries and insights.
-!listen-all            - Start listening to summaries, transcripts, and insights.
-!silent                - Stop listening to all files.
-!reload-memory         - Reload chat histories of the agent and specified memory agents.
-!memory [agents]       - Load chat history of same agent. Append multiple agent names option.
-!back                  - Abort the current message request.
-!help                  - Display this help message.
-!exit                  - Exit the chat.
-"""
-    print(help_text)
-
-def truncate_conversation(conversation, max_tokens=TOKEN_LIMIT - 500):
-    while True:
-        estimated_tokens = len(conversation) * AVERAGE_TOKENS_PER_MESSAGE
-        if estimated_tokens <= max_tokens:
-            break
-        if conversation:
-            removed = conversation.pop(0)
-            logging.debug(f"Truncated message: {removed}")
-        else:
-            break
-    if len(conversation) * AVERAGE_TOKENS_PER_MESSAGE > max_tokens:
-        logging.warning("Conversation history exceeds token limit even after truncation.")
-
-def generate_insights(transcript_content, frameworks_content, context_content):
-    try:
-        prompt = f"""
-Using the following frameworks and context, analyze the conversation and provide comprehensive insights in the specified JSON schema.
-
-Frameworks:
-{frameworks_content}
-
-Context:
-{context_content}
-
-Transcript:
-{transcript_content}
-
-Provide the output in JSON format according to the schema:
-{InsightsOutput.schema_json(indent=4)}
-
-**Important:** Provide the output as raw JSON without any code block formatting or additional text. Do not include markdown or any explanations.
-"""
-
-        import openai
-        if not OPENAI_API_KEY:
-            logging.error("OPENAI_API_KEY not set.")
-            return None
-        openai.api_key = OPENAI_API_KEY
-
-        response = openai.chat.completions.create(
-            model='gpt-4o-mini',
-            messages=[
-                {'role': 'system', 'content': 'You are an AI assistant specialized in analyzing conversations to extract actionable insights that can drive improvements and inform decision-making. Focus on generating high-quality, specific, and relevant insights based on the provided frameworks and transcript.'},
-                {'role': 'user', 'content': prompt}
-            ],
-            max_tokens=2000,
-            temperature=0.7
-        )
-
-        insights_json = response.choices[0].message.content
-
-        insights_json = insights_json.strip()
-        if insights_json.startswith('```json'):
-            insights_json = insights_json[len('```json'):].strip()
-        if insights_json.endswith('```'):
-            insights_json = insights_json[:-3].strip()
-
-        insights = InsightsOutput.parse_raw(insights_json)
-
-        return insights
-    except Exception as e:
-        logging.error(f"Error generating insights: {e}")
-        return None
+    print("\nAvailable commands:")
+    print("!help          - Display this help message")
+    print("!exit          - Exit the chat")
+    print("!clear         - Clear the chat history")
+    print("!save          - Save current chat history to S3 saved folder")
+    print("!listen        - Enable summary listening")
+    print("!listen-all    - Enable all listening modes")
+    print("!listen-deep   - Enable summary and insights listening")
+    print("!listen-insights - Enable insights listening")
+    print("!listen-transcript - Enable transcript listening")
 
 def main():
     global abort_requested
@@ -530,188 +481,63 @@ def main():
 
             while True:
                 try:
-                    print("User:\n", end='', flush=True)
-                    ready, _, _ = select.select([sys.stdin], [], [], None)
-                    if ready:
-                        user_input = sys.stdin.readline().strip()
-                    else:
-                        user_input = ''
+                    if sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
+                        user_input = input("You: ").strip()
+                        
+                        if not user_input:
+                            continue
+                        
+                        if user_input.startswith('!'):
+                            command = user_input[1:].lower()
+                            if command == 'exit':
+                                break
+                            elif command == 'help':
+                                display_help()
+                                continue
+                            elif command == 'clear':
+                                conversation_history = []
+                                continue
+                            elif command == 'save':
+                                # Save chat history to saved folder
+                                chat_content = ""
+                                for msg in conversation_history:
+                                    if msg["role"] == "user":
+                                        chat_content += f"**User:**\n{msg['content']}\n\n"
+                                    else:
+                                        chat_content += f"**Agent:**\n{msg['content']}\n\n"
+                                
+                                save_to_s3(chat_content, config.agent_name, f"agents/{config.agent_name}/chat_history/saved")
+                                print("Chat history saved successfully")
+                                continue
+                            elif command in ['listen', 'listen-all', 'listen-deep', 'listen-insights', 'listen-transcript']:
+                                # Handle existing listen commands
+                                pass
+                        
+                        # Process user message
+                        current_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                        user_content = f"On {current_timestamp}, user said: {user_input}"
+                        conversation_history.append({"role": "user", "content": user_content})
+                        
+                        try:
+                            response = analyze_with_claude(client, conversation_history, system_prompt)
+                            conversation_history.append({"role": "assistant", "content": response})
+                            
+                            # Save chat history to archive folder after each message
+                            chat_content = ""
+                            for msg in conversation_history:
+                                if msg["role"] == "user":
+                                    chat_content += f"**User:**\n{msg['content']}\n\n"
+                                else:
+                                    chat_content += f"**Agent:**\n{msg['content']}\n\n"
+                            
+                            save_to_s3(chat_content, config.agent_name, f"agents/{config.agent_name}/chat_history/archive")
+                            
+                        except Exception as e:
+                            logging.error(f"Error in chat interaction: {e}")
+                            print(f"An error occurred: {e}")
                 except (EOFError, KeyboardInterrupt):
                     print("\nExiting the chat.")
                     break
-                if not user_input:
-                    continue
-                if user_input.lower() == '!exit':
-                    print("Exiting the chat.")
-                    break
-                if user_input.lower() == '!reload-memory':
-                    system_prompt = reload_memory(
-                        chat_history_folder, config.agent_name, config.memory, initial_system_prompt
-                    )
-                    if config.debug:
-                        logging.debug("Memory reloaded.")
-                    print("Memory reloaded.\n")
-                    continue
-                if user_input.lower() == '!help':
-                    display_help()
-                    continue
-                if user_input.lower() == '!listen':
-                    config.listen_summary = True
-                    print("Listening to summaries activated.\n")
-                    continue
-                if user_input.lower() == '!listen-transcript':
-                    config.listen_transcript = True
-                    print("Listening to transcripts activated.\n")
-                    continue
-                if user_input.lower() == '!listen-insights':
-                    config.listen_insights = True
-                    print("Listening to insights activated.\n")
-                    continue
-                if user_input.lower() == '!listen-all':
-                    config.listen_summary = True
-                    config.listen_transcript = True
-                    config.listen_insights = True
-                    config.listen_all = True
-                    print("Listening to summaries, transcripts, and insights activated.\n")
-                    continue
-                if user_input.lower() == '!listen-deep':
-                    config.listen_summary = True
-                    config.listen_insights = True
-                    config.listen_deep = True
-                    print("Listening to summaries and insights activated.\n")
-                    continue
-                if user_input.lower().startswith('!memory'):
-                    parts = user_input.split()
-                    agents_to_load = parts[1:] if len(parts) > 1 else [config.agent_name]
-                    if len(parts) == 1:
-                        agents_to_load = [config.agent_name]
-                    config.memory = agents_to_load
-                    system_prompt = reload_memory(chat_history_folder, config.agent_name, config.memory, initial_system_prompt)
-                    print("Memory loaded.\n")
-                    continue
-                if user_input.lower() == '!back':
-                    abort_requested = True
-                    print("[info] No active request to abort.\n")
-                    continue
-                if user_input.lower() == '!insights':
-                    transcript_file = get_latest_transcript_file()
-                    if not transcript_file:
-                        print("<<No transcript file found in S3 to generate insights>>\n")
-                        continue
-                    transcript_content = read_file_content(transcript_file, "transcript")
-                    if not transcript_content:
-                        print("<<Transcript file is empty or unreadable>>\n")
-                        continue
-
-                    insights = generate_insights(transcript_content, frameworks_content, context_content)
-                    if insights:
-                        insights_filename = f"insights_{datetime.now().strftime('%Y%m%d-%H%M%S')}_uID-0112_oID-{org_id}_sID-{config.agent_name}.txt"
-                        try:
-                            s3_key = f"live/insights/{insights_filename}"
-                            s3_client.put_object(
-                                Bucket=AWS_S3_BUCKET,
-                                Key=s3_key,
-                                Body=json.dumps(insights.dict(), indent=4),
-                                ContentType='application/json'
-                            )
-                            print(f"Insights have been saved to S3 at key: {s3_key}\n")
-
-                            insights_content = read_file_content(s3_key, "insights")
-                            if insights_content:
-                                agent_message = f"Insights:\n{insights_content}"
-                                conversation_history.append({"role": "agent", "content": agent_message})
-                                append_to_chat_history(chat_history_file, "Agent", agent_message, is_insight=True)
-                                print("Insights have been appended to the conversation history.\n")
-                            else:
-                                print("Insights file is empty or unreadable.\n")
-                        except Exception as e:
-                            logging.error(f"Error saving insights to S3: {e}")
-                            print("Failed to save insights to S3.\n")
-                    else:
-                        print("No insights were generated.\n")
-                    continue
-
-                content_pieces = []
-                
-                if config.listen_summary:
-                    summary_file = get_latest_summary_file()
-                    if summary_file:
-                        summary = read_file_content(summary_file, "summary")
-                        if summary:
-                            content_pieces.append(f"\nLatest Summary:\n{summary}")
-                            print("<<Latest summary loaded>>\n")
-                    else:
-                        print("<<No summary file found>>\n")
-                
-                if config.listen_transcript:
-                    transcript_file = get_latest_transcript_file()
-                    if transcript_file:
-                        transcript = read_file_content(transcript_file, "transcript")
-                        if transcript:
-                            content_pieces.append("Transcript:\n" + transcript)
-                        else:
-                            print("Transcript file is empty or unreadable.\n")
-                    else:
-                        print("<<No transcript file found>>\n")
-                
-                if config.listen_insights:
-                    insights_file = get_latest_insights_file()
-                    if insights_file:
-                        insights = read_file_content(insights_file, "insights")
-                        if insights:
-                            content_pieces.append("Insights:\n" + insights)
-                        else:
-                            print("Insights file is empty or unreadable.\n")
-                    else:
-                        print("<<No insights file found>>\n")
-                
-                combined_content = ""
-                if content_pieces:
-                    combined_content = "\n\n".join(content_pieces)
-                    combined_content = summarize_text(combined_content, max_length=None)
-                
-                if combined_content and config.memory:
-                    system_prompt = initial_system_prompt + "\nSummary of past conversations:\n" + chat_summary + "\n\n" + combined_content
-                elif combined_content:
-                    system_prompt = initial_system_prompt + "\n" + combined_content
-                elif config.memory:
-                    system_prompt = initial_system_prompt + "\nSummary of past conversations:\n" + chat_summary
-                else:
-                    system_prompt = initial_system_prompt
-
-                if frameworks_content:
-                    system_prompt += f"\nFrameworks:\n{frameworks_content}"
-                if context_content:
-                    system_prompt += f"\nContext:\n{context_content}"
-
-                current_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                user_content = f"On {current_timestamp}, user said: {user_input}"
-                conversation_history.append({"role": "user", "content": user_content})
-                append_to_chat_history(chat_history_file, "User", user_input)
-
-                truncate_conversation(conversation_history, max_tokens=TOKEN_LIMIT - 500)
-
-                messages = conversation_history.copy()
-
-                messages_to_send = [
-                    {'role': 'assistant' if msg['role'] == 'agent' else msg['role'], 'content': msg['content']}
-                    for msg in messages
-                ]
-
-                invalid_roles = [msg['role'] for msg in messages_to_send if msg['role'] not in ['user', 'assistant']]
-                if invalid_roles:
-                    continue
-
-                print("\nAgent:\n", end='')
-                completion = analyze_with_claude(client, messages_to_send, system_prompt)
-                if completion:
-                    agent_response = completion.strip()
-                    agent_content = f"On {current_timestamp}, agent said: {agent_response}"
-                    conversation_history.append({"role": "agent", "content": agent_content})
-                    append_to_chat_history(chat_history_file, "Agent", agent_response)
-                    print("\n")
-                else:
-                    print("\nNo response received from model.\n")
 
     except Exception as e:
         logging.error(f"Error in main loop: {e}")

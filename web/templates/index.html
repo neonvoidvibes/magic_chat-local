@@ -428,6 +428,13 @@
         </div>
         <div id="input-container">
             <div class="action-buttons">
+                <button class="action-button" id="save-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                </button>
                 <button class="action-button" id="record-button">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="10"></circle>
@@ -654,6 +661,37 @@
         updateStatus();
         // Update status every 5 seconds
         setInterval(updateStatus, 5000);
+
+        document.getElementById('save-button').addEventListener('click', async () => {
+            try {
+                const response = await fetch('/api/save', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                if (response.ok) {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = 'system-message';
+                    messageDiv.textContent = `Chat history saved successfully as ${data.file}`;
+                    const chatMessages = document.getElementById('chat-messages');
+                    chatMessages.appendChild(messageDiv);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                } else {
+                    throw new Error(data.error || 'Failed to save chat history');
+                }
+            } catch (error) {
+                console.error('Error saving chat history:', error);
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'system-message error';
+                messageDiv.textContent = `Error saving chat history: ${error.message}`;
+                const chatMessages = document.getElementById('chat-messages');
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        });
     </script>
 </body>
 </html>
