@@ -194,6 +194,7 @@ def analyze_with_claude(client, messages, system_prompt):
             timer = threading.Timer(7, show_delay_message)
             timer.start()
 
+            print("\nAI: ", end='', flush=True)  
             with client.messages.stream(
                 model='claude-3-5-sonnet-20241022',
                 max_tokens=4096,
@@ -213,6 +214,7 @@ def analyze_with_claude(client, messages, system_prompt):
                             print("\n[info] Aborting the current request...\n")
                             timer.cancel()
                             return None
+            print("\n")  
             return full_response
         except AnthropicError as e:
             timer.cancel()
@@ -482,7 +484,8 @@ def main():
             while True:
                 try:
                     if sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
-                        user_input = input("You: ").strip()
+                        print("\nUser: ", end='', flush=True)  
+                        user_input = input().strip()
                         
                         if not user_input:
                             continue
@@ -515,13 +518,11 @@ def main():
                         
                         # Process user message
                         current_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                        print(f"\nUser: {user_input}")  
                         user_content = f"On {current_timestamp}, user said: {user_input}"
                         conversation_history.append({"role": "user", "content": user_content})
                         
                         try:
                             response = analyze_with_claude(client, conversation_history, system_prompt)
-                            print(f"\nAI: {response}\n")  
                             conversation_history.append({"role": "assistant", "content": response})
                             
                             # Save chat history to archive folder after each message
