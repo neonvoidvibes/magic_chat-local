@@ -2,14 +2,11 @@ import os
 import sys
 import logging
 import time
-import glob
 import argparse
 import select
 from anthropic import Anthropic, AnthropicError
 from datetime import datetime
 import boto3
-import io
-import threading
 import json
 from models import InsightsOutput
 from dotenv import load_dotenv
@@ -204,20 +201,6 @@ def read_file_content(file_key, description):
         logging.error(f"Error reading {description} file '{file_key}' from S3: {e}")
         return None
 
-def read_file_content_local(file_path, description):
-    try:
-        with open(file_path, 'r', encoding='utf-8') as file:
-            content = file.read()
-        if not content.strip():
-            return None
-    except FileNotFoundError:
-        logging.error(f"No {description} file at '{file_path}'.")
-        return None
-    except Exception as e:
-        logging.error(f"Error reading {description} file '{file_path}': {e}")
-        return None
-    return content
-
 def summarize_text(text, max_length=None):
     if max_length is None or len(text) <= max_length:
         return text
@@ -288,32 +271,6 @@ def analyze_with_claude(client, messages, system_prompt):
     logging.error(f"Failed after {max_retries} attempts.")
     return None
 
-def append_to_chat_history(file_path, role, content, is_insight=False):
-    try:
-        with open(file_path, 'r+', encoding='utf-8') as f:
-            lines = f.readlines()
-            f.seek(0)
-            new_lines = []
-            insights_marker = "[Insights]"
-            if is_insight:
-                for line in lines:
-                    if insights_marker not in line:
-                        new_lines.append(line)
-            else:
-                new_lines = lines
-            f.truncate(0)
-            f.writelines(new_lines)
-            if role.lower() == 'user':
-                f.write(f"**User:**\n{content}\n\n")
-            elif role.lower() == 'agent':
-                f.write(f"**Agent:**\n{content}\n\n")
-            else:
-                f.write(f"{role.capitalize()}: {content}\n\n")
-            f.write(f"{SESSION_END_TAG}\n")
-            f.write(f"{SESSION_END_MARKER}\n")
-    except Exception as e:
-        logging.error(f"Error writing to chat history file '{file_path}': {e}")
-
 def save_to_s3(content, agent_name, folder_path, filename=None):
     """Save content to S3 bucket in the specified folder path"""
     try:
@@ -334,123 +291,48 @@ def save_to_s3(content, agent_name, folder_path, filename=None):
         logging.error(f"Error saving to S3 at '{s3_key}': {e}")
         return None
 
-def create_new_chat_file(folder, agent_name):
-    timestamp = datetime.now()
-    formatted_timestamp = timestamp.strftime('%Y%m%d_%H%M%S')
-    display_timestamp = timestamp.strftime('%Y-%m-%d %H:%M:%S')
-    filename = f"chat_{agent_name}_{formatted_timestamp}.txt"
-    file_path = os.path.join(folder, filename)
-
-    header = (
-        f"### Chat Session Start ###\n\n"
-        f"AI: {agent_name}\n"
-        f"Date and Time (yyyy-mm-dd hh:mm:ss): {display_timestamp}\n\n"
-        "System: You have access to the entire chat history in this file, including conversations from other agents you are listening to. Use this information to provide contextually relevant responses and reference past interactions when appropriate.\n\n"
-    )
-
-    try:
-        with open(file_path, 'w', encoding='utf-8') as f:
-            f.write(header)
-            f.write(f"{SESSION_START_TAG}\n")
-            f.write(f"{SESSION_END_TAG}\n")
-            f.write(f"{SESSION_END_MARKER}\n")
-    except Exception as e:
-        logging.error(f"Error creating chat file '{file_path}': {e}")
-        sys.exit(1)
-    return file_path
-
-def load_existing_chats(folder, agent_name, memory_agents):
+def load_existing_chats_from_s3(agent_name, memory_agents):
     chats = []
-    # Load from regular chat history folder
-    pattern = os.path.join(folder, f"chat_*_*.txt")
-    for file in sorted(glob.glob(pattern), key=os.path.getctime):
-        if agent_name in file or (memory_agents and any(agent in file for agent in memory_agents)):
-            content = read_file_content_local(file, "own chat history" if agent_name in file else "listened chat history")
-            if content:
-                timestamp = extract_timestamp(content)
-                messages = extract_messages(content, timestamp, agent_name if agent_name in file else get_agent_from_filename(file))
-                if messages:
-                    chats.append({"file": file, "messages": messages})
-    
     # Load from saved chat history folder
-    saved_folder = os.path.join(folder, "saved")
-    if os.path.exists(saved_folder):
-        pattern = os.path.join(saved_folder, f"chat_*_*.txt")
-        for file in sorted(glob.glob(pattern), key=os.path.getctime):
-            if agent_name in file or (memory_agents and any(agent in file for agent in memory_agents)):
-                content = read_file_content_local(file, "saved chat history")
-                if content:
-                    timestamp = extract_timestamp(content)
-                    messages = extract_messages(content, timestamp, agent_name if agent_name in file else get_agent_from_filename(file))
-                    if messages:
-                        chats.append({"file": file, "messages": messages})
-    
+    try:
+        prefix = f"agents/{agent_name}/chat_history/saved/"
+        response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix=prefix)
+        if 'Contents' in response:
+            saved_files = [obj for obj in response['Contents'] if obj['Key'].endswith('.txt')]
+            for file in sorted(saved_files, key=lambda x: x['LastModified']):
+                if agent_name in file['Key'] or (memory_agents and any(agent in file['Key'] for agent in memory_agents)):
+                    content = read_file_content(file['Key'], "saved chat history")
+                    if content:
+                        formatted_content = f"[Prior Chat History]\n{content}"
+                        chats.append({
+                            "file": file['Key'],
+                            "messages": [{"role": "assistant", "content": formatted_content}]
+                        })
+    except Exception as e:
+        logging.error(f"Error loading saved chats from S3: {e}")
     return chats
 
-def get_agent_from_filename(file_path):
-    basename = os.path.basename(file_path)
-    parts = basename.split('_')
-    if len(parts) >= 3:
-        return parts[1]
-    return "unknown"
-
-def extract_timestamp(chat_content):
-    lines = chat_content.split('\n')
-    for line in lines:
-        if line.startswith("Date and Time"):
-            return line.split(":", 1)[1].strip()
-    return None
-
-def extract_messages(chat_content, timestamp, agent_name):
-    messages = []
-    within_session = False
-    for line in chat_content.split('\n'):
-        line = line.strip()
-        if line == SESSION_START_TAG:
-            within_session = True
-            continue
-        if line == SESSION_END_TAG:
-            within_session = False
-            continue
-        if within_session:
-            if line.startswith("**User:**"):
-                content = line[len("**User:**"):].strip()
-                content = f"On {timestamp}, user said: {content}"
-                messages.append({"role": "user", "content": content})
-            elif line.startswith("**Agent:**"):
-                content = line[len("**Agent:**"):].strip()
-                content = f"On {timestamp}, agent ({agent_name}) said: {content}"
-                messages.append({"role": "assistant", "content": content})
-    return messages
-
-def generate_summary_of_chats(chats):
-    summaries = []
-    for chat in chats:
-        for message in chat['messages']:
-            summaries.append(f"{message['content']}")
-    return "\n".join(summaries)
-
-def reload_memory(chat_history_folder, agent_name, memory_agents, initial_system_prompt):
-    previous_chats = load_existing_chats(chat_history_folder, agent_name, memory_agents)
-    chat_summary = generate_summary_of_chats(previous_chats)
-    summarized_chat = summarize_text(chat_summary, max_length=None)
+def reload_memory(agent_name, memory_agents, initial_system_prompt):
+    previous_chats = load_existing_chats_from_s3(agent_name, memory_agents)
     
-    insights = []
+    # Combine all chat content
+    all_content = []
     for chat in previous_chats:
         for msg in chat['messages']:
-            if msg['role'] == 'assistant' and msg['content'].startswith("[Insights]"):
-                insights.append(msg['content'].replace("[Insights] ", ""))
+            all_content.append(msg['content'])
     
-    insights_summary = "\n".join(insights) if insights else ""
+    combined_content = "\n\n".join(all_content)  # Add extra newline between files
+    summarized_content = summarize_text(combined_content, max_length=None)
     
-    if insights_summary:
+    # Add the summarized content to the system prompt with clear context
+    if summarized_content:
         new_system_prompt = (
-            initial_system_prompt +
-            "\nSummary of past conversations:\n" + summarized_chat +
-            "\n\nLatest Insights:\n" + insights_summary
+            initial_system_prompt + 
+            "\n\n## Previous Chat History\nThe following is a summary of previous chat interactions:\n\n" + 
+            summarized_content
         )
     else:
-        new_system_prompt = initial_system_prompt + "\nSummary of past conversations:\n" + summarized_chat
+        new_system_prompt = initial_system_prompt
     
     return new_system_prompt
 
@@ -516,8 +398,6 @@ def main():
         
             client = Anthropic(api_key=ANTHROPIC_API_KEY)
 
-            script_dir = os.path.dirname(os.path.abspath(__file__))
-            
             # Load standard system prompt from S3
             standard_prompt_key = get_latest_system_prompt()
             if not standard_prompt_key:
@@ -540,18 +420,13 @@ def main():
             
             initial_system_prompt = standard_system_prompt + "\n" + unique_system_prompt
 
-            chat_history_folder = os.path.join(script_dir, 'chat_history')
-            os.makedirs(chat_history_folder, exist_ok=True)
-
             chat_summary = ""
             if config.memory is not None:
                 if len(config.memory) == 0:
                     config.memory = [config.agent_name]
-                system_prompt = reload_memory(chat_history_folder, config.agent_name, config.memory, initial_system_prompt)
+                system_prompt = reload_memory(config.agent_name, config.memory, initial_system_prompt)
             else:
                 system_prompt = initial_system_prompt
-
-            chat_history_file = create_new_chat_file(chat_history_folder, config.agent_name)
 
             conversation_history = []
 
@@ -625,7 +500,7 @@ def main():
                             elif command == 'memory':
                                 if config.memory is None:
                                     config.memory = [config.agent_name]
-                                    system_prompt = reload_memory(chat_history_folder, config.agent_name, config.memory, initial_system_prompt)
+                                    system_prompt = reload_memory(config.agent_name, config.memory, initial_system_prompt)
                                     print("Memory mode activated.")
                                 else:
                                     config.memory = None
@@ -662,11 +537,14 @@ def main():
                         
                         try:
                             response = analyze_with_claude(client, conversation_history, system_prompt)
+                            if response is None:
+                                print("\nUser: ", end='', flush=True)
+                                continue
                             conversation_history.append({"role": "assistant", "content": response})
                             
-                            # Save chat history to archive folder after each message
+                            # Save chat history to saved folder after each message
                             chat_content = format_chat_history(conversation_history)
-                            save_to_s3(chat_content, config.agent_name, f"agents/{config.agent_name}/chat_history/archive")
+                            save_to_s3(chat_content, config.agent_name, f"agents/{config.agent_name}/chat_history/saved")
                             
                             print("\nUser: ", end='', flush=True)  # Add prompt for next input
                             
