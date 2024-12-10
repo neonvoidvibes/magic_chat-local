@@ -309,6 +309,7 @@ def create_new_chat_file(folder, agent_name):
 
 def load_existing_chats(folder, agent_name, memory_agents):
     chats = []
+    # Load from regular chat history folder
     pattern = os.path.join(folder, f"chat_*_*.txt")
     for file in sorted(glob.glob(pattern), key=os.path.getctime):
         if agent_name in file or (memory_agents and any(agent in file for agent in memory_agents)):
@@ -318,6 +319,20 @@ def load_existing_chats(folder, agent_name, memory_agents):
                 messages = extract_messages(content, timestamp, agent_name if agent_name in file else get_agent_from_filename(file))
                 if messages:
                     chats.append({"file": file, "messages": messages})
+    
+    # Load from saved chat history folder
+    saved_folder = os.path.join(folder, "saved")
+    if os.path.exists(saved_folder):
+        pattern = os.path.join(saved_folder, f"chat_*_*.txt")
+        for file in sorted(glob.glob(pattern), key=os.path.getctime):
+            if agent_name in file or (memory_agents and any(agent in file for agent in memory_agents)):
+                content = read_file_content_local(file, "saved chat history")
+                if content:
+                    timestamp = extract_timestamp(content)
+                    messages = extract_messages(content, timestamp, agent_name if agent_name in file else get_agent_from_filename(file))
+                    if messages:
+                        chats.append({"file": file, "messages": messages})
+    
     return chats
 
 def get_agent_from_filename(file_path):
