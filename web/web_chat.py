@@ -55,6 +55,23 @@ def get_latest_system_prompt(agent_name=None):
         logging.error(f"Error getting latest system prompt from S3: {e}")
         return None
 
+def get_latest_context(agent_name):
+    """Get the latest context file from S3"""
+    try:
+        s3 = boto3.client('s3')
+        bucket = 'aiademomagicaudio'
+        prefix = f'agents/{agent_name}/context/'
+        response = s3.list_objects_v2(Bucket=bucket, Prefix=prefix)
+        if 'Contents' in response:
+            context_files = [obj for obj in response['Contents'] if obj['Key'].endswith('.txt')]
+            if context_files:
+                latest_file = max(context_files, key=lambda x: x['LastModified'])
+                return latest_file['Key']
+        return None
+    except Exception as e:
+        logging.error(f"Error getting latest context file: {e}")
+        return None
+
 class WebChat:
     def __init__(self, config: AppConfig):
         self.config = config
@@ -96,10 +113,12 @@ class WebChat:
         
         # Load context
         try:
-            context_obj = s3.get_object(Bucket=bucket, Key='context/context_River.txt')
-            self.context = context_obj['Body'].read().decode('utf-8')
-            if self.context:
-                self.system_prompt += f"\nContext:\n{self.context}"
+            context_key = get_latest_context(self.config.agent_name)
+            if context_key:
+                context_obj = s3.get_object(Bucket=bucket, Key=context_key)
+                self.context = context_obj['Body'].read().decode('utf-8')
+                if self.context:
+                    self.system_prompt += f"\nContext:\n{self.context}"
         except Exception as e:
             logging.error(f"Error loading context from S3: {e}")
         

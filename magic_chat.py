@@ -175,6 +175,21 @@ def get_latest_system_prompt(agent_name=None):
         logging.error(f"Error getting latest system prompt file: {e}")
         return None
 
+def get_latest_context(agent_name):
+    """Get the latest context file from S3"""
+    try:
+        prefix = f'agents/{agent_name}/context/'
+        response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix=prefix)
+        if 'Contents' in response:
+            context_files = [obj for obj in response['Contents'] if obj['Key'].endswith('.txt')]
+            if context_files:
+                latest_file = max(context_files, key=lambda x: x['LastModified'])
+                return latest_file['Key']
+        return None
+    except Exception as e:
+        logging.error(f"Error getting latest context file: {e}")
+        return None
+
 def read_file_content(file_key, description):
     try:
         response = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=file_key)
@@ -552,9 +567,14 @@ def main():
                 logging.error(f"Error loading frameworks from S3: {e}")
 
             try:
-                context_key = f'context/context_{org_id}.txt'
-                response = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=context_key)
-                context_content = response['Body'].read().decode('utf-8')
+                context_key = get_latest_context(config.agent_name)
+                if context_key:
+                    response = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=context_key)
+                    context_content = response['Body'].read().decode('utf-8')
+                else:
+                    context_key = f'context/context_{org_id}.txt'
+                    response = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=context_key)
+                    context_content = response['Body'].read().decode('utf-8')
             except Exception as e:
                 logging.error(f"Error loading context for {org_id}: {e}")
 
