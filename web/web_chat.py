@@ -155,7 +155,8 @@ class WebChat:
                 'agent_name': self.config.agent_name,
                 'listen_summary': self.config.listen_summary,
                 'listen_transcript': self.config.listen_transcript,
-                'listen_insights': self.config.listen_insights
+                'listen_insights': self.config.listen_insights,
+                'memory_enabled': self.config.memory is not None
             })
             
         @self.app.route('/api/command', methods=['POST'])
@@ -165,7 +166,15 @@ class WebChat:
                 return jsonify({'error': 'No command provided'}), 400
                 
             cmd = data['command'].lower()
-            if cmd == 'listen':
+            if cmd == 'memory':
+                if self.config.memory is None:
+                    self.config.memory = [self.config.agent_name]
+                    self.system_prompt = self.reload_memory()
+                    return jsonify({'message': 'Memory mode activated'})
+                else:
+                    self.config.memory = None
+                    return jsonify({'message': 'Memory mode deactivated'})
+            elif cmd == 'listen':
                 self.config.listen_summary = True
                 return jsonify({'message': 'Listening to summaries activated'})
             elif cmd == 'listen-transcript':

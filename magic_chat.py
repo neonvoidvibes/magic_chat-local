@@ -408,11 +408,19 @@ def display_help():
     print("!exit          - Exit the chat")
     print("!clear         - Clear the chat history")
     print("!save          - Save current chat history to S3 saved folder")
+    print("!memory        - Toggle memory mode (load chat history)")
     print("!listen        - Enable summary listening")
     print("!listen-all    - Enable all listening modes")
     print("!listen-deep   - Enable summary and insights listening")
     print("!listen-insights - Enable insights listening")
     print("!listen-transcript - Enable transcript listening")
+    print("\nStartup flags:")
+    print("--memory       - Start with memory mode enabled")
+    print("--listen       - Start with summary listening enabled")
+    print("--listen-all   - Start with all listening modes enabled")
+    print("--listen-deep  - Start with summary and insights listening enabled")
+    print("--listen-insights - Start with insights listening enabled")
+    print("--listen-transcript - Start with transcript listening enabled")
 
 def format_chat_history(messages):
     chat_content = ""
@@ -534,6 +542,17 @@ def main():
                                 chat_content = format_chat_history(conversation_history)
                                 save_to_s3(chat_content, config.agent_name, f"agents/{config.agent_name}/chat_history/saved")
                                 print("Chat history saved successfully")
+                                print("\nUser: ", end='', flush=True)
+                                continue
+                            elif command == 'memory':
+                                if config.memory is None:
+                                    config.memory = [config.agent_name]
+                                    system_prompt = reload_memory(chat_history_folder, config.agent_name, config.memory, initial_system_prompt)
+                                    print("Memory mode activated.")
+                                else:
+                                    config.memory = None
+                                    system_prompt = initial_system_prompt
+                                    print("Memory mode deactivated.")
                                 print("\nUser: ", end='', flush=True)
                                 continue
                             elif command in ['listen', 'listen-all', 'listen-deep', 'listen-insights', 'listen-transcript']:

@@ -478,7 +478,8 @@
                     
                     const statusBar = document.getElementById('status-bar');
                     const statusText = status.length ? 'Listening to: ' + status.join(', ') : 'Not listening';
-                    statusBar.textContent = 'Agent: ' + '{{ agent_name }}' + ' \u00A0 | \u00A0 ' + statusText;
+                    const memoryText = data.memory_enabled ? 'Memory: yes' : 'Memory: no';
+                    statusBar.textContent = 'Agent: ' + '{{ agent_name }}' + ' \u00A0 | \u00A0 ' + statusText + ' \u00A0 | \u00A0 ' + memoryText;
                 });
         }
 
