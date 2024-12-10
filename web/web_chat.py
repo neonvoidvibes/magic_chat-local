@@ -16,6 +16,45 @@ def read_file_content_local(file_path, file_name):
         logging.error(f"Error reading {file_name} from local file: {e}")
         return ""
 
+def read_file_content(s3_key, file_name):
+    try:
+        s3 = boto3.client('s3')
+        bucket = 'aiademomagicaudio'
+        obj = s3.get_object(Bucket=bucket, Key=s3_key)
+        return obj['Body'].read().decode('utf-8')
+    except Exception as e:
+        logging.error(f"Error reading {file_name} from S3: {e}")
+        return ""
+
+def get_latest_system_prompt(agent_name=None):
+    try:
+        s3 = boto3.client('s3')
+        bucket = 'aiademomagicaudio'
+        
+        # Get agent-specific system prompt
+        if agent_name:
+            prefix = f'agents/{agent_name}/system-prompt/'
+            response = s3.list_objects_v2(Bucket=bucket, Prefix=prefix)
+            if 'Contents' in response:
+                prompt_files = [obj for obj in response['Contents'] if obj['Key'].endswith('.md')]
+                if prompt_files:
+                    latest_file = max(prompt_files, key=lambda x: x['LastModified'])
+                    return latest_file['Key']
+        
+        # Get standard system prompt
+        prefix = 'system-prompt/'
+        response = s3.list_objects_v2(Bucket=bucket, Prefix=prefix)
+        if 'Contents' in response:
+            prompt_files = [obj for obj in response['Contents'] if obj['Key'].endswith('.md')]
+            if prompt_files:
+                latest_file = max(prompt_files, key=lambda x: x['LastModified'])
+                return latest_file['Key']
+        
+        return None
+    except Exception as e:
+        logging.error(f"Error getting latest system prompt from S3: {e}")
+        return None
+
 class WebChat:
     def __init__(self, config: AppConfig):
         self.config = config
@@ -34,13 +73,16 @@ class WebChat:
         s3 = boto3.client('s3')
         bucket = 'aiademomagicaudio'
         
-        # Load standard and unique system prompts
-        script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        standard_prompt_file = os.path.join(script_dir, 'system_prompt_standard.txt')
-        unique_prompt_file = os.path.join(script_dir, f'system_prompt_{self.config.agent_name}.txt')
+        # Load standard and unique system prompts from S3
+        standard_prompt_key = get_latest_system_prompt()
+        unique_prompt_key = get_latest_system_prompt(self.config.agent_name)
         
-        standard_system_prompt = read_file_content_local(standard_prompt_file, "standard system prompt")
-        unique_system_prompt = read_file_content_local(unique_prompt_file, "unique system prompt")
+        if not standard_prompt_key or not unique_prompt_key:
+            logging.error("Failed to find system prompt files in S3")
+            return
+            
+        standard_system_prompt = read_file_content(standard_prompt_key, "standard system prompt")
+        unique_system_prompt = read_file_content(unique_prompt_key, "unique system prompt")
         self.system_prompt = standard_system_prompt + "\n" + unique_system_prompt
         
         # Load frameworks
@@ -124,12 +166,8 @@ class WebChat:
         insights_summary = "\n".join(insights) if insights else ""
         
         # Build new system prompt
-        script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        standard_prompt_file = os.path.join(script_dir, 'system_prompt_standard.txt')
-        unique_prompt_file = os.path.join(script_dir, f'system_prompt_{self.config.agent_name}.txt')
-        
-        standard_system_prompt = read_file_content_local(standard_prompt_file, "standard system prompt")
-        unique_system_prompt = read_file_content_local(unique_prompt_file, "unique system prompt")
+        standard_system_prompt = read_file_content(get_latest_system_prompt(), "standard system prompt")
+        unique_system_prompt = read_file_content(get_latest_system_prompt(self.config.agent_name), "unique system prompt")
         initial_system_prompt = standard_system_prompt + "\n" + unique_system_prompt
         
         if insights_summary:

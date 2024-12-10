@@ -148,6 +148,33 @@ def get_latest_insights_file():
         logging.error(f"Error finding insights files in S3: {e}")
         return None
 
+def get_latest_system_prompt(agent_name=None):
+    """Get the latest system prompt file from S3"""
+    try:
+        # Get agent-specific system prompt
+        if agent_name:
+            prefix = f'agents/{agent_name}/system-prompt/'
+            response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix=prefix)
+            if 'Contents' in response:
+                prompt_files = [obj for obj in response['Contents'] if obj['Key'].endswith('.md')]
+                if prompt_files:
+                    latest_file = max(prompt_files, key=lambda x: x['LastModified'])
+                    return latest_file['Key']
+        
+        # Get standard system prompt
+        prefix = 'system-prompt/'
+        response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix=prefix)
+        if 'Contents' in response:
+            prompt_files = [obj for obj in response['Contents'] if obj['Key'].endswith('.md')]
+            if prompt_files:
+                latest_file = max(prompt_files, key=lambda x: x['LastModified'])
+                return latest_file['Key']
+        
+        return None
+    except Exception as e:
+        logging.error(f"Error getting latest system prompt file: {e}")
+        return None
+
 def read_file_content(file_key, description):
     try:
         response = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=file_key)
@@ -476,14 +503,22 @@ def main():
 
             script_dir = os.path.dirname(os.path.abspath(__file__))
             
-            standard_prompt_file = os.path.join(script_dir, 'system_prompt_standard.txt')
-            standard_system_prompt = read_file_content_local(standard_prompt_file, "standard system prompt")
+            # Load standard system prompt from S3
+            standard_prompt_key = get_latest_system_prompt()
+            if not standard_prompt_key:
+                print("Error: No standard system prompt found in S3.")
+                sys.exit(1)
+            standard_system_prompt = read_file_content(standard_prompt_key, "standard system prompt")
             if not standard_system_prompt:
                 print("Error: Standard system prompt is empty or unreadable. Check the log for details.")
                 sys.exit(1)
             
-            unique_prompt_file = os.path.join(script_dir, f'system_prompt_{config.agent_name}.txt')
-            unique_system_prompt = read_file_content_local(unique_prompt_file, "unique system prompt")
+            # Load agent-specific system prompt from S3
+            unique_prompt_key = get_latest_system_prompt(config.agent_name)
+            if not unique_prompt_key:
+                print("Error: No unique system prompt found in S3 for agent.")
+                sys.exit(1)
+            unique_system_prompt = read_file_content(unique_prompt_key, "unique system prompt")
             if not unique_system_prompt:
                 print("Error: Unique system prompt is empty or unreadable. Check the log for details.")
                 sys.exit(1)
