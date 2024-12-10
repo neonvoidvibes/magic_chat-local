@@ -4,6 +4,7 @@ import logging
 import time
 import argparse
 import select
+import threading
 from anthropic import Anthropic, AnthropicError
 from datetime import datetime
 import boto3
@@ -192,7 +193,9 @@ def read_file_content(file_key, description):
         response = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=file_key)
         content = response['Body'].read().decode('utf-8')
         if not content.strip():
+            logging.debug(f"Empty content in {file_key}")
             return None
+        logging.debug(f"Successfully read content from {file_key}, length: {len(content)}")
         return content
     except s3_client.exceptions.NoSuchKey:
         logging.error(f"No {description} file at '{file_key}' in S3.")
@@ -296,10 +299,13 @@ def load_existing_chats_from_s3(agent_name, memory_agents):
     # Load from saved chat history folder
     try:
         prefix = f"agents/{agent_name}/chat_history/saved/"
+        logging.debug(f"Looking for chat history in {prefix}")
         response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix=prefix)
         if 'Contents' in response:
             saved_files = [obj for obj in response['Contents'] if obj['Key'].endswith('.txt')]
+            logging.debug(f"Found {len(saved_files)} txt files")
             for file in sorted(saved_files, key=lambda x: x['LastModified']):
+                logging.debug(f"Processing file: {file['Key']}")
                 if agent_name in file['Key'] or (memory_agents and any(agent in file['Key'] for agent in memory_agents)):
                     content = read_file_content(file['Key'], "saved chat history")
                     if content:
@@ -308,8 +314,14 @@ def load_existing_chats_from_s3(agent_name, memory_agents):
                             "file": file['Key'],
                             "messages": [{"role": "assistant", "content": formatted_content}]
                         })
+                        logging.debug(f"Added chat history from {file['Key']}")
+                else:
+                    logging.debug(f"Skipping file {file['Key']} - doesn't match agent names")
+        else:
+            logging.debug("No files found in saved/ directory")
     except Exception as e:
         logging.error(f"Error loading saved chats from S3: {e}")
+    logging.debug(f"Total chats loaded: {len(chats)}")
     return chats
 
 def reload_memory(agent_name, memory_agents, initial_system_prompt):
@@ -322,7 +334,9 @@ def reload_memory(agent_name, memory_agents, initial_system_prompt):
             all_content.append(msg['content'])
     
     combined_content = "\n\n".join(all_content)  # Add extra newline between files
+    logging.debug(f"Combined content length: {len(combined_content)}")
     summarized_content = summarize_text(combined_content, max_length=None)
+    logging.debug(f"Summarized content length: {len(summarized_content) if summarized_content else 0}")
     
     # Add the summarized content to the system prompt with clear context
     if summarized_content:
@@ -331,8 +345,10 @@ def reload_memory(agent_name, memory_agents, initial_system_prompt):
             "\n\n## Previous Chat History\nThe following is a summary of previous chat interactions:\n\n" + 
             summarized_content
         )
+        logging.debug("Added chat history to system prompt")
     else:
         new_system_prompt = initial_system_prompt
+        logging.debug("No chat history to add to system prompt")
     
     return new_system_prompt
 
