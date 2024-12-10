@@ -481,13 +481,16 @@ def main():
             except Exception as e:
                 logging.error(f"Error loading context for {org_id}: {e}")
 
+            print("\nUser: ", end='', flush=True)  # Initial prompt
+            
+            # Main chat loop
             while True:
                 try:
                     if sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
-                        print("\nUser: ", end='', flush=True)  
-                        user_input = input().strip()
+                        user_input = sys.stdin.readline().strip()
                         
                         if not user_input:
+                            print("\nUser: ", end='', flush=True)
                             continue
                         
                         if user_input.startswith('!'):
@@ -496,9 +499,11 @@ def main():
                                 break
                             elif command == 'help':
                                 display_help()
+                                print("\nUser: ", end='', flush=True)
                                 continue
                             elif command == 'clear':
                                 conversation_history = []
+                                print("\nUser: ", end='', flush=True)
                                 continue
                             elif command == 'save':
                                 # Save chat history to saved folder
@@ -511,6 +516,7 @@ def main():
                                 
                                 save_to_s3(chat_content, config.agent_name, f"agents/{config.agent_name}/chat_history/saved")
                                 print("Chat history saved successfully")
+                                print("\nUser: ", end='', flush=True)
                                 continue
                             elif command in ['listen', 'listen-all', 'listen-deep', 'listen-insights', 'listen-transcript']:
                                 # Handle existing listen commands
