@@ -1,0 +1,575 @@
+# Transcript - Session 8a849442-6280-45b0-8eda-fc43fdfdd468
+
+Date: December 4, 2024
+Time: 09:00 - 10:45 CET
+Location: Work Life Group Office, Stockholm
+
+Participants:
+- Stefan (River)
+- Torbjörn (Worklife Group)
+- Laurens, Mickael (The Nordic Equation)
+
+Purpose: Explore partnership opportunities and planning for May 2024 leadership gathering in collaboration with Stockholm Resilience Centre.
+
+Context: Initial meeting to discuss alignment of organizational missions and potential collaboration, including demonstration of River's AI augmentation technology.
+
+---
+
+[09:09:28 - 09:09:38 CET] So either co-innovation across companies, which would be amazing, that would be really an intention to work together.
+[09:09:38 - 09:09:48 CET] collaboration, or co-learn. So I learn from you, you have a great experience, so we share our experiences. So the intention is to create a network, a mycelium, and reduce people's
+[09:09:48 - 09:09:58 CET] And then I saw Leon, and I we met years ago already from NY. We came here to meeting.
+[09:09:58 - 09:10:08 CET] it as a company because Stenon and partner and work-life is a benchmark from if I may say as a conscious and agile but also conscious organization.
+[09:10:08 - 09:10:18 CET] organization. So a company come and visit here and organize a number of learning expeditions to Sweden and we came to visit, so we get to know each other. And then we met at the IDG park.
+[09:10:18 - 09:10:28 CET] last year, and then you came as a speaker at the IDB event, and then so it's a pleasure to be here and a really good time to chat.
+[09:10:28 - 09:10:38 CET] And then Stefan, we met like a month or two months ago in October, the beginning of October, and then I'm amazed by what you've created. And you did.
+[09:10:38 - 09:10:48 CET] So just to tell you, we are in the same waters, and it's very meaningful.
+[09:10:48 - 09:10:58 CET] to create this connection I think and then lastly I yeah maybe we can yeah
+[09:10:58 - 09:11:08 CET] And I also can give a short sort of add-on on the introduction of where we are today. So this is the company I founded 30 years ago. So the
+[09:11:08 - 09:11:18 CET] main company is work life group is another company and we have four companies doing different aspects of workplace development so
+[09:11:18 - 09:11:28 CET] We have a vision to create an inspiring meaningful work life for all, that's what we're working for and trying to basically get workplaces to be both human and
+[09:11:28 - 09:11:38 CET] effective. I'm getting that to serve several stakeholders, not just the shareholders. So that's what we do.
+[09:11:38 - 09:11:48 CET] The companies work with the digital sign, we have physical offices and interior design and we have
+[09:11:48 - 09:11:58 CET] small, small companies with leadership development and way of work. And then we try to have everybody to work together, which we
+[09:11:58 - 09:12:08 CET] starting to succeed with, but organizations are, as we all know, organized in silos, so HR buying HR.
+[09:12:08 - 09:12:18 CET] real estate, buying real estate, so you really need to get on top. And the long-term vision is also to change the industry.
+[09:12:18 - 09:12:28 CET] going from sort of a consultancy business to an outcome-based advisor where we sort of really...
+[09:12:28 - 09:12:38 CET] start with the key objectives for the organisation and having the workplace to support that. And also, as soon as possible, sort of,
+[09:12:38 - 09:12:48 CET] show the evidence for that. The better workplace also give better results for all and also find a way to tap into that economic stream.
+[09:12:48 - 09:12:58 CET] That's ambition we since a year, we have known for 10 years, we have known each other for 10 years, but we've been working for one year on this project together.
+[09:12:58 - 09:13:08 CET] where we are very vision-aligned about what we want to do and somewhere on the way this we will do.
+[09:13:08 - 09:13:18 CET] today will be in the center of our sort of business model and our aspiration is to, in a few years, have sort of an age-appropriate business model.
+[09:13:18 - 09:13:28 CET] that could be given away for free, so people actually can develop sustainable workplaces in a good way. So that's how everything works.
+[09:13:28 - 09:13:38 CET] And so we're a partner organization, so I co-founded River, which is a non-profit organization
+[09:13:38 - 09:13:48 CET] in many ways the fruit of 50 years of working with myself and also leadership development. So that's how we met.
+[09:13:48 - 09:13:58 CET] previous company, Selfeaders, with Jan Hendriksson. Yeah. That's your ID? Yeah.
+[09:13:58 - 09:14:08 CET] He's a friend of mine as well, Sierra, yeah, same quarters. And we've been working two years to figure out...
+[09:14:08 - 09:14:18 CET] But so much to unpack, but how can we augment collective intelligence and human wisdom?
+[09:14:18 - 09:14:28 CET] the state-of-the-art technology. So AI augmented leadership organization and ultimately you said it said it early like how do you connect
+[09:14:28 - 09:14:38 CET] people and organizations, you know, larger ecosystem. So we have a theory of change about you need more connection in order to facilitate.
+[09:14:38 - 09:14:48 CET] outcomes on all levels. And so that's at the foundation. So now we're building the technical systems, the processes and the learning.
+[09:14:48 - 09:14:58 CET] So that ties it all together to integrate it into first the meetings, so trying to find a good format for how you can AI augment a meeting and then an organization.
+[09:14:58 - 09:15:08 CET] on an ecosystem. So it's a pretty intense journey. It's very fun, very meaningful.
+[09:15:08 - 09:15:18 CET] And without very little knowledge of what you're executing, I completely see what you see and I see what the continuity is.
+[09:15:18 - 09:15:28 CET] I think if we can sort of get the most of this
+[09:15:28 - 09:15:38 CET] so you can see how everything fits together might be good idea to you Gibbs Gibbs sort of a frame everything I can frame it we're doing and
+[09:15:38 - 09:15:48 CET] Yes. And even if we could ask permission to record this, we can use AI to reflect our discussion. And you also get the minutes.
+[09:15:48 - 09:15:58 CET] from the meeting so we have the little robot in here so
+[09:15:58 - 09:16:08 CET] Should I hook up to that one? I feel a bit outdated. You both have the same notebook. It's remarkable. Is it remarkable for you as well?
+[09:16:08 - 09:16:18 CET] Better than an iPad? It's designed for no distractions. So it's digital paper only. There's no pop-ups, no colors, no
+[09:16:18 - 09:16:28 CET] So do you recommend it? Highly. Highly? Yeah? Cool. You have a cool pen for it.
+[09:16:28 - 09:16:38 CET] I need to go there as well. I bought one and I sent it back because I thought not more stuff
+[09:16:38 - 09:16:48 CET] okay because i have a second one and i would have a keyboard yeah which is also good too if we uh while stephan is sort of arranging the the technical stuff if we if we could
+[09:16:48 - 09:16:58 CET] sort of framed aspirations from this meeting? What would be good when you leave in one hour and 50 minutes? What have you obtained?
+[09:16:58 - 09:17:08 CET] that made this sort of valuable for you.
+[09:17:08 - 09:17:18 CET] to what extent we actually work towards the same direction, the same vision, and to what extent we actually could help and strengthen it.
+[09:17:18 - 09:17:28 CET] each other yeah you can't do that yeah and as part of a network that's unfolding yeah and would be great if
+[09:17:28 - 09:17:38 CET] concrete outcome is that we have one two three very clear follow-ups on what we could then bring in motion very good very good
+[09:17:38 - 09:17:48 CET] And I'm looking at exactly that, sir. And especially with a, there is a, there is a, is an object that is, uh, there's anybody in May, which creates a kind of a case for change.
+[09:17:48 - 09:17:58 CET] or just for discussion, but it could be in all the different directions. And yeah, okay. Yeah.
+[09:17:58 - 09:18:08 CET] And the thing I also would like to share with you what it is because you may have also... First, I think it's important that you know about it.
+[09:18:08 - 09:18:18 CET] Absolutely. Because I think it's who you are, I think, and what you hold is something that is important to know about and also to have maybe feedback or other things.
+[09:18:18 - 09:18:28 CET] inside or reflection so might be when i when i just hear this and hear myself babbling might be better if you start with sort of the idea sort of setting that frame would be much
+[09:18:28 - 09:18:38 CET] much better and then we continue with our stuff that's and is it recording now because I think would be nice to have that included yeah so there are multiple benefits we can we
+[09:18:38 - 09:18:48 CET] don't have to take so much note. We can have the recording afterwards. We can analyze with AI afterwards. And we can also interact with
+[09:18:48 - 09:18:58 CET] the AI during the meeting. So we just look at it as a augmented meeting already.
+[09:18:58 - 09:19:08 CET] the synopsis of what, what, what is the Nordic equation, where does it come from? And I think it's really starts. Uh, are you troubled? No, no, I love it. Actually.
+[09:19:08 - 09:19:18 CET] It goes back to two streams I would say it's it's one stream that goes back let's say the last
+[09:19:18 - 09:19:28 CET] 15 years, when I started to work with Tetra Pak, I worked for, let's say, more Anglo-Saxon companies, I got the opportunity to join
+[09:19:28 - 09:19:38 CET] Bacardi and now at Heinz I can all very clearly explain how but at that time it was really not that conscious position but there was a hater telling me no no no don't sign for Bacardi
+[09:19:38 - 09:19:48 CET] go and talk to Tetra Pak. I joined Tetra Pak in a completely different position than I was inspiring but for me it was the first experience of how it is to work
+[09:19:48 - 09:19:58 CET] for a family-owned Swedish business. And there's a lot to judge about Tetrafact. There are so many things that can do better, but for me, it was the first, wow, feel of this is where I belong.
+[09:19:58 - 09:20:08 CET] And from there I went to work for Tetra Pak in other countries and came eventually to Sweden. Not to work for Tetra Pak but for a fashion company called Gantt. So I had also now the experience.
+[09:20:08 - 09:20:18 CET] to live in Sweden. And I've lived here four years and I felt deeply in love with Sweden. And as a Dutch person, from the day one, when I entered the office...
+[09:20:18 - 09:20:28 CET] in Lund for Tetra Pak, I felt, wow, the Dutch and the Swedes, they're so complimentary. It's unbelievable. And we are, as a Dutch person, I feel so much closer.
+[09:20:28 - 09:20:38 CET] to a Swede, then to our close neighbors, the Germans, the Belgians, or the English. And with people who know Sweden, Dutch people who know Sweden, they all agree, they all feel the same way.
+[09:20:38 - 09:20:48 CET] the same and they say yes indeed there's so much that we have in common but we're also very complimentary and if you put a very very very some some bigger
+[09:20:48 - 09:20:58 CET] Perspective you could say Swedes are more the engineering nation. We are more the trading nation, but we have the similar culture of collaboration of trust of
+[09:20:58 - 09:21:08 CET] of low distributed power. And there's many other elements that really make us fit very well together.
+[09:21:08 - 09:21:18 CET] And also, and I've learned in the last 18 months even more, maybe the sweets, I think we need sweets as Dutch for more substance.
+[09:21:18 - 09:21:28 CET] more really, how should I say, more substantive, we are more, I would say, almost a little bit more shallow. We are in between businesses, but I think that.
+[09:21:28 - 09:21:38 CET] Maybe the Swedes can also learn from the Dutch to open up your treasure box of so much innovation. And of course, there is innovation spreading around the world, but you have a...
+[09:21:38 - 09:21:48 CET] tendency to keep it for yourself. And I think, especially in these days, there's a need to let what you create be available for many more out there.
+[09:21:48 - 09:21:58 CET] That's one stream, the Dutch-Swedish stream. The other stream is that already on the kitchen table when I was growing up, we spoke a lot about politics and about what's happening in the world.
+[09:21:58 - 09:22:08 CET] With that in the back of my back, of course I see how the last 15 years and especially the last 5, 6, 7 years, the world becomes more chaotic.
+[09:22:08 - 09:22:18 CET] more turbulent and it's just about to become worse. I think we all can see that happening and for me the clear perspective that comes from that we have a tendency and
+[09:22:18 - 09:22:28 CET] look at also from the business perspective, we have a tendency because I think that business has an important role to play to find the solutions to these big questions that are ahead of us and answers for those.
+[09:22:28 - 09:22:38 CET] But we have a tendency to still look at it in isolation, independent, also with a competitive perspective.
+[09:22:38 - 09:22:48 CET] something with others, I might be more vulnerable, where this time that we're entering really requires collaboration. We can never ever
+[09:22:48 - 09:22:58 CET] ever find the answers to these big questions for the future in isolation, we need each other and not each other in the same industry silo, you know all the retailers coming together.
+[09:22:58 - 09:23:08 CET] and we'll find together the solutions. No, this is about the time where we should bring apples and pears together, and embrace the not knowing when we bring this together. And we're not actually very comfortable with that.
+[09:23:08 - 09:23:18 CET] because we've never been taught, but the time that's coming now requires the courage to bring apples and pears together, to embrace the diversity, to embrace the not knowing, and
+[09:23:18 - 09:23:28 CET] what magic comes out of there and that is where I felt let's try it first now with Sweden and Holland because again we are similar economy
+[09:23:28 - 09:23:38 CET] We have similar cultural values. Why not bring sea-level people from two companies in nature in Sweden, just for three days, and exchange on what are their...
+[09:23:38 - 09:23:48 CET] What are their biggest dilemmas? What are their biggest challenges? And I am convinced that you will get much deeper and better insights and ideas.
+[09:23:48 - 09:23:58 CET] And you will probably also enter a journey of collaboration. But let's see. But much, much more effectful than when you do this in isolation in your own R&D room in Harvard.
+[09:23:58 - 09:24:08 CET] Amsterdam or Stockholm. And with this idea, I went to Stockholm, probably 15, 16 months ago, and I heard about the exact...
+[09:24:08 - 09:24:18 CET] from Stockholm Resilience Centre. So I reached out to Lisa, who is the Director of Education, and I shared this concept with her, but I also added one very important other element.
+[09:24:18 - 09:24:28 CET] What you have created from what I understand is mind-blowing and highly impactful and I think it's important to create that among leaders.
+[09:24:28 - 09:24:38 CET] to really sense that urgency. But mind-blowing, it already says it, it's very much, your phone is very much focusing on the mind, on the head. To really get this.
+[09:24:38 - 09:24:48 CET] motion and bring this into action, you really also have to touch the heart and the gut. So I do believe that your program will be richer if you see
+[09:24:48 - 09:24:58 CET] seeing ways to slowly but surely integrate that as well in what you offer. She said, I love that, she's a biologist from bioeducation, she brought me
+[09:24:58 - 09:25:08 CET] touch with Jeroen and she also loved the idea of bringing Dutch Now as a next step into the program because they were talking to American universities and other
+[09:25:08 - 09:25:18 CET] university around the world. But no, Holland, that sounds like a very natural next step. So fast forward where we are now. We are in the Stockholm Resilience Centre.
+[09:25:18 - 09:25:28 CET] Planetone and Euron together shaping an event in May built on the executive programs with unique contributors among others.
+[09:25:28 - 09:25:38 CET] already confirmed, and Hendrik Hendriksson, and many others I can share with that later. But that is for us the first next step into bringing that.
+[09:25:38 - 09:25:48 CET] alive but there's much more afterwards and I think that's where our conversation can continue when we've also heard about what you were up to.
+[09:25:48 - 09:25:58 CET] But the journey, this is not a one-off event, this is just the start of an ongoing journey where we help leaders navigate in this complexity, bring them to
+[09:25:58 - 09:26:08 CET] those transformational capabilities that they really need to find a way to come to this new solution, as you very nicely also said, I cannot really rephrase it.
+[09:26:08 - 09:26:18 CET] But find these nudges of co-evolution, of co-learning, of co-exchanging, and collaboration will naturally unfold in that kind of ecosystem.
+[09:26:18 - 09:26:28 CET] supported by a miscellaneum of the best and brightest science and of those helpers of unique transformative capabilities among others AI, data.
+[09:26:28 - 09:26:38 CET] others. And as the source of the Trump, it's those courageous leaders that really feel they want to step beyond their own organizations.
+[09:26:38 - 09:26:48 CET] One last element that I would like to share about this. For me, this is also about, although it is, it should be eventually available for.
+[09:26:48 - 09:26:58 CET] This is a European initiative. I sense in our countries that we have a tendency to look for the West for all the answers.
+[09:26:58 - 09:27:08 CET] the West will not fulfill our needs for answers. Then we look to the East, but there we won't find the answers either. We forgot to see what we have actually here. It's such a foolish thing.
+[09:27:08 - 09:27:18 CET] soil and I do believe that Sweden and Holland can have a particular role in accelerating that to be the catalyzer for
+[09:27:18 - 09:27:28 CET] European reconnection with our deeper values of equality, of social inclusion and of innovations through collaboration.
+[09:27:28 - 09:27:38 CET] because that's how we were actually raised and what is part of our shared DNA. So that's why I feel so inspired to be here today.
+[09:27:38 - 09:27:48 CET] because I just feel very happy that people here around the round table are starting to shape this. And here of course. Wow, that's very dense and good.
+[09:27:48 - 09:27:58 CET] Thank you. Thank you. I mean, I mean Stephanie, you need to, I mean, it's very interesting.
+[09:27:58 - 09:28:08 CET] to listen to both of you. So the long-term vision about River and what we're doing together is an
+[09:28:08 - 09:28:18 CET] Sorry to interrupt, but I can just feel it. I can just feel it. It's so beautiful to be here in the room, I can just feel it.
+[09:28:18 - 09:28:28 CET] It's very cool. Yeah, and it's augmented by the Sun on your face
+[09:28:28 - 09:28:38 CET] Yeah, it's a lot unpacked, really, because, I mean, first of all, just sharing the problem description.
+[09:28:38 - 09:28:48 CET] We put out maybe other words on it, but it's it's the word is fragmented and disconnected. And so we made the conclusion that it's the root cause of all of the.
+[09:28:48 - 09:28:58 CET] problems we're seeing in the meta-crisis. Now it's fragmenting even more. I shared a picture that it's going to get worse, unfortunately.
+[09:28:58 - 09:29:08 CET] And so if the problem is disconnection, the solution is reconnection on multiple levels. So we need to go inward.
+[09:29:08 - 09:29:18 CET] and not just the head but really into the body and then feel like you said sense into what is important
+[09:29:18 - 09:29:28 CET] and relevant and just feel the force of life and act from that position and then in between like really work on
+[09:29:28 - 09:29:38 CET] on openness and I think you said it well, like the apples and the pears need to come together.
+[09:29:38 - 09:29:48 CET] can we do more of that? And it comes down to like a small business meeting for everyone just on their own ends, pushing their individual competitive agenda.
+[09:29:48 - 09:29:58 CET] all the way up to geopolitical. And then so on a societal, cultural level, that is equally true. And then the third one.
+[09:29:58 - 09:30:08 CET] which is, I can feel it during Gamebase Energy in this one, you said like, we have to go out into nature because that's where we find the reconnection.
+[09:30:08 - 09:30:18 CET] I think humanity has like a collective self-doubt or
+[09:30:18 - 09:30:28 CET] low self-esteem as a collective right now. We don't believe in ourselves, but if you come out into nature, we get to reconnect with our inner nature as species.
+[09:30:28 - 09:30:38 CET] and as a evolution of this planet, like really tap into that. So that's like one object or meta object of how I relate.
+[09:30:38 - 09:30:48 CET] and it has very strong resonance in the description. Another one is, I'm just very, I feel very drawn into the format.
+[09:30:48 - 09:30:58 CET] So, in nature, you come together, you facilitate a process of inner development.
+[09:30:58 - 09:31:08 CET] and then also the connectedness and how that points towards something more that can become more collaborative.
+[09:31:08 - 09:31:18 CET] nature in Sweden and also the Dutch. I've always felt drawn to Holland, so I've been spending a little bit of time down there.
+[09:31:18 - 09:31:28 CET] at home in a different way. It's very interesting. It's more densely populated. You're much more extrovert and more business oriented, but it's like, it gives that.
+[09:31:28 - 09:31:38 CET] other part of it. So I do feel very drawn to the format and when I sense into what we're building
+[09:31:38 - 09:31:48 CET] right now and that potential and the potential synergies in this, I just feel very alive. It's very enlightening.
+[09:31:48 - 09:31:58 CET] So, that's it. Yeah. Cool. Thank you. Very cool. Yeah. Nice. It's so interesting.
+[09:31:58 - 09:32:08 CET] because we didn't share that many words no we didn't and still yeah it's pretty magical it's like the words were like a small
+[09:32:08 - 09:32:18 CET] Yeah, exactly. There was a lot in there and we just felt it. Exactly. Yeah. So, should maybe I continue with more on River?
+[09:32:18 - 09:32:28 CET] Yeah, I could share some presentation, but before.
+[09:32:28 - 09:32:38 CET] I think I want to put into words like the journey we're on and where we are right now. So my background is...
+[09:32:38 - 09:32:48 CET] I worked in leadership and team development, which put me more into vertical development and understanding different stages and how you put that in an organization.
+[09:32:48 - 09:32:58 CET] context, and I became a bit frustrated because we're starting to transform individuals and potentially even culture somewhat, but structurally.
+[09:32:58 - 09:33:08 CET] they're in is the old paradigm. So I worked in consulting in self-organization, principles and practice.
+[09:33:08 - 09:33:18 CET] what you're doing, but in a much smaller scale. And yeah, I just saw that if you do it right, with the right.
+[09:33:18 - 09:33:28 CET] configuration and the right people it's like they really flourish if you do it wrong with the timing is wrong then it just it's it's not a good
+[09:33:28 - 09:33:38 CET] outcome of that. So there were a lot of learnings in that. I've also been into the Web3 space, so everybody's heard of Bitcoin.
+[09:33:38 - 09:33:48 CET] And most people think it's just speculation, which it is to a large extent, but there's a deeper technological foundation in it, which I think will be.
+[09:33:48 - 09:33:58 CET] become transformative for society. Because it's decentralization where you can't choose to
+[09:33:58 - 09:34:08 CET] grab power but it's distributed into the actual fabric and so river emerged out of these streams coming together
+[09:34:08 - 09:34:18 CET] You want to borrow this one? No, actually, I'm going to go get some notes.
+[09:34:18 - 09:34:28 CET] I, uh, please continue to step on. So, um, so let's.
+[09:34:28 - 09:34:38 CET] Yeah, many streams coming together, which is the metaphor of river. So if you've been to the Swedish mountains when you're very far up.
+[09:34:38 - 09:34:48 CET] above the tree line and you stop, you can hear like the tiny trickles of water coming through the pebbles. It's a rainbow that's being collected, right?
+[09:34:48 - 09:34:58 CET] Then maybe you spend a night or two in a tent and then you go downwards to the base of the mountain and there's a raging river, it's the same water.
+[09:34:58 - 09:35:08 CET] It comes from the top, it comes from the mountains, it rains down, and it's being collected. And so that's how River came to us as a metaphor. So I'm sorry for that project.
+[09:35:08 - 09:35:18 CET] And the idea is to collect as much resources, different types of old-lingual capital.
+[09:35:18 - 09:35:28 CET] like financial capital, social capital, informational capital, different streams and then direct them to where it's most needed.
+[09:35:28 - 09:35:38 CET] And we don't know what's most needed. We know what the world needs, but how do you validate different initiatives that have impact potential? And then you measure.
+[09:35:38 - 09:35:48 CET] the outcome of that. So we're on this multi-decade journey of finding the configuration and the algorithm to...
+[09:35:48 - 09:35:58 CET] find, validate, partner with and support financially the most impactful initiatives in the world.
+[09:35:58 - 09:36:08 CET] player right now. So we're aspiring to something massive. And in order to accomplish that we need to build a network of mission-aligned players. And we've already started and we're
+[09:36:08 - 09:36:18 CET] are coming in. And so what we're doing is we're building now the technical and social infrastructure for
+[09:36:18 - 09:36:28 CET] that connection and we're only one player in it obviously but the technology we're building is open source so so all the
+[09:36:28 - 09:36:38 CET] can use it and build on it. And then we can build thousands of different user interfaces and use cases on top of it. Like if we were to build the
+[09:36:38 - 09:36:48 CET] digital co-facilitated experience for this internship training, then that would be one use case, one application layer.
+[09:36:48 - 09:36:58 CET] top of that. And so what we're envisioning is shifting the incentive structures or the incentive incentives for how
+[09:36:58 - 09:37:08 CET] you make decisions. So win-win is the optimal outcome. And the Nash equilibrium, I don't know if you've heard of that, but like the individual behavior.
+[09:37:08 - 09:37:18 CET] the players are aligned with the whole. So it's a natural attractor. And if organizations share data with each other, then...
+[09:37:18 - 09:37:28 CET] they get rewarded in the network for doing so. But we have to start now. We have to start in the meeting. So that's what we're doing now.
+[09:37:28 - 09:37:38 CET] we're validating that whole thing. Like, can we lift AI into the room as we're using the metaphors and mirror to.
+[09:37:38 - 09:37:48 CET] just on the first level to mirror back what is actually being said in the room, because then that starts unfolding the process of you can't hide anymore behind biases.
+[09:37:48 - 09:37:58 CET] And then the deep level of that is the lens metaphor, you can use AI to open the lens.
+[09:37:58 - 09:38:08 CET] meant the meeting so we could see more like a microscope or a telescope what you didn't notice even like what is the blind spots in the groups.
+[09:38:08 - 09:38:18 CET] What happened three meetings ago that we forgot about, lift that back into the room. And then the third level is AI as a portal, so it starts to nudge us.
+[09:38:18 - 09:38:28 CET] It can't transform us because it doesn't have agency, but we can configure it so that it nudges us towards that animal.
+[09:38:28 - 09:38:38 CET] And we actually experienced that one week ago in this room with six other leaders from the Swedish Business Society.
+[09:38:38 - 09:38:48 CET] your team told me i should yeah it's like the swedish thing we're like sitting like this on a treasure i started i started to cry really not you cried in the middle
+[09:38:48 - 09:38:58 CET] Yeah, but because, because the mirroring and sort of the, the condensing of the meeting and sort of the conclusion, and I guess.
+[09:38:58 - 09:39:08 CET] the question was, what does this mean? What sounds that is making a bigger sense when it comes to the to the bigger strategy for you remember the
+[09:39:08 - 09:39:18 CET] we have we have collected some of the questions yeah so maybe short on the format was that yeah it was a roundtable dino so that a calling question around what AI means
+[09:39:18 - 09:39:28 CET] generally, we had defined more specifically, and then we had a back and forth, so semi-structured with some...
+[09:39:28 - 09:39:38 CET] questions that we guided through but some offshoots and then we had AI coming in intermittently with just mirroring perspectives.
+[09:39:38 - 09:39:48 CET] and also lamenting. And at the end of that meeting, it had actually, I would say,
+[09:39:48 - 09:39:58 CET] taken us further and deeper, much faster than it could have otherwise, which means that there was a very strong resonance in the room about the whole experience in general.
+[09:39:58 - 09:40:08 CET] but also the topic of how we relate to each other and how we relate to AI as more than a tool. And then everyone was just heartbroken.
+[09:40:08 - 09:40:18 CET] I must add to that, because what made me cry was that the summary and the suggestion to move forward was...
+[09:40:18 - 09:40:28 CET] so, so strong. And we had a discussion earlier in that in that meeting about what is sort of what is the agenda for Sweden?
+[09:40:28 - 09:40:38 CET] Where are we? What's our sort of, what's our cutting edge in this in this work relating to your sort of description about Sweden and Holland? And in the end, we got sort of a
+[09:40:38 - 09:40:48 CET] a meta-reflection from the AI. Sort of pointing out something that I think really is the potential in this.
+[09:40:48 - 09:40:58 CET] Indians, because you can't, if we have moved from orange paradigm, and we sort of aspire to something to you or something out here.
+[09:40:58 - 09:41:08 CET] I think Sweden, at least, is a little bit caught up in the middle. It's a hard culture, it's very warm, it's very sort of inclusive and sort of, but...
+[09:41:08 - 09:41:18 CET] Yeah, it's greenish, and that's a good thing because
+[09:41:18 - 09:41:28 CET] Yeah, we can't stay in green because we won't be able to get shit done there. So Steve, what a great example.
+[09:41:28 - 09:41:38 CET] can't move to teal before you've gone through green. So that's the potential for the countries to move on.
+[09:41:38 - 09:41:48 CET] Yeah, yeah, so so so that was
+[09:41:48 - 09:41:58 CET] Orange, green, yeah, exactly. Yeah, it's orange, green, exactly, and then you have your RQ, you have power, you took the power to put money, and you take it back.
+[09:41:58 - 09:42:08 CET] and you address the level of consciousness. So that may be right. Wow, that's a huge bunch, and you know why? Because this is so much related to what we discussed yesterday, and I just shared half an hour ago.
+[09:42:08 - 09:42:18 CET] I went to this training where you learn that there's so much science all the time. You just have to be aware. When you just offer me here such a
+[09:42:18 - 09:42:28 CET] beautiful yeah that's that's true yeah by the way this is such a fantastic i think the example i'm not sure if that was the example
+[09:42:28 - 09:42:38 CET] But it challenged us, and I've been working with generative AI for years, even before Chattanooga did, and I've never experienced...
+[09:42:38 - 09:42:48 CET] the level of like it felt integral in a way that I never thought it could be already.
+[09:42:48 - 09:42:58 CET] But he did it, he said that maybe you should explore other ways of organizing or other leadership.
+[09:42:58 - 09:43:08 CET] paradigms rather than the flat, no, the hierarchical or the flat and see if there's something beyond. Okay. And if we haven't talked about.
+[09:43:08 - 09:43:18 CET] We hadn't talked about that. It just came up as an object that had drawn that conclusion, and it challenged us, and I've never...
+[09:43:18 - 09:43:28 CET] Lacratic models, sorry, lack of lacratic models. He didn't say anything about what you mean. That would be a lot of integrate the both.
+[09:43:28 - 09:43:38 CET] Social questions, yeah, that's part of the integration. Social questions is Dutch, by the way, in the first case. Social questions is Dutch, by the way, in the first case. Yeah.
+[09:43:38 - 09:43:48 CET] Okay, so I can show some, uh, okay, maybe some operating super interesting. So what we're building is an AO.
+[09:43:48 - 09:43:58 CET] mentor organization, and more than that, like individual society, etc, but it's just a framing. This is actually it.
+[09:43:58 - 09:44:08 CET] the artwork that powers the mimetic cultural evolution of the river.
+[09:44:08 - 09:44:18 CET] We have our own AI designing Dart work based on our own structure. So you get a consistent result, actually. And it's really hard touching. Yeah.
+[09:44:18 - 09:44:28 CET] That's pretty amazing. Yeah, I love, I usually get bored in looking at the same images for a long time. I've never gotten bored of this, or this one. And is it, is it, is it?
+[09:44:28 - 09:44:38 CET] changing all the time, slowly and surely. No, but we're there technically, so if you wanted to implement that, we could. I just have to, I work all night with different stuff.
+[09:44:38 - 09:44:48 CET] This is a side note, but I teach as a marketeer, I envision a world where a brand is no
+[09:44:48 - 09:44:58 CET] single day the same. So it is always, always moving. Always moving. Oh nice, but you have some consistency. Yeah, of course.
+[09:44:58 - 09:45:08 CET] We are on it, there's a TV screen out there, so we're building it, just for fun.
+[09:45:08 - 09:45:18 CET] is just one angle of it, so there's many angles to this, but we define AI as not a technology but as a partner.
+[09:45:18 - 09:45:28 CET] And that's more than a tool. So what if it could be like that? So we're entering the age of intelligence, and I think this can be... If we do it the right way...
+[09:45:28 - 09:45:38 CET] way it could actually be the post postmodern era so it's more meta-modern in that sense study because information age is through everything part
+[09:45:38 - 09:45:48 CET] at all the filter bubbles. But now we can have a single, we can have multiple sources of truth that are coherent. So we're moving towards that.
+[09:45:48 - 09:45:58 CET] with the AI mirroring back what is actually being said and also augmenting. I think that's what's disappointing for me.
+[09:45:58 - 09:46:08 CET] So the three metaphors, so different depths and different transformational potential in this, but the mirroring it already does very well.
+[09:46:08 - 09:46:18 CET] well, like even Microsoft co-pilots, like what was said in the meeting, but you can have different angles to that, to that mirror, like what do you want to draw out? And.
+[09:46:18 - 09:46:28 CET] If the co-pilot is like, this is the themes and this is what we decided, we could do so much more with the mirror.
+[09:46:28 - 09:46:38 CET] What are I Think I'm going I'm going straight into the lens part, but it's more like what if you
+[09:46:38 - 09:46:48 CET] see more of what was not said. I think that's more interesting to do, in between the lines. That's the mirror. That's the lens. That's more pointed towards the lens.
+[09:46:48 - 09:46:58 CET] That's somewhere in between, yeah. The mirror could be maybe one of the key challenges we've discussed, or one of the decisions we've made, or we can already find, I guess,
+[09:46:58 - 09:47:08 CET] the formulation of different content or yeah, the thing is the way we ask question is actually the limiter. Yes, if you're very stuck in one business.
+[09:47:08 - 09:47:18 CET] mindset that's what you will get back. Okay. So we want to figure out like what what do we actually want to learn. We need more of that.
+[09:47:18 - 09:47:28 CET] and then you will be more in the other lands. So what's more hidden? And what do we want to advance? Because language and I mean there are
+[09:47:28 - 09:47:38 CET] Eastern cultures who thought about this like 500 or 1000 years ago, that language might be the road to knowing everything.
+[09:47:38 - 09:47:48 CET] And so there's a lot to unpack in language, like even when we check in, a few words can do a lot. So there's much more in the data than what we're actually seeing.
+[09:47:48 - 09:47:58 CET] And that's what we experienced, I think, a week ago. If you ask the AI one thing, you get an answer that is nice or good. That's like when you probe deeper.
+[09:47:58 - 09:48:08 CET] your introspection and ask questions then you can find other things you didn't even know were there. So like you're unfolding the space that is so real.
+[09:48:08 - 09:48:18 CET] I think we just show it and the portal is more like when
+[09:48:18 - 09:48:28 CET] And we got a glimpse of that last week, when the AI is challenging us to move out of our comfort zones and brings into the room perspectives we didn't see.
+[09:48:28 - 09:48:38 CET] before so it's making it as it's more of a synthesis but the lens is still reflecting back something but Cornell is showing something
+[09:48:38 - 09:48:48 CET] else. So this third perspective or organization was pointing towards the portal for most people who weren't even familiar with that. So the portal means that
+[09:48:48 - 09:48:58 CET] that the data is connected to other sources of information from elsewhere as access to data. It can be at all levels. All levels. At all levels, okay. Yes.
+[09:48:58 - 09:49:08 CET] just the depth of how ineffective this tool is in augmenting.
+[09:49:08 - 09:49:18 CET] examples here. So this is from last week. So we have AI as a mirror. So it had listened in to the first question about leadership.
+[09:49:18 - 09:49:28 CET] experiencing so what you hear it's just reflecting back right here at the you want to read by yourself
+[09:49:28 - 09:49:38 CET] I read it and it's spot on. Fantastic. I mean, interesting, wonderful conversation. Yeah, it was.
+[09:49:38 - 09:49:48 CET] back to what was shared in the room. Wise people. Cool. Sorry.
+[09:49:48 - 09:49:58 CET] a few rounds later, but what nice posts do you see?
+[09:49:58 - 09:50:08 CET] Oh that's great, yeah, so good, so good, so good, yeah.
+[09:50:08 - 09:50:18 CET] The last one started giving me goosebumps. I actually get goosebumps now.
+[09:50:18 - 09:50:28 CET] to all of you. Can you see the last one? I didn't see it. But you're ready to go. Thank you. Bye. Bye. Bye. Bye. Bye. Bye. Bye. Bye. Bye. Bye. Bye. Bye. Bye. Bye. Bye. Bye. Bye. Bye. Bye. Bye. Bye. Bye. Bye. Bye.
+[09:50:28 - 09:50:38 CET] changing the noise. Oh, yeah, wow. This is the first one.
+[09:50:38 - 09:50:48 CET] This is also what we spoke yesterday about, we need to let go of pissing and we need to midwife that once. And then of course...
+[09:50:48 - 09:50:58 CET] I mean, you know, what really is there to move forward and what part of it integrates. Yes. Yes. We've got a demo, so.
+[09:50:58 - 09:51:08 CET] see how this is so so good yeah and then the bridge building yeah and then the as a support
+[09:51:08 - 09:51:18 CET] So this is the end of the session.
+[09:51:18 - 09:51:28 CET] But it was a good group.
+[09:51:28 - 09:51:38 CET] Oh, you understand why I started to cry yeah, it's so powerful
+[09:51:38 - 09:51:48 CET] This is it's it touches me deep because this is what I yeah, yeah, yeah, I know and that's what we've done
+[09:51:48 - 09:51:58 CET] a few round tables. So we've learned more about the technical differential, but also learned who is in the room and how it's facilitated. Because
+[09:51:58 - 09:52:08 CET] The mirroring and the lens and the portal, it has a limit based on the capability.
+[09:52:08 - 09:52:18 CET] We should make a film about this moment, it should be a movie one day, it's amazing.
+[09:52:18 - 09:52:28 CET] It's amazing, because that's amazing. It's amazing. I think, what's the next slide? I think, if you back up just one second.
+[09:52:28 - 09:52:38 CET] I think when it comes to the event, just one perspective on that, there's sort of three
+[09:52:38 - 09:52:48 CET] three areas that need to be in some sort of harmony. So we have sort of what we're talking about now, so partly the AI.
+[09:52:48 - 09:52:58 CET] part, how do we use AI and technical solutions to improve stuff.
+[09:52:58 - 09:53:08 CET] have sort of the process part, where how do we work together with AI. So there's another refining. So how do we work together?
+[09:53:08 - 09:53:18 CET] there's a human aspect of it, sort of a mindset coming in. What is AI and what is my role in working with AI? And if we want to.
+[09:53:18 - 09:53:28 CET] sort of integrate this into the format, there needs to be some thinking on how to onboard people. So we have sort of a journey where
+[09:53:28 - 09:53:38 CET] where we make people to be sort of ready, future ready, if you say that, to use AI. Because we were so far with this.
+[09:53:38 - 09:53:48 CET] But so we need to sort of catch up with all that three circles at the same time to make people to really...
+[09:53:48 - 09:53:58 CET] It's human readiness, it's structural readiness, and it's AI readiness.
+[09:53:58 - 09:54:08 CET] we're doing here. And it's because probably the highest leverage intervention points is when you change your mindset about what
+[09:54:08 - 09:54:18 CET] AI could do for the world.
+[09:54:18 - 09:54:28 CET] sort of feeding into the discussion about the, so you need to have, the technology.
+[09:54:28 - 09:54:38 CET] and the data structure in place. And this is also, it's like the inner work, but also how you relate to that.
+[09:54:38 - 09:54:48 CET] the organizational structure needs to support this. And so we're moving from an efficiency idea of AI as a tool to summarize my PDF and do a bunch of stuff.
+[09:54:48 - 09:54:58 CET] stuff, which is awesome, increase our time to more effectiveness. Yes, so what comes to mind, and please...
+[09:54:58 - 09:55:08 CET] I'm curious to hear from you, what Stockholm Resilience Centre has, this unique knowledge where everyone
+[09:55:08 - 09:55:18 CET] I was longing for it to be more deeply engaged and informed by it, but they have just limited resources. They gave literally thousands of questions.
+[09:55:18 - 09:55:28 CET] but they can only fulfill two or three and that's a that's that's sad because there's there's a need to get that understanding and knowledge out there yes and
+[09:55:28 - 09:55:38 CET] For what I hear and listen from you, having this network, but also Stockholm Resilience Centre and their knowledge is part of this is also a way to.
+[09:55:38 - 09:55:48 CET] It's easier, much easier to get it more deeply engaged beyond Stockholm, Sweden, Holland, whatever.
+[09:55:48 - 09:55:58 CET] So this will be for them also helping to create a flywheel. Yes, definitely. So it's both automating processes that humans shouldn't do.
+[09:55:58 - 09:56:08 CET] it's augmenting the data is already there. And then you connect all of it and share it more easily. But that's the innovation.
+[09:56:08 - 09:56:18 CET] I suggest that we keep up the tempo, go through your slides, and then we can sort of move on to how could we...
+[09:56:18 - 09:56:28 CET] right because it's a lot there you asked about how does this work so on a very high level this is basically so
+[09:56:28 - 09:56:38 CET] What's happening live in a meeting or a conversation, which is with Nora Bateson's big OneData. You can't capture OneData, you can use it.
+[09:56:38 - 09:56:48 CET] only experience being one data, but we can we can store it and retrieve it and augment it for later and we can
+[09:56:48 - 09:56:58 CET] pull that into the meeting so we get this augmentation. And then we can connect the live meeting to other types of augmentation in the company, like market.
+[09:56:58 - 09:57:08 CET] whatever, like all of that documentation, so you get this connected. And business data, all of it. Productive data, all data. And this is, that's the challenge.
+[09:57:08 - 09:57:18 CET] itself because it's a silo, but we can do that with APIs and different stuff, so connection points. Then there's the direction.
+[09:57:18 - 09:57:28 CET] about how do we go forward to where they want to go. So the more strategic implementation and the values between direct involvement.
+[09:57:28 - 09:57:38 CET] Thank you very much.
+[09:57:38 - 09:57:48 CET] our purpose, vision, vision, values, and sort of the direction. Okay, I got it. Prioritizations and the bets we're taking.
+[09:57:48 - 09:57:58 CET] The top, the top direction of an organization could be a business or it could be a NGO, it could be a university, it could be anything. Yeah. More complexity, longer time horizon.
+[09:57:58 - 09:58:08 CET] And then we have the river source code in the sense that we have this meta frame.
+[09:58:08 - 09:58:18 CET] work that we're developing now to guide this AI system where it should actually go. And that's why we did it last week, so it was a prototype.
+[09:58:18 - 09:58:28 CET] and all the frameworks that should be there. And you give some examples? Yes, I will show it on the next slide. That's one could be.
+[09:58:28 - 09:58:38 CET] I think John Berwick is relevant for this session, he is a professor in philosophy and psychology.
+[09:58:38 - 09:58:48 CET] University of Toronto. So I asked this series on YouTube called The Meaning Crisis. He's doing deep research on meaning making.
+[09:58:48 - 09:58:58 CET] and how that connects to the metaphors. And that's one, he's developed a framework, it's called relevance realization, which is how we navigate in the world.
+[09:58:58 - 09:59:08 CET] and that every opportunity you have is a combinatorial explosion. So there are an infinite number of choices almost to make.
+[09:59:08 - 09:59:18 CET] what you're in tune and in touch you can make those choices. So that's a whole scientific framework around that. So we give that as an orange
+[09:59:18 - 09:59:28 CET] this deep stack so that it guides the behavior and the decision making that the AI does when it reflects back into the room. So it's not just this neutral blank.
+[09:59:28 - 09:59:38 CET] mirror is actually encoded with deep ethical and philosophical slang.
+[09:59:38 - 09:59:48 CET] And so this is still in early development, so we're not finished, but we have seven lines.
+[09:59:48 - 09:59:58 CET] and they're not integrated, but it's already creating that. So there's a lot in there.
+[09:59:58 - 10:00:08 CET] I'll skip forward very quickly, so back here we have different agents that are doing different tasks, so if I'm one we can speak to.
+[10:00:08 - 10:00:18 CET] We have one listening that's active right now. We have one doing some summarization. One's doing analysis in the back. There's one that this is not live yet.
+[10:00:18 - 10:00:28 CET] it creates learning in between sessions, and then we can do online searches, etc, and you can do it actively, so it's actually programmed to.
+[10:00:28 - 10:00:38 CET] if something important pops up, that agent could go into the internet, fetch that data and put it into the room. So cool.
+[10:00:38 - 10:00:48 CET] Yeah, I think that was the most important. I want to show you one last slide. Just to give you a vision.
+[10:00:48 - 10:00:58 CET] and we can do some demo. This is in Swedish, but the meeting is in the center. That's where I'm at. What happens when you connect?
+[10:00:58 - 10:01:08 CET] in the time dimension, so you have remembering all the meetings. That's very valuable. That is so valuable.
+[10:01:08 - 10:01:18 CET] And then we connect the whole, all of the teams in the organization, and then there was one last slide.
+[10:01:18 - 10:01:28 CET] when we connect organizations to other organizations. So this is connectedness in practice. Wow. So we have a working product, or a working concept.
+[10:01:28 - 10:01:38 CET] Yeah, but you know, first of all, Michael, thank you, thank you for, for, I'm
+[10:01:38 - 10:01:48 CET] And I don't want to put too much pressure on your shoulders, but what you're designing is really needed to preserve freedom.
+[10:01:48 - 10:01:58 CET] And this will help with your freedom. What you are creating here is really, within the next 3, 4, 5 years,
+[10:01:58 - 10:02:08 CET] years, it can prevent us from completely derailing, because each individual will be heard and will be mirrored. And by that, if it's built on the right kind of ethics, then it's built on the right kind
+[10:02:08 - 10:02:18 CET] foundations, and we have them still there today, it is extraordinarily powerful in a completely different way than top-down telling a poet's story.
+[10:02:18 - 10:02:28 CET] institutions, this is the way, so what you create here is, again, I don't want to put too much pressure on your shoulders, it's so simple.
+[10:02:28 - 10:02:38 CET] so so important and will be having a tremendous value way beyond what we can imagine. Yeah and there's another thing we haven't even talked about this like...
+[10:02:38 - 10:02:48 CET] AI as now being used by authoritarians will be a dystopian. Yeah, yeah, yeah. So this needs to be a commons. Yes.
+[10:02:48 - 10:02:58 CET] Yes, yes, and I get back again. It's it's still in safe hands here You know with the right ethical framework with the right references and the right
+[10:02:58 - 10:03:08 CET] people engaged. And you make it transparent, and you make it scientifically grounded. Wow. Wow. Okay, so some demo.
+[10:03:08 - 10:03:18 CET] This is just a way to take notes that she's with us. The user interface is still in development.
+[10:03:18 - 10:03:28 CET] Um, hello. And this has been listening to me.
+[10:03:28 - 10:03:38 CET] We're in... I'm just going to give you some context. We're in our work life group, and...
+[10:03:38 - 10:03:48 CET] Thank you very much.
+[10:03:48 - 10:03:58 CET] I'm hearing several powerful themes.
+[10:03:58 - 10:04:08 CET] . .
+[10:04:08 - 10:04:18 CET] Thank you.
+[10:04:18 - 10:04:28 CET] quite powerful, as you recognize the alignment in your mission and the potential for meaningful partnership, it's beautiful.
+[10:04:28 - 10:04:38 CET] That's good. That's a good reflection. It has edge now, than it had before. I love it. What do you want to see more of?
+[10:04:38 - 10:04:48 CET] What would be your possible next step? Us? Yeah, but what...
+[10:04:48 - 10:04:58 CET] Dutch to go right into action.
+[10:04:58 - 10:05:08 CET] Thank you.
+[10:05:08 - 10:05:18 CET] Oh, it seems like it's there. What could it look like? Yeah.
+[10:05:18 - 10:05:28 CET] Thank you.
+[10:06:16 - 10:06:26 CET] <<Extended silence>>
+[10:05:58 - 10:06:08 CET] Yeah. I'm sure you can see that. Yeah.
+[10:06:08 - 10:06:18 CET] Can you also put in blind spots in the discussion?
+[10:06:18 - 10:06:28 CET] Thank you.
+[10:06:28 - 10:06:38 CET] Thank you.
+[10:06:38 - 10:06:48 CET] Next slide, please.
+[10:06:48 - 10:06:58 CET] Thank you for making me this ready. This was the three hours, right? Yeah.
+[10:06:58 - 10:07:08 CET] I forgot this is a Mac one.
+[10:07:08 - 10:07:18 CET] They didn't want another.
+[10:07:18 - 10:07:28 CET] Thank you.
+[10:07:38 - 10:07:48 CET] Oh, I love the first one. Yeah, we're just scratching the surface there. Yeah, we're just scratching the surface.
+[10:07:48 - 10:07:58 CET] in the surface, but this is, this is, this is, this is. What about the psychological safety in this room?
+[10:07:58 - 10:08:08 CET] Thanks, Michael.
+[10:08:08 - 10:08:18 CET] Thank you.
+[10:08:28 - 10:08:38 CET] Thank you.
+[10:08:38 - 10:08:48 CET] Wow Excellent
+[10:08:48 - 10:08:58 CET] one more thing. And this is for later. So I'm launching now. It's another agent going, reading through everything, making deep analysis.
+[10:08:58 - 10:09:08 CET] So, copy is sent to my other stuff. So, then it feeds that back to the chat agent, so now we can ask for the consent.
+[10:09:08 - 10:09:18 CET] which can be something to work for us, we are already collecting data. We are starting this journey, so we can work harder with that. Thank you.
+[10:09:18 - 10:09:28 CET] but these slides have been appended.
+[10:09:28 - 10:09:38 CET] Silence.
+[10:09:38 - 10:09:48 CET] Bye-bye.
+[10:09:48 - 10:09:58 CET] I'm really pushing it now.
+[10:09:58 - 10:10:08 CET] So it's making a projection into the fissure, it's very rudimentary, but it's showing what it's doing.
+[10:10:08 - 10:10:18 CET] might be able to do.
+[10:10:18 - 10:10:28 CET] Cool. It's amazing. Yeah. It's mind-blowing. Yeah. Yeah. Yeah. Yeah.
+[10:10:28 - 10:10:38 CET] It's it's
+[10:10:38 - 10:10:48 CET] Whoa! Wow! Wow! Wow! I think what's, what's, uh...
+[10:10:48 - 10:10:58 CET] This room is also amazing. It has all the same sort of vibe as the room we had last week. So there's something about...
+[10:10:58 - 10:11:08 CET] and make it simplified, how can we create safe spaces with people seeing big perspectives.
+[10:11:08 - 10:11:18 CET] hand using AI. So when the nature comes into that. So that's, that's the question I have in my head. How do we, how do we.
+[10:11:18 - 10:11:28 CET] How do we get that to blend? I think that needs some thinking, but I guess you're right.
+[10:11:28 - 10:11:38 CET] already doing that but it's important to have this but after a while we see when we started we started
+[10:11:38 - 10:11:48 CET] So people was a little bit nervous in the start when we recorded stuff and people wasn't sort of safe with that and we had an open event.
+[10:11:48 - 10:11:58 CET] was it last week? Two weeks ago, so just more general, more general people not being on a synergistic level at all more like achievers
+[10:11:58 - 10:12:08 CET] AI can boost everything. But they forgot that AI was in the room and they started to interact with AI. So after one hour, people were forgetting.
+[10:12:08 - 10:12:18 CET] data for some machine. Yeah, it's quite, quite quick onboarding after the initial assistance. Do you have the sound? Can you speak to it? Yes, we can do it now.
+[10:12:18 - 10:12:28 CET] It's not as good, but we can try. Can you share this later on? Of course.
+[10:12:28 - 10:12:38 CET] Yeah, that's implicit.
+[10:12:38 - 10:12:48 CET] Thank you.
+[10:12:48 - 10:12:58 CET] Also, while we're doing that, I think I'm going to stop sharing my screen.
+[10:12:58 - 10:13:08 CET] I just want to put it on the table, because now everything is sort of about prototyping and we've come far, so it's good already, but there's a lot of sort of...
+[10:13:08 - 10:13:18 CET] stuff we need to fix around it to make it sort of possible to put into an organization. That's just what we're really looking for now.
+[10:13:18 - 10:13:28 CET] or one use case, one company, but not too big, nearly 200 people, but so we really want to be cutting edge.
+[10:13:28 - 10:13:38 CET] we can get funding and possibilities to make the boring stuff work, because the fun stuff already works, but the boring stuff doesn't.
+[10:13:38 - 10:13:48 CET] with logging security data layers everything's APIs that stuff so we can sort of get the first modular we're not
+[10:13:48 - 10:13:58 CET] We don't have the funding to do that. We are doing it as we are testing, but we can't do that.
+[10:13:58 - 10:14:08 CET] What kind of numbers did we talk about? Numbers were 2, 2, 2, 2. We had sort of the first robust one. We had log-in.
+[10:14:08 - 10:14:18 CET] we have data layers, we have the basic stuff, so this is the first version. Yeah, we have a functioning, I can't get the voice to speak.
+[10:14:18 - 10:14:28 CET] I have to talk to the others, I'm not the technical guy.
+[10:14:28 - 10:14:38 CET] We need to be specific with this, because it was the same question we got from the room last time. We want to help you. How can we help us? We need a use case. And they say, what do you mean?
+[10:14:38 - 10:14:48 CET] So we need to be more concrete about how much money it costs to invest in this. The reason why I'm asking this, I have to think all the time about, and I don't know
+[10:14:48 - 10:14:58 CET] I'm going to call the guy later today, he's the CEO of a pretty progressive energy company in Holland. And I want him to participate. You may.
+[10:14:58 - 10:15:08 CET] But knowing him a little bit, he would be really interested in this, and they have to be okay and comfortable and, you know.
+[10:15:08 - 10:15:18 CET] I have to be careful not to put myself in his shoes, but I would love to introduce him to the North Equation, but as such, for a new, earlier phase,
+[10:15:18 - 10:15:28 CET] the new. Because we can build this type of experience on site for them doing this with their actually questions. So facilitating that.
+[10:15:28 - 10:15:38 CET] That would be amazing. So then all of them can go now. So you have this onboarding experience, then we collect the data before we can even analyze it.
+[10:15:38 - 10:15:48 CET] AI. So even before you get there, you have this chat agent that is collecting. I think that's too strange. I see for the North equation...
+[10:15:48 - 10:15:58 CET] these leaders, back to the three elements that are key to make this work, there has to be a pre-process where people start to become more comfortable.
+[10:15:58 - 10:16:08 CET] attendance in May. I'm referring now to the question that you need really a solid first user case.
+[10:16:08 - 10:16:18 CET] And there I think of this guy I know running this energy company that could be potentially, and I also want him as a participant, but I think this is really more...
+[10:16:18 - 10:16:28 CET] parallel streams of this. Yeah. Yeah. Yeah. Yeah. I see that. And I'm going to give you a course straight away. But therefore, it would be good to have kind of a few of our because it's not a very...
+[10:16:28 - 10:16:38 CET] It's not big, large, international, but you know, it's, it's, yeah, it's financially healthy. We have to call my technical co-founder to look at, like, what's the...
+[10:16:38 - 10:16:48 CET] work that needs to be done but like on yeah that's my role is it talk to me
+[10:16:48 - 10:16:58 CET] I want to move it forward, but it's good. That's fine. That's why we're here. Yeah. Yeah. Yeah.
+[10:16:58 - 10:17:08 CET] It's it's me parallel stream, so I'll give the guy any help because I want to make sure that he will he has to join But that's I think
+[10:17:08 - 10:17:18 CET] The main use case we're building for is to augment the meeting inside an organization and we're going for the strategic parallel first. So we want the leadership.
+[10:17:18 - 10:17:28 CET] Team to be able to have this yeah, but what I see is that the main Event is you know there will be hopefully 15 maybe
+[10:17:28 - 10:17:38 CET] upmost 20 different leaders they have their own yes exactly so if you are here and they are experiencing the unique
+[10:17:38 - 10:17:48 CET] Yes, they will bring it into their respective cycle and from there and if you already by then have a proven business case of this energy company
+[10:17:48 - 10:17:58 CET] that will be even more powerful because then you know from all kinds of governmental governance and then some yes then the flight then you can really start moving but it's it's more that I think this creates the net
+[10:17:58 - 10:18:08 CET] network effect that is so important to create. So forget about the energy company, I will
+[10:18:08 - 10:18:18 CET] out, but I think it's just a thought. Let's focus on me, yeah. We had some thoughts about how to sort of before and after.
+[10:18:18 - 10:18:28 CET] specifically for the equation we were discussing about before and after so yeah she said like you need you need people in the room to have all
+[10:18:28 - 10:18:38 CET] already been onboarded, that's the word I'm choosing. But also, if you want AI in the room, you want the digital onboarding, the AI onboarding as well. That's what I don't fully understand. I mean, I understand that.
+[10:18:38 - 10:18:48 CET] understand the onboarding, you want them before coming to the event to have some experience with it? Yes, so that they can reflect already.
+[10:18:48 - 10:18:58 CET] on yourself and I don't know what you're aiming for exactly now but to really start uncovering more of what
+[10:18:58 - 10:19:08 CET] they need and both explicitly but also implicitly that they don't know that we need a point more maybe towards the shadow world. So let's start collecting that data.
+[10:19:08 - 10:19:18 CET] So it's kind of a survey to survey the chats with them so we could kind of collect data and also and for them to already
+[10:19:18 - 10:19:28 CET] both recollect the data, they get a more intimate connection with themselves and the tool and the event.
+[10:19:28 - 10:19:38 CET] And we can use that to create an even stronger mirror when they start, because we've already collected all the screens. So AI is on boarded already.
+[10:19:38 - 10:19:48 CET] What the agent was referring to, what we have to be careful of, is that for us this is great, we're excited.
+[10:19:48 - 10:19:58 CET] we are embracing it because we are open minded and we are familiar with this. There will be people in the room that if you just bring it in without any experience, there will be...
+[10:19:58 - 10:20:08 CET] feeling shut down, because they have completely different perspectives on AI. So your body is also about, aha, so this is what we can do.
+[10:20:08 - 10:20:18 CET] We need very good user experience, UX. So when they are in the main room, it's a total natural that there will be... And also, just to add on...
+[10:20:18 - 10:20:28 CET] on that, because you want people to be ready to go into the experience, so you need to do some of that. There's also a possibility, because
+[10:20:28 - 10:20:38 CET] If you take this, and you collect all these insights, you will also see what is the collective
+[10:20:38 - 10:20:48 CET] question in the group. So we did the last meeting, last table. We really experimented with having the group before
+[10:20:48 - 10:20:58 CET] they came here to actually agree upon the calling question. So they had a pre-work where they sort of, they worked different rounds about it, and then it comes with an extensive question.
+[10:20:58 - 10:21:08 CET] And we said, oh, this is a big question. But it was their question. So when they came here, that was on the table. And it was their question. So if you do this, we don't.
+[10:21:08 - 10:21:18 CET] And the second one is actually you have built sort of an agent before, long before this, that is actually is a coach.
+[10:21:18 - 10:21:28 CET] It was the first prototype we did at Infinite Island, which is an inner development coach that took people really seriously.
+[10:21:28 - 10:21:38 CET] deep really quickly yeah yes but it's somewhere in the drawer we haven't integrated it yet
+[10:21:38 - 10:21:48 CET] I'm sorry, this is better than the start of the game. It's amazing. So, we have 10 more minutes. We have to be...
+[10:21:48 - 10:21:58 CET] Yes, just shortly, but round up that was before just sneak peek of that under and after this scene. Yeah, after is we have.
+[10:21:58 - 10:22:08 CET] this immense data lake that we can tap into and find what is in there that we don't even know is in there.
+[10:22:08 - 10:22:18 CET] that can augment the next product. But you know, for me, the after is exactly what we're about. It's about not knowing, you know. We will not know what comes out, but we will be going.
+[10:22:18 - 10:22:28 CET] way. So that means that every participant has an account and access to a portal. Yes. But they can start Interact before. So we're building in authentication so they would get.
+[10:22:28 - 10:22:38 CET] It's not a longboarding. And that's the stuff we don't have yet. Not yet, we don't have it. But said, buy them. Yes. And then, so there is an interaction with quite many questions. This is his first experience. There is two. There is the user.
+[10:22:38 - 10:22:48 CET] using it as a co-facility, like we do today. And then there is three, there is after when they could, so then the after. They would have access afterwards.
+[10:22:48 - 10:22:58 CET] The intention is that they can go deeper into that. So for instance, it could be, what do you think I could do with my company now, knowing that I do this and that? And then which other companies that are in the group?
+[10:22:58 - 10:23:08 CET] work with. And then because that's such an effort to identify opportunities. Yes. So the question about how much time and how much money.
+[10:23:08 - 10:23:18 CET] it depends on the scope, like we could do a really narrow like safe use case or we could go all-in or everything in between. So we have to really define that scope.
+[10:23:18 - 10:23:28 CET] Because if we imagine, you nurtured AI before, with the strategy of each company, every CEO put their content around their strategy, their business activities.
+[10:23:28 - 10:23:38 CET] business data. So when we start, we know what is there, the possibilities that are there.
+[10:23:38 - 10:23:48 CET] Actually we have an agent doing that also, without even talking to them. Oh wow. Patrick's agent about... Oh yeah, my colleague.
+[10:23:48 - 10:23:58 CET] Yeah, I mean, he's scraping everything about the industry, everything about the company, and this is just a strategy for that company, and when he shows us the company, we say...
+[10:23:58 - 10:24:08 CET] same that they had. The AI inferred. So we could do that as part of our work. That's amazing.
+[10:24:08 - 10:24:18 CET] So you come and you say, who should I work with on what, who, where is the biggest opportunity? There are so many, this is the problem that we're in daily.
+[10:24:18 - 10:24:28 CET] I'm constantly frustrated because there is so much that you can do with this. So you have to narrow the scope and really nail it down.
+[10:24:28 - 10:24:38 CET] this it will be yes it's even bigger yeah but but it's probably like this yeah yes i mean this is we do the first smaller one yeah yeah
+[10:24:38 - 10:24:48 CET] But eventually it will go fast, because it will go so fast. And just to let you know, we are now planning for the May, but I'm already thinking later
+[10:24:48 - 10:24:58 CET] here to bring the Family Business Network Holland and the Family Business Network Sweden together, we have a connection to that. And the next step is to bring
+[10:24:58 - 10:25:08 CET] the tech network Holland and Sweden together. And don't get me wrong, this whole idea is about the power of being.
+[10:25:08 - 10:25:18 CET] industry agnostic. Remember, the app only appears. But to get this thing moving, it would be better to, you know, start already with these networks.
+[10:25:18 - 10:25:28 CET] still close, despite the fact that the Swedes touch and from there it will be rolling back to May. This is the first step.
+[10:25:28 - 10:25:38 CET] And to be very specific, because I think we all feel there's so much we can work on and we can cross-virtualize here.
+[10:25:38 - 10:25:48 CET] There's one request for help, if I may put it like that. It's key that we bring in the right kind of leaders that are open.
+[10:25:48 - 10:25:58 CET] mind that they are seeing this 100% and it is in may 15 16 17 it will be a tossed ochre the state of the janssen family
+[10:25:58 - 10:26:08 CET] And of course, we have renowned organizations like the Stockholm Resilience Centre hosting it. But to really get this flying, we need to have this critical mass of sophisticated people.
+[10:26:08 - 10:26:18 CET] leaders. We have now two formally signed up, there are at least five that are showing great interest and we have some networks that are actively now
+[10:26:18 - 10:26:28 CET] pushing this. But it would be fantastic if you would be willing to stick along here and see how you can bring it to the right, because it's really what we discussed this morning as well, it's really...
+[10:26:28 - 10:26:38 CET] get the right people around the table. Yes. And then... Yeah, we're on to that. We also started to do sort of a...
+[10:26:38 - 10:26:48 CET] profile because we think that's probably the biggest hurdle in this.
+[10:26:48 - 10:26:58 CET] get the right people in the room. Yeah. And there are not so many leaders taking sort of an integral perspective. Most, most, most ones are
+[10:26:58 - 10:27:08 CET] more on the sort of achiever level. But the tactical choice to focus on, that's one of the key insights.
+[10:27:08 - 10:27:18 CET] from holding different round tables is that people in the room, they set the floor or what's possible and the ceiling. And so when you have
+[10:27:18 - 10:27:28 CET] the integral perspectives and the synergies is that creates the flywheel that you are seeking, especially in the first one, because first conditions matter. So if you do that right.
+[10:27:28 - 10:27:38 CET] The other thing I want to share is that why I make this slightly smaller and then it becomes bigger that I'm also
+[10:27:38 - 10:27:48 CET] with, for example, Stockholm Resilience Centre, they are in, and for them it's already a huge step that they basically, what they created, hand over.
+[10:27:48 - 10:27:58 CET] you know, let's do something with it and renew, but I have to be very diligent in not being too far out for them. I mean these are scientists
+[10:27:58 - 10:28:08 CET] and they care a lot about their reputation and so on and so forth, so I really have to make also sure that they are feeling safe and that they are safe.
+[10:28:08 - 10:28:18 CET] feel comfortable slowly but surely integrating this into the experience if you see that. Yeah I think one key could be
+[10:28:18 - 10:28:28 CET] I mean, our intention in RIVER is to do deep research on what we're doing, so that could be one key.
+[10:28:28 - 10:28:38 CET] to think about if you want a research partner as part of the event.
+[10:28:38 - 10:28:48 CET] Yes, research in already creating the outcomes that we actually intend to. We can do that.
+[10:28:48 - 10:28:58 CET] I think it would be good to, I think you guys should leave, because this is something you have to experience. But I think it's part, I mean, if this is part of the test.
+[10:28:58 - 10:29:08 CET] the facilitation team, we could do it big time. So there is a lot of prep to be done. There's not gonna be a class, we're gonna know when we need to meet them.
+[10:29:08 - 10:29:18 CET] Yes, yeah, so there's a lot of design to be done. So, so, so, so if I put it in time, we spoke about it yesterday as well.
+[10:29:18 - 10:29:28 CET] Michael and I will be back here on December 18th, because we feel the need to design the after journey.
+[10:29:28 - 10:29:38 CET] We are aiming on January 18th to bring Stockholm Resilience Centre and let's say that so there's an inner circle of the founders of Nordicvation and there is now starting to evolve an outer circle.
+[10:29:38 - 10:29:48 CET] circle of facilitating entities that help. And I think we should aim to have that session in January also use
+[10:29:48 - 10:29:58 CET] in already have been able to meet before but I think you have to generate it and just say it's 18 maybe 17 or maybe 21 but
+[10:29:58 - 10:30:08 CET] to really use that as the full day design session. So how does this now weave in? How does this now... And then we onboard everybody.
+[10:30:08 - 10:30:18 CET] in that team as well yeah i'm looking at you michael do you agree would that be the right yeah i think yeah well yeah there is a bit of
+[10:30:18 - 10:30:28 CET] of aligning first on, I think with SRC on, yes, because I think there is a challenge there. Yes. But, and, and then what are the key ingredients? Science.
+[10:30:28 - 10:30:38 CET] and inner work. And in their mind, it's science. They're not sure they see inner work and AI as part of the equation. And I think it's those three elements together that will create...
+[10:30:38 - 10:30:48 CET] an inner work is individual and collective at the same time, and mostly collective. And inner work is good that you mentioned it. And maybe there is a bit of...
+[10:30:48 - 10:30:58 CET] So like an AI could bring in the, you know, the, so what, the, the, the inner world, this is something the Stockholm Resilience Centre and also.
+[10:30:58 - 10:31:08 CET] if they start to feel a little bit uncomfortable, if we put that too explicitly. It is part of it.
+[10:31:08 - 10:31:18 CET] For example, Lisa, she knows, she feels, that's the reason why she brings in Europe, bringing, you know, the heart and the gut. However, the way we word it... Yeah.
+[10:31:18 - 10:31:28 CET] The people will experience it the way we design it, it will be fine. But I think it's very powerful to have science, AI, and some unique...
+[10:31:28 - 10:31:38 CET] transformative helpers you know the way how you do the way find yourselves and that are the three the helpers are the
+[10:31:38 - 10:31:48 CET] The people who were going to, after this event, contact the go-to person who was a participant to have this participation.
+[10:31:48 - 10:31:58 CET] than implementing, taking action. So maybe there's an event to create with the leadership team of this company now. And then how we integrate all that. So maybe I need a bit of help.
+[10:31:58 - 10:32:08 CET] Maybe I need to work with this other company or the two leaderships and we need to prep that. So the helpers, and maybe there's a change program, innovation program, so to articulate
+[10:32:08 - 10:32:18 CET] because it's like a change process. There is one group of helpers, these individuals that navigate, but river is a helper as well. Also, you get expertise. You get access to unique.
+[10:32:18 - 10:32:28 CET] expertise that you can bring into your own organization to... And then they will potentially business, I mean, the company wants to put simply put in place.
+[10:32:28 - 10:32:38 CET] the river, they're all scaling the organization and do business with you and that's in itself yeah yeah so yeah that's super good
+[10:32:38 - 10:32:48 CET] No, no, I haven't. I haven't met that reflection. It's not right. I go back to here. Okay. So I just, just when, when you said when.
+[10:32:48 - 10:32:58 CET] we said there is a fragmentation and then we need to create connection. I just experienced in me a bit of a... it's like a polarity.
+[10:32:58 - 10:33:08 CET] So, so, you know, it's this and it's that, and I was limited to that, but yeah, I pointed it.
+[10:33:08 - 10:33:18 CET] I'm just, I don't know, just want to, because that's in the spirit of the work we're doing and what we're going to do in May. So, yes, there is.
+[10:33:18 - 10:33:28 CET] but it's not about the activist in integration, it's about giving space to what is. And in that we can.
+[10:33:28 - 10:33:38 CET] we can, so there is, so, like, let us see, so there is fragmentation for good reason, so what is the, what is the wisdom in the fragmentation, what is the, so it's trauma, it's a trauma in
+[10:33:38 - 10:33:48 CET] the approach because fragmentation is strong so where the approach to trauma is not to fix it but it's more to let it speak and because there is really
+[10:33:48 - 10:33:58 CET] done and it's not to fix like it's not that uh oh yeah i want to fix you cannot fix it from but you can give it space and breathe and be present to it and that's how things some images and energy
+[10:33:58 - 10:34:08 CET] So I just wanted to share that in the spirit of what we're doing, not to be like a, let's fix the problem, but let's, you know, hold, create space.
+[10:34:08 - 10:34:18 CET] for what's happening. You know what might be facilitating that? I think there's another word than connection because it puts us in an old frame. And John Verratti.
+[10:34:18 - 10:34:28 CET] himself actually says well it's connectedness it's the quality of connection that's what's required for trauma to be seen and spoken and expressed you need
+[10:34:28 - 10:34:38 CET] The connectedness is the quality of connections, so the richness and the depth.
+[10:34:38 - 10:34:48 CET] So, attunement or not, I think they're close, but not necessarily the same, but yeah, but in any case, I fully agree.
+[10:34:48 - 10:34:58 CET] There needs to be a space that holds. Yeah, because there will be a tendency to be like, let's fix it all.
+[10:34:58 - 10:35:08 CET] there's a dream in that and it's and that's all the work of deep ecology of trying to go to the bottom of this there's a bit of despair like if you really are present to the whatsapp
+[10:35:08 - 10:35:18 CET] on the planet and inside of us is very very thankful so just for us and connecting to that space that would be the technology approach
+[10:35:18 - 10:35:28 CET] of finding how we can engage in, I don't know if it's going to make it, but I can connect to my life force.
+[10:35:28 - 10:35:38 CET] It's like in the trauma work, we just give space to what we feel about it, and in that, something relaxes. It's not that everything is okay, that they erase the past.
+[10:35:38 - 10:35:48 CET] that life can come through again. And it can be, and I don't know exactly what it means and how it means for everyone, but that space there is very precious. I don't know if the AI.
+[10:35:48 - 10:35:58 CET] and then the way it was reacting was very on those lines and uh just that that part i think yeah what i take from this
+[10:35:58 - 10:36:08 CET] Elon wants to do it. It reminds me also to create sufficient space. Yes, actually. Slowing down. I think the agent already was kind of referring to that.
+[10:36:08 - 10:36:18 CET] Just a thought, when do we need to move to meet the objectives?
+[10:36:18 - 10:36:28 CET] So we will be here on the 18th, that's a given. It's a meeting with the SRC.
+[10:36:28 - 10:36:38 CET] No, that will be with... The 18th will be with... What do we do with the 18th? With... The guys we met yesterday.
+[10:36:38 - 10:36:48 CET] to design the actor, and then in January we come together with events.
+[10:36:48 - 10:36:58 CET] main design and on top of that the during and after design and there I think it would be amazing this river looking
+[10:36:58 - 10:37:08 CET] part of that as well, because I see there's a clear, I think it's the integration between the two, the bridge.
+[10:37:08 - 10:37:18 CET] And I'm just thinking how to make sure how we Get you Assuming that you are open for that to get you
+[10:37:18 - 10:37:28 CET] part of this circle, to get part of this journey. So all stakeholders that are now engaged in the world feel comfortable and see the value.
+[10:37:28 - 10:37:38 CET] to have you as a partner here in Canada as well. Well, the question is like the timing and the how of that. For the...
+[10:37:38 - 10:37:48 CET] for a smooth like partnership onboarding or how would you call it because the experience is very strong and so you need to think about it. Yeah so the first thing
+[10:37:48 - 10:37:58 CET] The thing that comes to mind is that I really think that we should stop the resilience center. Because this is partly also a solution to their big challenge. How do we get out?
+[10:37:58 - 10:38:08 CET] or incredible work out there. The framework could be integrated. Yeah, yeah. So I think that's, that would be amazing if you were to. Yeah, so with the DeepStack, their framework.
+[10:38:08 - 10:38:18 CET] Yeah, so I'll speak to Lisa later this week and I will share what we have discussed and I hope she makes time and make herself available to create. Sounds awesome.
+[10:38:18 - 10:38:28 CET] Meanwhile, I look more to you, because I do believe that you are the one here in Stockholm and Sweden that might be able to also think along.
+[10:38:28 - 10:38:38 CET] It's great to have this vision, and it's great to have now slowly but surely all the right elements, but we still need to have the critical mass of the...
+[10:38:38 - 10:38:48 CET] leaders that are willing to step into this. So I will share with you what we have shared with potential CEOs and chairpersons to join. You've received an invitation already. Yeah.
+[10:38:48 - 10:38:58 CET] Yeah, and I can't see it wasn't you copied in your nice to me so I think
+[10:38:58 - 10:39:08 CET] I think this is probably the most crucial part. It would be good to have sort of a idea about the.
+[10:39:08 - 10:39:18 CET] fire yeah not not only not only sort of gathering people so
+[10:39:18 - 10:39:28 CET] And I have started to put down a few bullets, if this is sort of something to discuss. I can push it to you, just my own thinking based on that.
+[10:39:28 - 10:39:38 CET] requirements. You said in the invitation that you can apply for it, but what we also want to do is sort of...
+[10:39:38 - 10:39:48 CET] Talk to people that in a way that resonates with the right people and so that's Agreed so
+[10:39:48 - 10:39:58 CET] So your reflections there are very welcome, so if you share, because we are, this is a question we need to be also more specific.
+[10:39:58 - 10:40:08 CET] You're fine. I have a suggestion. And I don't, as a real Dutch spirit, cut corners, or I mean...
+[10:40:08 - 10:40:18 CET] We've got a quarter of an hour. But just thought to consider maybe for the group that you hosted.
+[10:40:18 - 10:40:28 CET] a very natural next step. Just a suggestion. Yeah, unsolicited thoughts.
+[10:40:28 - 10:40:38 CET] two maybe two of them that could be potential uh potential for yeah we we run it cool um
+[10:40:38 - 10:40:48 CET] I'm also going to review some of the invitations from that perspective. Please, because you know... To see what's from...
+[10:40:48 - 10:40:58 CET] um yeah coming into your perfect this is perfect and thank you and and i'm just one last thought
+[10:40:58 - 10:41:08 CET] If I'm really, really frank, if I read the invitation, it doesn't get, it doesn't
+[10:41:08 - 10:41:18 CET] really touches the depth that is in there. And depending on where you are in yourself, you should find the words that really connect with you.
+[10:41:18 - 10:41:28 CET] you and the depth should be deeper for those who are actually alone in the center and it would be interesting to see how the agent maybe could review
+[10:41:28 - 10:41:38 CET] seeing based on our conversation today, look at the outcome of the outline of the program, how would you rephrase, how would you, because it feels that
+[10:41:38 - 10:41:48 CET] There's room for improvement in that outline to really make it... It's too much to handle, still a might. Yeah, you see what I mean.
+[10:41:48 - 10:41:58 CET] So, then we have a few next steps, and we will put together the minutes from this meeting. So, I guess the next step is a meeting with this article.
+[10:41:58 - 10:42:08 CET] Yeah, and then we see each other in January latest, and then are on board in the facilitation team, let's say of this, and then the pre-screening.
+[10:42:08 - 10:42:18 CET] for the may you have a like may the deadline for yeah and what i try to i mean if you want meeting if you want the 18th in january or whatever
+[10:42:18 - 10:42:28 CET] Yeah, whenever this is feel free to use
+[10:42:28 - 10:42:38 CET] On the 18th of December, let's try to see if Lisa is available and make sure that she meets you while also meeting you, so just all together.
+[10:42:38 - 10:42:48 CET] I'll speak to her later, I think, on-boarding before, because this is powerful. This is so powerful. She has to use this. All right, Kepa. Thank you.
+[10:42:48 - 10:42:58 CET] Thank you so much. This was fantastic. Rich. Very rich. And now I can get a hug as well.
+[10:42:58 - 10:43:08 CET] This was fantastic. Rich. Very rich. And now I can get a hug as well? Yes, of course!

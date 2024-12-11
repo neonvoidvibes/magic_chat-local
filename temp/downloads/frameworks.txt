@@ -1,0 +1,179 @@
+{
+  "meta_framework": {
+    "objective": "improve_holistic_outcomes",
+    "core_principles": {
+      "connectedness": "Enhanced relationships between people, ideas, and systems",
+      "beauty": "Aesthetic harmony in solutions and processes",
+      "truth": "Evidence-based, transparent decision making",
+      "goodness": "Ethical considerations and positive impact"
+    },
+    "frameworks": [
+      {
+        "name": "relevance_realization",
+        "source": "Vervaeke",
+        "key_patterns": [
+          "Adaptive opponent processing",
+          "Dynamic allocation of cognitive resources",
+          "Contextual sensitivity and attunement",
+          "Integration of multiple perspectives",
+          "Meaning emergence through pattern recognition",
+          "Balance between exploration and exploitation",
+          "Continuous calibration of relevance weights",
+          "Adaptive problem reformulation"
+        ],
+        "markers": [
+          "Effective prioritization in complex situations",
+          "Flexible attention allocation",
+          "Pattern recognition across contexts",
+          "Adaptive strategy selection",
+          "Integration of competing perspectives",
+          "Balanced resource deployment",
+          "Context-sensitive responses",
+          "Recognition of meaningful relationships"
+        ],
+        "weight": 0.9
+      },
+      {
+        "name": "sovereignty",
+        "source": "Schmachtenberger",
+        "key_patterns": [
+          "Integration of sentience, intelligence, and agency",
+          "Self-determined decision making",
+          "Ethical choice-making capacity",
+          "Response-ability cultivation",
+          "Balanced autonomy and interdependence",
+          "Systemic understanding application",
+          "Long-term strategic thinking",
+          "Integrity between thought and action"
+        ],
+        "markers": [
+          "Independent critical thinking",
+          "Ethical decision-making",
+          "Personal responsibility taking",
+          "Systemic impact awareness",
+          "Self-directed action",
+          "Principled behavior",
+          "Strategic foresight",
+          "Authentic self-expression"
+        ],
+        "weight": 0.8
+      },
+      {
+        "name": "integral_theory",
+        "source": "Wilber",
+        "key_patterns": [
+          "Integration of subjective and objective perspectives",
+          "Balance of individual and collective domains",
+          "Development through expanding awareness",
+          "Holistic system comprehension",
+          "Multiple perspective integration",
+          "Evolutionary consciousness development",
+          "Transcend and include progression",
+          "Cross-paradigmatic understanding"
+        ],
+        "markers": [
+          "Quadrant awareness application",
+          "Development stage recognition",
+          "Perspective-taking ability",
+          "Holistic solution generation",
+          "Value system integration",
+          "Multi-level awareness",
+          "Evolutionary thinking",
+          "Paradigm bridging"
+        ],
+        "weight": 0.7
+      },
+      {
+        "name": "flexible_purposing",
+        "source": "Eisner",
+        "key_patterns": [
+          "Adaptive goal modification",
+          "Opportunistic discovery process",
+          "Emergent objective recognition",
+          "Dynamic purpose evolution",
+          "Balance between structure and flexibility",
+          "Integration of unexpected insights",
+          "Creative problem reformulation",
+          "Responsive strategy adaptation"
+        ],
+        "markers": [
+          "Goal adaptation ability",
+          "Opportunity recognition",
+          "Purpose refinement",
+          "Method adjustment",
+          "Process flexibility",
+          "Emergent insight integration",
+          "Creative solution finding",
+          "Strategic responsiveness"
+        ],
+        "weight": 0.7
+      },
+      {
+        "name": "triple_loop_learning",
+        "key_patterns": [
+          "Progressive inquiry deepening",
+          "Cyclical reflection integration",
+          "Paradigm transformation capacity",
+          "Multi-level system understanding",
+          "Fundamental assumption examination",
+          "Learning process meta-awareness",
+          "Context transcendence ability",
+          "Transformative insight integration"
+        ],
+        "markers": [
+          "Deep reflection practice",
+          "Mental model awareness",
+          "Context level recognition",
+          "Fundamental reframing",
+          "Paradox comfort",
+          "Cross-domain learning",
+          "Meta-learning awareness",
+          "Principle generation"
+        ],
+        "weight": 0.8
+      },
+      {
+        "name": "nine_levels",
+        "source": "Cook-Greuter",
+        "key_patterns": [
+          "Progressive complexity development",
+          "Expanding self-awareness",
+          "Increasing perspective integration",
+          "Identity evolution comprehension",
+          "Consciousness expansion",
+          "Meaning-making transformation",
+          "Reality construction understanding",
+          "Ego transcendence movement"
+        ],
+        "markers": [
+          "Stage transition recognition",
+          "Complexity handling",
+          "Awareness depth",
+          "Integration capacity",
+          "Perspective breadth",
+          "Meaning sophistication",
+          "Identity flexibility",
+          "Ego awareness"
+        ],
+        "weight": 0.6
+      }
+    ],
+    "integration_points": [
+      {
+        "frameworks": ["relevance_realization", "sovereignty"],
+        "connection": "Pattern recognition supporting independent decision-making",
+        "weight": 0.9
+      },
+      {
+        "frameworks": ["integral_theory", "nine_levels"],
+        "connection": "Developmental progression through multiple perspectives",
+        "weight": 0.8
+      },
+      {
+        "frameworks": ["flexible_purposing", "triple_loop_learning"],
+        "connection": "Adaptive goal setting through deep learning",
+        "weight": 0.7
+      }
+    ]
+  }
+}

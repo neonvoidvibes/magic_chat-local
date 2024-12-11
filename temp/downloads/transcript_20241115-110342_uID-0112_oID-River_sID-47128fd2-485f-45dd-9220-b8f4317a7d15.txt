@@ -1,0 +1,54 @@
+# Transcript - Session 47128fd2-485f-45dd-9220-b8f4317a7d15
+
+[00:00:00 - 00:00:15] Bara alla som är med online är också väldigt välkomna. Jag hoppas ni ser det.
+[00:00:15 - 00:00:30] Hej! Välkomna! En liten agenda. Vi ska checka in. Och sen ska vi helt enkelt komma igång med Kött i buté. Patrik kommer vara vår ciceron. Jag kommer vara medkock.
+[00:00:30 - 00:00:45] Och titta lite på att börja samtala och prata AI. Och sen så kunde vi ha en frågestund. Den känns jätteviktig. För det här är ju till för er. Så är det någonting som går för fort eller går för snabbt, så bara, hallå, jag är inte med. Och det gäller såklart ni online också.
+[00:00:45 - 00:01:00] Välkomna! Ni kan använda den här för att lägga upp handen. Använd gärna denna. Okej!
+[00:01:00 - 00:01:15] Check-in-frågan lyder så här. Vad har AI hänt i dig de senaste veckorna? Vad har AI hänt i dig, va?
+[00:01:15 - 00:01:30] Jag tänker att vi kör lite popcorn och då är det superviktigt att vi förklarar med gänget här som vi har med digital. En har försökt till banan att starta. Jag kan börja.
+[00:01:30 - 00:01:45] Avbrudet i onsdags morse och då har vi använt AI både för ett par översättningar men även för fler anledningar. Och också telefonbudet. Tele2-anbudet. Tele2-anbudet, ja! Vi ska berätta om det.
+[00:01:45 - 00:02:00] Men då är min fråga, var det första gången som ni använde AI just i Anbus-förhållandet på det sättet? På det sättet ja. Ja, och vad känns det? Att jag bara skrapar skit.
+[00:02:00 - 00:02:15] Över. Använda sig.
+[00:02:15 - 00:02:30] Ja men jag tyckte att det var kul, det var liksom såhär, men gud kan du skriva såhär mycket, just det, just det, just det, det var lite kul, det var lite roligt, det var lite roligt.
+[00:02:30 - 00:02:45] Det behöver vara mera reflektioner. Daniel.
+[00:02:45 - 00:03:00] ...i skogen förra veckan, men där kan man ju säga också att Norge har verkligen fungerat sig i försvarsmakten och hur mycket datansättning man kan få via drömmen, att man kan få skydda sig lägre med...
+[00:03:00 - 00:03:15] Det är inte dygnet i skogen, utan när man hittar en låt så kan man ju tänka på att det är utvecklingen där det är det fantastiska med AI också. Just det. Ja. Annars fanns det sist jag använde det AI...
+[00:03:15 - 00:03:30] I nästan. Och lite retoriska order med att han är av orkebehov.
+[00:03:30 - 00:03:45] Det här är fantastiskt gott och även hur du kunde hjälpa mig att komma ihåg papper eller t-bullar för att komma ihåg det här.
+[00:03:45 - 00:04:00] Ut. Elland mer här under digitala rummet om japan
+[00:04:00 - 00:04:15] Ja, jag håller på med att jag tycker att det har hänt för lite och så stannar jag där och är jätteglad över det här studiet. Ja, bra! Tack för avdelningen. Så hade vi att dricka också.
+[00:04:15 - 00:04:30] Ja, jag skämde mig i går, jag fick en fråga från en kund som var jättelängd hem, vi måste ta ut en enkät, vi är i Bråså, kan ni hjälpa oss att ta enkät? Och då, när vi gick av tillsammans, då prövde vi lite frågor.
+[00:04:30 - 00:04:45] Jag vet att jag tycker att det får bli en dag jag återkommer. Ja, bra, härligt. Malin.
+[00:04:45 - 00:05:00] Ja, det går bra. Jag kör ganska mycket i vardag. I jobb samtidigt. Kan du bara vara lite konkret? Vad var det senaste du gjorde?
+[00:05:00 - 00:05:15] Är ett material att både sätta. Olika delarna i den här utbildningen, men också fram jättemycket.
+[00:05:15 - 00:05:30] Om jag skulle avancera tekniskt språket, jag kan dels säga åt den att skriva det här för en som inte har engelska som första språk eller skriva lite mindre tekniskt. Just det, det är bra.
+[00:05:30 - 00:05:45] Och den skriver lite amerikansk, gärna själv. Ja, just det. Jag proberar att skriva lite skandinaviskt med tunga. Just det. Ja, fint. Man kan använda den lite där så att det känns fler. Fint. Är det någon mer här i rummet som vill ha en sista sändning?
+[00:05:45 - 00:06:00] Jag ska hoppa in i agendan. Ja, fråga mig det roliga, vad har hänt för dig? Vad är ditt känsla när jag handlar om det här? Ja! Det gjorde jag va, det var samma som...
+[00:06:00 - 00:06:15] Det var en anbundet av studenter som skulle in och hade ett väldigt bra och långt på svenska och ganska dåligt och tråkigt på engelska. Så bara tryckte vi in den där och då kom det ut och så här formaterat.
+[00:06:15 - 00:06:30] Ja, lite puttning så funkade det. Och då var det verkligen så här, det var första gången som jag tänkte att det här var ju sjukt bra hjälp. Ja! Det här var liksom, ja! Det var supportive help!
+[00:06:30 - 00:06:45] Liksom att någon har gjort ett arbete för mig som verkligen är värdefull. Ja, kul! Bra! Fint att du säger så här kändes det i och med. Bra! Jag tänker att vi behöver hoppa vidare, därför att det går allt...
+[00:06:45 - 00:07:00] Längre längre. Men du att samtala med. Nu har jag redan experimenterat.
+[00:07:00 - 00:07:15] Olika håll med vad man kan göra och inte göra. Det vi gör. Funkar egentligen. Det funkar verktyget.
+[00:07:15 - 00:07:30] Den ena grejen som är ganska viktig är just det där när man skriver en prompt eller en instruktion. För en prompt är ett valutekniskt ord, för det man gör är att man ger en instruktion till någonting.
+[00:07:30 - 00:07:45] Att ställa en bra fråga, men vill man ha ut lite mer, då måste man ju göra någon form av sammanhang. Det är det som egentligen är det viktiga. Det är ju att utgå från. Vad ska jag göra med svaret?
+[00:07:45 - 00:08:00] Vad är resultatet redan om man börjar fundera på hur ska formulera det vi får ut och två centrala grejer i det är att beskriva vad den har för roll. Den är.
+[00:08:00 - 00:08:15] Kunskap och kompetenser. Då snävar man ner till att du vill att jag ska vara ekonomiexperter i jurism och svaret på att återspegla det och sedan.
+[00:08:15 - 00:08:30] Nu beskrivs ganska tydligt vad man ska göra. Vad ska du göra men också hur vill du ha svaret. Hur vill du ha responsen. Jag brukar ta jämförelse med.
+[00:08:30 - 00:08:45] Om du utgår från att den är en kollega, då blir det inte realen jobb att göra någonting åt dig. Om du tänker så, och inte tänker Wikipedia-frågor eller Google-sök, då blir det något helt annat.
+[00:08:45 - 00:09:00] Så det är ju inte det som är om riktigt bara. Så nu tänkte jag att vi ska bara visa vad är vad är det den kan göra?
+[00:09:00 - 00:09:15] That we didn't do.
+[00:09:15 - 00:09:30] Nu gör Lund dude, jag gjorde inte som vi sa det ska bli. Så nu. Om.
+[00:09:30 - 00:09:45] Nu är jag i webbrausen och jag ska visa lite skillnader mellan vad webbrausen kan göra och vad den gör i desktop versionen. Om vi börjar med den här frågan då.
+[00:09:45 - 00:10:00] Nu blir inte svaret så jätte uttömnande.
+[00:10:00 - 00:10:15] Frågan är så generisk så svaret blir lite generiskt. Nu ska man komma ihåg att den minns saker som jag har gjort med den under ganska lång tid. Den kan färgas lite av att jag har hållit på med matfrågor förut.
+[00:10:15 - 00:10:30] Men i grunden så blir det ganska enkelt, men om ni tänker på hur skulle man kunna specificera det man skulle vilja göra för att ge det lite mer kontext? Någon som har något förslag? Jag har faktiskt ställt den här frågan, det är ur AI-mejlen.
+[00:10:30 - 00:10:45] Jag ska bjuda på middag här imorgon, och det är ett tema, eller jag ska bjuda på förrätt, och vi ska dela upp det, och temat till den middagen är den 107 dödssinnerna.
+[00:10:45 - 00:11:00] Jag ska bjuda på förrätts baserad på 107 dödssynderna, vad heter det, högmod. Du fick inte prosserit.
+[00:11:00 - 00:11:15] Det är så. Vad betyder det ens i matverk? Jag tänker att du har lite bakom skapar Men jag har ju historien.
+[00:11:15 - 00:11:30] Ja, just det. Men bara vad vi gör nu är egentligen att precisera och borra ner i frågan.
+[00:11:30 - 00:11:45] Nu ser inte jag riktigt härifrån hur du har promptat, för jag bad ju om olika förslag. Nästan rätt. Vad ska bli av med att man för rätt för fyra personer baserat på ena som är dödssynd och en hög mål? Vad kan det bli för spännande rätt?
+[00:11:45 - 00:12:00] Precis, och inledningen av svaret som du får där, det är ju såhär, vilket spännande tema, då borde man tänka lite såhär i valet av typ som det står, så att man kan läsa lite första meningen.
+[00:12:00 - 00:12:15] För dödssyn, högmod eller pride skulle en förrätt kunna vara något överdåligt och lyxigt som verkar sätta gästerna i en upphöjd sinnesstämning. Här är ert förslag. Precis. Och då får du, i skillnad från mig då...
+[00:12:15 - 00:12:30] Vad skillnaden i prompt är, för du får ju en hel, du får ju en hel, du får ju ett recept. Jag fick ju olika förslag på rätter. Där det då var såhär, ja men, typ hummer, tartar med...
+[00:12:30 - 00:12:45] Alltså typ fem olika flag på rätter och jag upplever att vi har promptat ungefär samma sak. Men nu, Patrik ska ha något viktigt här innan man har pratat det. Han är nämligen matnörd. Så att hans grupper vet en massa saker.
+[00:12:45 - 00:13:00] Så det är en skillnad. Det kommer alltid vara olika beroende på vem jag är som interagerar. Men min fråga till dig då, hade du velat ha ett recept när du fick ditt svar? Alltså i utgångsläget så var jag ganska nöjd.

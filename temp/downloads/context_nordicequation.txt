@@ -1,0 +1,322 @@
+{
+  "organization": {
+    "name": "The Nordic Equation",
+    "core_identity": {
+      "purpose": "Unite and empower European leaders to drive systemic transformation towards a sustainable and prosperous future",
+      "mission": "Create an ecosystem for collaborative learning and action between Dutch and Swedish leaders, expanding to broader European integration",
+      "focus": "Facilitating transformative experiences that combine science, nature, and human wisdom for systemic change",
+      "vision": {
+        "society": "Collaborative, inclusive, and sustainable European business leadership driving positive change",
+        "planet": "Thriving within planetary boundaries through conscious business practices and systemic transformation",
+        "future": "Where business leaders act as architects of positive systemic change, moving beyond incremental improvements"
+      }
+    },
+    "foundational_values": {
+      "collaboration": {
+        "essence": "Breaking down silos and fostering genuine partnership across cultural and organizational boundaries",
+        "manifestation": "Creating spaces for co-innovation and co-learning across cultures, particularly Dutch-Swedish integration"
+      },
+      "integration": {
+        "essence": "Combining head, heart, and gut in leadership development and decision-making",
+        "manifestation": "Blending scientific knowledge with transformative experiences and emotional intelligence"
+      },
+      "transformation": {
+        "essence": "Moving beyond incremental change to systemic shifts in business and society",
+        "manifestation": "Enabling leaders to reimagine their role in society and implement meaningful change"
+      },
+      "scientific_grounding": {
+        "essence": "Basing decisions and actions on cutting-edge research and evidence",
+        "manifestation": "Partnership with leading research institutions and thought leaders"
+      }
+    }
+  },
+  "program_framework": {
+    "core_principles": {
+      "cross_cultural": {
+        "essence": "Leveraging complementary Dutch and Swedish strengths for European innovation",
+        "practices": [
+          "Dutch trading and openness orientation - enabling broader reach and impact",
+          "Swedish engineering and substance depth - providing foundational strength",
+          "Shared values of collaboration and trust - fostering genuine partnership",
+          "Combined innovation capabilities - accelerating transformation",
+          "Cultural bridge-building - creating new collaboration models",
+          "Complementary problem-solving approaches - enhancing solutions"
+        ]
+      },
+      "science_based": {
+        "essence": "Grounding transformation in rigorous research and proven frameworks",
+        "practices": [
+          "Planetary Boundaries framework application in business context",
+          "Resilience Thinking for organizational adaptation",
+          "Future Literacy development for strategic foresight",
+          "Systems complexity understanding for better decision-making",
+          "Evidence-based approaches to transformation",
+          "Integration of latest sustainability science",
+          "Regular updating of scientific foundations"
+        ]
+      },
+      "nature_connected": {
+        "essence": "Deepening leadership through natural wisdom and ecological awareness",
+        "practices": [
+          "Immersive natural experiences in Swedish landscapes",
+          "Ecological awareness building through direct experience",
+          "Biosphere stewardship principles in practice",
+          "Nature-based learning and reflection",
+          "Connection to natural rhythms and patterns",
+          "Understanding ecological interdependencies",
+          "Environmental impact consciousness"
+        ]
+      },
+      "transformative_learning": {
+        "essence": "Creating conditions for deep personal and collective change",
+        "practices": [
+          "Integration of multiple ways of knowing",
+          "Safe spaces for vulnerability and growth",
+          "Collective meaning-making processes",
+          "Experiential learning approaches",
+          "Reflection and integration practices",
+          "Peer learning and support",
+          "Continuous development pathways"
+        ]
+      }
+    },
+    "immersive_experience": {
+      "general_structure": {
+        "preparation": [
+          "Individual briefings with each participant (30 minutes, March '25)",
+          "Curated background reading materials",
+          "Pre-work engagement and reflection",
+          "Participant preparation and context setting",
+          "Early community building",
+          "Setting personal learning objectives",
+          "Optional welcome reception at Dutch Embassy"
+        ],
+        "immersion": [
+          "3-day intensive program at Hotell Kristina and Torsåker estate",
+          "Expert facilitation and guidance",
+          "Peer learning and exchange",
+          "Nature connection activities",
+          "Interactive workshops and discussions",
+          "Strategic planning sessions",
+          "Community building activities",
+          "Reflection and integration time"
+        ],
+        "follow_up": [
+          "Network integration and ongoing connection",
+          "Implementation support and guidance",
+          "Access to expert resource network",
+          "Continued collaboration opportunities",
+          "Regular check-ins and support",
+          "Resource sharing and updates",
+          "Community of practice development"
+        ]
+      },
+      "key_components": {
+        "learning_modules": {
+          "focus": "Comprehensive capability development for systemic leadership",
+          "elements": [
+            "Systems thinking and complexity navigation in business context",
+            "Climate and planetary awareness for strategic planning",
+            "Strategic foresight and adaptability in volatile environments",
+            "Inner compass development for authentic leadership",
+            "Cross-cultural collaboration skills",
+            "Transformative leadership practices",
+            "Implementation frameworks and tools",
+            "Change management approaches",
+            "Stakeholder engagement strategies"
+          ]
+        },
+        "expert_engagement": {
+          "focus": "Access to world-class thought leadership and practical expertise",
+          "contributors": [
+            {
+              "name": "Carl Folke",
+              "role": "Stockholm Resilience Centre co-founder",
+              "expertise": "Ecological economics and biosphere stewardship"
+            },
+            {
+              "name": "Johan Rockström",
+              "role": "Director, Potsdam Institute for Climate Impact Research",
+              "expertise": "Planetary boundaries and climate science"
+            },
+            {
+              "name": "Lisen Schultz",
+              "role": "Education director, Stockholm Resilience Centre",
+              "expertise": "Sustainability science and learning"
+            },
+            {
+              "name": "Derk Loorbach",
+              "role": "Director of DRIFT",
+              "expertise": "Sustainability transitions and transformation"
+            },
+            {
+              "name": "Brian Arthur",
+              "role": "Complexity economics pioneer",
+              "expertise": "Economic behavior and system complexity"
+            },
+            {
+              "name": "Henrik Henriksson",
+              "role": "CEO of Stegra (former CEO of Scania)",
+              "expertise": "Sustainable business transformation"
+            },
+            {
+              "name": "Annica Bresky",
+              "role": "Former CEO of Stora Enso",
+              "expertise": "Industry transformation and leadership"
+            }
+          ]
+        },
+        "partner_network": {
+          "focus": "Integrated ecosystem support for transformation",
+          "organizations": [
+            {
+              "name": "Stockholm Resilience Centre",
+              "role": "Scientific foundation and research",
+              "contribution": "Sustainability science and frameworks"
+            },
+            {
+              "name": "DRIFT",
+              "role": "Transition expertise",
+              "contribution": "Transformation methodology and practice"
+            },
+            {
+              "name": "Nature Academy Learning Lab",
+              "role": "Experiential learning",
+              "contribution": "Nature-based leadership development"
+            },
+            {
+              "name": "Planethon",
+              "role": "Strategic foresight",
+              "contribution": "Future literacy and planning"
+            },
+            {
+              "name": "River",
+              "role": "Technology integration",
+              "contribution": "AI-augmented collective intelligence"
+            },
+            {
+              "name": "Worklife Group",
+              "role": "Workplace transformation",
+              "contribution": "Organizational development expertise"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "collaboration_context": {
+    "partner_synergies": {
+      "river_integration": {
+        "focus": "AI-augmented collective intelligence and learning",
+        "opportunities": [
+          "Enhanced meeting experiences through AI facilitation",
+          "Pattern recognition across cultures and contexts",
+          "Wisdom emergence support and capture",
+          "Learning capture and synthesis across events",
+          "Real-time insight generation and sharing",
+          "Cross-cultural understanding enhancement",
+          "Collective memory development",
+          "Knowledge integration and transfer"
+        ]
+      },
+      "worklife_group": {
+        "focus": "Comprehensive workplace and leadership transformation",
+        "opportunities": [
+          "Human-centered organizational design",
+          "Integrated development approaches",
+          "Leadership capability building programs",
+          "Cultural integration methodologies",
+          "Workplace innovation practices",
+          "Change management expertise",
+          "Employee engagement strategies",
+          "Performance optimization methods"
+        ]
+      },
+      "stockholm_resilience_centre": {
+        "focus": "Scientific grounding and research integration",
+        "opportunities": [
+          "Latest sustainability science application",
+          "Research-based framework development",
+          "Academic credibility and rigor",
+          "Evidence-based approach validation",
+          "Continuous knowledge updating",
+          "Scientific network access",
+          "Research collaboration possibilities"
+        ]
+      }
+    },
+    "target_outcomes": {
+      "individual": {
+        "leadership": "Enhanced capacity for systemic leadership in complexity",
+        "awareness": "Deepened understanding of global challenges and opportunities",
+        "capability": "Strengthened transformative abilities and practices",
+        "network": "Access to peer support and expert guidance"
+      },
+      "collective": {
+        "collaboration": "Increased cross-border cooperation and innovation",
+        "innovation": "Novel solutions to complex sustainability challenges",
+        "impact": "Accelerated systemic change in business practices",
+        "learning": "Shared knowledge and experience across sectors"
+      },
+      "systemic": {
+        "transformation": "Shift toward sustainable and regenerative business practices",
+        "integration": "Enhanced European collaboration and innovation",
+        "evolution": "New models of leadership and organizational design",
+        "resilience": "Strengthened adaptive capacity in face of change"
+      }
+    }
+  },
+  "practical_details": {
+    "event_specifics": {
+      "dates": "May 15-17, 2025",
+      "location": {
+        "venue": "Hotell Kristina and Torsåker estate",
+        "accessibility": "30 minutes from Arlanda Airport Stockholm"
+      },
+      "participants": {
+        "number": "15-20 European C-suite leaders",
+        "profile": "CEOs and Chairpersons of influential European companies"
+      },
+      "investment": {
+        "amount": "125,000 SEK + VAT",
+        "payment": "To be paid by employer",
+        "includes": [
+          "Full program participation",
+          "Materials and resources",
+          "Accommodation and meals",
+          "Ongoing network access"
+        ]
+      },
+      "schedule": {
+        "start": "Thursday May 15th at 08:30",
+        "end": "Saturday May 17th at 12:30",
+        "pre_event": "Optional welcome reception and walking dinner at Dutch Embassy on May 14th evening"
+      }
+    },
+    "contact_information": {
+      "general": {
+        "email": "info@nordicequation.com",
+        "phone": "+31 6 83 21 23 66",
+        "website": "www.nordicequation.com"
+      },
+      "applications": {
+        "email": "laurens@nordicequation.com",
+        "deadline": "December 15th",
+        "confirmation": "By December 31st"
+      }
+    },
+    "application_process": {
+      "criteria": [
+        "Leadership position in influential European company",
+        "Commitment to transformation and sustainability",
+        "Willingness to engage in collaborative learning",
+        "Ability to influence systemic change"
+      ],
+      "timeline": {
+        "submission_deadline": "December 15th",
+        "acceptance_notification": "December 31st",
+        "preparation_start": "March 2025"
+      }
+    }
+  }
+}

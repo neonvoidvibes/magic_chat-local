@@ -249,83 +249,105 @@ def analyze_with_claude(client, messages, system_prompt):
     logging.error(f"Failed after {max_retries} attempts.")
     return None
 
-def save_to_s3(content, agent_name, folder_path, filename=None):
-    """Save content to S3 bucket in the specified folder path"""
+def load_existing_chats_from_s3(agent_name, memory_agents=None):
+    """Load chat history from S3 for the specified agent(s)"""
     try:
-        if not filename:
-            timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-            filename = f"chat_{agent_name}_{timestamp}.txt"
-        
-        s3_key = f"{folder_path}/{filename}"
-        
-        # Upload to S3
-        s3_client.put_object(
-            Bucket=AWS_S3_BUCKET,
-            Key=s3_key,
-            Body=content.encode('utf-8')
-        )
-        return s3_key
-    except Exception as e:
-        logging.error(f"Error saving to S3 at '{s3_key}': {e}")
-        return None
+        chat_histories = []
+        agents_to_load = [agent_name] if memory_agents is None else memory_agents
 
-def load_existing_chats_from_s3(agent_name, memory_agents):
-    chats = []
-    # Load from saved chat history folder
+        for agent in agents_to_load:
+            # Use default event '0000' since events are not yet implemented
+            # Only load from saved directory when memory is enabled
+            prefix = f'organizations/river/agents/{agent}/events/0000/chats/saved/chat_'
+            
+            try:
+                response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix=prefix)
+                if 'Contents' in response:
+                    chat_files = [obj for obj in response['Contents'] if obj['Key'].endswith('.txt')]
+                    
+                    for chat_file in chat_files:
+                        try:
+                            chat_obj = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=chat_file['Key'])
+                            chat_content = chat_obj['Body'].read().decode('utf-8')
+                            
+                            # Parse chat content into messages
+                            messages = []
+                            current_role = None
+                            current_content = []
+                            
+                            for line in chat_content.split('\n'):
+                                if line.startswith('**User:**'):
+                                    if current_role and current_content:
+                                        messages.append({
+                                            'role': current_role,
+                                            'content': '\n'.join(current_content).strip()
+                                        })
+                                    current_role = 'user'
+                                    current_content = []
+                                elif line.startswith('**Agent:**'):
+                                    if current_role and current_content:
+                                        messages.append({
+                                            'role': current_role,
+                                            'content': '\n'.join(current_content).strip()
+                                        })
+                                    current_role = 'assistant'
+                                    current_content = []
+                                elif line.strip():
+                                    current_content.append(line.strip())
+                            
+                            # Add the last message if exists
+                            if current_role and current_content:
+                                messages.append({
+                                    'role': current_role,
+                                    'content': '\n'.join(current_content).strip()
+                                })
+                            
+                            if messages:  # Only add if there are valid messages
+                                chat_histories.append({
+                                    'agent': agent,
+                                    'file': chat_file['Key'],
+                                    'messages': messages
+                                })
+                            
+                        except Exception as e:
+                            logging.error(f"Error reading chat file {chat_file['Key']}: {e}")
+                            continue
+                    
+            except Exception as e:
+                logging.error(f"Error listing chat files for agent {agent}: {e}")
+                continue
+                
+        return chat_histories
+        
+    except Exception as e:
+        logging.error(f"Error loading chat histories from S3: {e}")
+        return []
+
+def save_chat_to_s3(agent_name, chat_content, is_saved=False):
+    """Save chat content to S3 in the new file structure"""
     try:
-        prefix = f"agents/{agent_name}/chat_history/saved/"
-        logging.debug(f"Looking for chat history in {prefix}")
-        response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix=prefix)
-        if 'Contents' in response:
-            saved_files = [obj for obj in response['Contents'] if obj['Key'].endswith('.txt')]
-            logging.debug(f"Found {len(saved_files)} txt files")
-            for file in sorted(saved_files, key=lambda x: x['LastModified']):
-                logging.debug(f"Processing file: {file['Key']}")
-                if agent_name in file['Key'] or (memory_agents and any(agent in file['Key'] for agent in memory_agents)):
-                    content = read_file_content(file['Key'], "saved chat history")
-                    if content:
-                        formatted_content = f"[Prior Chat History]\n{content}"
-                        chats.append({
-                            "file": file['Key'],
-                            "messages": [{"role": "assistant", "content": formatted_content}]
-                        })
-                        logging.debug(f"Added chat history from {file['Key']}")
-                else:
-                    logging.debug(f"Skipping file {file['Key']} - doesn't match agent names")
-        else:
-            logging.debug("No files found in saved/ directory")
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        filename = f"chat_{agent_name}_{timestamp}.txt"
+        
+        # Use default event '0000' since events are not yet implemented
+        # Save to either 'saved' or 'archive' directory
+        folder = 'saved' if is_saved else 'archive'
+        s3_key = f"organizations/river/agents/{agent_name}/events/0000/chats/{folder}/{filename}"
+        
+        try:
+            s3_client.put_object(
+                Bucket=AWS_S3_BUCKET,
+                Key=s3_key,
+                Body=chat_content.encode('utf-8')
+            )
+            return True, filename
+        except Exception as e:
+            logging.error(f"Error saving chat file {filename}: {e}")
+            return False, None
+            
     except Exception as e:
-        logging.error(f"Error loading saved chats from S3: {e}")
-    logging.debug(f"Total chats loaded: {len(chats)}")
-    return chats
-
-def reload_memory(agent_name, memory_agents, initial_system_prompt):
-    previous_chats = load_existing_chats_from_s3(agent_name, memory_agents)
-    
-    # Combine all chat content
-    all_content = []
-    for chat in previous_chats:
-        for msg in chat['messages']:
-            all_content.append(msg['content'])
-    
-    combined_content = "\n\n".join(all_content)  # Add extra newline between files
-    logging.debug(f"Combined content length: {len(combined_content)}")
-    summarized_content = summarize_text(combined_content, max_length=None)
-    logging.debug(f"Summarized content length: {len(summarized_content) if summarized_content else 0}")
-    
-    # Add the summarized content to the system prompt with clear context
-    if summarized_content:
-        new_system_prompt = (
-            initial_system_prompt + 
-            "\n\n## Previous Chat History\nThe following is a summary of previous chat interactions:\n\n" + 
-            summarized_content
-        )
-        logging.debug("Added chat history to system prompt")
-    else:
-        new_system_prompt = initial_system_prompt
-        logging.debug("No chat history to add to system prompt")
-    
-    return new_system_prompt
+        logging.error(f"Error preparing to save chat: {e}")
+        return False, None
 
 def display_help():
     print("\nAvailable commands:")
@@ -453,7 +475,7 @@ def main():
                             elif command == 'save':
                                 # Save chat history to saved folder
                                 chat_content = format_chat_history(conversation_history)
-                                save_to_s3(chat_content, config.agent_name, f"agents/{config.agent_name}/chat_history/saved")
+                                save_chat_to_s3(config.agent_name, chat_content, is_saved=True)
                                 print("Chat history saved successfully")
                                 print("\nUser: ", end='', flush=True)
                                 continue
@@ -502,9 +524,9 @@ def main():
                                 continue
                             conversation_history.append({"role": "assistant", "content": response})
                             
-                            # Save chat history to saved folder after each message
+                            # Save chat history to archive folder after each message
                             chat_content = format_chat_history(conversation_history)
-                            save_to_s3(chat_content, config.agent_name, f"agents/{config.agent_name}/chat_history/saved")
+                            save_chat_to_s3(config.agent_name, chat_content, is_saved=False)
                             
                             print("\nUser: ", end='', flush=True)  # Add prompt for next input
                             

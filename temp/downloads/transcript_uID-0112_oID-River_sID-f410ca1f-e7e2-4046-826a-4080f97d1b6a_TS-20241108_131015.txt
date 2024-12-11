@@ -1,0 +1,1950 @@
+# Transcript - Session f410ca1f-e7e2-4046-826a-4080f97d1b6a
+
+[00:00:00 - 00:00:06] Okej, så vilka är i mötet? River-team möte, fredag eftermiddag.
+[00:00:06 - 00:00:12] Stefan, Lotta, Patrik, David kommer kanske. Syfte med mötet, bara gå igenom lite.
+[00:00:12 - 00:00:15] Synka och kanske göra.
+[00:00:15 - 00:00:17] Fredag 8 november.
+[00:00:17 - 00:00:19] Bra, datumårsdag.
+[00:00:19 - 00:00:22] Okej, vill du ta punkterna eller ska jag?
+[00:00:22 - 00:00:25] Ja, men ska vi följa ner den eller?
+[00:00:25 - 00:00:27] Säger du bara topp till botten?
+[00:00:27 - 00:00:30] Köttgym, den är nummer ett, den kommer vi inte ifrån.
+[00:00:30 - 00:00:34] av. Har Thanksgiving.
+[00:00:38 - 00:00:39] Vassus.
+[00:00:45 - 00:00:45] I.
+[00:01:00 - 00:01:07] Det var det jag precis sa. Vi kanske inte håller för Achievers. Vi får fråga hur vi vill med det.
+[00:01:15 - 00:01:30] Stockholm Conf, Eksjöret och Eksjöret Playground, nummer två, och då står det här sträckorna.
+[00:01:30 - 00:01:35] E-kajet är ju en stor pläggare, men vi kommer ju ha playgrounds innan dess, tänker jag.
+[00:01:35 - 00:01:40] Det vill vi väl ha. Någon i december då. Kanske någon annan vi är mindre i.
+[00:01:40 - 00:01:43] Strategi och målgrupp.
+[00:01:43 - 00:01:45] Precis, vilka fokuserar du på?
+[00:01:45 - 00:01:49] Ska vi ha en tech-update också?
+[00:01:49 - 00:01:51] Ja, det kan vi göra.
+[00:01:51 - 00:01:53] Vad som är möjligt och vad som ligger närmast i pipen.
+[00:01:53 - 00:01:57] Ja, och hur skulle vi kunna ta det så att fler kan börja använda det?
+[00:01:57 - 00:02:00] För vi behöver experimentera med byggnadsningar och möjligheter.
+[00:02:00 - 00:02:02] Okej, ska vi nominera då?
+[00:02:02 - 00:02:04] Ja, ja, ja.
+[00:02:04 - 00:02:06] Och sen check out.
+[00:02:08 - 00:02:10] Vad har vi lärt oss den här veckan?
+[00:02:10 - 00:02:12] Precis.
+[00:02:12 - 00:02:14] Du får leda, Lotta.
+[00:02:14 - 00:02:16] Vad du tror.
+[00:02:15 - 00:02:26] Det brukar vara skönast när vi tar de här enklare grejerna och bara driver av dem, för då kan vi ha en liten samvudde fördel här länge vi ska stanna för de andra.
+[00:02:26 - 00:02:28] Är det okej?
+[00:02:30 - 00:02:36] Status, Nordic, Nordic, Fabric är också bara status.
+[00:02:36 - 00:02:39] Precis, det brukar vara bra om det är infostatus.
+[00:02:39 - 00:02:41] Ja, så vi sätter två varor på de här.
+[00:02:41 - 00:02:45] Ska vi hålla lite möteshygien då, så att när det är infostatus, då går vi inte så djupt?
+[00:02:45 - 00:02:48] ut in i och ifrågasätta eller skapa.
+[00:02:48 - 00:02:50] Nej, nej, det är bara status.
+[00:02:50 - 00:02:54] Ja, vi tenderar ju att prata mycket när vi öppnar upp de där.
+[00:02:54 - 00:02:56] Jag är inne på något.
+[00:02:56 - 00:02:58] Updatering. Updatering, tog jag dig också en sån.
+[00:02:58 - 00:03:00] Det är också en tvåa, ja.
+[00:03:00 - 00:03:02] Okej, men då börjar vi bra.
+[00:03:02 - 00:03:05] Ska vi göra det först, och sen kan vi ta en recap på vad som kommer sen.
+[00:03:05 - 00:03:10] Ja, så ett check in. Är det någon som vill nominera en lång fråga?
+[00:03:10 - 00:03:14] Annars då kan jag nominera en kändikroppen idag.
+[00:03:15 - 00:03:17] Ja, vi köper den.
+[00:03:17 - 00:03:19] Men då?
+[00:03:19 - 00:03:21] Jag kan köra.
+[00:03:21 - 00:03:23] Jag kom på mig själv med att
+[00:03:23 - 00:03:25] efter vi träffades ute här
+[00:03:25 - 00:03:27] så gjorde jag hoppsasteg.
+[00:03:27 - 00:03:29] Jag har inte gjort det för jättelänge.
+[00:03:30 - 00:03:37] Jag vet inte om det är för att jag har dragit kaffe idag, fast det var flera timmar sedan, det här är min andra kopp, och jag har inte druckit i flera dagar.
+[00:03:37 - 00:03:45] Eller om jag bara är nöjd och glad. Eller om jag är kall, väldigt ruggig. Jag tror att det är en kombination.
+[00:03:45 - 00:03:55] Jag känner mig happy, oskönt pigg med tanke på sönderbrist, men nu ska jag sova bra i helgen.
+[00:03:55 - 00:04:00] Jag är glad för att vi faktiskt har kommit framåt hela tiden.
+[00:04:00 - 00:04:02] Jag tycker vi blir mer och mer konkreta.
+[00:04:02 - 00:04:04] Långsamt, långsamt.
+[00:04:06 - 00:04:08] Taxan. Jag känner mig taxad med eftergården.
+[00:04:10 - 00:04:12] Den har följt mig en dag.
+[00:04:14 - 00:04:16] Det var jag.
+[00:04:15 - 00:04:30] Ja, jag hade lite samma känsla igår, att jag tyckte att det här är ett av de bästa mötena.
+[00:04:30 - 00:04:37] Ska jag lägga min 10 topp-lyssna på möten, som jag minns, så kommer det här vara ett av dem som jag hade igår.
+[00:04:37 - 00:04:45] Jag rådde jävligt mycket energi, vaknade tidigt och bara, jaha, kan jag åka en till?
+[00:04:45 - 00:04:47] Tio minuter.
+[00:04:47 - 00:04:59] Satt på tunnelbanan längre på en itererad avlång konversation med perplexity om mötesutmaningar.
+[00:04:59 - 00:05:01] Det fastnade.
+[00:05:00 - 00:05:07] Men hur kan vi hitta de möjligheterna?
+[00:05:15 - 00:05:30] som vi vill få utvecklas, men också våga vara modiga genom att släppa Sverige och testa vad som är det värsta som kan hända.
+[00:05:46 - 00:05:51] Nu går vi ut och tar smällarna och hyllorna.
+[00:05:56 - 00:05:59] Upplåst av energi.
+[00:06:01 - 00:06:05] egenkla rum har en längd
+[00:06:05 - 00:06:08] även om nu.
+[00:06:09 - 00:06:09] Men.
+[00:06:16 - 00:06:31] Jag har ju en tro på att vi också har en uppgift att ge skapande upplevelser tillsammans med människor och jag tror att min missyn i går handlade om att
+[00:06:31 - 00:06:43] Jag vill så gärna att vi ska hitta ett sätt där vi ska ha fler gåvor till människor så att de orkar vara i det som är så jävla stökigt både jobbmässigt och livsmässigt.
+[00:06:43 - 00:06:46] Då blir det liksom såhär, vi kommer ju inte riktigt vidare.
+[00:06:46 - 00:06:55] Hur ska det kännas och upplevas när jag sitter med det här? Vad kommer det här kunna göra för skillnad?
+[00:06:55 - 00:07:01] Jag har ett stort längt efter det.
+[00:07:01 - 00:07:11] Vi tror också att den bästa back-end-tekniken kommer lösa allt det här, och då är vi inne på människors håret igen.
+[00:07:11 - 00:07:16] Jag längtar på mer människa också, och jag förstår att vi behöver ta de här diskussionerna. Jag har inget problem med det.
+[00:07:16 - 00:07:31] Men vad vill jag att någon har sagt när de har jobbat med oss, då är det känslan vi gav kvinnorna.
+[00:07:31 - 00:07:37] Det är min hopp och tro om att du är kapabel att göra det här, för vi supportrar dig på vägen.
+[00:07:37 - 00:07:42] Det är inte vi som ska kolla om hur det går till, utan vi ska hitta kraft med dig att orka.
+[00:07:42 - 00:07:46] Jag har bara tagit länk dit och vi hinner.
+[00:07:46 - 00:07:58] Det är också komplext och svårt. Jag får allergier i min kropp när jag får det här management-vibeln över att vi ska stå och tala om hur det ska gå till.
+[00:07:58 - 00:08:01] Jag vet inte vad jag menar med det.
+[00:08:01 - 00:08:11] Det är mer så här, hur landar vi i människorna så att vi hjälper dem med den insikten, och det är liksom utmaningen här.
+[00:08:11 - 00:08:16] Jag längtar dit, min kropp längtar dit, och då blir jag trött när han inte kommer dit. Så, jag är lite trött.
+[00:08:16 - 00:08:24] Det är lite trött och tungt idag, så jag hoppas att ni förstår vad jag säger nu, med kärlek.
+[00:08:31 - 00:08:33] X.
+[00:08:46 - 00:08:52] Hur är vägen dit då? Ska vi förändra världen först? Eller hur lägger vi i känslan?
+[00:08:52 - 00:08:58] För mig är inte det att förändra världen, utan det är snarare att förändra hur människor agerar i sin vardag.
+[00:08:58 - 00:09:01] Vilket är det svåraste du kan göra?
+[00:09:01 - 00:09:10] Jag vet, jag vet, jag vet, jag vet, jag vet, jag vet, men det är liksom kärnan i mitt längt.
+[00:09:10 - 00:09:16] Ja just det, men väck den längtan efter att söka den förändringen, se att den är möjlig, och det är ju det jag håller med om.
+[00:09:16 - 00:09:23] Jag håller med dig, vi ska inte tala om hur det ska bli, vi ska ge dem verktyg för att upptäcka det själva, för annars hamnar vi ju där, då måste vi ju guida dem hela vägen.
+[00:09:23 - 00:09:25] Nej, jag svarar inte med upptäckningar!
+[00:09:25 - 00:09:31] Nej, och det är jag helt eniga på, utan det är ju var och deras förutsättningar.
+[00:09:31 - 00:09:45] Vi ska inte tvinga någon att gå någonstans där de inte vill eller skonar och vi ska inte springa på dem som gör motstånd av olika skäl, principiella eller vad det nu är.
+[00:09:46 - 00:09:57] Vi når egentligen inte oense i vad vi vill åstadkomma, utan det är mer den här, vilka spår ska vi välja för vi kan inte göra allt samtidigt.
+[00:09:57 - 00:10:01] Nej, men det är också en sån instinkt av att det är enklaste.
+[00:10:02 - 00:10:06] Det är inte enkla saker vi talar samman här. Det är på riktigt viktiga saker.
+[00:10:06 - 00:10:08] Det här är från en avtal förändringar.
+[00:10:08 - 00:10:12] Ja, jag vet. Och ibland så kanske jag känner det mer.
+[00:10:12 - 00:10:17] Bara för att jag också har en förmåga att känna in och känna av.
+[00:10:17 - 00:10:29] Då kan jag låta lite dystopisk, men jag har stått i den här jävla skiten och hållit till och hållit psykologisk säkerhet för hur mycket folk som helst.
+[00:10:29 - 00:10:32] Det är ju asmyckent!
+[00:10:32 - 00:10:47] Det är energi som krävs för att människor ska orka vara där, och då blir det inte så att en AI ska lösa det problemet, det är alltid människan som ska meddela i, och då blir också hur vi pratar om det här väldigt, väldigt viktigt.
+[00:10:47 - 00:10:53] Vilka ord vi använder, hur vi ska komplettera eller ge energi till att orka till exempel.
+[00:10:53 - 00:10:59] Får jag bara säga, det här var ju check-in så jag kanske inte behöver använda det här.
+[00:10:59 - 00:11:01] Så, ja.
+[00:11:01 - 00:11:03] Tack, bra download.
+[00:11:02 - 00:11:10] Ska vi ta nästa då? Learning community, work life, status.
+[00:11:10 - 00:11:17] Där har vi 15 juni har vi första Lunch&Learn, den är för 5 minuter.
+[00:11:17 - 00:11:22] Den är digital och den är fysisk, och det är bara med amplitörerna.
+[00:11:22 - 00:11:29] Nu har jag gjort den så är egentligen sprint två färdig.
+[00:11:29 - 00:11:32] Så, i alla fall tidsmässigt.
+[00:11:32 - 00:11:47] Han får kalla till ett planeringsmöte för ett springtrev som är en förlängning av community, med mer arrangemang och andra saker, som han har synkat metoder, vi vet inte så mycket om nästa steg än.
+[00:11:47 - 00:11:49] När skulle den vara bra?
+[00:11:49 - 00:11:51] Mötet är nästa vecka.
+[00:11:51 - 00:11:53] Det är på onsdag.
+[00:11:53 - 00:11:55] När skulle Spring 3 hända?
+[00:11:55 - 00:11:57] Vi är redo att köra den där från slutet,
+[00:11:57 - 00:11:59] om vi påbörjar den redan.
+[00:11:59 - 00:12:01] Men Spring 3 är ju mer allangelökt,
+[00:12:01 - 00:12:03] mer tillfälligt.
+[00:12:02 - 00:12:08] De har alls inte kommit igång när de gör det här, så det handlar om det, det är inget nytt.
+[00:12:08 - 00:12:14] En fråga, det vi bygger nu, pratar ni om att väva in det down the line eller?
+[00:12:14 - 00:12:17] Nej, så här, om du säger det här, bara precis fattas det.
+[00:12:17 - 00:12:24] Jag och Patrik är alldeles ambitiösa för vad han vill ta ut i organisationen, vi får backa hela helgen.
+[00:12:24 - 00:12:26] Ja, men det vet vi. Det är not news.
+[00:12:26 - 00:12:29] Nej, nej, nej. Han kommer bara säga att det där är tulbanst.
+[00:12:29 - 00:12:32] Det är det han säger. Vi kan inte prata om de här grejerna.
+[00:12:32 - 00:12:37] Om inte mottagaren tar hand om det och processar det, så säger han.
+[00:12:37 - 00:12:42] Vilket gör att man tappar energin.
+[00:12:47 - 00:12:56] Ni får springa med den om ni vill eller inte, men det kan ju vara så att det är ett team eller en grupp som skulle vilja vara extra nyfikna på att köra en sån grej.
+[00:12:56 - 00:12:58] Ja, det kan vi ta med oss på onsdag.
+[00:12:58 - 00:13:00] Ja, det kan vi ta med oss på onsdag.
+[00:13:00 - 00:13:02] Jag är all for that.
+[00:13:02 - 00:13:09] Bara för att få data behöver vi inte ställa in det som någon transformationsprocess, utan bara såhär, använda då.
+[00:13:09 - 00:13:14] Men det här är något som är en enkel grej för det vet vi finns hos folk att de vill ha.
+[00:13:14 - 00:13:17] Det är ju den här mobilappen.
+[00:13:17 - 00:13:22] Spela in forttranskriberat i ett svep, så att du inte behöver tänka på det.
+[00:13:22 - 00:13:30] Det kanske några är mogna för, men den andra, hela den här, den...
+[00:13:32 - 00:13:34] Det är han som styr det.
+[00:13:34 - 00:13:36] Det bara är så.
+[00:13:36 - 00:13:40] Jag har inte mött någon representativare som har pratat om det här på någonsin.
+[00:13:40 - 00:13:42] Okej.
+[00:13:42 - 00:13:44] Så han är ju på hand med sina tuggar.
+[00:13:44 - 00:13:46] Nu kör vi.
+[00:13:47 - 00:13:58] Så, det räcker med den, det var min, eller AI Nordic Celsinki, Stefan, vad säger du om den?
+[00:13:58 - 00:14:02] Ja men, jag känner mig superfan.
+[00:14:02 - 00:14:06] Det kommer till mig ändå att det är typ 40 personer där.
+[00:14:06 - 00:14:08] Oj, bra.
+[00:14:08 - 00:14:12] Så investerare, entreprenörer och förändringsledare i samma rum.
+[00:14:12 - 00:14:16] Samskapad samtal om framtidens...
+[00:14:17 - 00:14:23] hälsosamma företag och investering i det för långsiktigt värde.
+[00:14:23 - 00:14:25] Det kan ju bara bli bra också.
+[00:14:25 - 00:14:28] Och det lät ju som att de vill bygga en community också.
+[00:14:28 - 00:14:30] Ja, det här var första steget.
+[00:14:30 - 00:14:32] Första idén var att det skulle vara på Island och sen var det inte så.
+[00:14:32 - 00:14:35] Då hade jag åkt med, för det är det coolaste stället.
+[00:14:35 - 00:14:37] Ja, jag har bott på Island.
+[00:14:37 - 00:14:39] Det är det coolaste stället.
+[00:14:39 - 00:14:43] Men du känner både Armit och Jan Söder?
+[00:14:43 - 00:14:45] Vad sa du? Och Nils.
+[00:14:45 - 00:14:46] Nils, ja.
+[00:14:46 - 00:14:48] Nils, från Hägnä.
+[00:14:47 - 00:14:54] Men jag vet inte om Nils, han stod inte med som avsändare på det, men de gör ju innerworks tillsammans.
+[00:14:54 - 00:14:59] Jag vet inte om Nils är med i det här, om han kommer att delta, ingen aning.
+[00:14:59 - 00:15:02] Han och hans familj bor i Oslo.
+[00:15:03 - 00:15:05] De har flyttat dit. Det var där vi var med familj för några veckor sedan.
+[00:15:05 - 00:15:07] Jag hälsade på dem bland annat.
+[00:15:07 - 00:15:11] Men Amit är ju A-teens' starstruck.
+[00:15:11 - 00:15:13] Fast du känner ju honom på andra nivåer.
+[00:15:13 - 00:15:15] Jag känner honom också tidigare.
+[00:15:15 - 00:15:17] Han är bra. Han är både mjukis...
+[00:15:18 - 00:15:27] Så jag känner full tillit till bra facilitering.
+[00:15:27 - 00:15:33] Vi kan väl prata om hur vi kan ha servicetalande?
+[00:15:33 - 00:15:35] Det är så här sjukt tidigt.
+[00:15:35 - 00:15:37] Tänker du åka bil eller?
+[00:15:37 - 00:15:41] När det är så där tidigt, då är det taxi.
+[00:15:41 - 00:15:43] Ska vi dela på en taxi?
+[00:15:43 - 00:15:46] Att jag åker förbi så hon inte kan hämta upp dig?
+[00:15:46 - 00:15:48] Ja, det är verkligen det.
+[00:15:48 - 00:15:50] Vi kan kolla om vi kan hitta någon sån.
+[00:15:50 - 00:15:52] Ja, förlåt.
+[00:15:52 - 00:15:54] Då blir det kanske okejpris hos båda.
+[00:15:54 - 00:15:56] Ja, vi kan kolla det.
+[00:15:56 - 00:15:58] För er är det sådär tidigt, så jag säger att vi behöver inte sitta och köra.
+[00:15:58 - 00:16:00] Och då måste man parkera.
+[00:16:00 - 00:16:02] Nej, jag vet.
+[00:16:02 - 00:16:04] Vi tar en sån här.
+[00:16:03 - 00:16:10] Och sen så snackar det om att man kan åka tåget in till City om man inte vill.
+[00:16:10 - 00:16:12] Sen ska vi ta oss in till staden.
+[00:16:12 - 00:16:14] Från Helsinki?
+[00:16:14 - 00:16:16] Ja, från bilplatsen.
+[00:16:18 - 00:16:20] Han brukade åka tåg.
+[00:16:20 - 00:16:22] Han hade finns klipp från förut.
+[00:16:22 - 00:16:23] Vem var du?
+[00:16:23 - 00:16:24] Min son.
+[00:16:24 - 00:16:26] Min son har varit i Halsberg.
+[00:16:26 - 00:16:28] Jag är i relation till Finland. Min farmor var därifrån.
+[00:16:28 - 00:16:30] Du vet hur man har fått det.
+[00:16:30 - 00:16:32] Bra, okej. Bak på den då.
+[00:16:33 - 00:16:35] Det känns spännande, lantverksbaserat.
+[00:16:35 - 00:16:39] Jag tror att vi kommer hitta synergister där.
+[00:16:39 - 00:16:42] Kanske investerare, helt klart samarbetspartners.
+[00:16:42 - 00:16:45] Och kanske en annan kund, I don't know.
+[00:16:45 - 00:16:47] Det kommer hända saker där, det tror jag.
+[00:16:48 - 00:16:53] Vi får väl prata ihop oss lite där, vad vi vill ha med oss för energi och tankar.
+[00:16:53 - 00:16:58] Men som du sa, vi ska ju såklart ha en liten AI-fickan, så att ni kanske lyssnar in på saker.
+[00:16:58 - 00:17:02] Och är det mindre samtal, då får man ju be om tillåtelse.
+[00:17:02 - 00:17:03] Men i den stora samtalet...
+[00:17:03 - 00:17:07] Då kan man ju bara spela in så att man får med.
+[00:17:07 - 00:17:11] Det var ju det vi gjorde när vi lyssnade på Arthur.
+[00:17:11 - 00:17:13] Ettan Arthur.
+[00:17:13 - 00:17:15] När vi var på Epis.
+[00:17:15 - 00:17:17] Så spelade jag in hela hans föredrag.
+[00:17:18 - 00:17:33] Och sen så stoppade vi in det med jämt, summerade det hela där och så använde prompten som vi gjorde för en av roundtables och så språttade den ut sig.
+[00:17:33 - 00:17:43] Ja, men den bottar ut en kort text om vad är det kontextuella i det här och vad är frågorna som man bör...
+[00:17:43 - 00:17:48] Och han skickade tillbaka bara en bild på...
+[00:17:48 - 00:17:51] Wow, och sen så drog vi hela musiken av.
+[00:17:55 - 00:17:58] Men så vi hittar ett sätt som vi kan hålla kopplad framåt utåt?
+[00:17:58 - 00:18:00] Ja, det kommer att bli lite sådant.
+[00:18:00 - 00:18:03] Jajaja, och det kommer ju sådär, jag tänker såhär på att du och jag...
+[00:18:03 - 00:18:06] Det sitter ju grejer i kroppen, om man sätter mig och lyssnar in det.
+[00:18:06 - 00:18:09] Du skrev AI Nordics, men det egentligen heter Nordic Dialogues.
+[00:18:09 - 00:18:11] Det är inget med AI egentligen.
+[00:18:13 - 00:18:16] Vet du vad som borde vara en kul grej att göra?
+[00:18:16 - 00:18:17] Ja?
+[00:18:17 - 00:18:18] Om man spelar in...
+[00:18:18 - 00:18:28] De grejerna som händer, och så laddar vi upp dem i en gemensam repository, så kan jag och David hemifrån gå in och höra vad som har hänt idag.
+[00:18:28 - 00:18:33] Ni skickar upp den till Googles notebook här, så kan man lyssna på podden.
+[00:18:33 - 00:18:35] Nej men jag vill inte reagera på det, jag vill inte snacka med er.
+[00:18:35 - 00:18:37] Vi samlar in till andra, vi tog typ klubb till det där läskigt.
+[00:18:37 - 00:18:39] Nu är det fabriksstatus.
+[00:18:39 - 00:18:43] Fabriksstatus, vad händer? Ni har hittat någon tid?
+[00:18:43 - 00:18:47] Ja, det var ju toppagendan, det var det första vi gjorde i mötet.
+[00:18:48 - 00:18:56] Han skrev ju, tog och svarade förra veckan och sen svarade vi nu att vi vill gärna ses.
+[00:18:56 - 00:19:03] Först bara digitalt, en timme nästa vecka föreslår vi för att bara mappa upp hur ska vi...
+[00:19:03 - 00:19:10] Hur vill ni approacha det här? Vad är det som vill hända här och hur ser de ramarna ut tillsammans?
+[00:19:10 - 00:19:15] Sen vill vi gärna träffa honom ganska snart. Han sitter ju i Bryssel.
+[00:19:15 - 00:19:18] Men antingen har han kommit till Stockholm eller ännu roligare att vi skulle åka till Stockholm.
+[00:19:18 - 00:19:21] Jag vill kanske i Paris träffa honom. Det vore kul.
+[00:19:22 - 00:19:24] På en halvdag eller något liknande.
+[00:19:24 - 00:19:28] Kanske fler aktörer som ska vara med där. Potentiella kunder eller så till dem.
+[00:19:29 - 00:19:33] Och tanken då är ju liksom att gå igenom liksom.
+[00:19:33 - 00:19:39] Vad är Ribbers vision? Vad är visionen med Worklife och Ribber tillsammans?
+[00:19:39 - 00:19:43] Vart är vi tekniskt och kapabilitetsmässigt nu?
+[00:19:43 - 00:19:48] Vad får Fabric att ladda ner i oss mer hur de jobbar mer konkret?
+[00:19:48 - 00:19:55] Och givet det, vad skulle en möjlig case se ut och sedan från det, vad är nästa steg?
+[00:19:55 - 00:20:00] Och då kommer nästa fråga här, nu ska det vara partnerskap i Urtopia, om det går in i ett sådant samarbete?
+[00:20:00 - 00:20:03] Ja, det kommer att vara en till potentiell partner.
+[00:20:03 - 00:20:06] Vad menar du då?
+[00:20:06 - 00:20:07] Fabric.
+[00:20:07 - 00:20:12] Ja, men vad då? Du menar att du ska upp med en annan av de tre, men det är fortfarande så här att...
+[00:20:12 - 00:20:15] Ja, men då kan jag komma till Tobias uppdatering om vi ska gå in där.
+[00:20:15 - 00:20:18] För det där räcker väl där. Eller om ni har fler frågor på den.
+[00:20:19 - 00:20:28] Jag tog upp det som var lite skav eller en tension förra fredagen, alltså kring hur partierna var.
+[00:20:28 - 00:20:29] Var det förra fredagen?
+[00:20:29 - 00:20:30] Nej, två kvartalet sedan.
+[00:20:30 - 00:20:31] Det var två kvartalet sedan.
+[00:20:31 - 00:20:32] Bra, det kändes längre sedan.
+[00:20:32 - 00:20:33] Ja, det kändes längre sedan.
+[00:20:34 - 00:20:49] Om vi behöver tydliggöra roller, innan är det tydligt, vi bygger process och teknik och magi, han drar in, men när vi är i skarpt läge, när vi är på andra sidan, vad har vi för roller på den sidan?
+[00:20:49 - 00:20:59] Och det som jag kände i oss för två veckor sedan när vi kom upp med en möjlighet, och som jag känner mer och mer, och som Torbjörn också faktiskt känner för, det är kanske att vi gör ett venture.
+[00:20:59 - 00:21:03] Då börjar vi fundera på hur den konstellationen ser ut.
+[00:21:04 - 00:21:14] med tydlig riskhantering, tydlighet i roller, etc, då skulle vi kunna navigera den här komplexiteten.
+[00:21:14 - 00:21:16] Men är det ett bolag då?
+[00:21:16 - 00:21:18] Ja, det är nog bästa skulle vara ett bolag.
+[00:21:19 - 00:21:29] För det som du säger, det är både vad är innan, vad händer i skatteläge, men vad vill vi över tid?
+[00:21:29 - 00:21:31] Exakt.
+[00:21:31 - 00:21:33] Adventure kan ju fånga en del.
+[00:21:34 - 00:21:40] Det kan skapa en tydlighet i att vi står i integritet i vår långsiktig vision.
+[00:21:40 - 00:21:45] Har vi ett venture så kan vi avgränsa vad är visionen för det venturet.
+[00:21:45 - 00:21:47] Vad är målet och outcome för det?
+[00:21:47 - 00:21:49] Ja, det tror jag är jättebra.
+[00:21:49 - 00:21:54] Då blir det en kompliceringsnivå till, som jag tror blir det här.
+[00:21:54 - 00:21:57] Så det är ett förslag, sen behöver vi ta den längre.
+[00:21:57 - 00:22:03] Sen behöver vi fundera på vem, vad, hur, äger, struktur, bla bla bla.
+[00:22:04 - 00:22:09] Men han fattar väl att vi behöver reda ut det, det är ju inte konstigt.
+[00:22:09 - 00:22:12] Nej, han är ju jätte... Han är ju bara så här, det är klart vi ska göra det.
+[00:22:12 - 00:22:16] Så jag känner attraktion till den modellen, han känner attraktion till den modellen.
+[00:22:16 - 00:22:19] Jag känner att det finns nyfikenhet åtminstone i den här gruppen.
+[00:22:19 - 00:22:23] Han hade uttryckt också vid en tillfälle att det skulle inte vara en dum idé.
+[00:22:23 - 00:22:25] Han kommer 14, säger han.
+[00:22:25 - 00:22:27] Perfekt, det är perfekt.
+[00:22:27 - 00:22:29] Ja, så det är planen.
+[00:22:29 - 00:22:31] Och det skulle ju betyda då att...
+[00:22:33 - 00:22:35] Jag tror så här.
+[00:22:34 - 00:22:44] När ett kundprojekt smäller till, om det är via Fabric eller på annat sätt, då har vi alldeles baken att tvingas deala med den där grejen.
+[00:22:44 - 00:22:48] Men den ska vara klar innan det kundprojektet sätter igång.
+[00:22:49 - 00:22:56] Det är bra att vi har inserat den dialogen nu, men jag tror inte vi kan komma långt förrän det faktiskt är så här länge.
+[00:22:56 - 00:22:59] Intentionen finns hos alla att det ska bli tydligt.
+[00:22:59 - 00:23:04] Jag tror att det är en bra riskhantering och värdefördelning av win-win-lyckan.
+[00:23:04 - 00:23:19] Att sitta och fantisera ihop en modell, det är inte som att sälja skinnet innan björnen skjuter, utan när vi väl har den på plats, då ser vi vad blir det, vad är det bara en genererar, vad blir allt annat?
+[00:23:19 - 00:23:30] Men det är ju också såhär, vissa av oss når snart sin smärtpunkt så det handlar ju också om vad gäller om ni börjar bli nya maskar.
+[00:23:30 - 00:23:32] Ja precis, mer cashflow mässigt.
+[00:23:32 - 00:23:34] Ja men för mig är det bara såhär.
+[00:23:34 - 00:23:36] Det känns väl jättebra att ni har haft den under en lång tid?
+[00:23:49 - 00:23:51] Det är en stor ödmjukhet för honom faktiskt.
+[00:23:51 - 00:23:53] Ja, det tycker jag också.
+[00:23:53 - 00:23:57] Bra, så sätter vi check på den här också.
+[00:23:57 - 00:24:01] Så, och var det något mer att det skulle hugga med där?
+[00:24:01 - 00:24:03] Har han sagt något om han förstörde det?
+[00:24:04 - 00:24:19] Jo han sa att han brottar sig lite mer nu, vad han eventuellt ska ha för roll framåt, om någon, väldigt svävande och oklart, men det är bara intentionen honom.
+[00:24:19 - 00:24:25] Ja, och det är inte tydligt. Det blir ju en tension i hampus också, det är ju alltid blåskänsla.
+[00:24:25 - 00:24:27] Exakt.
+[00:24:27 - 00:24:29] Så det var bara det.
+[00:24:29 - 00:24:34] Och sen, ja, jag har också kopplat ihop honom nu med Patrik Nyström.
+[00:24:34 - 00:24:47] Jag kan ge en kort info om Violet Automation. Det är ett dotterbolag till Violet. De är 10 pers och leds av Patrik som är vd.
+[00:24:49 - 00:24:57] Det kommer bli ett eget bolag, så de bryts ut ur gruppen och kommer byta varumärke och kontor och allting.
+[00:24:57 - 00:25:02] Han har säkrat investeringar också. De har fått investeringar så att de blir en egen grej.
+[00:25:02 - 00:25:04] Patrik Nyström.
+[00:25:04 - 00:25:19] Han och jag, som personliga avsändare, kommer att hålla ett föreläsningsformat, troligtvis i februari och sen framåt, som integrerar efficiency och effectiveness.
+[00:25:19 - 00:25:26] Vi tar de olika rollerna och sätter ihop det. Vi tror det kan bli väldigt kraftfullt.
+[00:25:26 - 00:25:31] Mottagare kommer att vara ägare, långsiktiga ägare. Det är de som är mest intresserade av det.
+[00:25:34 - 00:25:40] eller Violet Automation, som nu byter namn och snart fokuserar på.
+[00:25:40 - 00:25:45] Det är att identifiera vilka processer, framförallt delprocesser, har du i organisationer.
+[00:25:45 - 00:25:49] Vilka av dem kan automatiseras.
+[00:25:50 - 00:25:55] Och om du kan ha en 5% effektivitetsförbättring varje år så ser det ganska bra ut på sista raden.
+[00:25:55 - 00:26:00] Sen drivs ju han av det mänskliga också. Han vill att det ska bli bra i samhället.
+[00:26:00 - 00:26:05] Därför är han ju attraherad av det mänskliga och augmentation, så hur gifter man?
+[00:26:05 - 00:26:07] Det ska vi utforska i ett format tillsammans.
+[00:26:20 - 00:26:35] Han är en snabb, driven person, men han har hjärtat på rätt ställe och jag har kopplat ihop honom med Tobias också för jag tror att han kan bidra med Efficient.
+[00:26:35 - 00:26:38] i spåret, i den här gruppen.
+[00:26:38 - 00:26:42] Men jag tror också att värdet av att vi inte heller ska tvingas in...
+[00:26:42 - 00:26:43] Exakt.
+[00:26:43 - 00:26:46] Vi vill ju inte tvingas in med Kila och Inprediction.
+[00:26:46 - 00:26:49] De håller ju inte heller på med det, de bygger ju automatiseringslösningar liksom.
+[00:26:49 - 00:26:50] Jo.
+[00:26:50 - 00:26:52] De tränar vissa modeller själva.
+[00:26:52 - 00:26:54] Jag har glömt den här.
+[00:26:54 - 00:26:56] Ja, VLA-eventet.
+[00:26:56 - 00:26:58] Jaha, bra.
+[00:26:58 - 00:27:00] Där är update.
+[00:27:00 - 00:27:02] Jag ska uppdatera kring VLA.
+[00:27:02 - 00:27:04] World Life Academy.
+[00:27:04 - 00:27:06] Det är om två veckor.
+[00:27:05 - 00:27:15] Så igen påminner sig, det är mig från River, så River. Det är World Life Academy i Sofi Profit som driver det och jag jobbar också på Tenant.
+[00:27:15 - 00:27:20] Och sen är det Mia och Malin på Edshage Ekman som jag bor i.
+[00:27:20 - 00:27:29] De har jobbat med facilitering, framförallt utifrån Otto Charmers generativa dialoger, den typen av facilitering.
+[00:27:29 - 00:27:31] Så det är ju nu ett combo-event här nu.
+[00:27:35 - 00:27:40] Från anmälda, tror jag nu. Från en massa olika företag, Vinge och lite annat som kommer där.
+[00:27:40 - 00:27:47] Inte highest top leaders, men en del HR-chefer, verksamhetsutvecklare, instruktörer.
+[00:27:47 - 00:27:49] Vilket sort av marginal?
+[00:27:50 - 00:28:01] Om två veckor, om två veckor, den 21 torsdagen, torsdagmorgon, torsdagmorgon.
+[00:28:04 - 00:28:05] Status är att det går fram.
+[00:28:05 - 00:28:09] och till våra samtal och det blir tydligare vad vi ska göra.
+[00:28:09 - 00:28:12] Och i det korta formatet är hej, välkomna!
+[00:28:13 - 00:28:15] Hur viktigt är det att vara människa i tidsåldern?
+[00:28:16 - 00:28:18] Breakout sessions.
+[00:28:20 - 00:28:20] Vår.
+[00:28:20 - 00:28:35] Lyssnareagent kommer att ha ett snyggt UI som också funkar, en agent i bakgrunden väver ihop alla breakout-samtal och sedan delar vi det och sen har vi en till runda.
+[00:28:35 - 00:28:41] Och sen kommer det vara på slutet summering, lärdomar, hur ser magin ut och sen call to action som är
+[00:28:41 - 00:28:45] vi kommer gärna att göra här i era team.
+[00:28:50 - 00:28:54] Bra fråga, jag är så jävla dålig på att be om hjälp.
+[00:28:54 - 00:29:00] Du måste be om hjälp. Hur mycket breakouts ska de sikta med vår applikation? Du kan ju inte släppa den på vem som helst.
+[00:29:00 - 00:29:02] Jo, det kommer en QR-kod bara.
+[00:29:02 - 00:29:03] Okej.
+[00:29:03 - 00:29:05] I en webapp.
+[00:29:05 - 00:29:09] Och den har wakelock, så den skärmen kommer inte att slockna.
+[00:29:09 - 00:29:11] Den kommer att instrueras så att den bara ligger där.
+[00:29:11 - 00:29:15] Tänk om du behöver backup på något sätt?
+[00:29:15 - 00:29:20] Ja, men om den inte funkar så går det ju inte att packa den med något annat.
+[00:29:20 - 00:29:28] Ja men om det är, vi siktar på 30 pers max, 5 pers i varje, så 6 breakouts.
+[00:29:28 - 00:29:33] Men om ett eller två failar, det är som två motor på flygplanet, det kommer ändå flyga liksom.
+[00:29:35 - 00:29:37] Det var väl tråkigt för den gruppen?
+[00:29:37 - 00:29:39] De vet inte att det är er som har träffat heller.
+[00:29:39 - 00:29:41] Jag skulle bara avsluta praktiskt nu.
+[00:29:41 - 00:29:43] Då kan man i datorna klicka på området så går man dit istället.
+[00:29:43 - 00:29:45] Den datorna istället.
+[00:29:45 - 00:29:47] Jag frågar.
+[00:29:47 - 00:29:49] Man kan ju göra så.
+[00:29:49 - 00:29:51] I worst case kan du ha voicemail bara.
+[00:29:50 - 00:29:58] Du kanske funderar på om du vill att vi ska vara med bara för att hålla oss tillbiten och inte smäka in för att lyssna på oss?
+[00:29:58 - 00:30:04] Ja, men vi gör gärna det också. Du känner det också, vi har på rätt att komma fler från oss.
+[00:30:05 - 00:30:09] inlyssnare. Självklart, men också som att du känner sig på till alla.
+[00:30:10 - 00:30:11] Men då är ni min min support.
+[00:30:13 - 00:30:16] Jag skriver ett mejl nu till Sofie och bara säger det.
+[00:30:19 - 00:30:19] Sofie.
+[00:30:20 - 00:30:26] bära. Jag vet att vi måste vara beredda på det också.
+[00:30:27 - 00:30:31] Amelie, jag tror också att det är bra att vi fler upplever vad som händer i
+[00:30:31 - 00:30:35] de här aktiviteterna, så att vi lär oss ifrån varje marknad.
+[00:30:36 - 00:30:42] Alltid. En del av.
+[00:30:51 - 00:31:06] Thank you for listening.
+[00:31:06 - 00:31:08] Okej, bra.
+[00:31:08 - 00:31:10] Bra, bra tycker jag.
+[00:31:10 - 00:31:12] Det är en annan praktisk grej som jag vill ha på mig.
+[00:31:12 - 00:31:14] Ska vi köra en tech-update då?
+[00:31:14 - 00:31:16] Tech-update?
+[00:31:16 - 00:31:18] Ja.
+[00:31:18 - 00:31:20] Ja.
+[00:31:20 - 00:31:22] Ja.
+[00:31:22 - 00:31:24] Ja.
+[00:31:24 - 00:31:26] Ja.
+[00:31:26 - 00:31:28] Ja.
+[00:31:28 - 00:31:30] Ja.
+[00:31:30 - 00:31:32] Ja.
+[00:31:32 - 00:31:34] Ja.
+[00:31:21 - 00:31:32] Nej, det är också info. Ni upplevde ju igår, så det som ligger närmast i piper nu, som måste hända innan, det är framförallt det här VLA-eventet som eldar på.
+[00:31:32 - 00:31:36] Det är först och främst att den transkriberings...
+[00:31:36 - 00:31:46] lyssna agenten. Den behöver vara pålitlig, så som min dator är pålitlig när jag köper datorn, den ska vara lika pålitlig.
+[00:31:46 - 00:31:51] Och den behöver ha ett snyggt UI som är minimum lovable.
+[00:31:51 - 00:31:55] en snygg animation som bara liksom såhär lyssnar, för då har man dem lite grann.
+[00:31:55 - 00:32:01] That's it egentligen, och sen så är det en agent som summerar från de här olika breakoutsen
+[00:32:01 - 00:32:06] och den blir vår prototyp på att börja göra det automatiskt på i molnet.
+[00:32:06 - 00:32:13] När vi laddar upp fler och fler transkript så börjar den skapa ett repository av vad som har hänt, när, vilka var med, etc.
+[00:32:13 - 00:32:17] Så det är de två viktigaste grejerna som kommer att hända.
+[00:32:17 - 00:32:21] Man frågar då, när du kör sex stycken parallella, då måste det vara en parallell?
+[00:32:21 - 00:32:28] Då måste ju du styra var dokumentationen ska landa någonstans, för annars så landar den ju i min telefon, i mina lektioner.
+[00:32:28 - 00:32:32] Nej, det är bara transkriptet som landar där. Analysen landar inte där.
+[00:32:32 - 00:32:35] Nej, det är bara transkriptet.
+[00:32:36 - 00:32:41] Det är den enda som är autentiserad via skriptet.
+[00:32:41 - 00:32:47] Så du plockar allting och sen packar du om det för att återkoppla?
+[00:32:47 - 00:32:51] I realtid, och det hände igår också, så genereras det en simulation.
+[00:32:51 - 00:32:58] och en djupare analys i realtid när transcriptet uppdateras av en annan agent.
+[00:32:58 - 00:33:05] De dokumenten kopplas sedan vår textagent och vår voiceagent upp mot.
+[00:33:06 - 00:33:09] Men det är inte den du laddar ner sen, du laddar bara ner transkriptet.
+[00:33:09 - 00:33:10] Nej, nu tänkte jag gå i själva.
+[00:33:10 - 00:33:12] Så den får en rikare kontext.
+[00:33:12 - 00:33:14] Det vi gör är att vi förädlar ju datan.
+[00:33:14 - 00:33:16] Rådata är ju allt som sägs.
+[00:33:16 - 00:33:18] Men förädlingen är ju analysen.
+[00:33:18 - 00:33:21] Så att när den kommer in i både voice och textagenten så blir den mycket skarptare.
+[00:33:21 - 00:33:25] Men jag tänkte såhär, bara för själva eventet.
+[00:33:25 - 00:33:28] För bara själva eventet så är det bara den som behövs?
+[00:33:28 - 00:33:32] Ja, och den är egentligen bara datainsamling, sen är det du som gör det.
+[00:33:32 - 00:33:34] Allt, allt händer här. Och det är automatiserat redan?
+[00:33:34 - 00:33:35] Jo, jo.
+[00:33:35 - 00:33:36] Det visar sig vara nice.
+[00:33:36 - 00:33:43] Och vi känner att det är det som du återkopplar, att återkoppling kommer från dig till kollektivet.
+[00:33:43 - 00:33:47] Ja, så vi kommer att dra upp den på storskärm och ställa frågor till textagenten och så kommer voiceagenten,
+[00:33:47 - 00:33:51] den kommer också ha lite snyggare UI tänker jag, än vad den hade sist, och vara lite mer pålitlig.
+[00:33:51 - 00:33:57] Vi delar det live och sen kör vi en tillrunda och sen får vi köra deltagande.
+[00:33:57 - 00:34:00] Var någonstans samlas samtalet?
+[00:34:00 - 00:34:04] På Amazon just nu i en morgonservice som jag har skapat.
+[00:34:04 - 00:34:06] Så det ser så här ut?
+[00:34:06 - 00:34:08] Den är säker och safe.
+[00:34:08 - 00:34:10] Om någon skulle ställa frågan, vad gör ni med den?
+[00:34:10 - 00:34:12] Ja, vi kommer hantera den.
+[00:34:12 - 00:34:18] Vi har inte landat exakt i den frågan, men just nu så vi aggregerar på gruppnivå.
+[00:34:18 - 00:34:21] Så det är inga individer som kommer identifieras.
+[00:34:21 - 00:34:31] Vi kommer inte att dela det utanför den här sättningen med någon annan och sen just nu ligger det i reverse modulösning, det är de tre.
+[00:34:31 - 00:34:36] Och då finns det bara särskilt ett formellt problem med det?
+[00:34:36 - 00:34:47] Och det är att för att få samla in den datan så måste du egentligen, enligt GDPR, ha individuellt konsent från alla.
+[00:34:47 - 00:34:49] Okej.
+[00:34:51 - 00:34:55] Men det är inte på individnivå, det är på gruppnivå.
+[00:34:55 - 00:34:59] Det spelar ingen roll, det räcker om någon säger sitt namn i den.
+[00:34:59 - 00:35:01] Allting som borde identifieras...
+[00:35:01 - 00:35:03] Vi har en person från Binge med där.
+[00:35:03 - 00:35:06] Det kan vara, eller att telefonen lämnar ut...
+[00:35:06 - 00:35:10] som potentiellt är trackingbart, även om inte vi alla är kokisade.
+[00:35:10 - 00:35:14] Så det är bara så vi...
+[00:35:14 - 00:35:15] Nej, jag fattar.
+[00:35:15 - 00:35:18] Att säga att man gör det är ju en sak, det andra är att liksom...
+[00:35:18 - 00:35:21] Nej, förstår. Det behöver vara terms...
+[00:35:21 - 00:35:28] Så därför är det jätteviktigt att det inte är rullers i normalsamhället, för då är det inte oss som hänger om det går fel.
+[00:35:28 - 00:35:31] Men vart ska den där terms och consent finnas?
+[00:35:31 - 00:35:36] Får jag bara fråga? I ett företagsmöte?
+[00:35:37 - 00:35:42] Måste man konsenta skriftligen i varje team-möte eller vad då?
+[00:35:42 - 00:35:44] Hur funkar det?
+[00:35:44 - 00:35:46] Nej, det behöver du inte göra.
+[00:35:46 - 00:35:49] Om du gör det för ett företag.
+[00:35:49 - 00:35:52] Det normala är att man har skrivit ett...
+[00:35:52 - 00:35:59] Man har ju någon form av agreement och i det ska det finnas en data-privacy-pult som inkluderar alla anställda.
+[00:35:59 - 00:36:02] För alla som jobbar i River skulle behöva signa ett sånt till exempel?
+[00:36:02 - 00:36:07] Internt så gör man det egentligen genom att man har ett GDPR-dokument, en privacy-dokument.
+[00:36:07 - 00:36:17] per medarbetare, de har inte det, ska ha det, här har de inte det, och det gör att har de det, då kan de också bjuda in den här typen av grejer i projektet.
+[00:36:22 - 00:36:29] Om det kommer externa, det är ju en extrem friktionsmoment som väcker fler rädslor och frågor.
+[00:36:29 - 00:36:31] Absolut, absolut.
+[00:36:31 - 00:36:35] Nu måste ni signa det här pappret innan vi spelar in.
+[00:36:35 - 00:36:37] Det här är en gigantisk utmaning.
+[00:36:37 - 00:36:41] utmaning för den här typen av lösningar, det är förstår jag att den...
+[00:36:41 - 00:36:46] Nej, men inte som du sa innan, om du köper på 10-magnesionsnivå och det redan finns ett datorplats, då är det inget problem.
+[00:36:46 - 00:36:50] Nej, det kan vi göra, men då måste du ju säkerställa att du vet hur man har gjort det.
+[00:36:50 - 00:36:52] Du behöver ha en VLG då.
+[00:36:52 - 00:36:59] Jag fattar, vi behöver anställa en jurist.
+[00:36:59 - 00:37:04] Nej, vi behöver inte göra det, men vi utmanar GDPR.
+[00:37:04 - 00:37:07] Har inte tagit ut för fan.
+[00:37:07 - 00:37:12] Tack för perspektivet. Jag kommer att ducka den till det här eventet.
+[00:37:12 - 00:37:14] Jag är medveten om det.
+[00:37:14 - 00:37:16] Don't touch it.
+[00:37:16 - 00:37:18] Längden, dumparen på vilje.
+[00:37:18 - 00:37:20] Vad tänker du?
+[00:37:20 - 00:37:22] Jag bara tänker den här hånlösningen.
+[00:37:22 - 00:37:28] Ja, men den är säker. Det är till och med att du behöver en krypteringsnyckel för att komma åt den datan.
+[00:37:28 - 00:37:30] Den har bara jag just nu.
+[00:37:30 - 00:37:34] Ja, för det är ingen som fattar om du säger river small lösning, utan du säger att det är en säker plats.
+[00:37:34 - 00:37:36] Det är en krypterad plats.
+[00:37:37 - 00:37:46] Amazon Web Services, de har licensagreements och robust säkerhet på plats.
+[00:37:52 - 00:38:01] Människornas perspektiv, de förstår ingenting om det ni pratar om, om de hör nånting i krypteln så säkert, då kan jag en linje lita på det.
+[00:38:01 - 00:38:04] Det är en försvarlösning, det säger dem ingenting.
+[00:38:04 - 00:38:07] Bara såhär, okej, och också vi är goda.
+[00:38:07 - 00:38:13] Vi ska ju inte använda det här att träna eller göra någonting för offensivt, utan det här är för er här idag.
+[00:38:13 - 00:38:19] När jag var på med Svenska kyrkan, då fick de ju lov att de ska reddera ganten om de inte vill fortsätta jobba med det.
+[00:38:19 - 00:38:22] Typ såhär, ingenting, inga spår kommer att finnas kvar.
+[00:38:22 - 00:38:28] Just saying, så ifall att ni får något sånt, woops, det går inte eller?
+[00:38:28 - 00:38:32] Du kan ju inte kontrollera vilken del av informationen som...
+[00:38:32 - 00:38:35] Nej för den ligger redan i OpenAI, OpenAI.
+[00:38:35 - 00:38:37] Den är ju under leverantören.
+[00:38:37 - 00:38:39] Ja, OpenAI.
+[00:38:39 - 00:38:41] Men de ska ju inte träna den datan.
+[00:38:41 - 00:38:43] Det spelar ingen roll. Den kommer ju ligga som den.
+[00:38:43 - 00:38:46] Det du just sa kan du inte säga, för du kan inte garantera det.
+[00:38:46 - 00:38:47] För det är ingen sån del.
+[00:38:47 - 00:38:51] Ja, men om de opererar i EU så måste de redigera datan om du ber om det.
+[00:38:52 - 00:38:54] Enligt EUs lagstiftning, det är GDPR.
+[00:38:55 - 00:38:57] Det kan de också, det kan de tekniskt göra.
+[00:38:57 - 00:38:59] Bara personuppgifter.
+[00:38:59 - 00:39:01] Vadå? Inte innehåll?
+[00:39:01 - 00:39:03] Nej, bara personuppgifter.
+[00:39:03 - 00:39:05] GDPR har fanns bara personuppgifter.
+[00:39:05 - 00:39:07] Okej.
+[00:39:07 - 00:39:08] Bra.
+[00:39:08 - 00:39:09] We don't want to go there.
+[00:39:09 - 00:39:10] Nej, vi vill inte gå där.
+[00:39:10 - 00:39:11] Inte just nu.
+[00:39:11 - 00:39:12] Vad ska vi göra nu då?
+[00:39:12 - 00:39:14] Är det rätt i det med pekaktivt?
+[00:39:14 - 00:39:15] Mm.
+[00:39:15 - 00:39:22] Ja, och sen då inför VLA-eventen så tänker du igenom hur vi skulle kunna tänka tillbaka på oss, och om vi skulle behöva.
+[00:39:22 - 00:39:27] Vi har grejerna på våra telefoner. Om någons telefon ballar över så kan vi gå dit med våren.
+[00:39:27 - 00:39:28] Exakt.
+[00:39:28 - 00:39:31] Bara snabb fire, släcka branden snabbt.
+[00:39:31 - 00:39:34] Jag ska bara gå igenom mitt huvud då.
+[00:39:34 - 00:39:37] Det som skulle hända är att den kraschar, ni kommer dit med era telefoner.
+[00:39:37 - 00:39:43] Voice memo, mejlar min mejl, jag döper om den filen och laddar upp det i Amazon Malmö
+[00:39:43 - 00:39:46] Då säger det BOOM så har agenterna direkt access till det.
+[00:39:46 - 00:39:51] Ja visst, precis. Och då har vi två backups.
+[00:39:52 - 00:39:54] Varför ska vi ändå behöva?
+[00:39:56 - 00:40:00] Nej, måste nej, måste inte ha med precis.
+[00:40:04 - 00:40:05] Apecis.
+[00:40:07 - 00:40:08] 1 2 3
+[00:40:22 - 00:40:26] Det gäller det där innan, så vi vill veta att vi kan ha fyra agenter igång samtidigt.
+[00:40:27 - 00:40:28] Exakt.
+[00:40:28 - 00:40:29] Alltså fyra agenter?
+[00:40:29 - 00:40:31] Dels vill jag bygga för fan, det måste ligga till det.
+[00:40:31 - 00:40:33] Hur många ljuser ska vi ha i agenten?
+[00:40:33 - 00:40:34] Eh, vänta.
+[00:40:37 - 00:40:51] Det är två saker, flera processer plus noise.
+[00:40:52 - 00:40:54] Vi måste fundera över det.
+[00:40:54 - 00:40:58] Whisper är ganska bra på att sortera ut noise-bakgrunden.
+[00:40:58 - 00:41:00] Eller väldigt bra till och med.
+[00:41:00 - 00:41:02] Men om de sitter för nära varandra.
+[00:41:02 - 00:41:06] Att den plockar upp från de som är bredvid.
+[00:41:08 - 00:41:10] Det var ju också Whisper.
+[00:41:10 - 00:41:13] Då var det Daniel som laddade upp dem till Whisper och sen fick tillbaka.
+[00:41:13 - 00:41:16] Då var det ingen korsbefruktning på data nästan.
+[00:41:16 - 00:41:20] Utan det var ju väldigt tydligt, ni pratar om de här grejerna, ni pratar om dem, ni pratar om dem.
+[00:41:20 - 00:41:23] Men jag tror inte det var så mycket, man upplever inte överhörningar.
+[00:41:23 - 00:41:30] Nej, exakt, så givet att det är sant, men jag tror att vi måste hitta sätt att stresstesta det här innan.
+[00:41:38 - 00:41:48] Då får du till erbjuda inget stress- testning inför hela grejen.
+[00:41:53 - 00:42:08] 1.
+[00:42:08 - 00:42:10] och kritterar in frågetecken.
+[00:42:10 - 00:42:16] Sen behöver vi prata om Björn Backer, den där bordaren, köpt honom där.
+[00:42:16 - 00:42:20] Eller i alla fall prata om det.
+[00:42:20 - 00:42:23] Vad gör vi där? Hur ser det ut?
+[00:42:23 - 00:42:26] Nu ska vi inte reda det, eller hur?
+[00:42:26 - 00:42:32] Och sen då visste de så Stockholmkonferensen och Eksjär, den är också en, va?
+[00:42:32 - 00:42:38] Strategi, målgrupp, terapeutik, den hänger kanske lite ihop med Playground här.
+[00:42:38 - 00:42:53] Den hänger ihop med Playground, den hänger ihop med Wisdom AI Stockholm, den hänger ihop med Fabric, det är allt som kan leda till uppdrag.
+[00:42:53 - 00:42:55] Målgruppingenjör ju.
+[00:42:56 - 00:42:58] Just det, charity.
+[00:42:58 - 00:43:00] Okej, så vad vill du vi börja med?
+[00:43:02 - 00:43:04] Vi kör vi Playground.
+[00:43:04 - 00:43:06] Är det den tre?
+[00:43:06 - 00:43:08] Och vad blir fyra då?
+[00:43:08 - 00:43:10] Strategi i morgon?
+[00:43:10 - 00:43:11] Ja.
+[00:43:11 - 00:43:12] Fyra.
+[00:43:12 - 00:43:14] Den fina är in där.
+[00:43:16 - 00:43:22] Runda bord fem och sen, vad heter det, konferensen sex eller?
+[00:43:23 - 00:43:27] Den har vi kört på nattet, den kommer nu.
+[00:43:32 - 00:43:37] Men ekskäret och flera playgrounds också då? Ta den som sju då.
+[00:43:38 - 00:43:43] Eller kanske den går in i, nej vet du vad, den kommer vara 3b.
+[00:43:43 - 00:43:47] Det är fortsättningen, när ska vi göra nästa playground?
+[00:43:53 - 00:43:57] Ja, det blev bara högt bara.
+[00:43:57 - 00:44:01] Men nästan, vad tog vi med oss från igår?
+[00:44:01 - 00:44:05] Från första playground.
+[00:44:08 - 00:44:14] Nu ska vi fira att vi har haft den första playgrounden.
+[00:44:14 - 00:44:18] Ja, det känns lite som en ny start efter liksom...
+[00:44:18 - 00:44:22] Men det känns också som någonting annat, eller hur?
+[00:44:23 - 00:44:28] Det finns en annan senioritet i rummet.
+[00:44:28 - 00:44:30] Ja.
+[00:44:32 - 00:44:34] Min känsla.
+[00:44:38 - 00:44:45] Vad vill vi göra med, när vi pratar om vart ska vi ha en playground?
+[00:44:45 - 00:44:51] Stöd har vi kommit närmare till att det är det här vi behöver.
+[00:44:51 - 00:44:53] Så det här är nu mig.
+[00:44:53 - 00:44:58] Det är så här, vi gjorde en summit i juni då vi vände blad, eller bytte nytt kapitel, så.
+[00:44:58 - 00:45:07] Jag känner trygghet i mig att vi har en kultur, ett team, en konstitution, ett lärande som kan hålla fler med tydliga differenseringar.
+[00:45:08 - 00:45:14] Det känns fritt och ledigt att bjuda in personer att vara contributors.
+[00:45:14 - 00:45:17] Och det finns också en onboarding track.
+[00:45:17 - 00:45:21] Ett års inkuberingstid har vi match om ett år, välkommen in.
+[00:45:21 - 00:45:23] Processen är tydlig.
+[00:45:23 - 00:45:26] Det är inte klistrigt eller kletrigt någonstans.
+[00:45:26 - 00:45:28] Det är superkrispigt för mig.
+[00:45:28 - 00:45:30] Så det är en sak som är bra.
+[00:45:30 - 00:45:32] En annan sak som är bra är...
+[00:45:32 - 00:45:36] Jag upplevde i rummet att alla vill bidra.
+[00:45:36 - 00:45:38] På riktigt bidra.
+[00:45:38 - 00:45:42] Vad ska jag göra nu, igår älskar jag att bidra?
+[00:45:42 - 00:45:48] Den energin och en tredje aspekt av det är att det behövs vara något konkret.
+[00:45:48 - 00:45:50] Alltså göra någonting konkret.
+[00:45:50 - 00:45:52] Det kände jag också från alla i rummet.
+[00:45:53 - 00:46:06] Det finns mina take-aways på att det känns som en väldigt bra grovgrund att växa ifrån när det kommer till att hosta fler playgrounds och vi behöver bara landa i vad det är vi ska organisera oss kring.
+[00:46:06 - 00:46:08] Det behövs vara projekt.
+[00:46:08 - 00:46:16] eller liksom fokuspunkter, om det är events eller om det är produkter eller om det är whatever, men såhär, där.
+[00:46:16 - 00:46:22] Och det väcker ju en till fråga som är, jag vet inte om ni båda flaggar för det, jag tänker på den också.
+[00:46:24 - 00:46:28] Hur ser värdein och värdeut ut?
+[00:46:28 - 00:46:34] Om man puttar in saker som en contributor, vad får man tillbaka förutom nice community och lärande?
+[00:46:34 - 00:46:39] En framtida del i avkastningen kan man säga.
+[00:46:39 - 00:46:47] Men jag tror också att det finns ett länk där i Zoom att få leka ännu mer och bara hänga.
+[00:46:47 - 00:46:50] Och då är vi tillbaka runt in i det gamla videospelet.
+[00:46:50 - 00:46:54] Men jag tror inte att de förväntar sig det.
+[00:46:54 - 00:47:01] De som längtar efter att få kärlek till själen, så tänker jag.
+[00:47:01 - 00:47:09] Så en ekskärlek till exempel skulle kunna vara en belöning för att det här kan förkomma oss.
+[00:47:09 - 00:47:12] Och verkligen bara i hjärtat och själen vara med.
+[00:47:12 - 00:47:17] Ja men att vi, precis, att det är en utav belöningarna, att vi ska fundera på hur vi finansierar det
+[00:47:17 - 00:47:19] och att det kanske är vi som ska bjuda in och stå för det.
+[00:47:19 - 00:47:20] Ja, medför.
+[00:47:20 - 00:47:22] Det är en belöning för att du är aktiv.
+[00:47:24 - 00:47:32] Precis som du säger, bara att få vara med nu och att det känns konstruktivt i det man gör, räcker en stund.
+[00:47:32 - 00:47:36] Sen kommer det förmodligen att kristalliseras olika spår ur det här.
+[00:47:36 - 00:47:39] Som folk säger, fast den där kan jag äga.
+[00:47:39 - 00:47:44] Det som stod för mig är det där, till skillnad från hur det var tidigare.
+[00:47:44 - 00:47:51] Visst, vi hade lite det här bildformatet, utforska, dela och så vidare.
+[00:47:51 - 00:47:54] Men i konklusion, det som hände på slutet är ju att...
+[00:47:54 - 00:48:03] De flesta har en känsla av, vad behöver ni mig till, tvärtom. Jag skulle kunna göra det här.
+[00:48:03 - 00:48:05] Det är en ångest.
+[00:48:05 - 00:48:07] Be mig hjälpa dig.
+[00:48:09 - 00:48:10] Två gäster nu.
+[00:48:10 - 00:48:11] Heeej!
+[00:48:13 - 00:48:15] Det var en stor information.
+[00:48:15 - 00:48:16] Ja!
+[00:48:19 - 00:48:20] Wow!
+[00:48:20 - 00:48:22] Jag har ju inte träffat den här killen.
+[00:48:22 - 00:48:24] Men du har fortfarande inte träffat honom.
+[00:48:24 - 00:48:26] Han har småsor så att han inte ramlar ner emellan.
+[00:48:26 - 00:48:28] Hehehehe.
+[00:48:29 - 00:48:31] Du byter in en stålmyrning i jackan.
+[00:48:31 - 00:48:33] Läskig, ja.
+[00:48:34 - 00:48:36] Ja, vi ska ta av dig lite.
+[00:48:36 - 00:48:38] Okej, vi sover lite.
+[00:48:39 - 00:48:41] Min kompis heter min pappa.
+[00:48:45 - 00:48:47] Ja, de andra två har jag inte träffat förut.
+[00:48:48 - 00:48:50] Han låg ju och sov på min pappas mage.
+[00:48:51 - 00:48:53] Ja, han blev ju rädd och flyttad på en massa folk.
+[00:48:54 - 00:48:56] Det var första partiet och där låg du och så.
+[00:48:56 - 00:48:58] Mm, det var en del av det också.
+[00:48:58 - 00:49:00] Tja!
+[00:49:00 - 00:49:02] Vilken gull!
+[00:49:02 - 00:49:04] Det är snart gått ett år.
+[00:49:06 - 00:49:08] Va?
+[00:49:08 - 00:49:10] Ett decennium.
+[00:49:09 - 00:49:11] Jag var roligast utmanad.
+[00:49:13 - 00:49:13] Det har fungerat också.
+[00:49:15 - 00:49:16] I.
+[00:49:22 - 00:49:24] Som jag minns läskig ut i.
+[00:49:24 - 00:49:28] Vi kan lägga dig i häften, vi har de där byxorna också.
+[00:49:28 - 00:49:30] Ja, så.
+[00:49:30 - 00:49:32] Tjena Magnus.
+[00:49:39 - 00:49:44] Han sitter och kryper på fingringar.
+[00:49:45 - 00:49:49] Han tar sig fram på golvet.
+[00:49:50 - 00:49:54] Det där var ju din ljudreppare.
+[00:49:54 - 00:50:01] Så, nu kommer vi in mitt i knäppet här och hoppar upp det.
+[00:50:01 - 00:50:09] Bra, det var duktigt att du körde aktivt innan David kom.
+[00:50:09 - 00:50:13] Vi vet inte om man har köpt.
+[00:50:13 - 00:50:14] Jo, jag får nog vissa.
+[00:50:15 - 00:50:18] Igen har vi tillgång till när vi kan få prata med antalet efteråt.
+[00:50:21 - 00:50:22] Vad har hänt med spänst?
+[00:50:24 - 00:50:39] ご視聴ありがとうございました
+[00:50:39 - 00:50:49] till. Jag betyder
+[00:50:49 - 00:50:54] det bara en antal.
+[00:50:54 - 00:51:06] Vad handlar vårt möte om?
+[00:51:06 - 00:51:09] Vi diskuterar aktuella frågor och framtida möjligheter.
+[00:51:09 - 00:51:13] och strategier för att förbättra vårt arbete och samarbete.
+[00:51:25 - 00:51:27] Den här kopplar ju, den kopplar upp mot Amazon.
+[00:51:27 - 00:51:31] Men det måste ju finnas någon, jag får inte tillgång till att någonstans i små på...
+[00:51:31 - 00:51:33] Nej, det är real time, den är snodig ju dock.
+[00:51:33 - 00:51:35] Man måste, tre sekunder om dagen.
+[00:51:35 - 00:51:37] Vadå tre sekunder om dagen?
+[00:51:37 - 00:51:40] Nej men det är det som är problemet med alla transkriberingar.
+[00:51:40 - 00:51:45] Rösttjänsterna blir jävligt snabbt dyra.
+[00:51:47 - 00:51:49] Om man ska träna upp det.
+[00:51:49 - 00:51:51] Kan du vinka?
+[00:51:51 - 00:51:53] Han vinkade först.
+[00:51:55 - 00:51:57] Kan du ta tillbaka den?
+[00:51:57 - 00:51:59] Jag kan inte ta tillbaka den.
+[00:52:01 - 00:52:03] Man är så här...
+[00:52:03 - 00:52:05] Kan du säga kompisar?
+[00:52:05 - 00:52:07] Kan du säga kompisar?
+[00:52:07 - 00:52:09] Jag hämtar bara till dig.
+[00:52:10 - 00:52:13] Då går vi igång med planen här nu.
+[00:52:13 - 00:52:15] Okej, vad har vi att göra sen då?
+[00:52:15 - 00:52:18] Vi kan passa en snabb recap då.
+[00:52:20 - 00:52:25] Grunt att vi hittade lite nyheter.
+[00:52:25 - 00:52:32] Det började ju med att se att de skulle ha fler digitala, sen blev det ju bara digitala i urbans.
+[00:52:32 - 00:52:34] Ja, exakt.
+[00:52:34 - 00:52:39] Först var ju tanken att vi kör bara digitalt i allt, och sen så blev det...
+[00:52:40 - 00:52:48] För mig hade det känts skönt om vi hade haft en idé i rummet, men han är ju så van och sådär, jag tyckte att det blev lite halvmäckigt att sitta framför honom.
+[00:52:48 - 00:52:50] Nej, det sa jag alltid.
+[00:52:50 - 00:52:52] Det är aldrig skönt.
+[00:52:52 - 00:52:55] Men i alla fall, det blev något, vi kände att vi behövde något.
+[00:52:55 - 00:53:00] Det känns som att vi håller på att samla en lite ny tribe omkring oss.
+[00:53:00 - 00:53:04] Och vi behöver också feedbacket idag om vad vi tänker framåt.
+[00:53:04 - 00:53:06] Det känns jätteviktigt.
+[00:53:06 - 00:53:08] Det känns superviktigt liksom.
+[00:53:08 - 00:53:10] Ja, och det kommer att vara fler som kommer.
+[00:53:10 - 00:53:13] Det kommer att ingå i kommande också, garanterat.
+[00:53:13 - 00:53:16] Det kan ju bli en ganska stor grej till slut.
+[00:53:16 - 00:53:19] Så vi behöver fundera på lite sånt.
+[00:53:19 - 00:53:21] Men spontant är det som att...
+[00:53:21 - 00:53:25] Det känns jättetydligt för mig att vi driver...
+[00:53:25 - 00:53:32] Här har vi en massa personer som vill bidra till den som behöver hjälp.
+[00:53:32 - 00:53:35] Här har vi Örnsköldsbyggnadsriksdag, och den kommer ju att växa.
+[00:53:35 - 00:53:40] Och Playboy-formatet för att göra det.
+[00:53:40 - 00:53:43] Vi behöver organisera oss kring konkreta saker.
+[00:53:43 - 00:53:45] Vad är Topo-Mark?
+[00:53:45 - 00:53:48] Han har jobbat med produktliv i Silkeberg.
+[00:53:48 - 00:53:50] De har popcorn och just de där.
+[00:53:50 - 00:53:54] Ska han ta hand om vår produktliv?
+[00:53:55 - 00:54:02] Vi tar allting vi håller på att utforska när vi drar ut dimensionen, och sen så initierar vi.
+[00:54:02 - 00:54:06] Här är processen för att komma ut.
+[00:54:06 - 00:54:08] Det är bara ett exempel.
+[00:54:10 - 00:54:25] Vi har gjort konkreta och organiserade event, så på frågan vad ska det här leda till, eller vad vill vi för det här, det är ju att vi får en större kropp, Riverbill.
+[00:54:25 - 00:54:29] Det blir en större klopp. Du får mer gjort.
+[00:54:29 - 00:54:33] Då har vi förut pratat om vi hade Playground igår.
+[00:54:33 - 00:54:36] Vilket bakpå det står hela bra.
+[00:54:36 - 00:54:38] Ja, ja.
+[00:54:38 - 00:54:40] Fick lite vibes i alla fall.
+[00:54:40 - 00:54:48] Men jag tänker också såhär, konkret, praktiskt, doing, men också såhär
+[00:54:48 - 00:54:50] Relating
+[00:54:50 - 00:54:54] Ja men relating, och då kanske E-kajtet svarar på det såhär
+[00:54:55 - 00:54:57] Ja, jag vet. Precis.
+[00:54:57 - 00:54:59] Så vi behöver en puls.
+[00:54:59 - 00:55:01] Vi måste ha en puls kring relating också.
+[00:55:01 - 00:55:03] Men det kan vara olika. Det kan vara en relating-puls och en doing-puls.
+[00:55:03 - 00:55:05] Det var ju inte dumt.
+[00:55:05 - 00:55:07] För båda behoven var i rummet.
+[00:55:07 - 00:55:09] Det var ju jättemysigt att vi lade 45 minuter på att bara vara med varandra.
+[00:55:10 - 00:55:17] Det kändes så jobbigt när den tog mer tid, men samtidigt var det det som behövdes.
+[00:55:17 - 00:55:21] Det är nu där igen, och då kan man inte bara ta det iväg.
+[00:55:21 - 00:55:25] Alla kropparna skriker efter att jag vill lära känna dem.
+[00:55:25 - 00:55:31] och kalibrera mot dig. Då kan man inte säga att vi bara ska börja med en dubbing.
+[00:55:31 - 00:55:34] Det blev ett lite tvärtkastare.
+[00:55:34 - 00:55:40] Men nu, är det ett problem? Måste grupper flytta sig i harmoni?
+[00:55:40 - 00:55:48] För Mattis hade ju en grej, han vill ju ut och testa det här i sin organisation, han vill ju skapa nyfikenhet där.
+[00:55:48 - 00:55:54] Vem tar emot honom då? Vem stöttar honom när han kommer med det?
+[00:55:55 - 00:56:10] Vi gör samma sak, vi kanske har ett spår på att önska lite, så vi har ju en del där vi liksom, hur flyttar vi gruppen, vad är nästa möte, vad ska vi ha då, mot Eksjärvet som är stora?
+[00:56:10 - 00:56:16] Jag tänkte då, Mattis och Jensad, om ni bara kan paketera det här lite tydligare så kan jag springa på det.
+[00:56:16 - 00:56:20] Jo, men då måste man ha det i samtal med dig. Om man då frågar sig, vem tar vem?
+[00:56:20 - 00:56:23] Nej, fast vi måste väl göra vår hemläxa först.
+[00:56:23 - 00:56:25] Jo, men jag hade när vi skulle...
+[00:56:25 - 00:56:35] Hon insåg helt plötsligt att paketeringen av det här beror på vad kunden egentligen behöver.
+[00:56:35 - 00:56:37] Vi kan ju paketera vad fan som kan.
+[00:56:37 - 00:56:40] Jo, men vi måste ändå ha en starting point kvar om någon ska börja pröva.
+[00:56:40 - 00:56:45] Men vad är fara med att göra det tillsammans med dem mot de första rummen att testa?
+[00:56:45 - 00:56:49] Varför sitta och filma på kameran om de har källan?
+[00:56:49 - 00:56:51] Men ska inte vi komma med en hypotes?
+[00:56:51 - 00:56:53] Vi fick ju en massa rikta avtryck.
+[00:56:53 - 00:56:55] Då är vi tillbaka på att rita, skriva, prata.
+[00:56:56 - 00:57:02] Du var ju hos mig och har arbetat från igår. Du kom med fantastiska grejer i mejlet.
+[00:57:02 - 00:57:04] Exakt. Ska jag bara läsa upp det och titta på den?
+[00:57:04 - 00:57:06] Ja, den tycker jag är jättebra.
+[00:57:06 - 00:57:08] Om vi tar den här.
+[00:57:11 - 00:57:15] Så jag pratade med voice-agenten på egen hand och då sa den
+[00:57:15 - 00:57:19] Stefan, I hear you.
+[00:57:19 - 00:57:24] För det var en tension mellan high-level och konkret.
+[00:57:24 - 00:57:26] Så, the thing...
+[00:57:26 - 00:57:35] River provides en AI-powered companion that transforms meetings into actionable, memorable and connected moments of progress.
+[00:57:35 - 00:57:38] Eller hur?
+[00:57:38 - 00:57:41] Yes!
+[00:57:41 - 00:57:45] Why this matters. Meetings as the nucleus of work. Every goal,
+[00:57:45 - 00:57:48] strategy and action flows through meetings, yet they're
+[00:57:48 - 00:57:53] often inefficient, disconnected and forgettable. Rivers magic by
+[00:57:53 - 00:57:56] listening, analyzing and guiding conversations, river and
+[00:57:56 - 00:57:59] och det gör att mötena blir platser där alla vågar höra varandra.
+[00:57:59 - 00:58:02] En klar, delad förståelse uppstår och verkliga förbättringar görs.
+[00:58:02 - 00:58:04] Inget är förlorat.
+[00:58:11 - 00:58:15] Då frågar jag dig, how it looks to a 5-year-old?
+[00:58:15 - 00:58:18] Imagine you're playing with your friends, building a lego tower.
+[00:58:18 - 00:58:22] River is like a helpful robot that remembers everyone's ideas,
+[00:58:22 - 00:58:25] reminds you to stick to your plan if you get distracted,
+[00:58:25 - 00:58:26] helps you build faster.
+[00:58:26 - 00:58:29] without losing the fun. And when you're done, it shows you what you've built
+[00:58:29 - 00:58:34] together and helps you plan the next tower. Simplified product narrative for
+[00:58:34 - 00:58:39] leaders. We make your meetings the engine of your success by capturing insights,
+[00:58:39 - 00:58:43] aligning your teams and turning every conversation
+[00:58:41 - 00:58:45] Det orangerade lingodämmen.
+[00:58:45 - 00:58:49] För lagar hjälper vi dig att bli fokuserad, konnektivt och uppmärksam att göra ditt bästa arbete tillsammans.
+[00:58:49 - 00:58:50] Och konkreta offer.
+[00:58:50 - 00:58:52] En enkelt, pilotfri produkt.
+[00:58:52 - 00:58:54] AI-meeting-assistent.
+[00:58:54 - 00:58:56] Observerar och organiserar meeting-kontakt.
+[00:58:56 - 00:59:00] Och sen sista då, key message, at its core, River ensures your organization's success.
+[00:59:00 - 00:59:02] Tack för att ni har tittat på den här videon!
+[00:59:02 - 00:59:04] Vi ses nästa vecka!
+[00:59:11 - 00:59:23] Jag gillar enkelheten i att man pratar om det som en AI-medarbetare, att det är det som är en thing.
+[00:59:26 - 00:59:32] Vi ger en AI-co-worker här till er som kommer ihåg allting och kan hjälpa er att surfa det viktigaste.
+[00:59:32 - 00:59:38] Men jag tror fortfarande att problemet är att det är fortfarande på för hög nivå.
+[00:59:38 - 00:59:41] Därför att det som händer är att då ska de först...
+[00:59:41 - 00:59:49] att förstå vad det är. Den säljprocessen är lång. Det är jättemånga steg innan du får någon att
+[00:59:49 - 00:59:53] signa på att köpa det. Då måste du få testa det.
+[00:59:56 - 01:00:06] Första säljmötet med dem och sen i ett ledningsgrupp eller teamöte och sen en totalt förskuldiga, det är ju ganska riskfri iförsäljning tänker jag.
+[01:00:06 - 01:00:08] Är inte det det som är fannen?
+[01:00:11 - 01:00:17] och stage time för att det är den största hindringen.
+[01:00:17 - 01:00:20] Har du väl fått det, då kommer du inte att ha en ny kyrka.
+[01:00:20 - 01:00:22] Nu har vi en massa mer teorier att snacka om.
+[01:00:22 - 01:00:26] Jag tror ändå att det är bra att vi har ett litet däck som liksom...
+[01:00:26 - 01:00:30] i att en extra hering till den början av en paketering
+[01:00:30 - 01:00:32] som kan utgå ifrån det där.
+[01:00:32 - 01:00:34] Så vi tar det här och skapar ett däck av det?
+[01:00:34 - 01:00:36] Ja, det behöver någonting att utgå ifrån.
+[01:00:36 - 01:00:38] Så, fine, så kommer det ituleras
+[01:00:38 - 01:00:40] eller hållas till.
+[01:00:40 - 01:00:42] Men jag hörde det i boken.
+[01:00:41 - 01:00:56] Och romantiskt också, jag började ha något som jag kunde springa på, det var jättetydligt, så en action behöver vara ett däck som är lite riverbrandat, med kanske inte allt det där med delar som du gjorde.
+[01:00:56 - 01:01:01] Känns inte det som en outcomes från igår?
+[01:01:02 - 01:01:04] Och vad måste vara med i det då?
+[01:01:08 - 01:01:10] Vad händer nu då?
+[01:01:11 - 01:01:13] Kanske hälften av det du läste upp.
+[01:01:15 - 01:01:17] Jo, men vad ska ingå om jag inte konkretiserar det lite mer?
+[01:01:19 - 01:01:23] Nej, men förklaringen av grejen är att det är också så här, nu kallade vi dig för Lange igår.
+[01:01:23 - 01:01:25] Vad heter du då? Ska den heta Lange?
+[01:01:25 - 01:01:27] Alltså vår agenda.
+[01:01:26 - 01:01:32] Det kan vara en del av när man sätter sig i ett skarpt läge.
+[01:01:32 - 01:01:36] En av de första grejerna som ska göras är en namngivningsceremoni.
+[01:01:36 - 01:01:38] Du namngiver din AI.
+[01:01:38 - 01:01:40] Idéteamet.
+[01:01:42 - 01:01:46] Jo, men nu ska vi prata om någonting som ni vet.
+[01:01:46 - 01:01:48] Ja, men då är det ju...
+[01:01:48 - 01:01:50] Nej, nej, nej. Det ska gå bra.
+[01:01:50 - 01:01:52] Nej, nej, nej.
+[01:01:52 - 01:01:54] Nej, nej, nej.
+[01:01:54 - 01:01:57] Men vad ska vara med i däcket?
+[01:01:57 - 01:01:59] Det.
+[01:02:12 - 01:02:14] Jag börjar så.
+[01:02:14 - 01:02:16] Vi börjar så.
+[01:02:16 - 01:02:18] Okej.
+[01:02:18 - 01:02:20] Okej.
+[01:02:20 - 01:02:22] Okej.
+[01:02:24 - 01:02:26] Ska jag bli klar med den då?
+[01:02:27 - 01:02:34] Jag tycker att de hela gängen ska få ett personligt mejl.
+[01:02:34 - 01:02:36] Vem skriver det? Skriver du det?
+[01:02:36 - 01:02:38] Jag kan skriva det, eller jag kan dra fram det i alla fall.
+[01:02:38 - 01:02:42] Och lite hinta dem framåt.
+[01:02:42 - 01:02:46] Alltså, det här var ju inte någon annan maff utan ändå en tanke om någonting.
+[01:02:46 - 01:02:48] Ja, men de är ju lite såhär, vad får jag göra nu?
+[01:02:48 - 01:02:51] Vad händer med det här? Och då är ju det som, det här däcket är ju väl en del.
+[01:02:51 - 01:02:53] Det här kommer behöva finnas här nu.
+[01:02:53 - 01:02:57] Och även om på våra grannar är ju att vi är ju redan ute och pratar.
+[01:02:57 - 01:03:04] Jag tror att de skulle behöva en one-on-one, eller i mindre konstellationer.
+[01:03:04 - 01:03:06] Ja, men det är den jag var ute efter.
+[01:03:06 - 01:03:08] Vi ser oss själva till det här, som tante.
+[01:03:08 - 01:03:10] Vem ska jag vända mig till?
+[01:03:10 - 01:03:12] Vem kan jag ha en diskussion med?
+[01:03:12 - 01:03:17] Det är poppa grejer. Vem är min kompanjon i rummet?
+[01:03:17 - 01:03:19] Men vi behöver proaktiva det.
+[01:03:19 - 01:03:27] Ja, men då får man ju ägaren den här rollen i mellanspelet mellan våra planerade aktiviteter.
+[01:03:27 - 01:03:31] Jag har till exempel redan meddelat att Chris har sagt att jag vill träffa dig och Jono.
+[01:03:31 - 01:03:33] Ja, men det är ju klart det.
+[01:03:33 - 01:03:37] Då tar du ansvar för Chris-relationen mellan aktiviteterna.
+[01:03:37 - 01:03:39] Och vem tar jag dit jag?
+[01:03:39 - 01:03:41] Och Chris ville ha med Mattis, så han är med i den loopen också.
+[01:03:42 - 01:03:44] Tar du Jenny och du Aditya då?
+[01:03:44 - 01:03:46] Ja.
+[01:03:46 - 01:03:52] Och så ser vi vad som poppar ur det här när det börjar komma...
+[01:03:56 - 01:03:57] Det låter väl bra?
+[01:03:57 - 01:04:01] Och så kan vi säga att det är i kommunikationen tillbaka.
+[01:04:12 - 01:04:16] Okej, är vi klara då?
+[01:04:16 - 01:04:19] Jag vill ge dig lite tech-update, David.
+[01:04:19 - 01:04:21] Nej, vänta, förlåt. Vi är inte färdiga än.
+[01:04:21 - 01:04:23] Ska vi handla om mer Playground?
+[01:04:23 - 01:04:27] Jag tycker vi ska hinta om att vi vill få till ett...
+[01:04:27 - 01:04:32] En off-site på Eksjäret i januari-februari.
+[01:04:32 - 01:04:35] Ska vi ha en till playground innan det blir off-site?
+[01:04:35 - 01:04:38] Det tycker jag. Helst en i december och en i januari.
+[01:04:38 - 01:04:40] Jag skulle vilja ha ett månads-event.
+[01:04:40 - 01:04:42] Det formatet vi körde igår kan vi väl ha igen.
+[01:04:42 - 01:04:50] Det är tre gånger på hösten och fyra gånger på våren, ungefär så.
+[01:04:50 - 01:04:57] Och också, om du känner att någon mer behöver vara med, så följ med!
+[01:04:57 - 01:05:01] Vi är de som nominerar den, sen kommer vi säga ok eller inte.
+[01:05:02 - 01:05:12] Den här gruppen kan vi ju hålla en stund för att upptäcka hur vi blir expanderade innan vi plockar in för mycket folk.
+[01:05:12 - 01:05:19] Det kommer nog att forka i två olika format, en som är lite intimare och en som är lite mer crazy, men det här blir det.
+[01:05:22 - 01:05:27] Ja, men tech-mässigt, det som jag har hackat ihop tillsammans med AI...
+[01:05:27 - 01:05:29] Jag vet!
+[01:05:29 - 01:05:31] Det är så sjukt alltså.
+[01:05:31 - 01:05:33] Och jag har slitit håret.
+[01:05:33 - 01:05:35] För den är jättebra på smarta grejer.
+[01:05:35 - 01:05:39] Och jättedålig på att lägga den röda knappen i en fyrkantig.
+[01:05:39 - 01:05:41] Men i alla fall, jag börjar lära mig.
+[01:05:42 - 01:05:48] Nu är fem agenter som pratar med varandra via Amazon Wallet.
+[01:05:48 - 01:05:56] Det är en lyssnaragent och det är Whisper som transkriberar till en textfil vart femtonde sekund som är pendlad och läggs i Amazon.
+[01:05:57 - 01:06:10] Sedan har vi en summeringsagent som tar varje minut och destinerar det, så då får du ett summeringsdokument och då kan du få ner en token count och du ska köra den via en text eller voice.
+[01:06:10 - 01:06:12] Sedan har du en tredje som är en analysagent.
+[01:06:12 - 01:06:18] som gör lite latent space och Keyword, Topic Modeling och sådana grejer som lägger ett analysdokument.
+[01:06:19 - 01:06:25] Förutom Keyword och Topic så skriver den över analysen hela tiden baserat på ny data.
+[01:06:25 - 01:06:27] Så du får alltid den senaste up-to-date med forecast och grejer.
+[01:06:27 - 01:06:42] Och det betyder att när som helst, och sen har du då två till, en textagent och en voiceagent, som har tillgång till alla dokumenten, eller framförallt då summering och analys.
+[01:06:42 - 01:06:49] som gör att du kan i realtid fråga vad som händer just nu och vad som helst.
+[01:06:49 - 01:06:53] Och det här är ju nu fem komponenter.
+[01:06:53 - 01:06:57] Jag vill ju igår helst ha att det ligger...
+[01:06:57 - 01:07:03] Allt är lokalt just nu, på min dator.
+[01:07:03 - 01:07:07] Jag har lyckats deploya den här lyssnaragenten.
+[01:07:07 - 01:07:12] Men sen funkade det upp för jag hade dåligt githygien och lite annat och gjorde dåliga...
+[01:07:13 - 01:07:28] Den är inte så bra, så jag håller på att göra om den processen från grunden nu ordentligt för att kunna deploya igen så att vi har den till eventet om två veckor som vi kommer att köra här med WorldClaffAcademy, så kommer de bara QR-kod i min webplats.
+[01:07:28 - 01:07:33] Browser, så trycker de på starta möte, så spelar den in transkriberat i molnet därifrån.
+[01:07:33 - 01:07:37] Jag har redan validerat att det funkar, det behöver bara göras rätt.
+[01:07:37 - 01:07:39] Men jag skulle vilja...
+[01:07:39 - 01:07:42] Ska det vara så att man kommer vilja köra någonting live?
+[01:07:43 - 01:07:45] Om det är effektivare att ha det i rummet liksom?
+[01:07:45 - 01:07:51] Ja men det kommer vara live för vi kommer köra från min dator lokalt, den fätter sig ändå från molnet.
+[01:07:52 - 01:07:54] Så kommer vi kunna dema voice och text
+[01:07:54 - 01:07:55] på storskärp.
+[01:07:56 - 01:07:57] Så det behöver vi inte deploya.
+[01:07:57 - 01:07:57] Vi är fine.
+[01:07:58 - 01:08:00] Det är stabilt, det funkar liksom.
+[01:08:00 - 01:08:05] Men det jag skulle vilja göra för mig är två saker.
+[01:08:05 - 01:08:07] Jag skulle vilja ha allt det här i ett paket.
+[01:08:07 - 01:08:09] Som en applikation.
+[01:08:09 - 01:08:13] Och jag skulle vilja ha lite bättre datastruktur bakom.
+[01:08:13 - 01:08:16] Vi kan tracka möten som minnen över tid.
+[01:08:17 - 01:08:19] Det är liksom mina personliga behov.
+[01:08:19 - 01:08:21] Jag bas bara skriker efter.
+[01:08:21 - 01:08:26] Ja, jag skulle vilja starta upp Voice agenten i bilen på vägen hem som i går och
+[01:08:26 - 01:08:28] utan friktion prata med inte.
+[01:08:28 - 01:08:31] Det är bara det mötet, utan vad som händer för tre möten senare.
+[01:08:31 - 01:08:33] Det är min önskan.
+[01:08:33 - 01:08:37] Och då har vi en proffokoncept som är inte bara cool, utan som är jäkligt cool.
+[01:08:40 - 01:08:42] Det är en förlängning.
+[01:08:43 - 01:08:47] Det bygger ju en ny förlängning på det, det bygger ju ett minne.
+[01:08:47 - 01:08:52] Ja, och sen kommer vi kanske göra det lite mer basic nu, med textfiler och lite annat.
+[01:08:52 - 01:08:54] Nästa nivå på det är ju vektordatabaser.
+[01:08:54 - 01:08:58] Och nästa nivå på det, då kanske vi pratar om knowledge graphs.
+[01:08:58 - 01:09:00] Minimotorn och allt det där vi pratade om.
+[01:09:00 - 01:09:04] Eller jag vet inte om vi kommer behöva vektor, eller vissa saker kanske vi vill ha i vektordatabasen.
+[01:09:04 - 01:09:07] Ja, men av Token Counts skäl.
+[01:09:07 - 01:09:13] Du vill gå in och att den hittar matematiskt rätt saker, inte att den laddar ner hela transcripten.
+[01:09:13 - 01:09:19] Nej, men du kan göra, alltså det finns ju andra, man kan göra hörselbänder och sådana här grejer för att hitta liksom.
+[01:09:19 - 01:09:21] Ah okej, ja men du ser, bara en sån grej.
+[01:09:21 - 01:09:26] Jo men det kan du göra, men du kan ju till och med använda NLP för att hitta grejerna, liksom.
+[01:09:26 - 01:09:28] För där vi inte måste köra.
+[01:09:28 - 01:09:30] Det är liksom samma typ av...
+[01:09:30 - 01:09:35] Nej men exakt, det vi behöver, det jag behöver, det är en förlängning på...
+[01:09:41 - 01:09:43] Okej, kul att se hur det här blir i mitt svenska.
+[01:09:43 - 01:09:45] Och den tog jag.
+[01:09:49 - 01:09:50] Vad heter det?
+[01:09:50 - 01:09:52] Mealtime voice-agenten.
+[01:09:52 - 01:09:54] Fungerar inte så väl med Neo hemma.
+[01:09:54 - 01:09:56] När han pratar så hör inte honom vad han säger.
+[01:09:56 - 01:09:57] Han blir jätteledsen.
+[01:09:57 - 01:09:59] Han har full pip i rösten.
+[01:09:58 - 01:10:11] Jag har faktiskt stora förhoppningar, eller önskan, om Jonathan som en möjlig utvecklare som kanske kan stötta dem.
+[01:10:11 - 01:10:13] Jag vill träffa honom nästa vecka.
+[01:10:13 - 01:10:21] Jag har pratat med honom, men det är fortfarande ersättningsfrågan ändå, såklart.
+[01:10:21 - 01:10:24] Ja, exakt. Men det är som med allt.
+[01:10:24 - 01:10:28] Jag har pratat med honom och han...
+[01:10:28 - 01:10:36] Han har tagit ett gap-deal. Han har sagt att han har sparat pengar för att han ska kunna göra utförsvarsaktioner och göra det.
+[01:10:36 - 01:10:43] Men så sa han inte. Så jag har pratat med honom säkert i 20-25 minuter.
+[01:10:43 - 01:10:58] Han är ju en typisk utvecklare, inte typisk, men introvert personlighet, lite i och med utsatsen av, och jag var så nöjd att fråga
+[01:10:58 - 01:11:00] och bara, hej, är det okej? Kan vi prata nu?
+[01:11:00 - 01:11:02] Och han bara, ja, vänta, jag måste skifta och så där.
+[01:11:02 - 01:11:04] Så tog han en minut och kom tillbaka igen.
+[01:11:04 - 01:11:06] Han är väl såhär...
+[01:11:06 - 01:11:08] Lite mer såhär unboxed.
+[01:11:08 - 01:11:10] Du nickar.
+[01:11:10 - 01:11:12] Låter bra.
+[01:11:13 - 01:11:23] Han kände svettig innan och nu, inte någon som sitter i sin egen kamera och tittar på sin egna grej, utan det verkar som att han har börjat.
+[01:11:28 - 01:11:35] Lite mer muskler och få saker att hända, som är mer tekniskt stabila än mitt krangelverk.
+[01:11:39 - 01:11:41] Han sa också att han har kissat dig.
+[01:11:41 - 01:11:43] Jag kan säga det också.
+[01:11:44 - 01:11:51] Jag har gjort en massa lärdomar om hur man kan jobba i augmenter i ett utvecklarslöde som jag tror passar många utvecklare.
+[01:11:51 - 01:11:55] Ja, jag är orolig för...
+[01:11:55 - 01:11:59] Alltså, jag tror att det där är grymt.
+[01:11:59 - 01:12:12] Ska vi göra just nu, i den fasen där vi prototypar saker, och vi behöver göra det snabbt och i snabba interaktioner, då tror jag att det är klockrikt, även om man har ett större utvecklat team kan man jobba snabbt.
+[01:12:12 - 01:12:14] Ska vi göra något som är produktifierat?
+[01:12:14 - 01:12:17] Då måste du tänka helt annorlunda.
+[01:12:17 - 01:12:18] Jo, men det förstår jag.
+[01:12:18 - 01:12:21] Men det finns ju andra olika verktyg.
+[01:12:21 - 01:12:22] Till exempel Cursor.
+[01:12:22 - 01:12:24] Då kan du bara markera en del av en kodbas
+[01:12:24 - 01:12:28] och få förslag på hur vi kan optimera den här från det här behovet.
+[01:12:28 - 01:12:29] Då får du ett förslag.
+[01:12:29 - 01:12:31] och så fortsätter det. Bara sådana timewinds.
+[01:12:31 - 01:12:33] Och det gör ju utvecklare.
+[01:12:33 - 01:12:35] Alltså, alla som sitter och verkar cool idag
+[01:12:35 - 01:12:37] använder sig av den här typen av verktyg.
+[01:12:37 - 01:12:39] Men då behöver man ju ändå förstå att
+[01:12:39 - 01:12:41] man behöver någon som håller uppe.
+[01:12:41 - 01:12:43] Alltså, verktygen är ju inte mogna för att
+[01:12:43 - 01:12:45] göra snabbt.
+[01:12:44 - 01:12:48] Nej, det har vi märkt. Det finns en nivå.
+[01:12:48 - 01:12:50] Exakt, det fattar jag också.
+[01:12:50 - 01:12:52] De kommer säkert dit.
+[01:12:52 - 01:12:54] De kommer vara där, de är inte där än.
+[01:12:59 - 01:13:13] Vi måste ändå kunna ha... om du skulle få frågan ifrån honom, när de har testat och labbat med vår prototyp, när kan vi ha en färdig grej?
+[01:13:14 - 01:13:22] Nej, men då är det ju en förstudie som är betalt. Vi utvecklar ju det för dem tillsammans med dem betalt.
+[01:13:22 - 01:13:29] Svaret på frågan, när kan vi ha en färdig produkt eller en färdig vadå, det är ju liksom att okej, då måste vi ha det.
+[01:13:29 - 01:13:36] Vi måste ju visa vad det är du menar med färdigt och vad det är du menar med färdigt, då kan man svara på frågan.
+[01:13:36 - 01:13:42] Vi kommer ju inte att ha en produkt som vi kan sälja som ett färdigt paket.
+[01:13:42 - 01:13:44] Men det är inte vad han vill höra.
+[01:13:44 - 01:13:49] Det är skillnad på produktförsäljning och lösningsförsäljning.
+[01:13:49 - 01:13:53] Lösningsförsäljning går ju på vad kan vi bygga för att stödja ditt problem
+[01:13:53 - 01:13:56] versus hur kan vi sälja en produkt som lösningsförsäljning.
+[01:13:59 - 01:14:05] Även om du säljer sig i ett affärssystem, så tar du ett av de stora så du svarar samma sak ändå.
+[01:14:05 - 01:14:06] Ja.
+[01:14:06 - 01:14:09] Det är ju inte ens vilka resulter du ska ha.
+[01:14:10 - 01:14:14] Våra produkter är ju ett ramverk och det kommer de att vara ganska länge innan de blir...
+[01:14:14 - 01:14:25] Jag tror inte det här vi pratar om nu, det kommer ju aldrig någonsin vara en after-sale-produkt, det är bara copy-paste.
+[01:14:29 - 01:14:31] Varför styr du då?
+[01:14:33 - 01:14:35] Det beror på vilket företag.
+[01:14:35 - 01:14:38] Du känner ju fabriken mer än vad vi andra gör.
+[01:14:38 - 01:14:41] Ja, det är inte tillräckligt ännu.
+[01:14:41 - 01:14:43] Men de jobbar med...
+[01:14:44 - 01:14:50] Att de är väl några hundra, men deras minsta kunder är några tusen.
+[01:14:54 - 01:14:59] Och vad skulle, om vi bara lägger på tanken, vad skulle liksom en...
+[01:14:59 - 01:15:06] Ett system för dem att handla med, ett system de ska använda hos sina kunder, ett system de ska använda hos sig själv.
+[01:15:14 - 01:15:21] Jag landade tillbaka i Brussels efter en intensiv vecka i Stockholm. Jag är fortfarande förvånad, spännad och inspirerad av vår konversation.
+[01:15:21 - 01:15:23] Vi demande live.
+[01:15:23 - 01:15:27] Jag är intresserad i särskilt...
+[01:15:27 - 01:15:29] Vänta, tack Turbjörn för en fantastisk...
+[01:15:29 - 01:15:33] Tack Stefan för din fantastiska teknik!
+[01:15:33 - 01:15:44] Jag är intresserad av att integrera toaletten i stöd av en strategisk konversation med ledarskapet.
+[01:15:44 - 01:15:48] Ja, bildningen är ju inte support facilitators in large organisations.
+[01:15:49 - 01:15:54] Det de jobbar med förändringsledning och träna facilitatorer och supporting cross organisations.
+[01:15:54 - 01:15:56] Kollaboration är ett smålångsak på ett varje land med det.
+[01:15:56 - 01:15:58] Projektet har den första.
+[01:16:00 - 01:16:10] Först är det två separata, så då är det ju en förstudie per styck, de hänger ju inte ihop, det är samma sak.
+[01:16:15 - 01:16:24] Integrated control in support of the facilitation of strategic conversation with a leadership team.
+[01:16:24 - 01:16:30] Då är det ett verktyg för dem i sitt arbete.
+[01:16:30 - 01:16:32] Det är ju inte som att de släpper iväg till sin kund.
+[01:16:32 - 01:16:39] Men det är som Stefan säger, det han säger är nästan antaget, det här är det han lättast kan testa.
+[01:16:39 - 01:16:42] Exakt, så i nästa steg så vill han ha något som han kan lämna efter sig.
+[01:16:42 - 01:16:44] Ja, det tror jag.
+[01:16:45 - 01:16:47] Och det är ju den jag var inne på igår.
+[01:16:47 - 01:17:00] Jag tror att han tänker, det vi har pratat om, sälja saker på ledningsnivå, är vad han nu kan tänka sig sälja.
+[01:17:00 - 01:17:02] Det är vad han pratar om.
+[01:17:02 - 01:17:04] Det handlar inte om att de ska handla själva.
+[01:17:04 - 01:17:06] Det är klart att de kommer med hand om det.
+[01:17:06 - 01:17:08] Blunda man vandrar som ett verktyg i sitt arbetsprocess.
+[01:17:08 - 01:17:10] Det han pratar om är att sälja det.
+[01:17:10 - 01:17:12] Det är det han pratar om.
+[01:17:12 - 01:17:14] Han säger det.
+[01:17:15 - 01:17:19] Det kan vara den enklaste sättet att testa med en klient.
+[01:17:23 - 01:17:29] Och stöd för att förmedla en strategisk konversation med ledarskapet.
+[01:17:30 - 01:17:32] ska köpa. Vem ska betala för det?
+[01:17:32 - 01:17:36] Ja, men det är ju direkt i det här fallet som vi måste.
+[01:17:36 - 01:17:37] Men det här är det jag menar.
+[01:17:37 - 01:17:42] Vi har inte ens kommit ner och skrattar utan här och vi för vad är detaljerna?
+[01:17:42 - 01:17:44] Vänner, vänner, vänner, vänner.
+[01:17:45 - 01:17:47] Stopp!
+[01:17:47 - 01:17:49] Jag älskar er alla.
+[01:17:49 - 01:17:51] Jag älskar Tobbe och Björn.
+[01:17:51 - 01:17:53] Jag vill bara att ni ska vara så realistiska.
+[01:17:53 - 01:17:55] Så att ni inte går iväg och låter någonting.
+[01:17:55 - 01:17:57] Nej, det kommer ju vara ett utforskande.
+[01:17:57 - 01:17:59] Men det är därför jag bara ställer frågor.
+[01:18:00 - 01:18:02] Det är bättre att ställa frågor än att hålla svar.
+[01:18:15 - 01:18:21] Har vi inte svar på ens vad än vi ska göra, har vi inte svar på hur vi ska jobba?
+[01:18:21 - 01:18:25] Det lilla jag hör och tror är att han tror att vi har fått ett mycket längre tecken.
+[01:18:25 - 01:18:28] Exakt, och så är det ju alltid när du demar någonting.
+[01:18:28 - 01:18:30] Så är det ju.
+[01:18:30 - 01:18:39] Det är ju det som är viktigast med det här maktmöjlighet, vad är det han kan beskriva att han vill köpa?
+[01:18:39 - 01:18:44] Inte vad vi kan sälja, vi konverterar det som man vill.
+[01:18:45 - 01:18:50] Hur lång tid tar det att bygga ut spegelnitrationen?
+[01:18:50 - 01:19:00] Vi kommer att spela in, vi kommer att fila tillbaka, vi kommer att fortsätta den här dialogen.
+[01:19:00 - 01:19:04] Vi kommer inte att landa i ett färdigt upplägg efter den här timmen nästa vecka.
+[01:19:04 - 01:19:09] Vi kommer att få en ram som vi kan synka och lina kring, som vi input till om vi ska ses.
+[01:19:09 - 01:19:15] Jättegrovt så är det rimligt att sälja förstudier som är minsta en månad eller två.
+[01:19:15 - 01:19:30] Ja, och så är man ett minst ett par personer som jobbar i den första delen, och då landar man ju i slutsatsen på det här, och det kan ju vara att vi behöver göra djupare så att vi kan göra det här, eller så landar det i ett färdigt projektförslag beroende på vad det är.
+[01:19:30 - 01:19:35] Nu har jag tuggat bort den, har du verkligen tuggat på den?
+[01:19:35 - 01:19:36] Nej.
+[01:19:36 - 01:19:37] Det är plast liksom.
+[01:19:37 - 01:19:40] Jag har inte tuggat i så jag måste ha tuggat fast den här.
+[01:19:40 - 01:19:43] Papper, det kanske är mer bra.
+[01:19:43 - 01:19:45] Jag ska titta på papper.
+[01:19:45 - 01:19:55] Det finns ju flera Lekfarmbröder och talter här, jag skickar in den här i bilden.
+[01:20:00 - 01:20:04] Ska vi stänga teckat ditåt?
+[01:20:04 - 01:20:08] Vad har vi som nästa bud? Jag tror att det är
+[01:20:08 - 01:20:10] strategi och målgrupp.
+[01:20:15 - 01:20:21] Har du någon tillgänglighet att synka delar i om jag behöver din sport?
+[01:20:21 - 01:20:22] Vad menar du?
+[01:20:22 - 01:20:30] För en konkret grej som måste hända innan VLA-eventet om två veckor är att den blir deployad och funkar.
+[01:20:30 - 01:20:33] Om jag har någon fråga kring det skulle jag bara kunna skjuta på dig.
+[01:20:33 - 01:20:36] Men alltså, det gäller redan varning när helst, ni vet.
+[01:20:36 - 01:20:41] Jag har ju inget annat för mig än att ta hand om den här huden.
+[01:20:42 - 01:20:43] Bra.
+[01:20:43 - 01:20:45] Och that's it.
+[01:20:45 - 01:20:56] Jag är gärna med på det där illa målet igår, det är klart att jag inte kan sitta på tre timmars möten och vara försiktig, men du behöver aldrig svara på det.
+[01:20:56 - 01:21:00] Jag mästade en skämt om på en faktura, är det svårt eller?
+[01:21:00 - 01:21:02] Alla fick den också.
+[01:21:02 - 01:21:04] Nej, nu mässade jag dig privat.
+[01:21:04 - 01:21:06] Nej, det mässade alla.
+[01:21:06 - 01:21:08] Mässade jag alla?
+[01:21:08 - 01:21:10] Ja, jag tror det.
+[01:21:10 - 01:21:12] Det är en bekräftad inbetalning.
+[01:21:12 - 01:21:14] Inte mässade, men det var en diskord.
+[01:21:14 - 01:21:16] Nej, men det är min faktur.
+[01:21:15 - 01:21:17] Det är Discord.
+[01:21:17 - 01:21:19] Jaha.
+[01:21:19 - 01:21:21] Det har jag inte sett.
+[01:21:21 - 01:21:23] Den vill jag inte lägga i hela gruppen.
+[01:21:23 - 01:21:25] Nej jag fattar.
+[01:21:25 - 01:21:27] Det är okej.
+[01:21:27 - 01:21:29] Jag var ju i Spanien.
+[01:21:29 - 01:21:31] Det är lugnt.
+[01:21:31 - 01:21:34] Ja, det blir ju strulis för mig också, om det är sådär klart.
+[01:21:35 - 01:21:38] Nu ska man gå tillbaka om ett halvår och titta på det där också.
+[01:21:38 - 01:21:39] Vad var det du gjorde?
+[01:21:39 - 01:21:40] Nej, men det blev det.
+[01:21:40 - 01:21:41] Okej, sånt.
+[01:21:41 - 01:21:42] Japp, bra.
+[01:21:42 - 01:21:43] Nu hoppar vi vidare.
+[01:21:43 - 01:21:44] Nummer fyra.
+[01:21:44 - 01:21:46] Sätt skillnad målgrupp och clarity.
+[01:21:46 - 01:21:48] Är det kring det?
+[01:21:48 - 01:21:50] Ja
+[01:21:52 - 01:21:54] Det var din punkt
+[01:21:54 - 01:21:56] Ja, jag vet. Jag bara blev trött helt plötsligt
+[01:21:56 - 01:21:58] Okej, men ska vi öppna fönstret då?
+[01:22:01 - 01:22:04] Let's take a short break before we start that.
+[01:22:16 - 01:22:20] Hur tror du att jag har en 26-årig bebis?
+[01:22:20 - 01:22:22] Nej, jag fattar inte det.
+[01:22:22 - 01:22:25] En sak jag tänkte på när jag öppnade förskolan häromdagen
+[01:22:25 - 01:22:30] var det någon tjej, en mamma där, som frågade folk hur gammal hon var.
+[01:22:31 - 01:22:35] 24, 22, och de flesta är under 30 liksom.
+[01:22:35 - 01:22:37] Men jag var 28, det är bra.
+[01:22:37 - 01:22:39] Ja, men det är ju liksom...
+[01:22:39 - 01:22:41] Det är ju såhär 22.
+[01:22:41 - 01:22:43] Men det kanske är annorlunda.
+[01:22:43 - 01:22:45] Jag är ju mer en dubbelt sån gammal.
+[01:22:45 - 01:22:47] Ja, absolut.
+[01:22:46 - 01:22:51] Hon hade ju kunnat vara min ägare, jag hade kunnat vara morfar i det fallet.
+[01:22:51 - 01:22:58] Och hennes barn är ju yngre än vad jag hade behövt ha för att vara hennes pappa.
+[01:23:01 - 01:23:05] Det är bara att klicka till, liksom, och såhär, oj, det är det verkligen som.
+[01:23:05 - 01:23:08] Men I tell you, alltså sådär, småbarnsmål, känner du?
+[01:23:08 - 01:23:11] Ja, jag förstår det.
+[01:23:11 - 01:23:15] Det är liksom såhär, alltså såhär, det här med att bli förälder, alltså I tell you.
+[01:23:16 - 01:23:21] Oroa sig för unga vuxna, eller någon annan.
+[01:23:21 - 01:23:23] Ni är så jävla starka!
+[01:23:23 - 01:23:25] Ni är så jävla starka!
+[01:23:25 - 01:23:27] Man kan liksom inte, det går inte att slappa.
+[01:23:27 - 01:23:29] Fattar du inte hur hela mindre som jag är?
+[01:23:29 - 01:23:31] Det går liksom inte.
+[01:23:31 - 01:23:33] Enjoy, enjoy bebis tid då.
+[01:23:33 - 01:23:37] Jag tänkte få sova lite på natten, det är ingenting.
+[01:23:37 - 01:23:38] Nej.
+[01:23:38 - 01:23:39] Nej.
+[01:23:42 - 01:23:45] Nu ska jag gå och hämta lite te.
+[01:23:45 - 01:23:46] Lite tesjuice.
+[01:23:46 - 01:23:49] Upphthalmiatet.
+[01:23:49 - 01:23:53] Kolla... tualettor-hempa.
+[01:24:01 - 01:24:16] 📢 Share this video with your friends on social media.
+[01:24:16 - 01:24:31] ご視聴ありがとうございました
+...
+...
+...
+...
+[01:25:31 - 01:25:46] ご視聴ありがとうございました
+[01:25:46 - 01:26:01] Thank you for watching.
+[01:26:01 - 01:26:16] 📢 Share this video with your friends on social media.
+...
+...
+...
+...
+...
+...
+...
+[01:28:02 - 01:28:17] 私のビデオをご覧いただきありがとうございます。良い一日を!
+[01:28:17 - 01:28:32] Thank you for watching.
+[01:28:47 - 01:28:50] Det här äpplet som ligger där, är det någons?
+[01:28:50 - 01:28:52] Det vet jag inte.
+[01:28:52 - 01:28:54] Var ligger det?
+[01:28:54 - 01:28:57] Det har nog legat där sen vi kom, så det är nog...
+[01:28:57 - 01:29:00] Det får man bara kolla i riktigt bara.
+[01:29:00 - 01:29:02] Det är det riktigt.
+[01:29:02 - 01:29:08] Skålen åker ut.
+[01:29:17 - 01:29:32] Thank you for watching.
+[01:29:32 - 01:29:47] 📢 Share this video with your friends on social media. It's a big help to me.
+[01:29:47 - 01:30:02] Jag fick inte med mig mitt kort utan de bara släppte in mig ensam.
+[01:30:02 - 01:30:04] Ja.
+[01:30:04 - 01:30:06] Vi har preciset kvar perspektivet.
+[01:30:06 - 01:30:08] Ja.
+[01:30:17 - 01:30:32] 📢 Share this video with your friends on social media. It's a big help to me.
+[01:30:32 - 01:30:40] 1. Lås på tolv steg. 2. Lås på fem steg. 3. Lås på sju steg. 4. Lås på fem steg. 5. Lås på fem steg.
+[01:30:47 - 01:30:49] Det är ju också ett alternativ.
+[01:31:02 - 01:31:07] Muy bien.
+[01:31:33 - 01:31:48] ご視聴ありがとうございました
+[01:32:03 - 01:32:10] Okej, det är bara att bli i biten.
+[01:32:18 - 01:32:33] Wir sehen uns beim nächsten Mal!
+[01:32:33 - 01:32:35] Bok betyder att det är gjort.
+[01:32:35 - 01:32:37] Man måste ju vara lite mer färdig här.
+[01:32:37 - 01:32:39] Men runda bord, den är inte färdig.
+[01:32:39 - 01:32:41] 21 november, 28 november, den har vi inte gjort.
+[01:32:41 - 01:32:43] Vi är på fyran nu.
+[01:32:43 - 01:32:45] Där är vi.
+[01:32:48 - 01:32:50] Där är det.
+[01:32:50 - 01:32:52] Fetobi och Morgun. Där är det.
+[01:32:54 - 01:32:56] Ja.
+[01:32:58 - 01:33:00] En fabriksdag.
+[01:33:00 - 01:33:02] Mm.
+[01:33:03 - 01:33:09] Okej, så ska vi dyka in tillbaka då, allihopa.
+[01:33:12 - 01:33:13] Okej.
+[01:33:15 - 01:33:17] Ska du... Är du klar där?
+[01:33:18 - 01:33:20] Oh, I was gonna do that.
+[01:33:33 - 01:33:39] Någonting har emerged tillsammans med tuggen, det är det.
+[01:33:39 - 01:33:42] Det är det du.
+[01:33:42 - 01:33:45] Nej, inte bara tuggen.
+[01:33:45 - 01:33:48] Det är alla de här killarna.
+[01:33:48 - 01:33:52] Det finns något vi fattar, så vi kan köra.
+[01:33:52 - 01:33:54] Ja.
+[01:34:03 - 01:34:15] I går pratade vi med Fabrik Andra, Wisdom Stockholm och Runda Bordsamtalen.
+[01:34:18 - 01:34:29] Så det är lite fråga kring, hur närmar vi oss, hur får vi ut, alltså vart i match, från och tillbaka i kvitt?
+[01:34:29 - 01:34:33] Vem är målgruppen? Då har vi lekt lite mer såhär.
+[01:34:33 - 01:34:39] Hur orangea kunder ska vi ha, så är det bra där i lunchen att det är som en skala.
+[01:34:39 - 01:34:41] Men vi har två ytterligheter.
+[01:34:41 - 01:34:47] Och de ytterligheterna är inte något vi söker i båda, utan vi söker något mitt emellan.
+[01:34:48 - 01:35:03] Man kan säga så här har vi achievers, och här har vi synergists, och så kan man säga att alla synergists
+[01:35:03 - 01:35:05] som är kvinnors.
+[01:35:08 - 01:35:09] Alla kvinnors.
+[01:35:13 - 01:35:15] Det tänker jag. Det var ju.
+[01:35:18 - 01:35:18] Har du synnerligt?
+[01:35:18 - 01:35:21] som kan sälja och vill ta saker ut.
+[01:35:21 - 01:35:25] Alltså Jenny, Mattis, Chris, jag vet inte.
+[01:35:25 - 01:35:27] Är det våra grupper som ska få oss att sälja?
+[01:35:27 - 01:35:29] Eller är det någon som ska...
+[01:35:29 - 01:35:31] Någon som ska konsumera resultatet.
+[01:35:31 - 01:35:33] Om man uttrycker sig så.
+[01:35:33 - 01:35:41] Det är två olika tegorier. Vi har ett återförsäljare-nätverk och ett direktförsäljare-nätverk.
+[01:35:41 - 01:35:47] Precis, återförsäljare och direktförsäljare. Men i båda de fallen i tesen kommer det att vara seriöst.
+[01:35:48 - 01:35:52] Eller achievers, men seriöst.
+[01:35:52 - 01:35:54] Alltså ja, låt mig inte klara varför.
+[01:35:54 - 01:35:56] Ja, men hur ska du veta att den är enligt nya?
+[01:35:56 - 01:35:58] Jo, men jag tror att vi kommer att kunna hitta det.
+[01:35:58 - 01:36:00] Det där hör man och känner man.
+[01:36:00 - 01:36:02] Rundarbordsandrag 2.
+[01:36:03 - 01:36:07] Det kändes i rummet att det var, det kanske var, en.
+[01:36:07 - 01:36:10] Det var två män i rummet som...
+[01:36:10 - 01:36:13] Du kommer inte till The Shield.
+[01:36:13 - 01:36:15] Nej, nej, nej.
+[01:36:15 - 01:36:18] Dels känns det inte bra för kroppen, men jag tror inte heller att det är bra för dig.
+[01:36:19 - 01:36:21] Att gå direkt till dem.
+[01:36:21 - 01:36:29] Så vad vi ska göra är att vi ska hitta dem som jobbar i internationella företag och gör sådana grejer.
+[01:36:29 - 01:36:31] Men de är redan betalt omvårdade.
+[01:36:31 - 01:36:33] Så att de...
+[01:36:34 - 01:36:35] Runway för dem.
+[01:36:38 - 01:36:38] Det kommer att kosta.
+[01:36:39 - 01:36:43] Vi kommer att tjäna in det så mycket och jag tror att den gruppen är tillräckligt stort.
+[01:36:44 - 01:36:46] Om vi säger att den är 5 till 10 procent.
+[01:36:49 - 01:36:53] med hittillgrannlagning. Men då är det ju att jag tror att
+[01:36:53 - 01:36:55] säljprocessen på dem är ganska lång ändå.
+[01:36:55 - 01:36:57] Ja, men det är mycket kortare än vad de hade varit.
+[01:36:58 - 01:37:00] Det brukar det och det är det som är gränsen.
+[01:37:01 - 01:37:03] Jag tror så här. Jag tror att du kan hitta om du paketerar.
+[01:37:04 - 01:37:12] med efficiency så kan vi hitta kunder snabbare i achievers, men jag är inte säker på att det är långsiktigt uthålliga kunder.
+[01:37:13 - 01:37:17] Jag är inte säker på att det är en bra ting, men det kan vara så.
+[01:37:19 - 01:37:27] Men det kan vara ett sätt att få traction och det beror på hur du gör.
+[01:37:27 - 01:37:34] Det jag menar är att det är ett vägvart för oss nu att inte säga nej till efficiency men inte att välja efficiency som ett sport.
+[01:37:34 - 01:37:38] För jag tror att det tar oss på fel track av massa anledningar.
+[01:37:38 - 01:37:42] Så jag börjar i alla fall botta mig för mig, personligen integrerad i.
+[01:37:42 - 01:37:44] Det känns skönare för mig personligen.
+[01:37:44 - 01:37:49] Och jag tror att det är en bättre affärsstrategi att vända sig både som direktförsäljning och återförsäljning.
+[01:37:49 - 01:37:55] till synergist, för de är duktiga på att öppna dörrar, men det kommer med en liten karriär, ett litet krav,
+[01:37:55 - 01:38:02] och det är att de inte är synergister som är här ute och svävar i molnen, utan de behöver ha visningssvårigheter.
+[01:38:02 - 01:38:04] Aditya, för kort, ska jag göra det här.
+[01:38:04 - 01:38:07] Product, what's the thing, liksom.
+[01:38:07 - 01:38:11] Och han kan tänka 200 år framåt.
+[01:38:11 - 01:38:14] Han har tid för en sån som är typ 200 år framåt.
+[01:38:16 - 01:38:18] Han är ju min mest vän.
+[01:38:19 - 01:38:29] Jag undrar, rent konkret, så hade vi två stycken i Arshtag och Objektivition.
+[01:38:29 - 01:38:33] Jaha, just det. Ljunga också. Men han var ju inte första.
+[01:38:33 - 01:38:34] Ja, men precis.
+[01:38:34 - 01:38:39] Men han precis, han var med på första, han var inte med på andra, det här är de två.
+[01:38:39 - 01:38:41] Men det är ju, där var det ju flera.
+[01:38:41 - 01:38:43] Vänta, vem var objektifikationen? Det var?
+[01:38:43 - 01:38:44] Det var Per, eller?
+[01:38:44 - 01:38:49] Det var Torbjörns kompis, han som var på väg upp till, skulle jag röra, steg två i.
+[01:38:49 - 01:39:04] Det var ju han som gjorde resan. Det var ju han som gick från vad jag förstod vad jag skulle göra här till där. Nu har jag fattat det. Nu finns han.
+[01:39:04 - 01:39:06] Han har satt min fråga och så har han satt det jag har satt.
+[01:39:06 - 01:39:08] Då är det min fråga.
+[01:39:08 - 01:39:10] Kom på om ni ser liv här på honom.
+[01:39:10 - 01:39:12] Hon gick precis.
+[01:39:12 - 01:39:14] Hon gick till planboken.
+[01:39:14 - 01:39:16] Fram till planboken?
+[01:39:16 - 01:39:18] Det ser ut så.
+[01:39:19 - 01:39:22] Jag hoppas att det händes körkort i det.
+[01:39:22 - 01:39:25] Ja det gör det, men regnet, åh så gammalt kan det bli andra dagar.
+[01:39:25 - 01:39:27] Men jag vet inte vad.
+[01:39:27 - 01:39:29] Men min fråga är mer såhär.
+[01:39:29 - 01:39:30] Vad om det här?
+[01:39:30 - 01:39:32] Jo men nej men min är mer konkret.
+[01:39:32 - 01:39:34] Men här känns det som att det är såhär.
+[01:39:34 - 01:39:36] Skulle vi ha en fortsatt dialog?
+[01:39:37 - 01:39:37] Tack!
+[01:39:44 - 01:39:44] XMS.
+[01:39:48 - 01:39:49] Mer mer.
+[01:39:49 - 01:39:51] Jag är så jättedålig på mig.
+[01:39:51 - 01:39:53] Men det är okej, tror jag.
+[01:39:53 - 01:39:54] Det är okej.
+[01:39:54 - 01:39:55] Kom ihåg Eisbagger och Birkby.
+[01:39:55 - 01:39:56] Vad hette de?
+[01:39:56 - 01:39:57] De kändes som helt alins.
+[01:39:57 - 01:39:59] Och kvalificerade som vandrat.
+[01:39:59 - 01:40:00] Ja, men precis.
+[01:40:00 - 01:40:01] Hur...
+[01:40:01 - 01:40:03] Vem och hur trövade att tråda dem?
+[01:40:05 - 01:40:07] Du har väl råd om det?
+[01:40:07 - 01:40:08] Ja, just det.
+[01:40:08 - 01:40:10] Han är på gröna marken nu och...
+[01:40:10 - 01:40:12] Jag vet, jag vet.
+[01:40:12 - 01:40:14] Jag vet, men då...
+[01:40:14 - 01:40:16] Då skriver jag bara...
+[01:40:16 - 01:40:18] Jo, det hängde du inte med på snart, men i februari...
+[01:40:18 - 01:40:20] Aj, spännande.
+[01:40:20 - 01:40:22] wisdom-event här. Det vill jag inte ens sakta.
+[01:40:22 - 01:40:25] Det har varit så många prat om så många olika event.
+[01:40:25 - 01:40:28] Ja, men nu har vi bokat in datum. Det vill jag att det ska hända.
+[01:40:28 - 01:40:31] Så det är eftermiddag och partymiddag.
+[01:40:31 - 01:40:33] Men vem googlar då?
+[01:40:35 - 01:40:50] Boken heter Eftermiddag och kväll blir vi synergist till ett EU-mättet Wisdom.
+[01:40:50 - 01:40:57] Samhitt, konst, musik, DJ, party på kvällen.
+[01:40:57 - 01:41:00] Skitkul!
+[01:41:00 - 01:41:04] Då har vi nog kommit lite längre tekniskt också, så det kan bli ganska magiskt.
+[01:41:05 - 01:41:09] Vi har ju kanten för den där, så då kan vi bara hitta tema för den där.
+[01:41:09 - 01:41:12] Och sen så är det unikgenererade bara.
+[01:41:12 - 01:41:14] Han vill ju sätta upp tavlor.
+[01:41:14 - 01:41:17] Och, jag har glömt att säga till er.
+[01:41:17 - 01:41:20] Det sitter en TV där ute.
+[01:41:20 - 01:41:22] På den väggen som inte används.
+[01:41:25 - 01:41:29] Han vill köpa en ny skärm, en stor sån här Samsung Frame, sån som ni har hemma tidigt.
+[01:41:29 - 01:41:33] Och sen så, som en liten gimmick med en cool grej.
+[01:41:33 - 01:41:34] Du kan prata med VLG.
+[01:41:35 - 01:41:41] Oj, nu kommer det in en voice och en liten animering här.
+[01:41:46 - 01:41:48] Jag vet, men det är separat.
+[01:41:50 - 01:41:52] Och vi kan dela det. Det här är det vi bygger nu.
+[01:41:52 - 01:41:54] Det kan vara en cool grej.
+[01:41:54 - 01:41:56] Det är inte en lång grej att bygga den grejen.
+[01:41:56 - 01:41:58] Jag kan bygga på den här.
+[01:42:05 - 01:42:08] Men har hon en mejl?
+[01:42:08 - 01:42:12] Det måste vi ha. Vad heter hon efter namn?
+[01:42:15 - 01:42:16] S.
+[01:42:20 - 01:42:24] Akousia, A-K-O-U-S-U-A
+[01:42:24 - 01:42:28] Akousia, ett
+[01:42:28 - 01:42:34] Ja, men det är det som är grejen, jag vet inte, hon heter ju Ella, Ella Lind
+[01:42:35 - 01:42:39] Då är det svårt att veta var hon har fler.
+[01:42:43 - 01:42:45] Vet du vad du ska mejla då?
+[01:42:45 - 01:42:49] Då ska du mejla Lisa Bik. Hon har ganska bra koll.
+[01:42:50 - 01:42:54] Ska göra det. Lisa byggd livs
+[01:42:54 - 01:42:59] plånbok. Bok är på kontoret.
+[01:43:01 - 01:43:03] Hon glömde den precis.
+[01:43:05 - 01:43:14] Vi har gått hem, vi har inte MS-kontaktuppgifter.
+[01:43:20 - 01:43:22] och evightyten är.
+[01:43:25 - 01:43:26] Så jag har mina frisedag som är.
+[01:44:05 - 01:44:11] Gott. Riktigt gott.
+[01:44:11 - 01:44:15] Vad tog du loppet av?
+[01:44:15 - 01:44:19] Jag tog toaletten också.
+[01:44:20 - 01:44:35] Jag är så trött, jag ska bara hänga med Neo och bara jaga han ikväll. Han kommer vilja klättra på mig och bråka och göra såhär fysiska grejer. Jag vill bara ligga under en filt.
+[01:44:35 - 01:44:37] Det var ju lite stökigt förra dagen.
+[01:44:50 - 01:44:52] Nej, men ni är på andra sidan.
+[01:44:52 - 01:44:54] Ni är på andra sidan.
+[01:44:54 - 01:44:56] Ja, absolut.
+[01:44:56 - 01:44:58] Oj, oj, oj.
+[01:44:58 - 01:45:03] Hanna är lite epig för att hon har varit med honom varje dag sedan han föddes.
+[01:45:03 - 01:45:05] Och nu ska honom idag jobba.
+[01:45:05 - 01:45:07] Det är där jag var första gången.
+[01:45:07 - 01:45:09] Okej, första gången.
+[01:45:09 - 01:45:11] Ja, det är ju liksom mamma.
+[01:45:11 - 01:45:13] Precis.
+[01:45:15 - 01:45:17] Men alla mår ju bra.
+[01:45:17 - 01:45:19] Alltid som du ska.
+[01:45:21 - 01:45:36] Bra, jag är också lite trött av det sådär, men nej jag är glad, frisk.
+[01:45:36 - 01:45:38] Full fart.
+[01:45:38 - 01:45:40] Han börjar bli stor alltså.
+[01:45:40 - 01:45:42] Men det går ju snart.
+[01:45:42 - 01:45:44] Jag vet.
+[01:45:44 - 01:45:46] Jag är i skola snart.
+[01:45:46 - 01:45:48] Jag är inte sjuk.
+[01:45:48 - 01:45:50] Jag kan inte ens...
+[01:45:50 - 01:45:52] Förställa mig.
+[01:45:51 - 01:46:03] Jag kände att mötet fragmenterades, vad var det som hände? Du sitter med din AI och Lotta är borta?
+[01:46:03 - 01:46:06] Jag uppdaterade med vad du precis sa.
+[01:46:06 - 01:46:16] i den här profiling-agenten.
+[01:46:21 - 01:46:32] Billigheten är från två olika typer av buyers, direct och indirect, alltså user, buyer och consultants, buyers selling to users.
+[01:46:32 - 01:46:36] Michael är ju en, eller partnerbuyer kan du ju säga.
+[01:46:36 - 01:46:39] som vill ha till sina klienter, till exempel.
+[01:46:39 - 01:46:41] Och Janni, vilken är det då?
+[01:46:41 - 01:46:45] Janni är likadan. Mattis, han vill ha sin egen.
+[01:46:45 - 01:46:48] Det är läkt, han vill ta in det bolaget han jobbar i.
+[01:46:48 - 01:46:50] Just det, han vill ha det direkt, ja.
+[01:46:51 - 01:47:00] Och oavsett, det känns som att det är där vi får traction när vi pratar med syringisterna.
+[01:47:00 - 01:47:05] De fattar det direkt, de har en längentidshorisont, de är holistiska, de är connected.
+[01:47:06 - 01:47:11] som får saker att hända, så är det rätt. Och det känns helt ärligt mer levande.
+[01:47:21 - 01:47:28] 95% av alla företagsledare är ju achievers i sina roller.
+[01:47:28 - 01:47:31] Därför att det är så man styr deras bolag.
+[01:47:31 - 01:47:36] Men det betyder ju inte att de inte själva har börjat ifrågasätta om achievers roller.
+[01:47:36 - 01:47:43] Men det är som en grej, är du en integrerad synergist, så är du achiever. Du kan inte vara synergist utan att vara achiever.
+[01:47:43 - 01:47:46] Nej, men...
+[01:47:46 - 01:47:51] Jenny pekar ju på en grej, det hon har jobbat med under lång tid.
+[01:47:51 - 01:48:00] Fler och fler börjar ifrågasätta det sättet som bolagen drivs på, eller som de gör, men de syns inte.
+[01:48:00 - 01:48:04] Det är också känsligt att uttryckas i de termerna.
+[01:48:04 - 01:48:06] Du öppnar dig för sårbarhet.
+[01:48:06 - 01:48:10] I den gamla världen är samma sak som att du är svag.
+[01:48:10 - 01:48:16] Jag kan inte vara svag, jag kan inte säga att jag inte vet vad vi ska göra för då tror inte mina medarbetare på mig längre.
+[01:48:16 - 01:48:21] Och inte min styrelse heller. Mina aktieägare kommer att slå mig i huvudet.
+[01:48:21 - 01:48:23] Jaha, men du kanske inte är redo för det här längre?
+[01:48:23 - 01:48:23] Nej.
+[01:48:23 - 01:48:25] Hahaha.
+[01:48:25 - 01:48:27] Hon tog samtalet, var det det du gjorde?
+[01:48:27 - 01:48:29] Ja, hon tog samtalet.
+[01:48:29 - 01:48:31] Så då kan ju vi köra.
+[01:48:31 - 01:48:35] Men har vi, känns det som att vi har en line event kring den hypotesen?
+[01:48:36 - 01:48:42] Jag tror att vi har varit lite ambivalenta länge. Ska vi gå på achievers också?
+[01:48:42 - 01:48:48] För det jag sa i mötet med Torbjörn var att nu släpper vi det fjärde runda bordsamtalet för bara achievers.
+[01:48:48 - 01:48:50] För det finns inte kört till.
+[01:48:51 - 01:49:06] Jag har aldrig sett det som att det finns ett bord för bara achievers, nu börjar vi prata om det nyanserat, vi har ju pratat om det som antingen eller, och nu kristalliseras ju någonting i mitten.
+[01:49:06 - 01:49:20] Ja, tyngdvikten ligger där, men jag tror ju att många av de här representerar ju organisationer många gånger, där det finns jävligt mycket, det finns medel för att göra det.
+[01:49:21 - 01:49:28] Det här är ju en line och de här är Curious, det är en VR-skjutare.
+[01:49:28 - 01:49:35] Ja, men jag tänker så här också. Hur köper en organisk robot?
+[01:49:36 - 01:49:45] De som ska köpa det du gör, varifrån kommer pengarna, hur tas det i kortet och hur utvärderar man det i slutet?
+[01:49:45 - 01:49:51] Det är en gäng som man behöver bli framgångsrik på. Det är väldigt få som köper framgångsrikt.
+[01:49:51 - 01:50:00] Men det är tillbaka på, jag tror ju på, det är ju förstudiegrejer. Visst det är lång införsäljning men det är ändå low stakes.
+[01:50:00 - 01:50:04] För du får labba den i en controlled setting.
+[01:50:04 - 01:50:06] Exakt, vilket gör att...
+[01:50:06 - 01:50:14] Jag tror att det man måste göra är att man får kolla ut och sätta verktyget i rummet ditt möte.
+[01:50:14 - 01:50:19] Där kanske du och en sån som Jammie kan få dem att säga ja till det.
+[01:50:19 - 01:50:21] Men vi direkt tar in det.
+[01:50:21 - 01:50:31] Då blir det en produktförsäljning, så hon blir dryggrann för att vi ska få placera verktyget i rummet.
+[01:50:31 - 01:50:36] När en vän har upplevt det, då blir det en helt annan situation.
+[01:50:36 - 01:50:39] Men vänta nu, vad var det som hände?
+[01:50:39 - 01:50:40] Japp.
+[01:50:40 - 01:50:42] Men hur kan vi få tillgång till det här?
+[01:50:42 - 01:50:44] Det är bra.
+[01:50:44 - 01:50:47] Ja, men då i förstudien, då ligger den på bordet.
+[01:50:49 - 01:50:50] Precis.
+[01:50:51 - 01:50:55] Så om vi känner sig överens, då kan vi ta nästa punkt.
+[01:50:57 - 01:51:00] Det känns bara skönt att stanna där.
+[01:51:00 - 01:51:01] Okej.
+[01:51:02 - 01:51:04] Rundarbordssamtal då?
+[01:51:07 - 01:51:08] Nästa är den 28 november.
+[01:51:14 - 01:51:15] Det kommer ju vara då.
+[01:51:18 - 01:51:21] Det är jättebra deltagare redan på den som är i.
+[01:51:22 - 01:51:37] Det här gången kommer de få på Ludvigs önskan att vi ska samskapa frågor tillsammans en vecka innan.
+[01:51:37 - 01:51:41] tillsammans med gruppen, så det är ju hit the ground running in i samtalet.
+[01:51:42 - 01:51:47] Vad menar du, vi ska skicka ut det så att de får tala om vad det är för frågor de vill?
+[01:51:47 - 01:51:50] Jag vet inte formatet och huret, om jag ska vara ärlig.
+[01:51:50 - 01:51:52] Det står väl inbjudet på.
+[01:51:52 - 01:51:54] Vi kollar den också.
+[01:52:00 - 01:52:00] Exakt så.
+[01:52:07 - 01:52:09] Vart var väggarna?
+[01:52:22 - 01:52:32] We'll gather around a calling question that addresses a crucial intersection between AI
+[01:52:32 - 01:52:34] and inner development.
+[01:52:34 - 01:52:37] This question will be co-created by the participants before.
+[01:52:37 - 01:52:46] Ludwig will coordinate with everyone to ensure we receive the question no later than seven days before the event, so we can probably prepare the back-end.
+[01:52:49 - 01:52:52] Lite vakt, faktiskt, om huvudet.
+[01:52:52 - 01:52:58] Det står ju, det är lite motsigt, this question will be co-created by the participants.
+[01:52:58 - 01:53:01] Ludwig will coordinate to ensure we receive the question.
+[01:53:01 - 01:53:05] Han kommer att koordinera i alla fall.
+[01:53:05 - 01:53:07] Han är duktig på sånt.
+[01:53:07 - 01:53:09] Det kändes till lite räddning.
+[01:53:22 - 01:53:30] Det är som tidigare, ganska skarpt läge. Vi kommer ut lärdomar som gör det här lite bättre och det kommer vara en synergistrack på den också.
+[01:53:32 - 01:53:36] Så jag vet inte om det är mer som behöver sägas. Vi behöver förbereda det.
+[01:53:37 - 01:53:41] Ska vi se till anledning att planera för något annat efter det?
+[01:53:46 - 01:53:52] Jag funderar på att det vi gjorde nu, nu drog vi ihop det under omverket Playground
+[01:53:52 - 01:53:54] Det är ju egentligen en roundtable.
+[01:53:54 - 01:53:56] Det är ju samma format fast med andra topics.
+[01:53:56 - 01:53:58] Vi drev mot ett annat håll.
+[01:53:58 - 01:54:01] Topicet var ju hur kan vi stötta River?
+[01:54:01 - 01:54:04] Ja, men det är ju ett problem tror jag egentligen.
+[01:54:04 - 01:54:07] Skulle vi gå ut och stötta upp en öppen sån här roundtable?
+[01:54:07 - 01:54:18] Har en öppen samsätt, vi har åtta platser för att göra den här, tror vi att det skulle vara möjligt att attrahera folk till den?
+[01:54:18 - 01:54:22] Ja, absolut.
+[01:54:22 - 01:54:32] Jag känner mig bara, vi behöver ha så många event som möjligt, samtidigt känner jag mig slight overwhelmed med att preppa inför varje, tekniskt och faciliteringsmässigt.
+[01:54:32 - 01:54:36] Så att man trycker in fler, det blir såhär, jag orkar inte.
+[01:54:36 - 01:54:38] Men Stefan, vet du vad Janne sa?
+[01:54:37 - 01:54:52] När vi åkte med henne hem, när hon kussade med mig i morgon, så var jag inne på att det funkade nog bra, det glitchade lite i tekniken och hans lana slirade lite.
+[01:54:52 - 01:54:57] När vi skulle prata om att det var.
+[01:54:59 - 01:55:01] Skit i det. Jag tänkte inte ens på det.
+[01:55:04 - 01:55:07] Alltså upplevelsen av vad som var väntan inte.
+[01:55:07 - 01:55:13] Det är förväntan att det ska vara en dator, men det är mycket mer än det.
+[01:55:13 - 01:55:17] Så vi ställer krav på oss själva, som är långt högre...
+[01:55:17 - 01:55:19] Jag ställer krav på mig som är långt högre.
+[01:55:22 - 01:55:32] Men det behövs, för vi har haft lite kyrhistoriskt om man har varit öppen eller vad det är som har kommit igång, att det har blivit för mycket.
+[01:55:32 - 01:55:34] Den här eller?
+[01:55:34 - 01:55:36] Vänta, vänta!
+[01:55:37 - 01:55:39] Vänta, nu pratar alla i mun på varandra.
+[01:55:39 - 01:55:41] Du sa ju vänt, men jag förstår inte vilken.
+[01:55:41 - 01:55:42] Den här?
+[01:55:42 - 01:55:44] Nej, vi är på nästa agendapunkt.
+[01:55:44 - 01:55:46] Bra tid, det är främmande.
+[01:55:46 - 01:55:50] Vi har stängt strategin och vi har sagt att vi är överens om att det är...
+[01:55:50 - 01:55:52] Vi är på fjärrbacke i plantet nu?
+[01:55:52 - 01:55:54] Ja.
+[01:55:52 - 01:56:02] Det här känns överens om att vi lägger fokus på synergist som är doers med okonvertibelt som är hördesynergist också.
+[01:56:03 - 01:56:07] Både i form av direktförsäljning och indirekt.
+[01:56:07 - 01:56:17] Så nu är det där. Jag bara sa att, eller vi pratade om, den kommer vara i shoppen när de behöver, och vilka som kommer vara med.
+[01:56:17 - 01:56:20] Så det är några high profile personer som kommer vara där.
+[01:56:20 - 01:56:22] Kommer inte ihåg listan.
+[01:56:23 - 01:56:36] Men det var några hotshots från IKEA och H&M som jag tog mest notisering på, som är inbjudna, förlåt, som vi inte har tackat göra ännu, men som är inbjudna.
+[01:56:38 - 01:56:41] Jag uppger vdn också på Sturebadet där Helene jobbar.
+[01:56:41 - 01:56:45] Och Helene har ju pitchat mig till henne år 1980.
+[01:56:45 - 01:56:47] Som kund eller som leverantör?
+[01:56:47 - 01:56:49] Som leverantör.
+[01:56:53 - 01:57:01] Så det vi har sagt är att vi släpper Kiber-eventet och då kom du med frågan, kommer vi göra en till snart?
+[01:57:01 - 01:57:07] Och då sa jag, det kostar ganska mycket med teknikprepp och faciliteringsprepp inför varje sådan.
+[01:57:08 - 01:57:09] Energimässigt skulle jag säga.
+[01:57:09 - 01:57:10] Ja, men det är det jag menar.
+[01:57:10 - 01:57:11] Energimässigt.
+[01:57:11 - 01:57:14] Och då sa du att vi har högre förväntningar på oss själva och jag har det på mig också.
+[01:57:14 - 01:57:15] Jo, men...
+[01:57:15 - 01:57:17] Men vi behöver inte vara långrandiga kring det.
+[01:57:17 - 01:57:21] Men bara säga att någonstans vill ju såklart hända ett till och ett till och ett till.
+[01:57:21 - 01:57:23] Vi behöver bara veta när, var och hur och sådär.
+[01:57:23 - 01:57:29] Om det är den vi körde igår, är den good enough för att köra nästa möte?
+[01:57:29 - 01:57:37] När vi har kört fel A om två veckor, då tror jag att vi är på den nivån att vi kan trycka ut det här på repeat.
+[01:57:38 - 01:57:46] i det energi- och stressläget som du nu pratar om och känner att nu är vi tillräckligt trygga, nu är ju preppet egentligen.
+[01:57:46 - 01:57:53] Vad är topikerna? Hur ska vi dyka själva flödet i aktiviteten?
+[01:57:53 - 01:58:08] Jag vill automatisera en grej till som kommer att avlasta mig och alla egentligen, och det är att bygga en agent.
+[01:58:08 - 01:58:15] som ställer frågor till dig innan ett sådant här event och som sedan skriver ihop en systemfront.
+[01:58:15 - 01:58:19] För jag har redan gjort så att du kan tagga en agent när du startar.
+[01:58:19 - 01:58:22] En förberedelseagent.
+[01:58:23 - 01:58:30] Vilka är där, vad är syftet, vad kommer att hända vid agendan, bla bla, bara tankar av all den kontexten.
+[01:58:30 - 01:58:35] Och sen så frågar den, vill du att jag genererar en systemprompt till den här agenten nu?
+[01:58:35 - 01:58:38] Då trycker du yes, och då skapar den en textfil.
+[01:58:38 - 01:58:41] Och i det ögonblicket så är den agenten klar.
+[01:58:42 - 01:58:44] Så att när du startar den sen så kommer den
+[01:58:45 - 01:58:46] direkt köra på den.
+[01:58:47 - 01:58:50] Den skulle vara en lågt hängande frukt för mig för då slipper vi
+[01:58:50 - 01:58:52] och oss alla sitta systempromter varenda gång.
+[01:58:53 - 01:59:00] Det funkar så, agenten finns när det finns en systemplott, den bara fetchar textfilen, det är bara att tagga den med en flagga i command line.
+[01:59:00 - 01:59:03] Nu säger du agent fyra, så då är det det.
+[01:59:08 - 01:59:13] Jag känner att nu har jag kommit fram, nu är paketeringen här, vi har verktygen, då kan vi bidragit med det här.
+[01:59:13 - 01:59:14] Jag tror det.
+[01:59:14 - 01:59:16] Så då är det det som är tryggt just nu?
+[01:59:16 - 01:59:17] Jag tror det.
+[01:59:17 - 01:59:19] Du känner dig trygg med vad vi har just nu?
+[01:59:19 - 01:59:20] Ja.
+[01:59:20 - 01:59:22] Att garagebygget är tillräckligt tajt?
+[01:59:23 - 01:59:27] Stabilt i alla fall. Stabilt och för användaren snyggt.
+[01:59:38 - 01:59:44] Vi har genomfört tre event med vår nya AI-kompis.
+[01:59:46 - 01:59:50] Vi har lärt oss, vi har integrerat, vi har utforskat tekniken.
+[01:59:50 - 01:59:51] Vi har byggt teknik.
+[01:59:51 - 01:59:53] Vi har byggt teknik, vi har utforskat.
+[01:59:53 - 02:00:03] Det har varit liksom så att du har varit liksom värsta professorn i back-end making, vi har funderat på formatet, vi har skapat upplevelser,
+[02:00:03 - 02:00:06] token har aktiverats, bjudit in sitt nätverk.
+[02:00:06 - 02:00:08] Vi har ett playground med fler contributors.
+[02:00:08 - 02:00:13] Vi har startat en playground, vi har ställt in tracks, vi har lanserat en ordentlig nöjestopp.
+[02:00:13 - 02:00:16] Det har jag haft förut när jag har liksom fortsatt på ett studio.
+[02:00:16 - 02:00:19] Sen bara, kan vi passa? Fan vad vi är bra grejer.
+[02:00:19 - 02:00:23] Jag känns, jag orkar inte om vi inte får säga det, för det här är så sjukt mycket.
+[02:00:23 - 02:00:30] Det är fint och bra. Vi är de här hästarna som bara springer vidare, det är nästan som att vi får slänga ner datorerna och bara känna flöttan.
+[02:00:30 - 02:00:37] Fan, det är en så skönt bra grej här. Det är så skönt att du är i rummet, David. Du ser ju vad jag säger, vi känner det.
+[02:00:39 - 02:00:46] Jag hade pengar och kampanj, så skulle jag komma med den, men jag tror att vi behöver det också.
+[02:00:46 - 02:00:48] Jag har inte pengar, men jag har drabbat mycket kampanj.
+[02:00:48 - 02:00:50] Har du kampanj?
+[02:00:50 - 02:00:52] Kan vi drabba lite mer?
+[02:00:52 - 02:00:54] Kan vi drabba lika mycket kampanj?
+[02:00:54 - 02:00:55] Ja!
+[02:00:55 - 02:00:56] Hörrni!
+[02:00:56 - 02:00:57] Jag menar den.
+[02:00:57 - 02:00:58] Det var en sån fråga.
+[02:00:58 - 02:00:59] Vilka har hänt du?
+[02:00:59 - 02:01:00] Allt det här.
+[02:01:00 - 02:01:01] Allt det här har hänt.
+[02:01:01 - 02:01:03] Liksom typ den senaste månaden.
+[02:01:03 - 02:01:05] Det är ju som att ketchup...
+[02:01:05 - 02:01:07] Proppen på ketchupflaskan bara...
+[02:01:07 - 02:01:08] Eller hur?
+[02:01:08 - 02:01:09] Jag vet.
+[02:01:09 - 02:01:18] Vi måste bara lära oss att känna att vi också är i det här med kreativt skapande och att det händer magiskt.
+[02:01:18 - 02:01:23] För jag kommer inte att orka annars. Då blir jag bara så här tung och bara så här.
+[02:01:24 - 02:01:28] Bara hemma hos dig, Patrik Mestredra, och dricka kampanj.
+[02:01:28 - 02:01:30] Nu kan man hemma hos mig.
+[02:01:30 - 02:01:35] Ska man köra här i familj, så kommer man hem till sista platsen.
+[02:01:35 - 02:01:39] Ni går ju ut, ett glas går ju ut på en och en halv timme.
+[02:01:39 - 02:01:41] Jag kan ta med mig en pampan, det är inga problem.
+[02:01:41 - 02:01:42] Ja.
+[02:01:42 - 02:01:44] Nej men ni hör, jag vill bara upptäcka kärlek.
+[02:01:44 - 02:01:45] Ja.
+[02:01:45 - 02:01:47] För allt som händer och alla sena kvällar och
+[02:01:47 - 02:01:49] hej, vi står här och faciliterar,
+[02:01:49 - 02:01:53] vi ligger så, alla lägger så mycket in nu i det här.
+[02:01:53 - 02:01:55] Vi är liksom såhär...
+[02:01:54 - 02:01:56] Du fakturerar hela tiden.
+[02:01:56 - 02:01:58] Ja, gud vad jag fakturerar.
+[02:01:58 - 02:02:02] Och äntligt mycket summer.
+[02:02:02 - 02:02:04] Jag bara känner det.
+[02:02:04 - 02:02:06] Jag bara behöver det.
+[02:02:06 - 02:02:08] Ni är ju min extended familj.
+[02:02:09 - 02:02:11] Och vi vill ju att ni ska vara glada och känna det, liksom.
+[02:02:11 - 02:02:12] End of story.
+[02:02:12 - 02:02:14] Tack Lotta för att du säger det.
+[02:02:14 - 02:02:15] Tack!
+[02:02:15 - 02:02:20] Och allt det här med att vi sitter och skickar bilder när du liksom bad henne med benen och håller henne.
+[02:02:20 - 02:02:22] Och så här smalt, smalt, smalt.
+[02:02:22 - 02:02:24] Och du bara...
+[02:02:24 - 02:02:28] Så, det var mitt inlägg.
+[02:02:28 - 02:02:30] Just det, det var mitt inlägg.
+[02:02:30 - 02:02:32] Ja, det var typ mitt inlägg, ja.
+[02:02:32 - 02:02:34] Precis.
+[02:02:34 - 02:02:36] Precis.
+[02:02:36 - 02:02:38] Så.
+[02:02:39 - 02:02:47] Celebration och kärlek. Jag önskar att vi skulle kunna se lite upp och in i huvudet på de andra som möter oss.
+[02:02:47 - 02:02:50] Vad tänker de när de ser oss? Men det kan vi ju inte.
+[02:02:50 - 02:02:54] Men jag tror inte att de tänker att vi är den här gruppen.
+[02:02:54 - 02:02:56] starta playgrounden som vi är.
+[02:02:56 - 02:02:58] Jag tror att de känner och tycker att vi
+[02:02:58 - 02:03:00] är mycket, mycket, mycket mer.
+[02:03:00 - 02:03:02] Så det är ju också så här,
+[02:03:02 - 02:03:04] vad är det vi,
+[02:03:04 - 02:03:06] vilka är vi där ute?
+[02:03:06 - 02:03:08] Och man säger ju inte redan
+[02:03:08 - 02:03:10] att det är ett runderbås här.
+[02:03:09 - 02:03:18] Det var väl bara han som sa att han kände att han var duktigare än hon, men vi är ju det, vi måste kunna känna vad vi håller på med.
+[02:03:18 - 02:03:20] Så, end of story.
+[02:03:20 - 02:03:22] Tjuv. Tack.
+[02:03:24 - 02:03:28] Vilket jag tycker är ganska intressant.
+[02:03:28 - 02:03:33] Jag tror att vi representerar precis det som kommer att hända med väldigt många företag i framtiden.
+[02:03:33 - 02:03:39] Att vårt sätt att förstå vad AI innebär och hur vi använder det
+[02:03:39 - 02:03:46] Så att små organisationer kan skapa väldigt, väldigt stora lösningar.
+[02:03:54 - 02:03:56] Har ni pratat med henne?
+[02:03:58 - 02:04:03] Hon var ju med i det första vårt samtalet. Det var så skönt att ha någon med som reflekterade.
+[02:04:09 - 02:04:13] När CS plockar upp bollen här.
+[02:04:25 - 02:04:33] Men vi behöver efter VLA-arbetet träffa Björn Backa, eller hur?
+[02:04:40 - 02:04:47] Detta kan vara väldigt praktiskt.
+[02:04:47 - 02:04:54] Nu hörde jag dig, efter VA så sitter en backen som du tror på.
+[02:04:55 - 02:05:04] Det här kommer att vara basen till Björn Backa-eventen, det betyder att om Björn Backa är den 28e, det är på torsdagen, så måste vi lägga tid på det i förhållande.
+[02:05:04 - 02:05:07] Så efter VLA, då kan vi lägga tid.
+[02:05:07 - 02:05:10] Så ska vi sätta en tid redan nu, så har vi den.
+[02:05:10 - 02:05:16] Det är jättebra, så vi har en två veckor och björn vecka är veckan se efter.
+[02:05:16 - 02:05:21] Så om vi kan träffas tisdagen och eller onsdagen?
+[02:05:21 - 02:05:25] Tisdag, ska vi ta tisdag morgon?
+[02:05:25 - 02:05:32] Tisdag morgon klockan nio, ska vi blocka onsdag morgon också?
+[02:05:35 - 02:05:40] Vi kör två timmar på tisdag då, nio till elva.
+[02:05:40 - 02:05:42] Eller 10 till 12. Det är skönt, för då kan man dra över lunchen.
+[02:05:43 - 02:05:44] Och bjuder du in?
+[02:05:47 - 02:05:48] Du är bäst på bjuder.
+[02:05:54 - 02:05:54] Prep.
+[02:05:55 - 02:05:57] Runt där borta.
+[02:05:57 - 02:05:59] Så.
+[02:06:01 - 02:06:03] Så.
+[02:06:03 - 02:06:05] Okej.
+[02:06:10 - 02:06:25] Mjölnbacka är på förmiddagen på torsdagen, så den är i kvällen.
+[02:06:25 - 02:06:27] På morgonen till och med.
+[02:06:27 - 02:06:29] Ja, men det är ganska skönt.
+[02:06:29 - 02:06:31] Det är faktiskt ganska skönt.
+[02:06:33 - 02:06:35] Nu ska vi se.
+[02:06:40 - 02:06:55] Now!
+[02:06:55 - 02:06:57] Är det färdig med den andra?
+[02:07:03 - 02:07:04] Nej, det är bra.
+[02:07:06 - 02:07:06] Bra.
+[02:07:09 - 02:07:10] Det var en man.
+[02:07:10 - 02:07:16] Nu står det att ni ska ha med.
+[02:07:22 - 02:07:23] Play gram.
+[02:07:25 - 02:07:29] Försök duscha på det här på några månader, så det går att göra av det
+[02:07:39 - 02:07:40] Tack för att ni var med!
+[02:07:40 - 02:07:42] Uppmänna pengarnas idéer.
+[02:07:50 - 02:07:51] Inte.
+[02:07:55 - 02:08:05] Det brukar vara bra att göra saker direkt.
+[02:08:10 - 02:08:25] Jag har sagt det flera gånger på olika sätt, men det här uppstod faktiskt i våras redan, men nu börjar det bli konkret, för vi har lite badges, vi har gjort erfarenheter under bältet, vi har gjort våra...
+[02:08:25 - 02:08:27] alla runda bordsamtal.
+[02:08:27 - 02:08:30] Vi har kommit längre i partnerskap och så vidare.
+[02:08:33 - 02:08:34] Jag ser det som.
+[02:08:39 - 02:08:40] Vår.
+[02:08:40 - 02:08:43] jämställdhet,
+[02:08:44 - 02:08:47] säkerhet,
+[02:08:47 - 02:08:49] räddhet,
+[02:08:49 - 02:08:51] ekosystem,
+[02:08:52 - 02:08:54] synnerhet,
+[02:08:55 - 02:08:56] ledsamhet,
+[02:08:55 - 02:09:00] Nu ska jag fokusera på den resan här borta.
+[02:09:01 - 02:09:04] Det är skruvarna på purpose.
+[02:09:06 - 02:09:07] Sorry.
+[02:09:07 - 02:09:09] Det var där.
+[02:09:11 - 02:09:13] Kan du veta hur jag blir skrämd?
+[02:09:13 - 02:09:15] Förlåt.
+[02:09:15 - 02:09:17] Mycket system.
+[02:09:21 - 02:09:26] Såhär, vårt purpose är att bygga ett ekosystem med win-win-actors.
+[02:09:26 - 02:09:35] Och det är sant att vi kommer att behöva bygga det här först och sen skala det och sen bygga det här och sen så går det bra.
+[02:09:35 - 02:09:41] Naila mötet, skala upp det till organisationer, skala upp det till EU-systemet.
+[02:09:41 - 02:09:46] Det är det vi byggde tekniskt, även processerna visade sig rädda.
+[02:09:46 - 02:09:53] Men det jag håller med dig om idag är att det är intressant att du kan kalla in från framtiden ner.
+[02:09:53 - 02:09:56] Så håll inte fänt här.
+[02:09:56 - 02:10:05] Det här med de lätta personerna kan bli till att det där har kommit en form redan nu som ska fungera färskt när vi går igenom det här.
+[02:10:05 - 02:10:07] Det kommer från andra hållet samtidigt.
+[02:10:07 - 02:10:11] Dessutom blir det ju folkleaders, eller hyndleaders, eller vad det kallar för.
+[02:10:11 - 02:10:19] Giftemålet är att ha en visst om, och den faktorna kan vara att hålla den visionen.
+[02:10:19 - 02:10:26] Och plus att det känns så grymt i mig, musik, färsk, komiskt.
+[02:10:26 - 02:10:39] Det är en känsla, men vad du också egentligen gör är att kan du beskriva det du ramar in i ditt papper?
+[02:10:41 - 02:10:56] Om man kan investera vad det är och vad det skulle kunna betyda så tror jag att vi kan attrahera investerare till den rullbanan redan nu för att få resurser av okförbundet.
+[02:10:56 - 02:11:11] För att både bygga teknik i infrastrukturen, men också för att kunna driva det skiftet i hur organisationer nöjer sig.
+[02:11:11 - 02:11:18] Jobbar, verkar och är ett framtidens företag som förstår värdet av...
+[02:11:26 - 02:11:33] utan att vi har någon som är internt chef, som är en som håller det i valet, så räknar man med att det hände ju liksom inte förra gången.
+[02:11:33 - 02:11:36] Nu har vi mer ansvar på andra än att bara liksom make it happen.
+[02:11:36 - 02:11:41] Och sen också få in lite art och sån här upplevelse.
+[02:11:41 - 02:11:44] Det minns jag att vi pratade om för ett år sen.
+[02:11:44 - 02:11:47] Nu har vi mognaden och koordineringen.
+[02:11:47 - 02:11:53] Vi måste göra det iterativt på det sättet vi har gjort nu för att det ska komma till en nivå.
+[02:11:53 - 02:11:56] Då kommer takten öka automatiskt.
+[02:11:56 - 02:11:58] Det känns jättehärligt.
+[02:11:58 - 02:12:01] Ja, men nu kan vi knyta foten mot något konkret förut.
+[02:12:01 - 02:12:05] Så knöter vi emot något med att få bara drömma om.
+[02:12:05 - 02:12:07] Men nu kan vi börja plocka ner det till att
+[02:12:07 - 02:12:09] det här tror vi kan hända när vi börjar.
+[02:12:09 - 02:12:11] Jag tror vi kan samla in.
+[02:12:11 - 02:12:14] Det är en jävligt cool data där, det kan vara en del av det.
+[02:12:14 - 02:12:16] Det handlar även om komponenterna i görandet.
+[02:12:16 - 02:12:21] Genom att man känner sig trygg och har komponenterna i flödet och görandet.
+[02:12:21 - 02:12:25] Då håller man rummet mycket bättre också.
+[02:12:26 - 02:12:41] Vi kommer inte längre i samarbete med Fabric och potentiellt andra, vi har gjort fler runderbord samtal, vi har gjort fler playgrounds, vi har varit på Eksjärvet, vi har byggt mer av techbacken, så att när vi börjar göra det här så kommer vi vara på det.
+[02:12:41 - 02:12:51] Men det går ju i en lärande spiral, alltså jag tror att vi håller på att explodera, jag bara säger det någonstans, jag har sagt det i två år, men nu säger det i två år.
+[02:12:51 - 02:12:53] Hur länge har jag känt dig?
+[02:12:53 - 02:12:56] Varje vecka, det är sådana säger jag, ja nästa vecka så har jag känt dig.
+[02:12:56 - 02:13:02] Men det intressanta är att han har rätt också samtidigt, och han har haft rätt hela tiden.
+[02:13:02 - 02:13:05] För det är verkligen, det är bara att titta på vad det är som...
+[02:13:05 - 02:13:08] Men vi går och slipper ju fram sig och växer med varje intresset egentligen.
+[02:13:08 - 02:13:11] Det har aldrig gått så här snabbt förut, och det kommer aldrig bli så.
+[02:13:11 - 02:13:15] Det är ingen annan som går så här långsamt igen, jag sammanfattar det.
+[02:13:15 - 02:13:26] Men om det här händer och vi lägger massor av jobb tillbaka, då finns det också värsta tillfället att samla ihop kommunen på ett mer professionellt sätt och ha dialog med dem.
+[02:13:26 - 02:13:31] Samla in dem. Jag vet inte om vi ska starta en LinkedIn-grupp eller om vi bara ska köra en mejl-chimp.
+[02:13:31 - 02:13:35] Alltså så här, för nu startar vi någonting, men vi måste hålla på att få flodkontakt.
+[02:13:35 - 02:13:37] Vi behöver projektledning, Många.
+[02:13:37 - 02:13:39] Absolut.
+[02:13:39 - 02:13:41] Och koordinering kring rollen.
+[02:13:41 - 02:13:43] resurser, allt det där.
+[02:13:43 - 02:13:47] Jo, men också inte bara tappa den efter att det har hänt, utan liksom hur...
+[02:13:47 - 02:13:48] Det är en idé där vi ingår ju i.
+[02:13:48 - 02:13:49] Ja, men precis.
+[02:13:49 - 02:13:52] Men ändå bara att det kommer vara all data vi samlar in där.
+[02:13:52 - 02:13:56] Jo, men också alla kontakter och hålla dem i ord.
+[02:13:56 - 02:14:02] Jag tror vi behöver ha en ny, alltså en som äger den striven mot oss.
+[02:14:02 - 02:14:04] För det här är tillräckligt stort för det.
+[02:14:04 - 02:14:05] Ja.
+[02:14:05 - 02:14:10] Men när ska vi börja då? För om vi ska göra den där i februari, då måste vi ju nästan börja planera den.
+[02:14:11 - 02:14:13] Du har en massa frågor kopplat till den där.
+[02:14:13 - 02:14:15] Ja, på november.
+[02:14:15 - 02:14:16] Precis.
+[02:14:16 - 02:14:17] Hej!
+[02:14:17 - 02:14:20] Det kanske finns andra som vill ha med sig det här.
+[02:14:20 - 02:14:21] Hej!
+[02:14:21 - 02:14:23] Om jag skickar ett mail till Tobias nu så säger jag så här.
+[02:14:23 - 02:14:25] Vi är fired up kring det där.
+[02:14:27 - 02:14:34] Vi är bara satte oss i året första och första handlingsmattakring. Vad ska vi återkomma av?
+[02:14:42 - 02:14:46] Så man har sånt som 14 miljoner på någon auktionsnivå för varje.
+[02:14:47 - 02:14:49] Men hur tar man på sig sådana här då?
+[02:14:49 - 02:14:50] Trader?
+[02:14:51 - 02:14:53] Vi ska göra mer.
+[02:14:54 - 02:14:56] Jamen så. Det där är ju på en annan nivå.
+[02:14:57 - 02:15:05] Jag vet inte vad det var som gjorde den där, men den såg ut som en repainting som såldes för 14 miljoner kronor.
+[02:15:12 - 02:15:14] Nu får du klippa fram.
+[02:15:14 - 02:15:16] Står jag i vägen för dig?
+[02:15:16 - 02:15:18] Ja, förlåt.
+[02:15:27 - 02:15:34] Han kan ställa sig på alla fyra, hunden och sådär, muren och sådär, och sen går han ner och så har han sådär.
+[02:15:34 - 02:15:37] Till slut så går han på alla fyra på natten.
+[02:15:37 - 02:15:42] Isak kunde träna på natten och så ställde han sig på alla fyra såhär.
+[02:15:42 - 02:15:49] Han ställde sig upp i spelsängen såhär, och så tog han ner honom och körde sådär.
+[02:15:57 - 02:16:08] Jag tror att det finns någon beröring här mellan den och playet, eller det finns det, tusenvis av, men jag menar i konkret bidrag.
+[02:16:08 - 02:16:09] Ja.
+[02:16:09 - 02:16:12] Det blir attraktorpunkt att bygga.
+[02:16:12 - 02:16:22] Det är en massa saker runt det, i form av produkt, tekniken, faciliteringen, strategin, sälj. Alla de delar kommer in i den.
+[02:16:22 - 02:16:27] Dels att låta någon använda Playgrounds som inspiration till hur vi gör den där.
+[02:16:27 - 02:16:35] Men det andra är ju också att vi har ju deltagare i Playground som kan hjälpa till att attrahera personer, så vi har ju både och.
+[02:16:35 - 02:16:36] Synergist.
+[02:16:36 - 02:16:37] Ja, exakt.
+[02:16:37 - 02:16:38] Dashit.
+[02:16:38 - 02:16:41] Jag tänkte gärna bara säga att jag funderar på att röra på mig.
+[02:16:41 - 02:16:42] Ja, det är jättefint.
+[02:16:42 - 02:16:44] Jag måste dra vid halv också.
+[02:16:44 - 02:16:46] Jag vill skifta på värsta rutschningen.
+[02:16:46 - 02:16:48] Ja, men den är här nu.
+[02:16:48 - 02:16:50] Stefan, en jättejobbig fråga.
+[02:16:50 - 02:16:56] Modellen är en OFE som ser ut som något man gör hos optikern.
+[02:16:57 - 02:17:02] Har vi börjat beskriva den där?
+[02:17:02 - 02:17:04] Du menar dokumenterat?
+[02:17:04 - 02:17:05] Ja.
+[02:17:05 - 02:17:07] Nej, men det är ju den där med tråkiga mustaplarna.
+[02:17:07 - 02:17:09] Jo, men den är ju på den nivån.
+[02:17:09 - 02:17:12] Men för att börja beskriva vad är det egentligen som sker i varje stad?
+[02:17:12 - 02:17:21] Vi förgrenar hela tiden på nya grejer och vi måste tillbaka till vilka orkar vi faktiskt göra och inte göra.
+[02:17:21 - 02:17:23] Vi förvånar oss.
+[02:17:23 - 02:17:27] Nej, men fast det är ju mötet vi gör bara. Vi gör ju inte organisation och folkhälsa.
+[02:17:27 - 02:17:34] Nej, men vad ska vi göra inom ramarna för varje sak för att nu är de här?
+[02:17:34 - 02:17:37] Nu känner jag att nu blev jag jättetrött.
+[02:17:37 - 02:17:41] Orkar vi ta den en fredag kväll?
+[02:17:42 - 02:17:48] Det var så att vi spesar den här, vad händer på mötet?
+[02:17:48 - 02:17:52] Jag vet inte fullt ut vad du menar i varje sån blogg.
+[02:17:52 - 02:17:57] Vi har aldrig pratat om det. Vi har pratat om modellen, jag vill veta vad en sån blogg är.
+[02:17:57 - 02:17:59] Vad gör vi igen?
+[02:17:59 - 02:18:01] Ska jag dra min korta då?
+[02:18:01 - 02:18:03] Nej, men vi behöver inte göra det nu.
+[02:18:03 - 02:18:05] Kan vi ta dem på nästa vecka?
+[02:18:05 - 02:18:07] Eller vad vi nu ska göra.
+[02:18:07 - 02:18:09] Jag håller med.
+[02:18:09 - 02:18:11] Jag vill också veta mer.
+[02:18:11 - 02:18:13] Men nu är det klart.
+[02:18:12 - 02:18:16] Det var därför jag sa att det är en jobbig fråga, men den är inte brådskande.
+[02:18:16 - 02:18:21] Okej, nästa steg på Playground i Skäret, då. Det sista.
+[02:18:21 - 02:18:25] Ska vi boka in... Du kommer ta dem. Du säger hej. Tack så mycket.
+[02:18:25 - 02:18:27] Ja, jag mejlar dem och...
+[02:18:27 - 02:18:37] Ekskäret, ska jag eller vem ska och hur ska vi få loss tid och kanske resurser för det?
+[02:18:37 - 02:18:42] Jag har inga kontakter, jag känner ingen på Ekskäret, jag vet ingenting om det.
+[02:18:42 - 02:18:44] Vi skulle behöva en sponsor.
+[02:18:44 - 02:18:48] Det som Amit gör väldigt coolt i Nordic Dialogue
+[02:18:48 - 02:18:51] Det är ju att deltagarna åker dit gratis.
+[02:18:51 - 02:18:56] Och sen så har du sponsorer som fundrar den grejen.
+[02:18:57 - 02:19:00] så har man ett liknande upplägg för en som ni kallar tillgänglighet.
+[02:19:00 - 02:19:06] Det går ju snyggt att bjuda in dem som en retainer för deras insats som medlemmaruppläggare.
+[02:19:06 - 02:19:08] Ja, det skulle jag tycka.
+[02:19:12 - 02:19:14] Att hålla ihop det?
+[02:19:14 - 02:19:18] Ja, typ för att gå och lägga in allt det där.
+[02:19:18 - 02:19:20] Nu pratar du fortfarande om Wisdom Eventet eller?
+[02:19:20 - 02:19:22] Ekskäret.
+[02:19:22 - 02:19:27] Ja men då tänker vi att det är en offsite för River Extended, alltså med contributors...
+[02:19:28 - 02:19:34] Vi kommer att organisera det kring Wisdom-eventet och egentligen bygga saker, konkret.
+[02:19:34 - 02:19:42] Jag tänker att Advisor ska vara där ute också, för de kommer att behöva bygga fundamentet för vårt Wisdom-track.
+[02:19:43 - 02:19:45] Vi vet ju ändå de här...
+[02:19:45 - 02:19:47] Metaframeworket.
+[02:19:47 - 02:19:52] Fast det har inte David hört. Jag tycker att vi behöver ha en advisor som är young punk, en 20-åring.
+[02:19:52 - 02:19:54] Jag tycker inte bara att vi ska ha singles.
+[02:19:54 - 02:19:56] Men känner du någon sån då?
+[02:19:56 - 02:19:58] Nej, jag gör ju inte det.
+[02:19:58 - 02:20:02] Du träffade ju någon Silicon Valley-tjej, eller hur?
+[02:20:02 - 02:20:05] Nej, hon var ju online. Jag var ju online. Jag var ju inte på plats.
+[02:20:05 - 02:20:07] Ah, okej.
+[02:20:07 - 02:20:09] Aditya borde känna.
+[02:20:09 - 02:20:10] Ja.
+[02:20:10 - 02:20:12] Ja, men eller hur? Vi skulle börja leta lite.
+[02:20:12 - 02:20:13] Ja.
+[02:20:13 - 02:20:15] Jag kan ta det när jag har pengarna.
+[02:20:15 - 02:20:16] Gör du det?
+[02:20:16 - 02:20:16] Yes.
+[02:20:16 - 02:20:17] Ta det när du har pengarna.
+[02:20:17 - 02:20:18] Jag kan ta pengarna.
+[02:20:18 - 02:20:19] Okej.
+[02:20:19 - 02:20:21] Men så...
+[02:20:21 - 02:20:23] Jag bara funderar på vad nästa steg är på den här.
+[02:20:25 - 02:20:26] Nu vill jag tillbaka.
+[02:20:26 - 02:20:28] Vi måste åka till USA.
+[02:20:28 - 02:20:35] Det måste ju bokas, om det där ska vara. Dels är det datum och bokning, för det är ju jättemycket grejer som händer där.
+[02:20:43 - 02:20:45] Ska jag dra dig till Karin då?
+[02:20:45 - 02:20:46] Ja
+[02:20:46 - 02:20:47] Vi skulle gärna vilja vara...
+[02:20:47 - 02:20:48] Hej, länge sedan
+[02:20:48 - 02:20:50] Tjena, du checkar ut innan ni går?
+[02:20:50 - 02:20:52] Provera in mig, för jag kan ju inte...
+[02:20:52 - 02:20:53] Jag kan ju inte ha dialogen med henne
+[02:20:53 - 02:20:54] Vad sa du?
+[02:20:54 - 02:20:55] Jag kan träffa och...
+[02:20:55 - 02:20:56] Vänta, varför inte hennes mejl?
+[02:20:56 - 02:20:58] Du kan ju inte gudfråga!
+[02:20:58 - 02:21:02] Eller vartje Gud som kan få.
+[02:21:06 - 02:21:07] Är läget av Björkman?
+[02:21:10 - 02:21:10] Eftersom det.
+[02:21:13 - 02:21:15] Jag har en fråga till dig.
+[02:21:15 - 02:21:17] Jag har en fråga till dig.
+[02:21:17 - 02:21:19] Nämen, kolla lite näringshållet här.
+[02:21:19 - 02:21:21] Ja, ser du med?
+[02:21:21 - 02:21:23] Ja, exakt.
+[02:21:23 - 02:21:25] Där kan man ju kalla det för C-hjälp fysiskt.
+[02:21:25 - 02:21:27] Och så här lite stökigt.
+[02:21:28 - 02:21:30] Det är ett sjukvård här nere.
+[02:21:30 - 02:21:32] Jag vet inte hur det är, jag bara flyger.
+[02:21:32 - 02:21:33] Har du hennes mejl eller?
+[02:21:33 - 02:21:34] Nej.
+[02:21:34 - 02:21:38] Men vet du vad, jag kan kontakta henne om någon sak.
+[02:21:43 - 02:21:48] Nej, men det är inte så konstigt. De komplicerar inte den vägen.
+[02:21:48 - 02:21:50] Nej, men jag har mailat...
+[02:21:50 - 02:21:53] Jag känner ju limparna och ner.
+[02:21:53 - 02:21:55] Vi har tydligt antal av er som har tystnat.
+[02:21:55 - 02:21:57] Patrik, kom med.
+[02:21:58 - 02:22:12] Svensktextning förtaingendes under underworld5-platsen
+[02:22:13 - 02:22:17] Det kommer fånga fler människan på här.
+[02:22:18 - 02:22:22] Ja, vi åker bil nu. Vi åker vrum vrum.
+[02:22:43 - 02:22:45] Det är som att du hänger i en påse.
+[02:22:51 - 02:22:53] Jag lägger tillbaka inredningen då.
+[02:23:02 - 02:23:04] Ja.
+[02:23:06 - 02:23:08] ..."Mötta...
+[02:23:13 - 02:23:18] Det var väldigt intressant, och hon kan få bebisavarikära.
+[02:23:18 - 02:23:20] Det kan han.
+[02:23:20 - 02:23:22] Ska du hälsa på?
+[02:23:22 - 02:23:23] Nej.
+[02:23:23 - 02:23:25] Ska du hälsa på?
+[02:23:25 - 02:23:27] Nej.
+[02:23:43 - 02:23:45] Det är lite förstenande.
+[02:23:45 - 02:23:47] Vad händer nu?
+[02:23:47 - 02:23:49] Vad händer nu?
+[02:23:49 - 02:23:51] Jag kommer att somna.
+[02:23:51 - 02:23:53] Jag kommer att somna.
+[02:23:53 - 02:23:55] En sekund så.
+[02:23:55 - 02:23:57] Det blir bra.
+[02:23:58 - 02:24:00] Okej, då fotar jag och syddar den här.
+[02:24:00 - 02:24:02] Ja, men vi ska checka ut också.
+[02:24:02 - 02:24:04] Du har checkat ut.
+[02:24:04 - 02:24:06] Ja, det duger.
+[02:24:06 - 02:24:08] Så, älskar viben.
+[02:24:08 - 02:24:10] Älskar att vara här och sydda.
+[02:24:14 - 02:24:19] Nu ska vi vänta den här fasen nu. Vill du vara med och bidra så kan du.
+[02:24:19 - 02:24:23] Men det känns skönt att du bara ringer mig när ni vill eller behöver så.
+[02:24:23 - 02:24:26] Ja, och ni säljer känslor. Kan ni inte svara så svarar jag inte.
+[02:24:26 - 02:24:29] Nej men det var det jag menade. Att jag ringer dig.
+[02:24:29 - 02:24:33] Ska vi springa?
+[02:24:33 - 02:24:35] Ja, jag måste faktiskt.
+[02:24:35 - 02:24:37] Vi skulle ju bara checka ut.
+[02:24:37 - 02:24:39] Ja, vi ska bara checka ut.
+[02:24:39 - 02:24:41] Får du fotat eller?
+[02:24:41 - 02:24:43] Får jag fotat?
+[02:24:43 - 02:24:45] En fråga där.
+[02:24:44 - 02:24:49] Vi visade upp namnen på dom här som vi tyckte var hejtsamma, visade intresset, hur fångar vi dom då?
+[02:24:49 - 02:24:53] Jag ska skicka till en till påbörjare och säga hej!
+[02:24:53 - 02:24:55] Tack!
+[02:24:59 - 02:25:09] Okej Patrik och Stefan, ska ni välja check out eller ska vi bara ta en viktigaste lärdomar från veckan?
+[02:25:14 - 02:25:16] Ehm...
+[02:25:23 - 02:25:25] Viktigaste från veckan?
+[02:25:25 - 02:25:27] Ja, bara veckan.
+[02:25:27 - 02:25:29] Viktiga... shit, vilken svår fråga.
+[02:25:29 - 02:25:44] Jag tycker att, jag känner bara att jag är stolt över mitt bidrag, Inner River, som offrar mycket och jag är nöjd med det och stolt över det.
+[02:25:44 - 02:25:51] Och jag är glad att vi har koordinering i teamet. Jag är stolt och tacksam.
+[02:25:59 - 02:26:02] Livskåt som Chris kommer att sätta sig på.
+[02:26:02 - 02:26:05] Det är en bild så här, kan du inte vara lite mer...
+[02:26:05 - 02:26:06] Kan du inte vara lite mer...
+[02:26:06 - 02:26:07] Exakt.
+[02:26:07 - 02:26:08] Vad fan vill du att jag ska vara?
+[02:26:08 - 02:26:10] Lite mer kåpiga och tacksamtakt?
+[02:26:10 - 02:26:11] Kanske.
+[02:26:11 - 02:26:14] Förlåt, måste checka.
+[02:26:14 - 02:26:24] Just nu är hela hans tillvaro ett konstant lärande i stort och smått.
+[02:26:29 - 02:26:31] Vad har du lärt dig i veckan?
+[02:26:44 - 02:26:50] Att någonstans försöka sätta stopp för hur mycket man kan gräva i saker och ting.
+[02:26:50 - 02:26:56] Och börja prioritera, som jag visade dig, börja organisera alla grejer som jag faktiskt har startat.
+[02:26:56 - 02:26:59] För att vi ska kunna använda dem.
+[02:26:59 - 02:27:01] Vi hörs om nästan fredag då.
+[02:27:01 - 02:27:03] Ja, jag vill höra din utsträckning snabbt också.
+[02:27:03 - 02:27:05] Jaha, min utsträckning.
+[02:27:05 - 02:27:07] Tack, Patrik.
+[02:27:07 - 02:27:09] Min utsträckning är att mänsklig...
+[02:27:09 - 02:27:13] Det jag har lärt mig är att återvända till allt.
+[02:27:14 - 02:27:22] Inte bli så upprörda över att man har egna agendor och vill också ha sin egen P.O.
+[02:27:22 - 02:27:25] Det har inte med mig att göra, det har att göra med dem.
+[02:27:25 - 02:27:29] Jag behöver inte tycka att det är okej, jag kan se att de gör det och jag...
+[02:27:29 - 02:27:32] och jobba med oss och vad det betyder.
+[02:27:33 - 02:27:36] Och det händer när jag är med i husgivaren.
+[02:27:37 - 02:27:44] Den bråk stärker mig, men jag lär mig att distansera mig.
+[02:27:44 - 02:27:48] Frans på att
+[02:27:51 - 02:27:51] göra.
+[02:27:57 - 02:27:59] Ja, denna.

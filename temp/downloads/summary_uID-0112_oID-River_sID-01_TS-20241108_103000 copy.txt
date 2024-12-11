@@ -1,0 +1,53 @@
+# Meeting Data
+
+## Meeting Transcript
+
+# Transcript - Session 01
+
+### Introduktion och teknisk översikt
+Mötet inleds med diskussion om Call to Action och teknisk plattform. Stefan presenterar systemets nuvarande kapacitet bestående av fem AI-agenter som samverkar. En agent hanterar lyssning och transkribering medan en annan sköter mötessummering, med målet att extrahera essensen ur längre möten.
+
+### Analyskapacitet och integration
+Analysagenten utför både grundläggande och djupgående analyser av ämnen och nyckelord, identifierar latenta insikter och genererar framtidsprognoser. Den bedömer också "highest leverage impact" baserat på tillgänglig kontext och kan integrera detta med övriga agenters data för helhetsperspektiv.
+
+### Teknisk implementation
+För att göra systemet tillgängligt via webben krävs utveckling av lyssnar-agenten så den kan nås via QR-kod. Målet är att deltagare enkelt ska kunna starta inspelning som transkriberas i realtid i molnet. En sjätte integrationsagent planeras för att smart sammanföra insikter från olika breakout-sessioner.
+
+### Testning och användarupplevelse
+Systemet har framgångsrikt testats i River playground där både text- och röst-agenter användes. Voice-agenten hanterade in- och utcheckning medan text-agenten faciliterade djupare diskussioner. Detta skapade en lekfull men effektiv mötesdynamik som demonstrerade systemets potential.
+
+### Tekniska begränsningar och lösningar
+Apple's privacy policy kräver att användare stannar i webbläsaren under inspelning. En Wake-lock har implementerats för att förhindra att skärmen släcks. Systemet transkriberar var femtonde sekund för att säkerställa dataintegritet och minimera risk för dataförlust.
+
+### Prissättning och värdeproposition
+Prissättningsmodellen liknar Apples approach - att erbjuda något användare inte visste att de behövde. Värdet ligger i förmågan att bevara och analysera organisationsdata som annars skulle gå förlorad. Detta öppnar för olika affärsmodeller baserade på värdeskapande snarare än traditionell konsultmodell.
+
+### Regulatoriska överväganden
+EU:s kommande AI-lagstiftning diskuteras ingående med dess fyra risknivåer. Systemet bedöms hamna i kategorin "begränsad risk" vilket kräver transparens kring AI-interaktioner. Detta påverkar hur systemet kan implementeras och användas i olika organisationskontexter.
+
+### Etik och integritet
+För att skapa trygghet behövs tydliga principer kring nyfikenhet, lekfullhet och dataintegritet. Information om datahantering ska kommuniceras i förväg och godkännas av alla deltagare. Diskussion förs om hur data aggregeras på gruppnivå för att skydda individers integritet.
+
+### Målgrupper och användningsområden
+Systemet kan stödja olika typer av team - från ledningsgrupper till projektledare och verksamhetsutvecklare. Fokus ligger på att skapa värde genom att synliggöra viktiga insikter i realtid och facilitera bättre möten. Detta öppnar för bred tillämpning i olika organisatoriska kontexter.
+
+### AI-integration och prompting
+För optimal funktion behöver AI-agenten kontextuell förståelse genom tydlig prompting baserad på mötets syfte, agenda och process. En definierad "objective function" behövs för att optimera agentens prestanda och säkerställa relevanta insikter.
+
+### Definition av framgångsrika möten
+Ett bra möte definieras som när alla deltagare bidrar till nya insikter och handlingsmöjligheter. AI-agenten behöver balansera mellan att främja koherens/alignment och stimulera divergenta perspektiv för att maximera mötets värde.
+
+### Praktisk implementation
+Diskussion om optimal gruppstorlek resulterar i max 6 personer per grupp med totalt tak på 36 deltagare. Närliggande rum kan användas för att minimera störande bakgrundsljud. Tekniska tester planeras för att säkerställa funktionalitet i större grupper.
+
+### Framtida utveckling
+Långsiktig vision inkluderar decentraliserad datahantering och möjlighet för team att dela data på ett kontrollerat sätt. Detta ska balanseras mot integritet och säkerhet genom tydliga "membran" mellan olika datanivåer.
+
+### Call to Action strategi
+Beslut tas om att börja med en "light version" för att inte överväldiga användare. Fokus ligger på att demonstrera värdet i realtid under möten innan mer avancerade funktioner introduceras. Detta ska kompletteras med tydlig facilitering för maximalt värdeskapande.
+
+### Test och validering
+Planering för att testa systemet under kommande tisdag, med fokus på att validera både teknisk funktionalitet och användarupplevelse. Stefan ska förbereda promptning och context för optimal AI-prestanda.
+
+### Avslutande praktikaliteter
+Mötet avslutas med planering av kommande avstämningar och överenskommelse om att testa systemet. Fokus ligger på att säkerställa både teknisk funktionalitet och meningsfull integration i mötesprocessen.

@@ -1,0 +1,593 @@
+Ja, det är väl egentligen det viktigaste, tänker jag. Och sen att vi fortsätter att prata lite om Call to Action. Alltså hur det ska formuleras kring det.
+
+Okej, så väljer ni vår på den tekniska plattformen och sen Call to Action? Mm, tänker jag. Och en flicka in också med utifrån antal deltagare, liksom hur många är rimligt för att det ska bli bra. Så jag har lite koll på det också.
+
+Och vad behöver vi lösa tekniskt för att få det att flyga? Och här behöver jag din hjärna, Stefan. Jag ska bara sätta mitt telefon i fokus-mode så jag inte blir störd. Stefan, är det någonting här i mötet som du tror att vi ska spela in innan vi kör igång? Jag har startat.
+
+Okej, men jag kan ge er nuläge på våra kapabiliteter tekniskt. Så det vi har byggt är egentligen fem olika AI-agenter som pratar med varandra på olika sätt. Och en är den som lyssnar.
+
+Det är den som har spelat in och transkriberat våra möten. Vi har en annan som summerar mötet. Och det är egentligen en ganska enkel summering just nu.
+
+Men det handlar egentligen om att en transkribering på två timmar blir ganska lång. Så hur kan man få ut essensen varje minut egentligen? Så den är lite trubbigare, men den funkar faktiskt väldigt bra till en av de här agenterna. En tredje är en analysagent som gör olika analyser.
+
+Typ vilka topics tas upp, vilka keywords. Basic, men också lite djupare. Vad finns det för latenta insikter? Och den producerar lite forecasts i framtiden.
+
+Om vi agerade på de här sakerna, vilka effekter skulle vi kunna få? Och sen vad vi definierar som highest leverage impact. Om vi skulle ta de här besluten och agera på det. Vilka skulle det vara? Utifrån den kontext som den har då.
+
+Så det är de tre agenterna. Och sen den fjärde är en text-chat-agent som vi kan prata med. Som är uppkopplad mot de andra.
+
+Så de andra genererar ju data som den andra kopplar upp mot. Och det här ligger i molnet nu på Amazon. Och det gör också att det är tillgängligt historiskt.
+
+Och sen den femte är en voice-agent som man kan prata med voice. Alla de här funkar. Och det som inte är klart som måste göras till vårt event.
+
+Vi har två veckor på oss och det kommer vi att lösa. Men det är att ta den här lyssna-agenten. För nu ligger den lokalt på min dator.
+
+Att deploya den så att den ligger tillgänglig via en internetlänk. Eller en QR-kod. Som en web-app egentligen.
+
+Så då skulle deltagarna bara fota QR-koden. Komma in på länken och sen trycka på start. Och då lyssnar den.
+
+Och sen transkriberas det upp i molnet i realtid. Och sen så hämtar vi därifrån. Så det andra steget i den kedjan är att bygga en slags... En sjätte agent som skulle vara en integrations-agent.
+
+Som tar de olika break-outsen i insikterna. Och på ett smart sätt integrerar det så att vi får ut essensen. Både vad sägs i varje och vad är essensen i helheten.
+
+Och att den då kopplar upp mot vårt voice-agent och vår text-agent. Sen kan vi ramla in det som att voice-agenten och text-agenten är samma. Men vi kan använda dem i olika delar.
+
+Så som vi lekte igår. Vi har en river playground. Med sådana som är vårt extended-nätverk som vill stötta oss på något sätt.
+
+Så vi körde ett litet runda bordsamtal. Där vi pratade om vad vårt erbjudande är. Och då använde vi AI såklart i rummet.
+
+Så då hade vi text-agenten för att ställa mer djupare frågeställningar. Men så hade vi voice-agenten i början och slutet. Så den checkade in och sen checkade den ut.
+
+Det var ett ganska roligt lekfullt sätt. Vi ställde en fråga. Vad är viktigt för dig i livet? Sen fick den reflektera på det.
+
+Det var halvt på lek och halvt på allvar. Så det är ett sätt att demonstrera på ett lite mer lekfullt och lättsamt sätt. För den är inte än så länge lika skarp.
+
+Den har inte access till samma analys som text-agenten har. Det kan vi bestämma om vi vill ha den. Det kanske är det den bara ska ha.
+
+Då kommer den kunna ge en väldigt bra spegling. Det kanske är så vi ska göra. Så det är en nuläge för setup.
+
+Och en till del i det. Fixa så att lyssna-agenten eller interfacet kommer upp. Att snygga till det lite grann.
+
+Det ser okej ut men vi pratar om minimum lovable products. Det ska kännas som att det är wow. Fan vad snygg den är.
+
+Det är inte så svårt att göra idag. Den tredje är backend-integreringen. Sen kanske en fjärde som är voice-agenten.
+
+Ska få tillgång till den analysdata och inte bara summeringen. Då kommer den bli vassare. Så tänker jag.
+
+Där har ni lite nuläge. I relation till breakout så har vi ett utkast. Ni tog fram ett jättebra format på det där.
+
+Vi loopar frågor och sen fångar vi upp dem emellan. Vi behöver bara naila exakt hur det flödet ser ut. Så det blir seamless i upplevelse.
+
+Precis. Min erfarenhet är det vi har gjort med de här mötena. Kan du ge mig en blow-by-blow? Om vi gör en loop.
+
+Vad behöver hända vid borden tekniskt? Vad är det vi gör? Vad behöver du eller vi göra för handpåläggning? Förstår du vad jag betyder? Jag förstår. Vi bryter ner det i detaljer. Jag ser ett användarflöde och ett flöde för oss.
+
+Vi tar hand om början, ramlar in det och går in i frågeställning. Sen tar vi upp på skärmen en stor QR-kod. De fotar den och kommer direkt på en länk till den här lyssnarsidan.
+
+Sen ger vi dem vissa instruktioner. Det kommer vara en instruktion som de måste hålla sig till. De får inte stänga skärmen.
+
+Till exempel har Apple en privacy policy. Om du kör en inspelning via webbläsare måste du vara kvar i webbläsaren. Bygger man en nativ iPhone-app gäller det inte.
+
+Men i en webbläsare gäller det. Det har vi upptäckt och det är bra. Vi har byggt in en Wake-lock.
+
+Även om du hör att den ska släckas efter en minut kommer den inte göra det. Den kommer ligga där och vara öppen. Den ligger på bordet med en snygg skön animering.
+
+Nu lyssnar vi liksom. Är det en telefon per person? Vi har kallat det lekfulltiden för AI Whisper. Som är bryggan mellan människorna och datan.
+
+Den gör ingenting, den bara startar. Sen spelar de in den. Det transkriberas var femtonde sekund.
+
+För varje runda bord adderar den till transkriptet. Det är framtidssäkrat. Skulle den krascha har den i alla fall sparat allt fram till dess.
+
+Ta i träd har den inte gjort hittills. Det borde den hålla för. Vi har kört två timmar i sträck utan problem.
+
+Det är en av fördelarna. Den spelar inte in två timmar och sen transkriberar. Vart femtonde sekund skickar den en liten git-fil till OpenAI.
+
+Vi får en textfil tillbaka. Den byggs på hela tiden. De går till QR-koden.
+
+En person startar appen, den ligger där öppen. Hur mycket handpåläggning behöver vi? Minimalt jämfört med tidigare. Vi bygger en till agent som gör integreringen.
+
+Och får fram essensen. Sen gifter vi det med transkriptet. Då har du rådatan i transkriptet, allt som sägs.
+
+Sen har du analysen av det som sägs från alla breakouts. De kopplar vi upp till text- och voice-agenten. Det sker automatiskt.
+
+Det jag behöver göra tekniskt är att sätta igång processerna. När vi startar mötet och dubbelkollar att allt kommer in. När vi känner att det är läge, drar vi upp på skärmen.
+
+Antingen text eller voice-agenten när det är läge. För voice-agenten behöver vi testa ljudet. Om vi ska ha en trådlös... Vi har en sån rolig grej på kontoret som man håller i när man ska prata.
+
+Det är en bluetooth-box som är lite gullig som man kan hålla i. Den skulle man kunna prata till. Då pratar man nästan med att det är den som är agenten. Sen kan vi köra text också för att visa att du har två modeller.
+
+Det gör vi på skärmen. Sen får man se det och så faciliterar vi utifrån det. Givet att det är realtid, det här är en win för oss som facilitatorer.
+
+Vi kan gå in och prata med en separat instans av a-agenten. I rollen av facilitatorer. Vad är det som kommer upp nu i de olika mötena? Hur kan vi förbereda en uppföljning på det? Vi har redan öron inne i break-outsen.
+
+Vi har också en kollega. Jag tror vi ska tänka så. Just det.
+
+That's it, tror jag. Bra. Jag har bara skrivit ner bullets för du.
+
+Du behöver inte höra hur vi spelar in. Jag vet, men det är så jag lär mig. Jag med.
+
+Bra. Då låter det som att vi behöver inte ta... Det är väl det som ni frågar kommer sig av. Vi behöver inte ta så mycket hänsyn till handpåläggningen i själva processen.
+
+Så som det har funkat nu när vi har kört senaste gången. Vi har ett möte och sen kan jag bara fire up vår voice-agent. Säga, vad tycker du om det här? Sen kommer ett svar som är kontextuellt relevant.
+
+Det är skitcoolt att se det live. Så det är minimalt, men manuellt. Det är verkligen inget.
+
+Nej. Det är coolt. Kul jobbat.
+
+Vi är väl helt transparenta med att vi är en ny konstellation. Vi har inte gjort det här på det här sättet förut. Ja, och vi ska säga att det här är välkommen in i testandet.
+
+För att också sätta förväntningar kring tekniken är att det är en proof of concept. Den är inte färdig ännu. Den kan ha små buggar och glitches och vi kommer att navigera det utifrån bästa förmåga.
+
+Så ta i trä, det har ju funkat. Du har ju varit med på vårt första runda bordsavtal, Sofie. Det funkade jättebra tekniskt.
+
+Jag kommer inte att involvera någon avancerad komplexitet innan vi ska köra det här. Vi köper det som är tried and tested. Då förhoppningsvis kommer det att flyga bra.
+
+Det är kul att se. Jag skulle bara säga att som du sa Malin att vi är nytt och det här testandet. Jag tycker bara att det adderar till upplevelsen.
+
+Det tar ner stressnivån både hos oss och deltagarna. Man kommer in med lite mer lekfullt nyfikenhet och utforskande snarare än att man ska prestera. Det är också så att även om man kommer in som deltagare så kan man känna en viss prestation.
+
+Nu är vi här och leker med det här nya sättet att jobba på tillsammans. Jag ska uppdatera lite ininbjudan till efter. Kom och lek med oss.
+
+Just det. Det blir nästa. Toppen! Eftersom vi är i lekstadiet och proffokoncept och så.
+
+Vad kostar den här prylen Stefan? Prissättningen på det här, nu tar jag bara det tekniska perspektivet. Den är typ omöjlig för det är lite Apple. Apple säljer en grej som användarna inte visste att de behövde.
+
+Det är inte så att du har fokusgrupper och tar reda på vad folk vill ha. Det är tvärtom. Ni kommer att uppleva att ni vill ha något som inte finns ännu.
+
+Vad är värdet på det? Dessutom tar du det till sin essens. Om det här kan hjälpa er att vara aligned kring er strategi i hela organisationen. Har ni koordinering kring det? Ni får upp allt som är viktigt i ytan.
+
+Bra facilitering kring det. Vad är det värt? Sky's the limit. Det är inte någon teambaserad konsultmodell på det.
+
+Det är snarare utkomstbaserat. Hur mycket mer intäkter genererar vi för er? Hur mycket kostnader sparar vi för er? Det är möjligt att kvantifiera det. Där någonstans finns det en affärsmodell som vi kanske ska fundera på i vårt samarbete.
+
+Det har att göra med betalningsviljan till syvende och sist. Men den är extremt mycket värd. Om vi kan gå ifrån att 99,9 procent av all data i organisationen bara dissipates och försvinner.
+
+Till att ni får behålla 5 procent. Och så sätter vi en prisnack på det. Hur mycket är det värt? Ja, intressant.
+
+Det är jätteintressant. Det måste finnas en sabla massa olika sätt att resonera kring. Vad är det man tar betalt för? Vi vet inte det ännu riktigt.
+
+Det har ju en metafor. Det är väl lite salesforce. Det är väl kanske där vi samarbetar.
+
+Ett sätt är att bygga produkten, salesforce och salstjänsten. En annan är hur du ska använda den. Vi hjälper er att använda den på rätt sätt.
+
+Det kanske är där som är tekniken och faciliteringen. Där har du de två orterna. Som är ännu mer av en teknisk lösning slash prenumerationsmodell.
+
+Den andra är mer att öka färdigheterna och ta betalt för den. Det är där någonstans. Vad spännande.
+
+Jag tänker också på det du sa. Förståelsen och kapaciteten. Vad är det? Så mycket data och information bara försvinner.
+
+Som finns i alla möten och i verksamheten. Att kunna få fatt på det. Att kunna konkretisera det.
+
+Det är den enklaste och kortaste biten. Hur jobbar vi med etiken vid det här tillfället? Hur jobbar vi med etiken under det här tillfället? De kommer in i en lekstuga. Vi behöver kunna svara på frågorna.
+
+Var sparar du datan? Till när du går in på QR-koden. Vem äger prompten? Vad är det för data som har gått in i den? Nu tror inte jag att det är frågor som kommer komma. Men jag tror att vi behöver ha en samsyn till att vi vet det.
+
+Och att vi kan kommunicera kring det. Om det skulle behövas. Vad tänker ni? Det kommer upp flera saker kring etik.
+
+Det har framförallt att göra med data, transparens och integritet. Det är det viktigaste. Jag tänkte om vi har en vinge där.
+
+En annan är, den kanske inte är lika relevant i nutid. Men mer på sikt. Det här är ett kraftfullt verktyg.
+
+Vem använder det och till vad? Det är väl de två största stora jag ser. Jag kan ge lite vision vad vi ser. I Riverview bygger vi det här decentraliserat.
+
+Långsiktigt. Och också jobbar väldigt hårt med både säkerhet och autentisering. Vem har tillgång till vilken data, när, var, hur? Till exempel om man tar ett konkret use case.
+
+Om vi sitter i ett möte tillsammans. Och sen så startar vi vår teamagent. Och då har vi alla en konsent som tidigare hamnar i vår teambucket i molnet.
+
+Men om jag sen personligen vill fortsätta utforska insikter från mötet. Med min voiceagent i bilen på vägen hem. Vart hamnar den datan? Typ en princip är att individuella chats är individuella.
+
+Så att min chef spanar inte på mig. Det skulle jag vilja. Däremot kan det ju vara så att det kan finnas mönster från många individuella konversationer.
+
+Som är relevanta ur ett gruppperspektiv. Hur mår människor just nu? Eller vad är det för frågeställningar som är uppe just nu? Så att det handlar om att bygga membranen mellan dem där. Väldigt försiktigt, medvetet och tydligt.
+
+Så att du kan få på gruppnivå surface. Men inte på individnivå om det inte är uttrycklig konsent för det. Så då vill vi bygga de systemen så att det går att göra det.
+
+Och vi vill bygga det decentraliserat i det långa loppet. Så att du kan också tekniskt sett öppna upp längre fram för team och organisationer som vill dela data med varandra. Att det inte bara ska ligga i silos.
+
+Men säg mer om vad du menar med decentraliserat. I vår proof of concept nu så mötes transkriberingen hamnar på Amazon Web Services. Alltså S3 i molnet.
+
+Det är en centraliserad tjänst. Det finns en massa fördelar med det kring latency. Alltså datan hamnar där snabbt, det är säkert, det är krypterat.
+
+Massa grejer. Men det är också så att vi äger ju, förvisso äger vi datan genom licensavtal och så. Men det är ju dem som äger plattformen.
+
+Just det. Så en decentraliserad lösning skulle ligga ute i ett Web3-nätverk. Alltså på blockchain till exempel.
+
+Eller kring lösningar kring blockchain. Det ska du verifiera att jag är avsändare och ägare av den här datan. Och du ger också en åtkomst som inte går att knäcka.
+
+Så att du blir de facto ägare av din data i en organisation. Du får nycklarna till din data. Den ligger inte på Amazons moln.
+
+Och kopplat till det handlar det också om modeller. Nu använder vi ju dem som är best in class. Det är OpenAI's GPT-4.
+
+Det är Clods 3.5-sonnet. Det är Whisper-modellen som transkriberar. Och så vidare och så vidare. Och nu har ju vi, när du har ett utvecklareavtal med dem, alltså med API-tjänster som vi använder nu, så kommer inte dem att ta den datan och träna nästa modell på.
+
+Så ser det ut i avtalet. Utan du äger faktiskt den datan. Sen har ju dem, det är ju en molntjänst det också, så de har ju behörigheter.
+
+Så det är väl bara de högsta behöriga med viss klassificering som teoretiskt sett skulle kunna få access till och gå in och titta på datan, om det skulle vara något olagligt ärende eller någonting sånt. Så det är ju så det ser ut i professionella organisationer. Så gör ju Amazon också, eller på din egen Apple.
+
+Du har ju högsta klassningen admin som kan alltid gå in. Så så ser det ut nu. Vad säger ni, förstår den? Det är spännande, för den är ju... Det är ju så otroligt mycket som å ena sidan handlar om etik och lagkrav som kommer att behöva hanteras.
+
+Och sen så finns det ju en annan del av etiken som handlar om en grupps bekvämlighet och en grupps öppenhet. Och då är vi tillbaka på det här med förändringsinledning för att vara mottagd för eller intresserad av. Till exempel, jag vet ju organisationer som vi jobbar i nu som med glädje skulle testa och tycka att det är jättespännande.
+
+Det är andra organisationer som bara slår ihop. Jag kommer inte att ha någon som vill lyssna in på det här runda bodssamtalet bland andra runda bodssamtal. Det är meningen att vi ska kunna ha en egen diskussion i det större rummet.
+
+Vi delar det som vi vill dela fram. Och det där är ju jättespännande. Jag ser det som en skala, faktiskt, mellan vi vill inte dela någon information och vi är supertransparenta här borta.
+
+Allting liksom, till och med kultur kring det. Vad heter det här företaget som... Bridgewater. Precis, Bridgewater har det där.
+
+Och sen här har du kanske en superkänslig investmentbyrå eller juridikfirma här någonstans. Eller bank, kanske. Det är banken.
+
+Och någonstans har du också stegvis... Här kanske man känner att i vissa möten och i vissa typer av team, där kör vi alltid. Och i andra kör vi aldrig. Att man får hitta den differensieringen där.
+
+Jag kan säga vad jag ser långsiktigt. Och det är en linje med Riberts vision. Att de som vill, kan och vågar dela information.
+
+Det kommer att vara vinnare i informationssamhället. För det blir win-win av det. Alltså om vi sitter och är transparenta, sårbara och delar det som är sant för oss.
+
+Då kommer vi ha en högre informationsbandbredd. Och vi blir mer kapabla tillsammans. Vi får mer hävkraft på allt vi ska göra.
+
+Och det vet vi i en ledningsgrupp också. Pratar man sanning och är sårbar med varandra så bygger man dels tillit. Men vi har också tillgång till information som vi kanske inte hade haft annars.
+
+Som gör att vi tar bättre beslut. Och sen skalar du det till en hel organisation. Och sen skalar du det till och med ännu längre.
+
+Mellan organisationer. Jag tror att sitter du hårdare information då är du rökt i informationssamhället. Tyvärr.
+
+Så det kommer att bli en naturlig vattendelare där vilka partnerskunder vi kommer att knyta an. Det kommer att vara de som har kommit en viss bit på den där skalan. I former av acceptans och kultur.
+
+Och det kommer också göra det roligare för oss att jobba där. Tyvärr, vi slänger ju till vargarna. Eller inte dotter.
+
+Som behövs också. Men apropå att skapa trygghet då hos deltagarna som är där och inställningen. Vad behöver vi säga? Indelningsvis.
+
+Det låter ju som att det behövs några principer. Där nyfikenhet är en säkert. Lekfullhet kanske.
+
+Jag vet inte om de är samma. Det kommer behövas öppenhetssårbarhet. Det kommer behövas integritet.
+
+Och det kanske är mer från vår sida att vi ser till att dataintegritet är på plats. Och vi får beskriva för dem vad vi menar med det i lite enklare ord än att det inte blir tekniskt. Till exempel, vart hamnar datan från den här inspelningen någonstans? Så att vi kanske sårsar ett princip överenskommelse.
+
+Ni kanske har rätt redan som ni jobbar med som ni kan använda. Men annars kan vi sårsa ett. Och få en acceptans från gruppen innan vi kör.
+
+Det brukar jag tycka. Och är det något som ska läggas till? Kan det också vara. Bara det att vi formellt måste be om godkännande från alla som är där.
+
+Det är en förutsättning. Och det tycker jag att vi ska göra innan på inbjudningslistan. Jag tycker att det ska gå ut innan.
+
+Vi kommer ha en agent som lyssnar på mötet. Datan kommer inte delas med någon annan utanför den här gruppen. Och vi aggregerar bara på gruppnivå och individnivå.
+
+Eller gruppnivå, inte individnivå. Den tror jag också är viktigast. Jag tror att den är viktigast.
+
+Och att vi så här, tre dagar innan eventet, att vi klickar ut en sån här. Åh, vad roligt att få se det här i förutsättningarna. Och så får vi ta och formulera den.
+
+Ja. Det tror jag skulle vara bra. Hade vi någon sån i DGA-eventet, Stefan? Har vi något vi kan koppla in? Jo, vi skickade ut... Jag tror inte det var så expressivt tydligt som vi gjorde nu.
+
+Det var medveten om att vi kommer spela in. De fick möjlighet att backa ut om det inte skulle kännas rätt innan. Så när de väl sattes i förutsättningarna så var de ombordade.
+
+Är det någonting vi kanske kan ta och bygga vidare på? Jag tror vi behöver säga de sakerna vi sa där nu. De som jag sa. Det var väl tre, va? Aggregeras på gruppnivå.
+
+Vi delar inte utanför den här gruppen. Och... Vilken var det mer? Det kanske var de två. Var är datan? Eller var finns datan? Ja, just det.
+
+Ja, precis. Den är viktig alltså. Jag ska ju säga det att vi har inte byggt ordning och reda i vår datainsamling.
+
+Så det är lite kaos. Alla våra transkript ligger på tre olika ställen just nu. Så det är en del av vårt jobb att bygga upp den.
+
+Så jag skulle vilja säga... Men kan man säga att River kommer äga den här datan? Är det tillräckligt legal? Fan, vilken bra fråga alltså. Kanske kan ta hjälp av Vinge. Du behöver inte ha svar på det nu, Stefan.
+
+Men jag tror att vi ska ha en... Ja, jag vet. Vi ska ha tänkt på det. Det finns en till aspekt.
+
+Nu zoomar jag ut lite. Men det är ju... En EU-lagstiftning kommer ju på plats snart om AV-aktörers impact. Och då hamnar man i olika klassificeringar.
+
+Utifrån risk och samhällspåverkan. Och om det är hög samhällspåverkan slash risk, då är det väldigt restriktivt vad du får göra och inte kring data, till exempel. Vi hamnar ju inte på den högsta klassificeringen här, utan det skulle vara OpenAI och andra spelare som är där.
+
+Eller politiska, om du har politisk influens till exempel. Men jag tror att vi hamnar ganska högt upp, för det är ju ändå insamling av data i realtid. Jag kan faktiskt fråga den.
+
+Du kanske kan fråga AI. Men jag tänkte... Jag bara hamnar i mantan. EUs nya AI-lagstiftning med klassificering.
+
+Vilka nivåer? Okej, så då har vi fyra nivåer har de. Längst ner minimal risk. AI-system som inte utgör någon betydande risk och därför inte omfattas av specifika regleringar.
+
+Spamfilter och AI-baserade videospel hamnar här. Begränsad risk. AI-system som kräver vissa transparenta åtgärder, exempelvis att informera användare om att de integrerar med AI.
+
+Den når vi ju helt klart. Hög risk. AI-system som kan påverka människors säkerhet eller rättigheter negativt.
+
+Det omfattar tillämpningar inom kritisk infrastruktur, utbildning, anställning, brottsbekämpning och rättsväsende. Sådana system måste uppfylla strikta krav på transparent säkerhet och mänsklig övervakning. Och sen har vi den högsta då som är oacceptabel risk.
+
+AI-system som utgör ett hot mot människors säkerhet eller grundläggande rättigheter och därför är förbjudna. Exempel inkluderar social poängsättning och manipulering av sårbara grupper. Kina.
+
+Exakt, Kina hamnar där. Men det är lite svämt att det är hög risk va? Det är ju lägst åtminstone är det ju den... Tvåan. Ja, precis. 
+
+Lägst risk. Jag ska faktiskt be den att... Det tar jag ett varv till. Ge fler exempel på två och tre.
+
+Jag kan ju tillägga att det här blir viktigt för jag fick precis ett mejl här att svensk exportkredit både ekonomichef, treasurychef, chef för treasury back office är intresserad. Okej. Bra.
+
+Låt oss... Yes. Kul. Riktigt, riktigt kul.
+
+Okej, nu fick jag fler exempel här på hög risk. Ska jag dela skärmen så kan ni läsa samtidigt. Nu kör jag vanliga vanilja-chat-GPT här.
+
+Vart är ni någonstans? Nu ska vi se, där. Share. Screen.
+
+Så. Oj. Där är vi.
+
+Ja, där är vi. Så, ni ser va? Ja. Okej, hög risk.
+
+Kritisk infrastruktur. Elnätat transportnätverk. Utbildning som påverkar tillträde till utbildning som betygsätt nyvalssystem.
+
+Inte det heller. Anställning, rekryteringsverktyg för att automatiskt filtrera eller utvärdera kandidater. Inte riktigt där, ännu i alla fall.
+
+Hälsovård. Brottsbekämpning. Ansiktsigenkänning.
+
+Och rättsväsende. Bedöm bevis eller föreslå påföljande. Jag tror inte vi når hög risk just nu.
+
+Nej. Däremot, helt klart, begränsad risk. Så, virtuella assistenter.
+
+A-generat innehåll. Kundtjänst. Rekommendationssystem.
+
+Tjänster för sentimentanalys. Vi gör ju nästan alla de där. Ja, precis.
+
+Okej, så. För ett startup, jag håller enkelt här, som klassificeras i grupp tre. Vad behöver vi tänka på? Vänta.
+
+För en workshop som demonstrerar AI-assisterad realtidsanalys, kan vi säga. Med externa användare. Med externa, precis, användare.
+
+Deltagare. Precis. Tagare som är potentiella kunder.
+
+Ja. Bra. Ettan är vi ju på, liksom.
+
+Ja. Vi behöver visa hur det bearbetar datan. Samtycke.
+
+Det stödjer. Det är inte beslut. Okej, ja.
+
+Undvik tjänstedata eller personlig identifiering. Det kommer vi också att göra. Det är ju på gruppnivå, liksom.
+
+Kommunicera vad systemet kan och inte kan göra. Lyft fram mänsklig kontroll. Den var inte så dum den här listan.
+
+Nej. Jag tror vi sparar ner den. Jag mejlar den nu och studsar.
+
+Ja, gör det. Hjälpa kunderna att sen också förstå vad de behöver tänka på. Det blir ju en win-win.
+
+Det är verkligen det. Bra, bra där, Sofie. Nu ska vi se.
+
+Vart är ni? Där är ni. Stop sharing. Så, jag mejlar den nu så har vi den.
+
+Jag startar ett mail nu så får vi. Det kanske är fler saker. Snyggt.
+
+Okej. Det är bra. Har ni, tillbaka till den första frågan där.
+
+Får ni en tydlig bild av användarupplevelsen och vårt flöde? Det tycker jag. Tack, Melle. Definitivt.
+
+Vi kommer ju att börja göra presentationen, Stefan. Sen tänker jag att just de här bilderna med QR-koden och instruktionerna. De får ju det ut.
+
+Precis. Och vi jobbar ju i öppna dokument. Så de bilder som ni vet att det här är den bilden.
+
+Till exempel, det känns effektivt med bilden. Lägg in den så kan vi gemensamt fundera över hur flödet kommer att se ut och så vidare. Eller om det är andra toppenbilder som vi vill ha med oss.
+
+Då är det bara att bida in i det. Mycket bra. Ja, men bra.
+
+Ja, precis. Jag tror att... Det här är ju liksom teknikaliteter och så. Men jag tror att det är en väldigt bra plattform att ha med sig tydlighet till det här in i mötena.
+
+Även om det inte är det här vi ska fokusera på, så tycker jag att det är trovärdighet. Bra. Hinner vi prata lite om... Gå vidare då.
+
+Call to action. Precis. Jag kommer att avrunda till halv nivå.
+
+Precis. Och då kanske vi också, apropå... Nu kommer vi att jobba i presentationen och göra mycket synkronat arbete. Vi har en tid av stämda dagen innan eventet.
+
+Men ska vi försöka hitta... Behöver vi hitta någon mer tid, tycker ni? Det kan vara bra. Bara där innan har vi satt... Just det. Ja, vi har satt hela dagen där.
+
+Vi har satt en placeholder än så länge. För jag kommer... Mina barn har dansuppvisning den 19e på kvällen. Så jag kommer åka från västkusten så tydligt jag kan på den 20e.
+
+Jag tänker att vi kanske inte heller kommer att ta hela... Nej, men då kan vi flytta fram den. Så att vi börjar i anslutning till när du kan. Ja, men kanske vid 11? Ja, 11. 
+
+Jag har flyttat fram redan nu. Vad bra. Sen har jag ett möte på Kung... Men det är precis vid ert kontor klockan två.
+
+Klockan två. Ja, men ska vi ta till... Precis, men vi kör till klockan halv... Vi har till halv två i alla fall, så... Vilken dag är vi på nu? På dagen innan. Där, ja.
+
+Jag sätter 11 till 2, så bara har vi den. Så då ändrar vi från 9 till 15 placeholder till 11 till 2, då? Ja. Okej.
+
+Och jag har utrymme att vara där mer ifall det är så att vi skulle behöva. Ja. Jag kan också komma tillbaka eftersom man... Ja, men det är bra.
+
+Om vi ska ha någon kort avstämning så kan nästa vecka kanske vara bra. Ja. Det kanske inte är helt dumt, nej.
+
+Men då är vi stillingliga efter 15-30 dagarna nästa vecka. Då behöver vi bli uteskorterade, så egentligen om vi kan ta klockan fyra. Vilken dag sa du? Vilken dag du vill, eller får säga.
+
+Ja, från fyra, vilken dag. Bra. Till exempel onsdag eller torsdag.
+
+Och så är det klockan fem. Nästa vecka. Mm.
+
+Ja, onsdag, båda funkar, lite möten men hyfsat okej både före och eftermiddag. Så ska vi ta torsdag eftermiddag. 16 då.
+
+Mm. Vad sa du, vilken tid? 16 funkar det. Det är vår klocktid.
+
+Jaha, nej. Kan du på förmiddagen eller kanske du inte vill ha? Grejen är att vi kör åtta workshops nästa vecka, före och eftermiddag. Okej, men ska vi ha sen eftermiddag, då passar onsdagen bättre.
+
+Mm, ja. Klockan trettan eller klockan sextan. Trettan blir klockan sexa.
+
+Jag ser att Helena har en grej den kvällen. Jag kanske behöver ta min son då klockan sexton tyvärr. Okej.
+
+Hur ser det ut på tisdag då, samma tid? Den är helt fri. Den funkar. Tisdag borde kunna funka för mig.
+
+Ja. Yes, vi tar tisdag. Tisdag klockan sexton, okej då är jag game.
+
+Bra. Bra. Det kan vara så att jag måste dra några minuter innan, men jag bokar till sextan till sjutton.
+
+Bra, bra. Så. Call to action.
+
+Jaha. Om vi hinner säga några saker om det så kan vi också börja förbereda oss och sen tar vi vinnare också. Ja men precis, vi var ju inne på det förra mötet ju.
+
+Jag hämtade om utgickningarna. Vi pratade ju om lite mer den här kortsiktiga och den långsiktiga. Call to action.
+
+Men dels också, vad lägger vi fokus på nu? Är det mer bara den mer light version för att inte bli för ett för stort steg? Det är den där. Jag hittar inte mina anteckningar nu. Behöver AI.
+
+Ja, vi behöver AI. Vet du vad, jag sitter precis och tog ner en liten note på vad highest leverage, impact är för oss i River. När du börjar spela in och lyssna på möten så kommer nästa frustration som är just det.
+
+Vi vill ju koppla ihop alla våra möten som vi har haft för att få ut essensen av det. Just det. Jag vill ha dig igår.
+
+Apropå 99% försvinner. Just det. Ska vi bara börja med den mer light versionen och se vad vi kommer att tänka kring det? Den första skjultakten är såklart att prata med oss om vad ni står i. Det är inte konstigt att det har hänt så.
+
+Låt oss sätta av tid för att gå igenom. Lite mer i detalj, lite vad vi har gjort. Jag tänker att det är också som du är inne på, att få förståelse för vad vi har gjort och vad man kan använda det mer till.
+
+Mer organisationsprojekt. Ja. Vi masserar det här på olika sätt.
+
+Dels med work life group, men också i River. Vad är det? Problemet är att det är så jäkla kraftfullt om man skulle bygga ut det. Hela lopen mellan människa och data kan lösa alla dina problem på riktigt.
+
+Det är för stort, det kan man inte sälja in. Det kanske är en fot i dörren, men du måste ta ner det till. Här och nu, vad är the thing som kommer att hjälpa dig? Det kanske är så enkelt att i ett möte få syn på mera.
+
+Det kanske är den lägst hängande frukten just nu. Den är ganska okomplex, den behöver inte sträcka sig ut i tid och i hela organisationen. I mötet här och nu kan vi bara få syn på lite mera.
+
+Det väcker ju andra frågor som varför inte vi är aligned kring strategin, varför är vår gruppdynamik nasig? Vad är viktigast för oss att fokusera på? Bara få syn på det i rummet blir ju en equalizer. Det är som att AI drar ihop gruppen. Jag tror att det är nästan det.
+
+Skulle man ta det ett steg till, då skulle det kunna vara alignment kring strategi i en ledningsgrupp. Det ser jag. Det är väldigt konkret.
+
+Kan man få alla att vara aligned? Alltså att AI blir mer av en aligner eller en koordineringsfunktion, eller en attraktionspunkt som gör att vi håller ihop som grupp. Är inte det ett väldigt starkt case? Jag provpratar lite. Jo, jag gillar provpratet.
+
+Det jag skulle vilja addera till det i så fall, i det just caset, är att facilitera alignment. Ja, precis. Det är precis det.
+
+Tekniken och speglingen är ju bara steg ett. Du måste ju få access till djupet i det och vad förändringspotentialen är och vägleda sig i det. Det är ju där faciliteringen kommer in.
+
+Precis, det är ju det där som är så spännande och knäckande. Du behöver först facilitera ett samtal som du sen kan acceptera en AI på. Berätta mer om det.
+
+Du kan ha ett pricklödande samtal i en ledningsgrupp som en AI kan lyssna på. Det kommer ge dig en viss grupp av data. Det kommer ge dig en viss grupp av svar.
+
+Det kommer ge dig en viss grupp av... För att du ska få ut det mesta möjliga av AI, så behöver du först facilitera gruppens förmåga att gå in med öppenhet, förmåga att gå in med nyfikenhet, förmåga att... Då får du en utveckling som är spännande. Annars kommer du behöva harma väldigt länge innan du... Den ena synliggör era pain points och den andra delar med era pain points. Ja, precis.
+
+Det var det här du menade med Salesforce, som om AI i rummet ger datan tillbaka, spegeln, titta här, det är liksom tekniken. Men sen så har du hur du ska använda det och navigera i det och att det ska leda till transformation. Det är ju det som är det verkliga värdet om man ska se på det.
+
+Vad skulle det betyda i Call to Action? Jo, men det känns ju som att... Ska inte vi komma in och köra ett kortare event eller en faciliterad möte med er ledningsgrupp? Där er ledningsgrupp får uppleva exakt det här i realtid. Och man kanske ska lägga det på nivå att det ska inte vara en banal frågeställning, men det ska inte vara en mest high-stake-frågeställning heller. Det ska vara en frågeställning som är viktig för dem, som har stakes och som har känslor.
+
+Och sen så kommer vi in och kör processen tillsammans med er. Och om inget annat så kommer ni få ut en massa data på den. Massa värden liksom.
+
+Och ett lärande med AI. Precis. Det tycker jag är som en bra första formulering.
+
+Då behöver jag själv också suga lite grann på vad som blir vad. Det är inga konstigheter. Det skulle också vara spännande, för här har vi ett fokus på ledningsgrupp, vilket är intressant.
+
+Jag skulle vilja, i lika stor utsträckning, göra exakt samma sak på en grupp projektledare eller en grupp verksamhetsutvecklare i den här situationen. Hörrni, det kanske är ett värde i sig, att om vi kan uppleva samma frågeställning i två olika grupper och se hur vi kan använda AR för att... Ja, det öppnar upp också att det inte är... Nej men precis. Det är inte bara ledningsgrupp det här riktar sig till heller.
+
+Nej, precis. Det gör alltid attraktivt att tänka ledningsgrupp, därför att det finns mycket beslutsplats i en ledningsgrupp i detta fall. Det är inte nödvändigt.
+
+Men jag tänker också att beroende på var det ligger så kan det ju... En grupp HR, det är väldigt olika vilken position de har, men det är många bolag vi jobbar med. Det är de som kommer att driva det, så det är de vi vill ha med oss för att komma till. Man kan tänka så här, en call to action är att göra det här i ert team.
+
+Och sen om det är en ledningsgrupp, eller ett HR-team, eller ett verksamhetsutvecklarteam, eller förändringsledningsteam, whatever. För det som vi skapar nu är ju en service som är i första hand på teamnivå. Det är liksom teamets agent och teamets möten i realtid.
+
+Det är det minsta. Och det minsta värdeskapandet i det är att vi för upp till ytan det som är viktigt. Och från det så kan vi facilitera ett bättre möte.
+
+Så visionen lite grann är så här, föreställ dig det bästa mötet du någonsin har haft. Hur känns det i kroppen? Med connection, vi är mänskliga, vi pratar sanning, och sen får vi en spegling hela tiden som är högst relevant. Vi får tala oss djupare och längre och vi får mer gjort.
+
+Du kommer ut och bara... Det vill vi ha som vision. Och då passar det inte vilket team som helst, det är på teamnivå först. Och nästa steg i Product Roadmap är att koppla ihop teamen över rum och tid.
+
+Jättebra, jag tycker om det här med Prima-agenten och att få rätt kontext utifrån facilitering och modeller. Jättebra fråga, Sofie. För den är på mig nu, hur promptar vi den här agenten så att den är kontextuellt inläst? För då kommer analysen av det som sägs i breakouts att bli spot on.
+
+Den behöver ett framework som den förstår. Dels ska den förstå syftet, inbjudan, agendan, processen. Bara det ger väldigt mycket.
+
+Men ger man den ett framework och en till grej som vi faktiskt kan bestämma nu, och det är en objective function, vad ska den optimera mot? Alla människor har flera objective functions, men i det här mötet, vad optimerar vi mot? Vad ska agenten optimera mot? Att den blir tydlig. Så kan vi soursa de två nu, så är det jättebra. Det är superspännande, jag måste hoppa ur.
+
+Full tillit, såklart. Vi hörs mer som senast på onsdag. Och innan det tar hem saker i dokumentet.
+
+Vi tar det då. Jättebra möte. Detsamma.
+
+Ha det så bra. Hej då. Tack.
+
+Vi har dels det kontextuella, och sen har vi etiken med konsenträtt. Så då kan vi fundera på vad vi vill dokumenta. Det är utifrån de modellerna, som ni har, Malin.
+
+Och om det är något annat utifrån facilitering, bra möten, som man kan fånga upp. Precis, det är där som är vår objective function. Den ska ju hjälpa oss att ha en bättre workshop.
+
+Eller ett bättre stormöte. Men vad betyder det? Vad är ett bra möte? Vad är ett bra möte? Definitionen för det. Den ankar ju i frameworket, tänker jag.
+
+Vad sa du, Stefan? Den ankar ju in i frameworken, om det är Chalmers. Vad är ett bra möte? Om man frågar Chalmers, så är ett bra möte när vi delar perspektiv, så att vi skapar nya insikter eller saker vi kan göra. Nu har jag tappat ordet.
+
+Och agerande på det, eller hur? Ja, precis. Alla som är där bidrar för att hitta nya lösningar som vi kan agera på. Det är väl i och för sig ungefär det som är ett bra möte.
+
+Precis, alla bidrar. För vad den gör är att den visar på två aspekter av det. Du kan bidra genom att öka koherens och alignment i teamet.
+
+Alltså att ta oss mot det gemensamma. Men du kan också göra det motsatta med kärlek. Som är att utmana och vara divergent och ta in helt nya perspektiv och ifrågasätta dem.
+
+Så det är som att de två behöver vara levande i mötet och hitta någon slags viktning mellan dem. Kan man hitta den dynamiken i ett möte? Och få alignment där vi ska ha alignment. Och få divergens och utmanande perspektiv där vi ska ha det.
+
+Där vi ska ha det. Och sen integrera dem. Men att vi inte vill ha möten där människor sitter tysta.
+
+Nej, men exakt. Det är waste. Ja, precis.
+
+Då kan man ju lyssna på informationen på ett annat sätt. Det är någonting där också i att de förstår lite hantverket kring faciliteringen. Men att det är någonting som inte bara händer.
+
+Att man på något sätt vill vara lite aha kring det. Jag tror att vi ska hitta ett sätt att summera det på slutet. Vad är det ni har varit med om? För det är ju tricket med facilitering.
+
+Riktigt bra facilitering märks ju inte. Utan då har vi haft så otroligt bra diskussioner för att ni är så bra. Och någonstans så är det ju.
+
+Det är ju då vi vill vara. Men att ändå så synliggöra. Vad är det vi har gjort? Vad är det vi inte gör? Och apropå det här, de här tre frågorna.
+
+Bara dem kan hjälpa er att komma vidare i era dialoger i ditt dubbeln. Det handlar om. Vi kan ju demonstrera det explicit vid några tillfällen.
+
+Jag ser ju framförallt ett tillfälle. Och det är ju att. Det blir ju kanske lite metadiskussion.
+
+Vi ska inte fastna där. Men när de har gjort sina breakouts. Så kommer vi säga så här.
+
+Nu kommer vi få ett till perspektiv av vår a-agent här. Och vi som facilitatorer har redan pratat lite med agenten. Om vad vi såg för mönster.
+
+Och då kom de här grejerna upp. Alltså det kan man ju faktiskt säga. För då visar man, illustrerar man ju vår relation till det systemet.
+
+Och hur det sker är faciliterat. Och den tror jag är viktig för att tydliggöra den kompetensen. Ja, för då får man inte bara utifrån den här informationen som man behöver.
+
+Utifrån AI. Utan det är just den här hjälpen. Det var ju faktiskt något som vi fick med oss när vi frågade.
+
+Att vi behöver tydliggöra hur AI är ett stöd för oss. Just det. Att den tar över liksom.
+
+Ja, precis. Jättebra hörrni. Men när tror du att du behöver det här då Stefan? Är det någonting som vi kan plocka upp? Eller vill du ha liksom din... Det är nästan så att jag känner nu att jag behöver få lite eld i baken.
+
+Att det rasslar till lite med att agenten blir promptad. Och vi kanske testkör den lite grann. Jag tror vi kanske ska testköra den på tisdag.
+
+För då får jag sätta mig själv i skiten lite grann. Så får jag lägga... Det lät som du skulle få det för lugnt nu Stefan. Så jag tänkte att det är bra att du... Ja, men jag kan göra det på måndag.
+
+Om jag får lägga lite tid på tisdag förmiddag. Att prompta den här. Så kan vi testköra den lite grann.
+
+Jag lägger in inbjudan. Syfteprocessen. Mitt första take på Charmer.
+
+Om ni har något som ni kan skicka där som är lite djupare än Malin så är det jättebra. Jag tror att vi har en video som faktiskt Mia har spelat in när hon gör en genomgång av den. Är det liksom... Ja, för den kan man ju få ut... Text.
+
+Du kan få ut text i videon. Om det är okej med att ladda upp den någonstans och få ut en texttranskript. Mm.
+
+Jag kollade den med Mia, men vi gjorde den. Det var bara en kund som ville ha den. Det är jättebra.
+
+För då kan vi bara deklarera essensen av det. Det var intressant för mig att lyssna på också. Jag har inte synsat i den.
+
+Mm. Men det är bra. Och... Är det något annat, Stefan, du behöver utifrån? Utifrån facilitering? Alltså någonting utifrån... Inte just nu, tror jag.
+
+Nej. Jag tror att det är good enough för inför tisdag. Ja.
+
+Ja, men superbra. Då... Superbra. Och sen antal personer, just det.
+
+Var det någonting där? Det är ju lite, jag tänker... Ska vi upp i 20 nu? Hur många bord tänker vi rimligt att ha? Precis. Okej, och hur många... Vad är optimal grupp? Och hur funkar det i lokalen? För jag tänker, vi vill inte heller att man sitter... Nej, jag har en rädsla. Och det är att... Det blir för noisy ljudnivå.
+
+Precis. Du lyssnar här och så fångar du vad som händer i andra grupper. Vi har ju testkört... Det var ju förvisso ett annat system.
+
+I våras. Där vi körde... Bara Apple Voice Memos, tror jag. Och sen så var det jättemycket manuellt.
+
+De skulle mejla den ljudfilen. Och sen skulle vi skicka den till transkriberingen. Så skulle allt vara manuellt.
+
+Alla stegen. Vi hade en riverian som stod med svett i pannan. Och integrerade allt.
+
+Men det funkade. Fast det var noisy, liksom. Men jag skulle nog vilja att vi fanns stresstesta det här lite grann.
+
+På något sätt. Jag vet inte hur vi ska göra det. Och vill vi safea... Då kanske breakouten ska gå ur... Att vi liksom... Att vi bokar upp lite rum eller ytor där de kan gå iväg.
+
+Och sitta i lugn och ro och prata. Och sen komma tillbaka. Så det behöver vi lösa.
+
+Okej. Jag tänker att... Vad tror vi? 6-8 i en grupp. Det är rimligt att tänka så.
+
+Jag tror att 6 är max. 6 är max. Hellre fler grupper.
+
+Eller det finns väl nån sweetspot. Vi vill inte ha för många grupper heller. Av tekniska och andra skäl.
+
+Kanske 6 då? Det finns just nu... 1, 2, 3, 4, 5, 6... Faktiskt ska man säga 6 ställen bort. Som man skulle kunna sitta runt. Som redan finns där idag.
+
+Då är det 6. Vi kanske behöver ett tak på antal deltagare här. Så om det är 5... Men är det 30 deltagare? Då är det ju okej. Då är det 5 i varje.
+
+Det är väl en ganska bra sweetspot. Men det är bra. Eller ska man sätta till... Ska vi sätta till om det är 36? För det är ett gäng som kommer att vabba.
+
+Eller bli sjuka. Alltid. Så är det.
+
+Sätter vi 36 så är vi kanske 30 där. Då känns det rimligt. Och sen kan man fundera på om... Det finns ju två rum.
+
+I nära anslutning. Som två grupper lätt skulle kunna gå in i. Om vi behöver. Mötesrum.
+
+För att minska hjälplivån. För då skulle jag kunna boka upp dem. För om jag är... Då är ju de precis i en slutning till.
+
+Exakt. Så vi behöver inte springa bort. Så de två kan vi använda.
+
+Jag kommer behöva avrunda. Ja, samma här. Men tack för idag.
+
+Jättespännande. Verkligen, det blir roligare och roligare. Ja, det känner jag med.
+
+Men då hörs vi som det behövs innan vi hörs på tisdag. Mycket bra. Hoppas det var skönt.
+
+Och en härlig helg nu. Hej då. Hej.

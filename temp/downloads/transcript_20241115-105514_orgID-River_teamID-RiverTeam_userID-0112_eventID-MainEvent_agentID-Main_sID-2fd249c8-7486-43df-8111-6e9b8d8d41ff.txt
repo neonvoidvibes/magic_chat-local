@@ -1,0 +1,15 @@
+# Transcript - Session Details
+
+Organization ID: River
+Team ID: RiverTeam
+User ID: 0112
+Event ID: MainEvent
+Agent ID: Main
+Session ID: 2fd249c8-7486-43df-8111-6e9b8d8d41ff
+Start Time: 2024-11-15 10:55:14
+
+# Content
+
+[00:00:00 - 00:00:15] Det är som när man fånga händer när man står i mål och kan koppla av sig. Roligt
+[00:00:15 - 00:00:30] Jag håller på och testar.
+[00:00:30 - 00:00:45] Thank you so much for coming, it's been so good to see you. Thank you. Thank you. Thank you. Thank you. Thank you.

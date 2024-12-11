@@ -1,0 +1,214 @@
+# Transcript - Session 527e5520-9522-4dbc-ba36-a4cef09adb60
+
+[00:00:00 - 00:00:15] Syftet med mötet är att uppdatera er, Lotta och Patrik, på Worklife Academy-eventet nästa vecka. Så jag synkar nu med Sofie.
+[00:00:15 - 00:00:30] Facilitering, förändringsledning, ledarskapsutveckling. Det är Malin Edshage och Mia Itman. Och de kommer hålla i huvudet faciliteringen. Känns jätteskönt.
+[00:00:30 - 00:00:45] Och vår fråga till dig var, hur kan vi hjälpa till att bistå bakom kulisserna ifall något helt tekniskt faller över eller inte fungerar?
+[00:00:45 - 00:01:00] Så att du kan känna dig tillräckligt med att vi supportar dig och inte de andra. Ja, det känns jätteskönt.
+[00:01:00 - 00:01:15] hur formatet fungerar och lyssna på reaktioner omkring, mellan människor och teknik. Vad är det som händer?
+[00:01:15 - 00:01:30] En fråga som jag har, som vi också faktiskt fick från han, vad är ett tänkt steg för det här?
+[00:01:30 - 00:01:45] 3. Men vi har lite sådana tankar. Nu ska jag ta det tydligt om ett toppla. Det finns utkastande på prestation. Jag visar den fortfarande i små delar, men.
+[00:01:45 - 00:02:00] likad. Så ska vi se. Hej och välkomna! Sen kommer Sofie köra intro med våra tre siffror. Jag ska skapa en bild på det, men lite mer.
+[00:02:00 - 00:02:15] Alltså Human-AI-Mobilisational, eller vad det ska kallas för. Och sen bara checka in för gruppen. Det är 21 anmälda.
+[00:02:15 - 00:02:30] Det är mycket HR, det är förändringsledare, det är toppmellanskiktet i organisationer. Och större, det är alltifrån Northvolt till SCB, någon av bankerna.
+[00:02:30 - 00:02:45] Det är både offentlig och privatsektor. Det är ganska många olika. Så det kommer att vara en bra grupp. Vi tror att det kanske landar på 30. Det är en maxa.
+[00:02:45 - 00:03:00] med ett bra möte och hur facilitering med stöd av egen stötta värdeskapande möten i våra organisationer. Hur kommer det funka. Vi erbjuder perspektiv nya utforskande dialoger med stöd av drivet av era perspektiv och erfarenheter.
+[00:03:00 - 00:03:15] och det kommer att vara i hög spännvidd, typ använder chattybete och annat varje dag till de som har läst om det i DN, you know the drill. Så bara basics, språkmodeller, vad är det den gör, och sen så vart är vi idag, och sen så kommer jag också...
+[00:03:15 - 00:03:30] AGI förmodligen här 2026 eller 2027. Jag kommer inte gå in i ljusutveckling existentiellt, men jag kommer säga att vi kommer ha AI-system som är mer kapabla än alla människor på jorden och det kommer förändra arbetet i grunden. Och sen lämnar de...
+[00:03:30 - 00:03:45] att det här är bra, för det kommer tvinga oss att bli mer mänskliga. Vi ska få utforska det, liksom lökroken. Sedan stannar inte där, liksom vi kommer få uppleva det i huvudfokus, men vikten av det mänskliga i den i att det blir en framgång. Men då ska få upp.
+[00:03:45 - 00:04:00] där man har tid, utan det fångar vi upp igen i slutändan. Älskar Stefan, det är så skönt att sitta som hemma. Han tänkte uppleva det. Jag skulle vilja att vi gör mer sådär. Okej.
+[00:04:00 - 00:04:15] här, men om det första var varför det här här är mer sig var en farhåga jag har när det kommer till AI och utveckling med organisation. Jag frågade så ska vi ha farhåga, inte delts är negativt, liksom de var nämnd i bra. Vi lyfter upp rädslor tidigt, liksom.
+[00:04:15 - 00:04:30] göra det så får de bara checka in med det och vi lyssnar på dem. Sedan går vi in i generativa dialoger. De använder en kul att man med. Den kommer från Otto Charmer. Det är samma som Kerstin.
+[00:04:30 - 00:04:45] Alltså Theory U, och hur man går härifrån är ganska bra. Gemensam helhet, individuellt fokus, upprepa gamla tankar, tänka nytt. Oftast går man i den här, först börjar man i artigheter, sen går man in och blir ganska liksom...
+[00:04:45 - 00:05:00] mitt gäller. Sedan går man in i gemensamt utforskande från de olika perspektiven. Och här börjar man samarbeta med flow. Tips om hur skulle du att bestämma? Vart är ni? Ja, men.
+[00:05:00 - 00:05:15] Ni vill ju dit och sen dit, eller hur? Ja. Så tänka nytt i det som saknas. Och gamla tankar är det ni hatar mycket av. Pratar du om oss? Samla av oss. Inte här.
+[00:05:15 - 00:05:30] Utanför den nedre delen så här uppe i vårt väldigt sällskap. Men den är bra, och då kommer de få prata om det här som gemensamt utforskande. Det är lite principer utifrån den här delar erfarenheter.
+[00:05:30 - 00:05:45] Lyssna nyfikenhet, låt det bli tyst, utmana er i egen öppenhet. Jättebra principer. Var i matrisen befinner det oftast er dialoger i er möten? Hur märks det? Det är fråga ett. Och då börjar det spela in.
+[00:05:45 - 00:06:00] Hur ska ni göra? Just det. Och då kommer det vara en QR-kod. Vänta, det är en som är Lido per... Ja, en AI Whisperer. Som har batteri på sin mobil. Okej, hur ser du den då?
+[00:06:00 - 00:06:15] Självselektering. Vem har batteri på sin mobil och bråkar inte med teknologi? Lite leksamt. En man får räcka upp handen, den får fota QR-kod, kommer in, kommunicerar den här välkommen.
+[00:06:15 - 00:06:30] säga att det här är ett proof of concept. Det är inte färdigbyggt, men vi har testkört det i flera runder och det funkar väldigt bra. Vi kommer att skala det här, så ni kommer att få uppleva cutting edge här idag. Brevtillställning gynnar att allt håller.
+[00:06:30 - 00:06:45] Appen kommer vara en viktig instruktion. Och viktigt, du laddar inte ner någonting. Det är bara ett gransknitt. Just det, det ska vi lägga ner. Det är vår webbapp. Det är en app. Det är en webbapplikation. Det är en webbsida.
+[00:06:45 - 00:07:00] Ja, ja, ja, fönstret. Så en data lagring. Kort kommentar kring datalagring också.
+[00:07:00 - 00:07:15] De kommer få redan typ i dag eller något kommer de få en ok på att ge ok innan så att det kan vara klart. Och sen går vi in i frågan. Sen kommer vi som vi kommer ha olika djup och i första runda har vi lite mer.
+[00:07:15 - 00:07:30] AI-sammanfattning, vad är key points för de olika dialogerna? Så den här första rutan som har kommit upp nu det är ju för att de kommer få namnge lite lekfullt sina olika gruppmöten, eller sina bok. Någon kanske säger Raccoon eller någon annan säger AI.
+[00:07:30 - 00:07:45] Vår AI-modell kommer också att förstå att alla som ligger i den mappen hör till samma event. Och den kommer också, givet att de har olika namn, så är de här summeringsdokumenten som skapas är lablat olika. Och då har den kontextförståelsen att se att det är olika breakouts.
+[00:07:45 - 00:08:00] när det funkar och om någonting skulle kunna stanna. Om någon säger så här, hjälp, det verkar inte funka. Så här kan man, man kommer in här, name your agent, så skulle vi döpa vår till Q.
+[00:08:00 - 00:08:15] Det är ganska snyggt ändå för att ha gjort det här. Så kommer man in här, ready to stream. Trycker start och så måste du allow mikrofonen. Och så tickar den. Och du ser ju här, så länge den tickar och det lyser error. Ja, precis för att det är ett fel när jag inte har läst.
+[00:08:15 - 00:08:30] Om du än tycker att du har inlåst error där, då är det lugnt. Men det betyder att om vi har två eller tre packat telefoner så skulle vi kunna dikta QR-koden och bara stå standby. Ja, och då frågar ni vad du öppnar er grupp till.
+[00:08:30 - 00:08:45] Telefonen. Det är bra. Just det, man skulle kunna köra två skrivs med samma namn och den. Den skulle nog ha ägandet, skulle nog fatta att det var samma grupp. Det är bra. Det är bra. Fullt upp.
+[00:08:45 - 00:09:00] Så i alla fall, den där måste jag lösa Hur många ska de vara i varje grupp? Fem har vi sagt Fem Så om de är 30 blir det 6 free counts Okej Så i sammanfattningen kommer det vara första lagret Vad såg vi? Vad såg vi i de olika?
+[00:09:00 - 00:09:15] Nu kommer det vara textagenten, som jag tycker är lite snygg och cool. Då ska vi se här nu, nu kommer den kanske inte funka, men vi ska välja...
+[00:09:15 - 00:09:30] Den har jag skapat en VLA-agent här nu, som har kontextförståelsen, så laddar den ner rätt kontext. Beautiful. Hello, eller hej.
+[00:09:30 - 00:09:45] Handlar dagens möte om. Och som så fattar där till och med organisationer som Norfolk och kommerskollegor också.
+[00:09:45 - 00:10:00] Nu tror inte jag den här funkar. Vad pratar vi om i nuvarande möte? Live. Det är någonting, jag tror att det är namn, jag har ändrat namnet. Jo, just nu diskuterar ni, ska jag hantera Q&A?
+[00:10:00 - 00:10:15] Okej, ja men du ser, den fattar liksom. Så jag kommer dema den där. Det är ganska coolt. Och då demar du efter första frågan, eller? Vet du vad det coola är? Jag har valt ett speciellt terminalfönster som heter Walk-in.
+[00:10:15 - 00:10:30] Du demar efter första frågan eller? Ja, i sammanfattningen så kommer vi också som fascinatorer och ni får också vara med och smyga i bakgrunden.
+[00:10:30 - 00:10:45] Vad händer i gruppen nu? Det är ju skitbra faciliteringsverktyg. Vad pratar de om? Vad ser det ut för mönster redan nu? Hur ska vi facilitera det här? Det finns ju en massa coola grejer. De kommer att göra det, eller? Ja, det kommer vi att göra.
+[00:10:45 - 00:11:00] Då omvårdar vi också Mia och Malin i verktyget. De är nyfikna med det just nu. Och sen så är det bara Exit, Clear, starta om den här. Så startas de en ny chatt på samma data. Och då tar man fram den och delar den på stor skärm för alla.
+[00:11:00 - 00:11:15] här demot liksom. Vilka insikter ser du redan nu som du vill dela med oss typ sådär?
+[00:11:15 - 00:11:30] Ni visar en imponerad balans mellan teknisk implementation och mänsklig interaktion, naturlig öppenhet, byggen i redundans, back-up-lösningar. Nu pratar vi om något som är inte riktigt inuti, så det blir ändå lite... Det finns en underliggandynamik av kollektivt ledning.
+[00:11:30 - 00:11:45] när vi har mer streams och mer data. Så den kommer vi att visa. Vart är vi samlad? Sen går vi ner i fråga två. Vilka dialoger har ni idag som ni skulle vara hjälpta av att ha?
+[00:11:45 - 00:12:00] By the way förra vi kommer att reflektera hur det kändes. De kommer att reflektera över i sammanfattningen. Vilka dialoger har ni inte idag som ni skulle ha hjälpt av? Och samma där du pratar om den.
+[00:12:00 - 00:12:15] Samma här, de startar igen strömmen. Det är bara att trycka på starta igen så startas det en ny. Då ska vi se, AI-analys.
+[00:12:15 - 00:12:30] Det här såg vi, men sen kommer vi se, vilka blind spots ser ni i gruppen? Vi kan testa den här nu. Vilka blind spots ser du? Ser vi någon blind spot? Nej, jag vet inte. Vi ska nog använda ett annat terminologi.
+[00:12:30 - 00:12:45] Det här är bra, just nu ser jag några intressanta områden som kanske inte är fullt synliga för er. Oavsett alla möjligheter att använda dessa första interaktioner som ett levande labb. Underlig en spänning med att få allt rätt tekniskt men inte låta vissa utmaningar bli länomänt.
+[00:12:45 - 00:13:00] Det kommer att påverka dagens fråga. Det kommer att bli mer relevant, men vi kanske kan hitta ett annat ord. Vad kan du göra synligt som kanske inte är synligt för oss? Till exempel, sån fråga.
+[00:13:00 - 00:13:15] Det är vetnad som är det som är grejen, det är medvetna behoven. Jag ska göra en grej, innan jag tar upp så ska jag göra det här, jag har skapat ett command som är insights, så här, som tar några sekunder för det som händer nu är att det är en modell som går in och läser mötet.
+[00:13:15 - 00:13:30] en annan agent som är en insightsmodell och baserat på det så kan du komma upp Vilka insikter kan du se från analys, från insiktsanalysen?
+[00:13:30 - 00:13:45] Vi gjorde ett exempel. Det skapas ett insiktsdokument.
+[00:13:45 - 00:14:00] Den ligger i Live, Insights och 1422, det var den som skapades nu och det är i så kallat JSON-format och läser väldigt bra.
+[00:14:00 - 00:14:15] Säger Patterns integration av lite bevis på det i Timestamps här. Dressen färsen koncerns. Den här blir större ju längre dialogen går längre, liksom organisationsbehov. Örjans i skor 8.0.
+[00:14:15 - 00:14:30] Faciliterad generativ dialoger, emerging trajectories, det är ju liksom... Om vi tar det här, vad skulle hända då? Den här ser fattig ut, men det jag har märkt är att när den här gifter sig med transkriberingsdokumentet så får den ut väldigt mycket rikedom i den.
+[00:14:30 - 00:14:45] Det här blir liksom ankare snarare än djupet, djupet kommer. Så det där kommer i bakgrunden, det händer där. Så fråga två då lite djupare och sen så koppling till facilitering.
+[00:14:45 - 00:15:00] Vad betyder det här för hur vi faciliterar möten i framtidens organisation och sen får de reflektera och efter det. Nej vi kommer fånga upp. Det är Mia och Malin som kommer fånga upp mer.
+[00:15:00 - 00:15:15] av att facilitera möten så att det viktigaste kommer fram. Så de hjälper dem att göra en kognitiv brygga från deras upplevelse till att det är formatet som håller. Hur håller vi bra möten? Du behöver ha någon som håller.
+[00:15:15 - 00:15:30] mötet och med hjälp av A.I. kan vi förstärka det, så det är den. Men just nu så förstärker insikten att det som sägs i mötet inte förstärker faciliteringen i sig. Exakt så. Den ersätter inte människors facilitering, även om den kommer.
+[00:15:30 - 00:15:45] Ja, det kommer vi inte att uttala, men det menar vi ska inte uttala det. Vad vi säger här är att om du har bra facilitering och bra struktur runt mötet då kommer du dels få ut rikare samtal och lägger du då på.
+[00:15:45 - 00:16:00] på det så kommer du få en utväxling ännu mer på det, det är det som är value offer. Är det processen eller samtalet? Vad menar du? Hur upplevde du den här processen istället för AI? Ja, såklart.
+[00:16:00 - 00:16:15] Men samtalet är mjukt, samtalet åker mjukare. Jag skrev lite där. Och sen då får de reflektera över den, bara meta-reflektion och sen då kommer vi koppla in
+[00:16:15 - 00:16:30] Ska vi se om det funkar? Vart har vi den då? Kör vi den eller?
+[00:16:30 - 00:16:45] Nu ser inte jag vilken, för jag har ändrat namngivnings, men det kanske är den högsta upp här då. Vänta, tyst nu då.
+[00:16:45 - 00:17:00] Hej, kan du prata svenska? Självklart kan jag det. Vad vill du prata om? Jo, vad händer i mötet? Just nu pratar vi om AI-förbättrade möten och hur vi kan förbättra mötet.
+[00:17:00 - 00:17:15] för att göra våra möten mer effektiva och engagerande. Vi utforskar också hur AI kan spela en roll i utvecklingen... Kan du se vad som händer direkt i det här mötet just nu, live? Självklart! Just nu pratar vi om enhetsstatistik...
+[00:17:15 - 00:17:30] och på kapp strategier. Till exempel diskuteras hur vi kan använda QR koder för grupp, identifikation och möjligheten. Nej, den behöver göras lite tjock. Men jag kommer tajta till den, men att den ändå lyssnar in.
+[00:17:30 - 00:17:45] så de får voice-agenten, så de får tre nivåer av wow. Första nivån är att de ser vad vi pratar om. Den nästa nivån är att de ser mer än vad vi ser. Och det tredje, ett annat modell, är att de kan...
+[00:17:45 - 00:18:00] miljardtid. Då börjar du liksom dela i möjligheter. Jo, men det finns sådana redan. Jag har lekt med, men så kommer Sista frågan. Bara stänga.
+[00:18:00 - 00:18:15] Så bara liksom framtidens möten och organisationer, mänskliga förmågor behöver vi utveckla. Det här är några ledord då, öppenhet, nyfikenhet, perspektiv, möjlighet, intuition, det vi upplevt idag. Det var också de som var i början. Facilitering i hantverket får göra det.
+[00:18:15 - 00:18:30] Frågan är processen om vi kan komma djupare snabbare så länge. Sedan kommer jag avsluta med den här effektivitet. Pratar om effektivitet som att optimera mot idag, men framtidsorganisation.
+[00:18:30 - 00:18:45] Mycket mer om hur vi kan få utväxling och förstärka det mänskliga kring det. Och det börjar med mötet och det här är en liten, liten enhet. Men vi ser att det här blir ett sätt att jobba på. Jobbar annorlunda med datadrivet.
+[00:18:45 - 00:19:00] Våra möten expanderas över tid så vi har koll på alla möten och det över tid kommer ge oss mer och mer förståelse, djup, relationer, vi blir bättre helt enkelt på att hålla mänskliga möten.
+[00:19:00 - 00:19:15] Och sen också över space, alltså utrymme, mellan team i organisationen. Vad menar du med dagens process i skala? Jo, att du tar ett möte som är här och nu, och isolerat, och sen sträcker du ut det.
+[00:19:15 - 00:19:30] Då har du framtidens organisation. Det är skala. Du skalar upp det. Ja, så att man förstår. Nej men jag berättar ju. Skala förstår man väl. Det är skalbart.
+[00:19:30 - 00:19:45] Skulle du sagt att. Nej, men det blir så tekniskt på ett sätt. Det är ju det ju du pratar om Den dagens samtal i.
+[00:19:45 - 00:20:00] Alltså större, jag vill försöka få dem att se att det här inte bara är ett gulligt möte, även om det är det också. Det handlar ju om vad händer när du knyter ihop alla möten du har. Vad händer när teamens visstom knyts ihop? Det är den skalan jag vill ha.
+[00:20:00 - 00:20:15] Men det enklaste sättet att förklara den dimensionen av den här exponentiella informationsaggregeringen är ju att det vi just nu gjorde var att vi lät så här många grupper interagera.
+[00:20:15 - 00:20:30] i grupperna blir tillgängligt för alla oavsett om de har deltagit i den konversationen eller inte. Så du har ju redan en regering här som vanligt brukar aldrig klara oss i.
+[00:20:30 - 00:20:45] Igen. Det här har vi gjort. Nej, men det är bra. Jättelånga igen. Sedan är inbjudan till fortsatt utforskande. Här kommer kontrakt på kort sikt. Vi kan liksom träffa er för att förstå förutsättningar.
+[00:20:45 - 00:21:00] i beredskap och för AI-stöd på samverkan, med de personer som ska vara med där, säljbemöte och det andra är uppleva det här i er team utifrån era specifika frågeställningar och utmaningar. Det kan vara ledningsgrupper. Vi kommer in och kör det, det som vi har pratat om.
+[00:21:00 - 00:21:15] Arbeta för att utveckla mänskliga förmågor, pilota en första version och installera systemet i organisationen. Faciliteringsutveckling Pilotprojekt slash lab och sedan installera det här.
+[00:21:15 - 00:21:30] Ja, implementera. Det gäller att hitta implementeringsvägar för att system går i tungt. Nej, jag har sagt att implementera. Nej, men okej. Jag håller med. Vad ska det vara? Ja, vad ska det vara?
+[00:21:30 - 00:21:45] Det är ju att börja använda, inte systemet i sig, utan att den blir en del av. Men göra tillgängligt i och era organisationer.
+[00:21:45 - 00:22:00] den mänskliga sidan. Implementeringssystemet, om vi tar oss till de här tre cirklarna, det är AI-datasystem. Det är det tekniska. Och pilot, den första lektionen, handlar om hur man designar processen för det här, som inkluderar båda dem.
+[00:22:00 - 00:22:15] Ingre kontakt. Det skulle vara en betalt förstudie där man gör alla de här tre, till exempel, eller en av dem eller två Av en teknisk del som har en aktiveringsdel som handlar om att ta emot det. Men den.
+[00:22:15 - 00:22:30] Kalla den. Det är det som är det som är en specifik system i funktionaliteten. Men vad är verbet? Inte installera, det fick det inte vara. Det var bra.
+[00:22:30 - 00:22:45] Men det är ingen jävel som sitter och ror. Och sedan får de reflektera. Hur var det? Vad är viktigt? Checka ut och sedan en och en halv timme har gått. Det var det.
+[00:22:45 - 00:23:00] Vi hoppar breakouts två gånger 15 minuter, så det är en halvtimme, sen har vi en timme till resten, det tror jag vi är det. Jag kommer vara jättekort på mitt, det är inte jag som huvudresultatet är, vilket är skönt.
+[00:23:00 - 00:23:15] Vi skulle kunna vara the go-to guys för att få ihop hela det här, för vi har nätverket för att göra det.
+[00:23:15 - 00:23:30] Pilota och sjösätta. Ja, men de måste gå någonstans. Vem är det som är plankontakt? Avsända på det här dokumentet är ju VLA. Det vill säga att du måste gå till och så ska hon göra det. Är hon kapabel att göra det? Med stöd av jordtogan.
+[00:23:30 - 00:23:45] Patrik, går inte det? Nej, för den måste ju vara tydlig för det här gänget. Jo, men det är ju Worklife Academy, det är ju den första sliden. De är avsändare och sen är det Powered by River Edsham i Ekman. Ja, för jag tror att den är viktig.
+[00:23:45 - 00:24:00] av vad de har fått hitta kunder och vad de får, så har de inte relevansen för att bära. Men de vill ju. De vill ju få det, men det får inte det. Men det är därför jag sade att man är med för att de tar faciliterings biten. De bidrar.
+[00:24:00 - 00:24:15] Vi bidrar med det tekniska och filosofin kring helheten. VLAB är container för konceptet.
+[00:24:15 - 00:24:30] Om det blir något skarpt här, då kommer ju vaccinen från och på. Hur ska vi dela på det här? Jaja, men det kommer ju bli delat. Det kommer det bli. Hur du kommer dela, det kommer man ha. Jag tror inte. Kommer det 30 pers, garanterat tar vi fram. Minns ej.
+[00:24:30 - 00:24:45] Vi kommer att hitta uppdrag, vi kan ju skapa relevans för hela kittet, men vi kommer att hitta dem som vill göra det i det här.
+[00:24:45 - 00:25:00] den vägen och vi får se vad det tar vägen och hur vi ska formulera det här. Det här är en lärande resa för alla invändare, oss inklusive. Min andra frågeställning är hur väl eller hur mycket behöver vi träffa Ekman och Ekman, eller vad heter han? Ekman.
+[00:25:00 - 00:25:15] Jag har träffat dem i alla våra möten. De blir mer och mer ånbånade i att AI kan och är bra för att jag spelar in våra möten och en sekund efter vi lägger på så har de en summering och massa insikter. De börjar gilla det.
+[00:25:15 - 00:25:30] När de faciliterar hur de ska förhålla sig till byggnad vid de som kommer att föra majoriteten av samtalet. Ja, exakt. Men det lär ju märka just nu inte det vårt jobb, utan nu har de ju valt Nej, jag bara säger det som en grej att vara liksom Även det. Ja, men så.
+[00:25:30 - 00:25:45] och de verkar ha en egen råda kring att diskuteras. Det som slår mig är intressant att man kan gå så här långt på ett undervänt, men man kan inte göra det. Dess reflektion.
+[00:25:45 - 00:26:00] Kanske hans buss måste vara med på det där, alltså in the background. Ja fast han kommer ju bara säga såhär, det här är ju helt fantastiskt bra, men det är ju inte vi helt. Men vänta, ni har ju någon i gruppen som säger det här. Och han har ju ett uttryck för intention av att det här eventet...
+[00:26:00 - 00:26:15] ju om någon egentligen anna.
+[00:26:15 - 00:26:30] om spännande insikter. Det är superbra att vi är med. Vi är tekniskt backa. Vi lyssnar in med våra öron och sedan är det där ju preppen inför nästa runda bords samtal.
+[00:26:30 - 00:26:45] Jag kan säga såhär, de lärdomar, eller inte lärdomar, dels lärdomar men det som jag tvingas bygga nu med att få ihop multipla streams och stresstesta systemet så att ljudet inte laggar två minuter som det gör nu, allt det där blir ju innovation.
+[00:26:45 - 00:27:00] under bordsamtalen och egentligen allt och snart känner jag att jag kan gå ut och prata om det här i sociala medier. Börja känna mig stolt över det. Och vi har bara lite innovation kvar så kommer vi kunna börja använda det i vårt team på riktigt. Det tycker jag är en ganska viktig utstånd där.
+[00:27:00 - 00:27:15] Nu är det kaos i den här bucketen, det ligger massor av testfiler överallt och det är ingen ordning av, jag ändrar namngivning, men det sker en massa innovation och lärande som vi kommer kunna använda till allt, det är jättebra.
+[00:27:15 - 00:27:30] Det här är för att det är en del som är isolerad. En enda ett stöd för att provröra och provröra det. Vad gör vi med den? Alltså analys.
+[00:27:30 - 00:27:45] Jag har fångat upp. I går hade ni ett möte som du körde en A.I. Rörelse. Den informationskommuner är det är ett mänskligt möte om att ha i.
+[00:27:45 - 00:28:00] Alla de mötena där vi har den här typen av diskussioner, sydligt med externa, under vårsamtal eller från det här eventet eller i andra möten med andra människor, så då bör vi börja samla dem.
+[00:28:00 - 00:28:15] Kan vi börja med en mapp som är säker att dumpa, så sätter vi det på datum. Nu har vi två år under vår framtal, så att de inte försvinner in i ditt ittererande.
+[00:28:15 - 00:28:30] Transkriberingen från rundarbord 1 och rundarbord 2. Jag kan lägga in min lilla som jag hade från igår. Ja, allting har vi från i iCloud och ska jag bara dumpa upp den? Ja, jag sitter här och sånt. Rör inte, lyckas åt.
+[00:28:30 - 00:28:45] Det är en M.I.T. för mig, most important task.
+[00:28:45 - 00:29:00] Jag tänker tusen parallella tankar samtidigt. Det var någon teknikförbättring. Jo. Fixa boys again. Och fixa.
+[00:29:00 - 00:29:15] Det är inte så att det tar så länge, men det är vikten av att anonymisera data innan vi tar in den, och det är just för att ni fysiska sitter och ger er checket. Jag har en del på hur vi anonymiserar. Vilka är deltagarna kan man fråga här.
+[00:29:15 - 00:29:30] HHR professionella och förändringsledare från flera olika organisationer 21 deltagare, offentlig privatsektorn, Norröts Våldkommerskollegium, SCB, Huddinge kommun, Storbritannien.
+[00:29:30 - 00:29:45] Mediatek, Husqvarna, vilka är namnen? Men de namnen är inte farliga, det är bara personuppgifter. Nej men exakt, men vilka personerna?
+[00:29:45 - 00:30:00] Det stannar inte mellan namn och främst. Stefan, det är det första. Rent gdl-mässigt så är det så att om datan ens för en mikrosekund vänder i en miljö. Ja, jag förstår.
+[00:30:00 - 00:30:15] anonymiseras innan vi får en lokal Analyseringsaktivitet, ungefär som FaceID-link där vi inte är ihåg. Men vi behöver inte lösa det här, men anonymiseringen kommer att bli viktig.
+[00:30:15 - 00:30:30] för att göra det guldmässigt. Och vi kan ha en piracy-pådelstift som säger att vi inte benar med någon eller gör något sånt. Och jag tycker det är skitsnyggt att den inte kontinuerar att ställa sig på och kunna röra det.
+[00:30:30 - 00:30:45] Det är inte den informationen vi vill ha. Så om någon ställer den frågan så kan man säga att det inte är visst, allting är anonymiserat så man kan inte processa den informationen? Nej, det måste vi lösa.
+[00:30:45 - 00:31:00] Så tekniskt då, det är några små saker som det märker lagga två minuter. Voice agenten verkar inte helt skarp. Det är lite backen strukturering av dataströmmarna som måste bli bättre för det lite halv halvkaosigt. Jag ska göra.
+[00:31:00 - 00:31:15] att nu är det helt, det är 92 procent där. Det blir 98 procent i alla fall. Eller 100 procent från use cases. När det är klart någon gång nästa vecka, då vill jag börja, då vill jag sätta tänderna i vår datastruktur.
+[00:31:15 - 00:31:30] Vi börjar bli mogna för det nu. Var samlar vi våra nya insikter? Det var precis det du sa, va? Nej, nu pratar man om individuella och gruppmässiga vinnare. Ja, men det där är jättebra. Men det hänger ju ihop. Ja, men vet du vad? Det är skitbra.
+[00:31:30 - 00:31:45] som går in en gång om dagen, plockar alla insekter och lägger det på ett annat ställe.
+[00:31:45 - 00:32:00] Nej men såhär Stefan, jag tycker inte om att sitta och gnälla på saker, jag gör sällan det. Men när saker drar i långsiktigt och jag vet att man har en tid och orkar inte göra något. Och nu känner jag att jag vill ha en tid för. Jag försvinner i den här, vad har vi lärt oss?
+[00:32:00 - 00:32:15] Jag tror att vi behöver ha en som heter Vad har vi för en aktie i veckan? Eftersom att vi håller på med så mycket saker som att vi ser inte, vi glömmer bort. Men vi skulle behöva liksom, vi behöver ha en bucket för våran i Rivers utvecklingsledning.
+[00:32:15 - 00:32:30] Varsamma med våra nya insikter. Det blir antidoten. Nu jobbar du gratis nu för att det här eventet ska bli till. Vi riskerar.
+[00:32:30 - 00:32:45] Jag och Patrik råkar jobba i en liten strand där vi får lite betalt, men den ger ju ingen energi när vi har tagit och framförallt ingen kunskap i det vi behöver. Vi lär oss ingenting om att rida ursäkt i stenmål där.
+[00:32:45 - 00:33:00] Det måste vara ett framkantsprojekt, annars så gynnar ju inte det oss. Det är bara action och det finns ingen ork och energi från min sida att hålla på och kämpa. Okej, så det är antingen de här två frågorna?
+[00:33:00 - 00:33:15] Hur bygger vi vårt eget IP? Ibland så känner vi att vi har så mycket diskussioner om vad för skap och vem med vad och hit och dit. Nej, men allt vi gör här nu är ju vårt IP. Det är ingen annan som äger det. Nej, jag menar det, men jag tror att vi behöver strukturera upp hur vi samlar vårt IP.
+[00:33:15 - 00:33:30] Vi mår bra i det här rummet, för det blir vår antidote mot allt annat som händer underkring, där vi kan få en känsla av att vi ger bort, eller förstår ni vad jag menar?
+[00:33:30 - 00:33:45] Jag är ganska duktig på att uppdatera minnet i dbt, så jag bara reflekterar över vad jag har lärt mig om det utgår från mina kommunikationer med dig de senaste 7 dagarna.
+[00:33:45 - 00:34:00] Har du sett den online för den händer? Vad vet du om mig som jag inte vet själv? Jag lärt mig de senaste dagarna som jag inte som jag ger uttryck för innovation. Alltså.
+[00:34:00 - 00:34:15] Än i nya grejer som man inte har haft tillgång till förut. Och den är ganska spottad, för den kom på att några grejer som jag har sagt, det har dock possibilitetsen någonting som jag har lagt in och reflekterat över från effektivitet i meningsfullhet.
+[00:34:15 - 00:34:30] Det har vi forskat i, och den har vi fångat upp, att leda med sårbarhet och öppenhet. Men vänta, är det någon du går vidare där nu? Nej, jag kan ju fråga den själv. Men du, du håller på med en annan grej för det.
+[00:34:30 - 00:34:45] och fråga om pengar, om man skulle förklara vilken bio och hur håller vi på? Var det inte ascool att ha någon typ av brak som vi kan hitta på som talar om hur vi lär oss och hur vi delar?
+[00:34:45 - 00:35:00] Vad är vi för organism? En knowledge graph om... Nej men ni fattar vad jag menar! Att man kan navigera i knowledge grafen? Ja! Ni kan tro att vi är några normalt gäng, men kolla här hur vi utmanar oss själv!
+[00:35:00 - 00:35:15] A. För vår evolution i en knowledge är lika med min vekel för att söka fanning.
+[00:35:15 - 00:35:30] Där har du det gjort nu. Då har du fått en visuell symbol på vad vår kor och.
+[00:35:30 - 00:35:45] Jag har definierat det som ett neuronetto-work av alla dina interaktioner, som är helt klickbart, så jag kan klicka på en domän
+[00:35:45 - 00:36:00] och hur hon konnektar mellan alla olika. Och så ska vi ha små hjärtor där nere så att de inte blir så hemska. Nej, men fire, här har du liksom... Här har du... Det kan vara så inga symboler. Det kan vara regnbåge, raket... Ja, men kolla...
+[00:36:00 - 00:36:15] Och nu har vi en liten regja. Så här ser det ut en vecka nästa vecka. Så har den från den där så.
+[00:36:15 - 00:36:30] Och den successivt branschar, så det här blir ju ett... Jag kan också förutombara den på flera organisationer. Egentligen vad den här visar, för mig så blir det bara... Det här blir en visuellt grej som visar... Ja!
+[00:36:30 - 00:36:45] Exakt, men vi pekar ihop hur vår mindset är, hur vi tar oss an med den här världen, och jag tror också att det är så här, med kärlek.
+[00:36:45 - 00:37:00] Vi gör det synsta, vi testar, vi provar, vi itererar. Det här är från hjärtat, mer och människan visar, från offentliga. Följ vår bolags utveckling på en nivå som is unheard of.
+[00:37:00 - 00:37:15] Åh, du ska ju kunna fråga din. Jag har en agent som alla kan prata med om oss. Det är det vi pratar om två år sedan. Fast 2.0. Ja, men jag måste. För att beskriva.
+[00:37:15 - 00:37:30] Det här är ett neural network communication model. Det är att vi replikerar hjärnans sätt att interagera med olika delar. Och så syner jag i, istället för att konversationerna är...
+[00:37:30 - 00:37:45] i en knowledge graph, så att du kan hitta alla olika saker som du har gjort utan att behöva komma ihåg hur du skrev dem. Så att de blir tillgängliga. Men den visar också hur ditt...
+[00:37:45 - 00:38:00] Det blir nämligen kartbilden i virtuella memory. Ja, men exakt. Det är det där. Det är en map. Ja, och då kräver den också att du måste ha en annan kompensationsmodell. För om kompensationsmodellen är så linjär så funkar den inte. Du måste tänka som ett träd istället för att tänka.
+[00:38:00 - 00:38:15] Ja, exakt. Men det är det vi skiftar i dem från ett linjärt. Det här är en del av oss. Det här är ju en del i det oavsett. Exakt.
+[00:38:15 - 00:38:30] om diskussionen och energin i rummet skulle jag sätta en engagemangskåren på 8 av 10. Den kreativa energin kring visualiseringen av ett njur och nätverk och ni bygger vidare på andras idéer. Det som gör att det inte når helt upp till 10 är att några deltagare fortfarande verkar vara.
+[00:38:30 - 00:38:45] aktivt deltagande. Det hände själv. Ja, det var coolt. Det var bra och nu körde vi spann med lite här. Jag kör möten i Torbjörn.
+[00:38:45 - 00:39:00] röra. Det här är egentligen varför det här kom till mig. Varför är det så här? Vad serverar vi? Vad lär vi ut? Har vi där? Det här är det egentligen. Det är ju så som vi gör nu, men vi kommer bra. Vi kommer digitalisera det för oss själva.
+[00:39:00 - 00:39:15] Vi ser ganska småmedel. Klådig svinbrott i artefakt och bygga snygga. Bara att kunna visa. Här är kärnan av hur vi jobbar just nu.
+[00:39:15 - 00:39:30] Men innehållet kommer att förändras hela tiden. Det här är det ju som vi håller på med. Exakt den. Jag skulle säga att det är ingen unikitet som vi har. Ja, vi pratar inte om.
+[00:39:30 - 00:39:45] Det här är riktigt bra. Nice emergence.
+[00:39:45 - 00:40:00] Ja, det är bra. Ett Vad var det här med mountager? Sedan tankaren hittar oss i.
+[00:40:00 - 00:40:15] Här är stora hälsningar. På.
+[00:40:15 - 00:40:30] Det är du som håller oss tillbaka. Din personliga ekonomi och din kraft.
+[00:40:30 - 00:40:45] Inspirerad design. Det bad jag inte om, men det tyckte den vi skulle ha. Vi vill se. Det gör en html sida på den och i kort fast med lite Javascript. Konster glow.
+[00:40:45 - 00:41:00] Geometry Mouse Controls is dragging. Som vid Skoll animation. Det låter bra. Okej, okej. Du kolla.
+[00:41:00 - 00:41:15] Det är ju bra start. Alltså rent såhär. River knowledge crack. Click and drag to rotate. Men hur vet man vad som är vad? Färg. Leg. Vänta, det heter inte no. Det heter edges.
+[00:41:15 - 00:41:30] och skapa 30 noder istället. Behåll alla annan funktionalitet. Vad var frågan? Ja, men det får.
+[00:41:30 - 00:41:45] Den var ju supersnurr, men jag tycker det är lite bra att jag har ritat någonting som händer. Det är precis så här jag tycker att man ska se det. Du, Stefan, kan man... Du såg det inte ens. Nej. Kan man kära... Du är i observation.
+[00:41:45 - 00:42:00] Kan man kära, kan man dela en korsbåg till ett klod? Ja... Bra fråga. Det finns ingen sån.
+[00:42:00 - 00:42:15] Okej, jag ska bara göra en sista uppdatering här. Jag vill att du väl byter ut färgerna.
+[00:42:15 - 00:42:30] Jag vill faktiskt göra det här nu, för det känns meningsfullt. Det här kommer att bli något. Den här kommer att bli något. Vi har redan koden. Det var cool, Sara. I vårt framtida office så har vi...
+[00:42:30 - 00:42:45] och så fort någon har lärt sig någonting eller har nyttat någon knowledge intryck till våran stack så pingar jag till. Du pingar till och du kan prata med det direkt.
+[00:42:45 - 00:43:00] Fan ska vi göra så där ska vi göra. Då ska vi se vilka färger har vi. Vi har den.
+[00:43:00 - 00:43:15] Det er en. Hallo? Det er en. Det var en. Nå er den feil.
+[00:43:15 - 00:43:30] Och sen lägg flera noder också i mitten och på andra nivåer.
+[00:43:30 - 00:43:45] är ytterst. Vill du se något mer? Ska vi ha en namn på dem här eller? Ja, man måste ju förstå. Vet vad det är Gunnar får närför då börjar det bli komplext med hur det kommer bli.
+[00:43:45 - 00:44:00] Ska de ha samma storlek eller ska de vara olika stora? Egentligen så borde de vara olika stora för vi kommer ha insikter. Det skulle kunna vara magnitud liksom. Ja men exakt. Och sen så kanske man har en liksom någonting som förklarar.
+[00:44:00 - 00:44:15] Det kanske inte ska vara i själva modellen utan det där är bara att det visar att elever att det är konstant lärande och itererande inom vårt space liksom. För att säga, vad har vi lärt oss i bibliotekan i flera dimensioner i sig?
+[00:44:15 - 00:44:30] Det är förstås mycketregation av flera steg. Och sen kommer det vara insikter om eller från bolagen och om hur vi gör affären ...
+[00:44:30 - 00:44:45] Känner att här finns det här vill vi vara eller här vill vi satsa på. Precis. Nu blir det våra färger. Nu börjar den likna någonting.
+[00:44:45 - 00:45:00] Så här har vi koden. Det här är ju jävligt coolt alltså. Kan vi inte ha som mål att vi är de första vaggonerna där på Karolina och träffar henne sedan 20-talet? Det kan ju helt klart vara en del av temat liksom. Det skulle ju vara jättekul.
+[00:45:00 - 00:45:15] Det kan ju vara en massa grejer, men... Samma sak här. Men det har väl alltid varit så här, hur kommer vi out to market egentligen? Ja, exakt. Men så här, så här blir det.
+[00:45:15 - 00:45:30] Jag har varit här nu. Ja, men jag summerar. För den här är ju... Ja, just det. Så att varje konversation som branschar över tid kan man sen connecta till varandra. Kan inte du skicka...
+[00:45:30 - 00:45:45] Skicka den till mig nu. Du skulle inte behöva hela den här. Jag har skickat en sammanställning. Du behöver bara kopiera koden. Lägg den till mig på Discord nu så kommer jag att klistra in den här och säga...
+[00:45:45 - 00:46:00] Men fast med den där funktionaliteten att vi har gjort den där spår honom där du nu har två minuter. Vi pratar om fredag. Vi har lanserat. Kerstin kommer. Jag har.
+[00:46:00 - 00:46:15] Säger att det har varit så många nej, nej, inte utan 9 30. Vi ska utforska flexibelt och det är ett koncept kring. Hon vill vara med och bidra lite.
+[00:46:15 - 00:46:30] Det är typ en lagerfrås nu i vad vi som ska hända varje dag. Du förstår inte hur hon har förändrat mitt liv. Hon har hittat om det och du har hittat om det också. Det är helt magiskt. Det är helt magiskt. Och jag har inte träffat henne efter sommaren. Det var så roligt.
+[00:46:30 - 00:46:45] Det var ju en pannang på det hon initierade i mig som jag som inkropp sen tog vidare och evolverade, men det var hon som gjorde startpunkten för mig och min familj. Visar du nu eller? Okej, men då bjuder du in till 9.30, okej då är hon där.
+[00:46:45 - 00:47:00] ändå om om ni ska vara med. Det kommer vara liksom ett lite mer djupare utforskande kring flexible pör som är ett av de vinklar som vi skulle kunna ha med i vår meta framgång som ska guida våra modeller och flexible. Perfekt kommer.
+[00:47:00 - 00:47:15] Jag vet inte om han var gestalterapeut, men han var i alla fall konstnär och jobbade mycket med... Det har han använts en del i utbildning. För att människor ska kunna gå utanför sin ran. Alltså flexible purposing, hur kan du hela tiden omdefiniera syftet?
+[00:47:15 - 00:47:30] Jo, men det är liksom tid och pengar och engagemang, det är en massa grejer som kommer in i det. Ni är jättevälkomna. Men det kommer vara ett, det kommer inte vara business liksom. Bara så att vi sätter förväntningarna där.
+[00:47:30 - 00:47:45] ändå döda min själv. Jag har varit en förvånad. Men för gränsen till honom som lärden är 12 till 12. Fyrtiofem år sedan han blev vanligare i början. Klockan är det vi pratade om förra veckan. Vi skulle ha någon annanstans, men det kan vi inte vara. Nej.
+[00:47:45 - 00:48:00] Behåll all ui och ux i modellen du skapat, men bygg in
+[00:48:00 - 00:48:15] in funktionaliteten i skriptet från skriptet, som du får av mig nu.
+[00:48:15 - 00:48:30] Skraftigt medan den första version som jag vill göra är
+[00:48:30 - 00:48:45] Svarta hålet med. Tjena på kontoret. Nej.
+[00:48:45 - 00:49:00] Ska vi ta det på telefon det vi gör då? Jag sitter i min dator, jag håller precis på att ha avslutat, annat nätter bara. Ja, ge mig tre minuter.
+[00:49:00 - 00:49:15] Själv. Vill ni ju vara kvar här eller ska jag hitta någonting annanstans bara? Nej, vart är klockan? Nej, den är 3. 3? Vi ska inte vara där på klockan 5 innan läsningen går ut på datorn. Ja, men vi kanske ska lätta dem sitta kvar?
+[00:49:15 - 00:49:30] Men vi har ju lite att... ...lura på. Det tog vi... ...det här var grymt. Det ser ju bra ut. Slå på. Vad är det du skriver på?
+[00:49:30 - 00:49:45] Fast vi har suttit på olika ställen och tänkt, så tänker vi egentligen ungefär likadant. Vi jobbar ju bara på olika... Så jag tänker på hur enklare man det gör så börjar vi... Jo!
+[00:49:45 - 00:50:00] Så enkla är jag inte. Nej, men det är helt objektivt. Vi har fått göra de här delarna. Så plockar vi ner det nu. Okej, men vad börjar man då? För det här är ju utopin som man skulle kunna bygga.
+[00:50:00 - 00:50:15] kan man också göra. Men då kan vi börja med att börja med att börja med den. Vi börjar med den som jag genererade. Exakt så nu bygger en noll.
+[00:50:15 - 00:50:30] Vi byggde ju sådana här i realtid som följer realtidskonversationer på webbar, så du kan se hur de rör på sig. Men fattar cool har det här att sälja in ett bolag mot investerare?
+[00:50:30 - 00:50:45] så att de rördes i realtid med förändringen i konversationer. Det är så jävla coolt, för du kan se hur kompetensen växer.
+[00:50:45 - 00:51:00] Det är ju extremt hårt, jag antar att du tappade bort ur ditt mörk, mörk, grön alla.
+[00:51:00 - 00:51:15] Men Stefan, jag skulle, jag från förra Att jag skulle vilja att vi fick träffa Våra kompisar och.
+[00:51:15 - 00:51:30] Det är de som jag byggde sånt här med att göra på MLP förut. Ah, just det, ni bara höll på med. Han är ju sitt fast plats, människa. Alltså han bygger ju allting utifrån det, så det är det mest kompetenta fortfarande. Är han aligned? Ja, de är aligned som i helvete.
+[00:51:30 - 00:51:45] Men varför, vad väntar du på? Vi bjuder in Karolijn till mötet med dem.
+[00:51:45 - 00:52:00] För att få lite avkoppling. En marathon, en sån här super lång distans löpare. Och hon kan... Hon är språk. Alltså kompetitivt linguistiskt. Linguist. Den här ska ha sex språk.
+[00:52:00 - 00:52:15] Jag kommer till ett tekniskt nivå. Om vi kunde förklara det här för människor som inte är bedrovade skulle vi kunna plocka ett behov av det som skulle vara.
+[00:52:15 - 00:52:30] ett helt nytt internet. Ja, det är precis det vi bygger ju parallellt utanför existerande och vi förstår vad som betyder för det här. Men vad är kontrollen? Yes, nu är det.
+[00:52:30 - 00:52:45] Svara nu bara. Det kan inte ge dig ett framförallt. Tänk om han hade tillgång till att förstå vad vi kan göra för honom.
+[00:52:45 - 00:53:00] Ja, vi hoppas att de inte är farsamma Windows-utvecklare.
