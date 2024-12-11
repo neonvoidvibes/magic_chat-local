@@ -121,6 +121,10 @@ class WebChat:
         else:
             self.system_prompt = system_prompt
 
+        # Load transcript if listening is enabled
+        if self.config.listen_transcript:
+            self.load_transcript()
+
     def reload_memory(self):
         """Reload memory from chat history files"""
         # Import the necessary functions

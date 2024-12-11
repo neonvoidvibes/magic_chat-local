@@ -413,25 +413,6 @@ def main():
 
             org_id = 'River'  # Replace with actual organization ID as needed
 
-            try:
-                frameworks_key = 'frameworks/frameworks.txt'
-                response = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=frameworks_key)
-                frameworks_content = response['Body'].read().decode('utf-8')
-            except Exception as e:
-                logging.error(f"Error loading frameworks from S3: {e}")
-
-            try:
-                context_key = get_latest_context(config.agent_name)
-                if context_key:
-                    response = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=context_key)
-                    context_content = response['Body'].read().decode('utf-8')
-                else:
-                    context_key = f'context/context_{org_id}.txt'
-                    response = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=context_key)
-                    context_content = response['Body'].read().decode('utf-8')
-            except Exception as e:
-                logging.error(f"Error loading context for {org_id}: {e}")
-
             # Load initial content based on command line arguments
             if config.listen_transcript:
                 transcript_key = get_latest_transcript_file(config.agent_name)
