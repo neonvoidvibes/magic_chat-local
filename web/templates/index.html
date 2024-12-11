@@ -637,6 +637,8 @@
             }
             
             lastMessage = messageDiv;
+            // Scroll the message into view immediately after adding it
+            messageDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
             return messageDiv;
         }
 
