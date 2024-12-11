@@ -344,12 +344,15 @@
             font-family: 'Avenir Next', 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             font-weight: 400;
             resize: none;
-            overflow-y: auto;
+            overflow-y: hidden;
             line-height: 28px;
             height: 72px;
             min-height: 72px;
             max-height: calc(72px + (28px * 4));
             box-sizing: border-box;
+            display: block;
+            white-space: pre-wrap;
+            word-wrap: break-word;
         }
 
         #message-input::placeholder {
@@ -495,37 +498,11 @@
             const welcomeText = document.getElementById('welcome-text');
             if (welcomeText) welcomeText.remove();
 
-            // Create new textarea with same properties
-            const newInput = document.createElement('textarea');
-            newInput.id = 'message-input';
-            newInput.placeholder = 'Message AI';
-            newInput.rows = 1;
-            newInput.style.height = initialHeight + 'px';
-            
-            // Replace old textarea
-            messageInput.parentNode.replaceChild(newInput, messageInput);
-            
-            // Reattach event listeners
-            newInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    sendMessage();
-                }
-            });
-            
-            newInput.addEventListener('input', function() {
-                if (this.value.trim() === '') {
-                    this.style.height = initialHeight + 'px';
-                } else {
-                    this.style.height = initialHeight + 'px';
-                    if (this.scrollHeight > initialHeight) {
-                        this.style.height = Math.min(this.scrollHeight, parseInt(getComputedStyle(this).maxHeight)) + 'px';
-                    }
-                }
-            });
-
-            // Focus the new input
-            newInput.focus();
+            // Just clear the input and reset height
+            messageInput.value = '';
+            messageInput.style.height = '72px';
+            messageInput.blur();  // Remove focus
+            setTimeout(() => messageInput.focus(), 0);  // Re-focus after a tick
             
             // Handle commands
             if (message.startsWith('!')) {
