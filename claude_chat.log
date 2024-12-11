@@ -16987,3 +16987,1146 @@ b''
 2024-12-12 00:24:38,030 [ERROR] Error in main loop: name 'reload_memory' is not defined
 2024-12-12 00:25:32,549 [ERROR] Error reading agent frameworks from S3: An error occurred (NoSuchKey) when calling the GetObject operation: The specified key does not exist.
 2024-12-12 00:25:32,804 [ERROR] No agent frameworks file at 'organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md' in S3.
+2024-12-12 00:45:16,393 [DEBUG] IMDS ENDPOINT: http://169.254.169.254/
+2024-12-12 00:45:16,393 [DEBUG] Looking for credentials via: env
+2024-12-12 00:45:16,393 [INFO] Found credentials in environment variables.
+2024-12-12 00:45:16,393 [DEBUG] Event choose-service-name: calling handler <function handle_service_name_alias at 0x10606f060>
+2024-12-12 00:45:16,394 [DEBUG] Event creating-client-class.s3: calling handler <function add_generate_presigned_post at 0x106000c20>
+2024-12-12 00:45:16,394 [DEBUG] Event creating-client-class.s3: calling handler <function lazy_call.<locals>._handler at 0x10667c7c0>
+2024-12-12 00:45:16,394 [DEBUG] Event creating-client-class.s3: calling handler <function add_generate_presigned_url at 0x1060009a0>
+2024-12-12 00:45:16,394 [DEBUG] Looking for endpoint for s3 via: environment_service
+2024-12-12 00:45:16,394 [DEBUG] Looking for endpoint for s3 via: environment_global
+2024-12-12 00:45:16,394 [DEBUG] Looking for endpoint for s3 via: config_service
+2024-12-12 00:45:16,394 [DEBUG] Looking for endpoint for s3 via: config_global
+2024-12-12 00:45:16,394 [DEBUG] No configured endpoint found.
+2024-12-12 00:45:16,394 [DEBUG] Setting s3 timeout as (60, 60)
+2024-12-12 00:45:16,395 [DEBUG] Registering retry handlers for service: s3
+2024-12-12 00:45:16,395 [DEBUG] Registering S3 region redirector handler
+2024-12-12 00:45:16,395 [DEBUG] Registering S3Express Identity Resolver
+2024-12-12 00:45:16,395 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function sse_md5 at 0x1060a9da0>
+2024-12-12 00:45:16,395 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function validate_bucket_name at 0x1060a9d00>
+2024-12-12 00:45:16,395 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function remove_bucket_from_url_paths_from_model at 0x1060abec0>
+2024-12-12 00:45:16,395 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <bound method S3RegionRedirectorv2.annotate_request_context of <botocore.utils.S3RegionRedirectorv2 object at 0x11126bcd0>>
+2024-12-12 00:45:16,395 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <bound method ClientCreator._inject_s3_input_parameters of <botocore.client.ClientCreator object at 0x11121bbd0>>
+2024-12-12 00:45:16,395 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function generate_idempotent_uuid at 0x1060a9b20>
+2024-12-12 00:45:16,395 [DEBUG] Event before-endpoint-resolution.s3: calling handler <function customize_endpoint_resolver_builtins at 0x1060bc0e0>
+2024-12-12 00:45:16,395 [DEBUG] Event before-endpoint-resolution.s3: calling handler <bound method S3RegionRedirectorv2.redirect_from_cache of <botocore.utils.S3RegionRedirectorv2 object at 0x11126bcd0>>
+2024-12-12 00:45:16,395 [DEBUG] Calling endpoint provider with parameters: {'Bucket': 'aiademomagicaudio', 'Region': 'eu-north-1', 'UseFIPS': False, 'UseDualStack': False, 'ForcePathStyle': False, 'Accelerate': False, 'UseGlobalEndpoint': False, 'Key': '_config/systemprompt_base.md', 'DisableMultiRegionAccessPoints': False, 'UseArnRegion': True}
+2024-12-12 00:45:16,396 [DEBUG] Endpoint provider result: https://aiademomagicaudio.s3.eu-north-1.amazonaws.com
+2024-12-12 00:45:16,396 [DEBUG] Selecting from endpoint provider's list of auth schemes: "sigv4". User selected auth scheme is: "None"
+2024-12-12 00:45:16,396 [DEBUG] Selected auth type "v4" as "v4" with signing context params: {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}
+2024-12-12 00:45:16,396 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_expect_header at 0x1060aa0c0>
+2024-12-12 00:45:16,396 [DEBUG] Event before-call.s3.GetObject: calling handler <bound method S3ExpressIdentityResolver.apply_signing_cache_key of <botocore.utils.S3ExpressIdentityResolver object at 0x11126ca90>>
+2024-12-12 00:45:16,396 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_recursion_detection_header at 0x1060a82c0>
+2024-12-12 00:45:16,396 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_query_compatibility_header at 0x1060bc5e0>
+2024-12-12 00:45:16,396 [DEBUG] Event before-call.s3.GetObject: calling handler <function inject_api_version_header_if_needed at 0x1060ab600>
+2024-12-12 00:45:16,396 [DEBUG] Making request for OperationModel(name=GetObject) with params: {'url_path': '/_config/systemprompt_base.md', 'query_string': {}, 'method': 'GET', 'headers': {'User-Agent': 'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57'}, 'body': b'', 'auth_path': '/aiademomagicaudio/_config/systemprompt_base.md', 'url': 'https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/_config/systemprompt_base.md', 'context': {'client_region': 'eu-north-1', 'client_config': <botocore.config.Config object at 0x111257550>, 'has_streaming_input': False, 'auth_type': 'v4', 'unsigned_payload': None, 's3_redirect': {'redirected': False, 'bucket': 'aiademomagicaudio', 'params': {'Bucket': 'aiademomagicaudio', 'Key': '_config/systemprompt_base.md'}}, 'input_params': {'Bucket': 'aiademomagicaudio', 'Key': '_config/systemprompt_base.md'}, 'signing': {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}, 'endpoint_properties': {'authSchemes': [{'disableDoubleEncoding': True, 'name': 'sigv4', 'signingName': 's3', 'signingRegion': 'eu-north-1'}]}}}
+2024-12-12 00:45:16,397 [DEBUG] Event request-created.s3.GetObject: calling handler <bound method RequestSigner.handler of <botocore.signers.RequestSigner object at 0x111257510>>
+2024-12-12 00:45:16,397 [DEBUG] Event choose-signer.s3.GetObject: calling handler <function set_operation_specific_signer at 0x1060a9940>
+2024-12-12 00:45:16,397 [DEBUG] Event before-sign.s3.GetObject: calling handler <function remove_arn_from_signing_path at 0x1060bc040>
+2024-12-12 00:45:16,397 [DEBUG] Event before-sign.s3.GetObject: calling handler <bound method S3ExpressIdentityResolver.resolve_s3express_identity of <botocore.utils.S3ExpressIdentityResolver object at 0x11126ca90>>
+2024-12-12 00:45:16,397 [DEBUG] Calculating signature using v4 auth.
+2024-12-12 00:45:16,397 [DEBUG] CanonicalRequest:
+GET
+/_config/systemprompt_base.md
+
+host:aiademomagicaudio.s3.eu-north-1.amazonaws.com
+x-amz-content-sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+x-amz-date:20241211T234516Z
+
+host;x-amz-content-sha256;x-amz-date
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+2024-12-12 00:45:16,397 [DEBUG] StringToSign:
+AWS4-HMAC-SHA256
+20241211T234516Z
+20241211/eu-north-1/s3/aws4_request
+236df5ed98a38819cf07484151abd221898aca788d6c7a5b2a71246ced359f1d
+2024-12-12 00:45:16,397 [DEBUG] Signature:
+eae516f9e3aa6ab398584073654137bf06f584d893ab1b84705bb94031e9afe1
+2024-12-12 00:45:16,397 [DEBUG] Event request-created.s3.GetObject: calling handler <function add_retry_headers at 0x1060abe20>
+2024-12-12 00:45:16,397 [DEBUG] Sending http request: <AWSPreparedRequest stream_output=True, method=GET, url=https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/_config/systemprompt_base.md, headers={'User-Agent': b'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57', 'X-Amz-Date': b'20241211T234516Z', 'X-Amz-Content-SHA256': b'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 'Authorization': b'AWS4-HMAC-SHA256 Credential=AKIAWPPO56WM77JT7YP7/20241211/eu-north-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=eae516f9e3aa6ab398584073654137bf06f584d893ab1b84705bb94031e9afe1', 'amz-sdk-invocation-id': b'989ed581-dec3-4fd7-b12f-00c4c54a7e51', 'amz-sdk-request': b'attempt=1'}>
+2024-12-12 00:45:16,397 [DEBUG] Certificate path: /Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_chat-local/venv/lib/python3.11/site-packages/certifi/cacert.pem
+2024-12-12 00:45:16,398 [DEBUG] Starting new HTTPS connection (1): aiademomagicaudio.s3.eu-north-1.amazonaws.com:443
+2024-12-12 00:45:16,500 [DEBUG] https://aiademomagicaudio.s3.eu-north-1.amazonaws.com:443 "GET /_config/systemprompt_base.md HTTP/11" 200 7630
+2024-12-12 00:45:16,500 [DEBUG] Event before-parse.s3.GetObject: calling handler <function _handle_200_error at 0x1060bc400>
+2024-12-12 00:45:16,500 [DEBUG] Event before-parse.s3.GetObject: calling handler <function handle_expires_header at 0x1060bc220>
+2024-12-12 00:45:16,500 [DEBUG] Response headers: {'x-amz-id-2': 'FPU74YDo7R/FgnYbIgirOQto6L5Aku7jC0s6WCCJsaC/3ALOfngj4duTrTqt9nu8FjmQn/wZn1c=', 'x-amz-request-id': 'PJN1NFAMYVENQHDW', 'Date': 'Wed, 11 Dec 2024 23:45:17 GMT', 'Last-Modified': 'Wed, 11 Dec 2024 15:43:59 GMT', 'ETag': '"e6bebaaa8f78a67cd957e28ad1c50f18"', 'x-amz-server-side-encryption': 'AES256', 'Accept-Ranges': 'bytes', 'Content-Type': 'text/markdown', 'Content-Length': '7630', 'Server': 'AmazonS3'}
+2024-12-12 00:45:16,500 [DEBUG] Response body:
+<botocore.response.StreamingBody object at 0x1112660b0>
+2024-12-12 00:45:16,502 [DEBUG] Event needs-retry.s3.GetObject: calling handler <function _update_status_code at 0x1060bc540>
+2024-12-12 00:45:16,502 [DEBUG] Event needs-retry.s3.GetObject: calling handler <botocore.retryhandler.RetryHandler object at 0x11126c750>
+2024-12-12 00:45:16,502 [DEBUG] No retry needed.
+2024-12-12 00:45:16,502 [DEBUG] Event needs-retry.s3.GetObject: calling handler <bound method S3RegionRedirectorv2.redirect_from_error of <botocore.utils.S3RegionRedirectorv2 object at 0x11126bcd0>>
+2024-12-12 00:45:16,502 [DEBUG] Event choose-service-name: calling handler <function handle_service_name_alias at 0x10606f060>
+2024-12-12 00:45:16,502 [DEBUG] Event creating-client-class.s3: calling handler <function add_generate_presigned_post at 0x106000c20>
+2024-12-12 00:45:16,502 [DEBUG] Event creating-client-class.s3: calling handler <function lazy_call.<locals>._handler at 0x10667c7c0>
+2024-12-12 00:45:16,503 [DEBUG] Event creating-client-class.s3: calling handler <function add_generate_presigned_url at 0x1060009a0>
+2024-12-12 00:45:16,503 [DEBUG] Looking for endpoint for s3 via: environment_service
+2024-12-12 00:45:16,503 [DEBUG] Looking for endpoint for s3 via: environment_global
+2024-12-12 00:45:16,503 [DEBUG] Looking for endpoint for s3 via: config_service
+2024-12-12 00:45:16,503 [DEBUG] Looking for endpoint for s3 via: config_global
+2024-12-12 00:45:16,503 [DEBUG] No configured endpoint found.
+2024-12-12 00:45:16,503 [DEBUG] Setting s3 timeout as (60, 60)
+2024-12-12 00:45:16,504 [DEBUG] Registering retry handlers for service: s3
+2024-12-12 00:45:16,504 [DEBUG] Registering S3 region redirector handler
+2024-12-12 00:45:16,504 [DEBUG] Registering S3Express Identity Resolver
+2024-12-12 00:45:16,504 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function sse_md5 at 0x1060a9da0>
+2024-12-12 00:45:16,504 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function validate_bucket_name at 0x1060a9d00>
+2024-12-12 00:45:16,504 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function remove_bucket_from_url_paths_from_model at 0x1060abec0>
+2024-12-12 00:45:16,504 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <bound method S3RegionRedirectorv2.annotate_request_context of <botocore.utils.S3RegionRedirectorv2 object at 0x1112cd590>>
+2024-12-12 00:45:16,504 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <bound method ClientCreator._inject_s3_input_parameters of <botocore.client.ClientCreator object at 0x1110f8b90>>
+2024-12-12 00:45:16,504 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function generate_idempotent_uuid at 0x1060a9b20>
+2024-12-12 00:45:16,504 [DEBUG] Event before-endpoint-resolution.s3: calling handler <function customize_endpoint_resolver_builtins at 0x1060bc0e0>
+2024-12-12 00:45:16,504 [DEBUG] Event before-endpoint-resolution.s3: calling handler <bound method S3RegionRedirectorv2.redirect_from_cache of <botocore.utils.S3RegionRedirectorv2 object at 0x1112cd590>>
+2024-12-12 00:45:16,504 [DEBUG] Calling endpoint provider with parameters: {'Bucket': 'aiademomagicaudio', 'Region': 'eu-north-1', 'UseFIPS': False, 'UseDualStack': False, 'ForcePathStyle': False, 'Accelerate': False, 'UseGlobalEndpoint': False, 'Key': 'organizations/river/agents/nordicequation/_config/systemprompt_aID-nordicequation.md', 'DisableMultiRegionAccessPoints': False, 'UseArnRegion': True}
+2024-12-12 00:45:16,505 [DEBUG] Endpoint provider result: https://aiademomagicaudio.s3.eu-north-1.amazonaws.com
+2024-12-12 00:45:16,505 [DEBUG] Selecting from endpoint provider's list of auth schemes: "sigv4". User selected auth scheme is: "None"
+2024-12-12 00:45:16,505 [DEBUG] Selected auth type "v4" as "v4" with signing context params: {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}
+2024-12-12 00:45:16,505 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_expect_header at 0x1060aa0c0>
+2024-12-12 00:45:16,505 [DEBUG] Event before-call.s3.GetObject: calling handler <bound method S3ExpressIdentityResolver.apply_signing_cache_key of <botocore.utils.S3ExpressIdentityResolver object at 0x1112ce0d0>>
+2024-12-12 00:45:16,505 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_recursion_detection_header at 0x1060a82c0>
+2024-12-12 00:45:16,505 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_query_compatibility_header at 0x1060bc5e0>
+2024-12-12 00:45:16,505 [DEBUG] Event before-call.s3.GetObject: calling handler <function inject_api_version_header_if_needed at 0x1060ab600>
+2024-12-12 00:45:16,505 [DEBUG] Making request for OperationModel(name=GetObject) with params: {'url_path': '/organizations/river/agents/nordicequation/_config/systemprompt_aID-nordicequation.md', 'query_string': {}, 'method': 'GET', 'headers': {'User-Agent': 'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57'}, 'body': b'', 'auth_path': '/aiademomagicaudio/organizations/river/agents/nordicequation/_config/systemprompt_aID-nordicequation.md', 'url': 'https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/organizations/river/agents/nordicequation/_config/systemprompt_aID-nordicequation.md', 'context': {'client_region': 'eu-north-1', 'client_config': <botocore.config.Config object at 0x11127f510>, 'has_streaming_input': False, 'auth_type': 'v4', 'unsigned_payload': None, 's3_redirect': {'redirected': False, 'bucket': 'aiademomagicaudio', 'params': {'Bucket': 'aiademomagicaudio', 'Key': 'organizations/river/agents/nordicequation/_config/systemprompt_aID-nordicequation.md'}}, 'input_params': {'Bucket': 'aiademomagicaudio', 'Key': 'organizations/river/agents/nordicequation/_config/systemprompt_aID-nordicequation.md'}, 'signing': {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}, 'endpoint_properties': {'authSchemes': [{'disableDoubleEncoding': True, 'name': 'sigv4', 'signingName': 's3', 'signingRegion': 'eu-north-1'}]}}}
+2024-12-12 00:45:16,505 [DEBUG] Event request-created.s3.GetObject: calling handler <bound method RequestSigner.handler of <botocore.signers.RequestSigner object at 0x11127f590>>
+2024-12-12 00:45:16,505 [DEBUG] Event choose-signer.s3.GetObject: calling handler <function set_operation_specific_signer at 0x1060a9940>
+2024-12-12 00:45:16,505 [DEBUG] Event before-sign.s3.GetObject: calling handler <function remove_arn_from_signing_path at 0x1060bc040>
+2024-12-12 00:45:16,505 [DEBUG] Event before-sign.s3.GetObject: calling handler <bound method S3ExpressIdentityResolver.resolve_s3express_identity of <botocore.utils.S3ExpressIdentityResolver object at 0x1112ce0d0>>
+2024-12-12 00:45:16,505 [DEBUG] Calculating signature using v4 auth.
+2024-12-12 00:45:16,505 [DEBUG] CanonicalRequest:
+GET
+/organizations/river/agents/nordicequation/_config/systemprompt_aID-nordicequation.md
+
+host:aiademomagicaudio.s3.eu-north-1.amazonaws.com
+x-amz-content-sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+x-amz-date:20241211T234516Z
+
+host;x-amz-content-sha256;x-amz-date
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+2024-12-12 00:45:16,505 [DEBUG] StringToSign:
+AWS4-HMAC-SHA256
+20241211T234516Z
+20241211/eu-north-1/s3/aws4_request
+44c5fe0a244cccb6d6955ed314c46626f4a106dcc00c967cd3963735154e786b
+2024-12-12 00:45:16,505 [DEBUG] Signature:
+2ae82282fd1f4957d7eabfc4e5e11b531d087b19227f9139143197ebec8ebdb7
+2024-12-12 00:45:16,505 [DEBUG] Event request-created.s3.GetObject: calling handler <function add_retry_headers at 0x1060abe20>
+2024-12-12 00:45:16,505 [DEBUG] Sending http request: <AWSPreparedRequest stream_output=True, method=GET, url=https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/organizations/river/agents/nordicequation/_config/systemprompt_aID-nordicequation.md, headers={'User-Agent': b'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57', 'X-Amz-Date': b'20241211T234516Z', 'X-Amz-Content-SHA256': b'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 'Authorization': b'AWS4-HMAC-SHA256 Credential=AKIAWPPO56WM77JT7YP7/20241211/eu-north-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=2ae82282fd1f4957d7eabfc4e5e11b531d087b19227f9139143197ebec8ebdb7', 'amz-sdk-invocation-id': b'77ba70c7-6db8-4aa2-b2d2-1100a0f14490', 'amz-sdk-request': b'attempt=1'}>
+2024-12-12 00:45:16,505 [DEBUG] Certificate path: /Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_chat-local/venv/lib/python3.11/site-packages/certifi/cacert.pem
+2024-12-12 00:45:16,505 [DEBUG] Starting new HTTPS connection (1): aiademomagicaudio.s3.eu-north-1.amazonaws.com:443
+2024-12-12 00:45:16,552 [DEBUG] https://aiademomagicaudio.s3.eu-north-1.amazonaws.com:443 "GET /organizations/river/agents/nordicequation/_config/systemprompt_aID-nordicequation.md HTTP/11" 200 3659
+2024-12-12 00:45:16,552 [DEBUG] Event before-parse.s3.GetObject: calling handler <function _handle_200_error at 0x1060bc400>
+2024-12-12 00:45:16,552 [DEBUG] Event before-parse.s3.GetObject: calling handler <function handle_expires_header at 0x1060bc220>
+2024-12-12 00:45:16,552 [DEBUG] Response headers: {'x-amz-id-2': 'W2PuzKuH78Eb5ue1hdVevjoKMoAdLBNapNG3w7Hl4tqjWhFhhW77KF6C5y/UvFo0Htdqjqc82to=', 'x-amz-request-id': 'PJNA05YDR063WFG9', 'Date': 'Wed, 11 Dec 2024 23:45:17 GMT', 'Last-Modified': 'Wed, 11 Dec 2024 19:00:37 GMT', 'ETag': '"ab1730aae755b22e7c2afc82872671ed"', 'x-amz-server-side-encryption': 'AES256', 'Accept-Ranges': 'bytes', 'Content-Type': 'text/markdown', 'Content-Length': '3659', 'Server': 'AmazonS3'}
+2024-12-12 00:45:16,552 [DEBUG] Response body:
+<botocore.response.StreamingBody object at 0x1112ca2f0>
+2024-12-12 00:45:16,552 [DEBUG] Event needs-retry.s3.GetObject: calling handler <function _update_status_code at 0x1060bc540>
+2024-12-12 00:45:16,552 [DEBUG] Event needs-retry.s3.GetObject: calling handler <botocore.retryhandler.RetryHandler object at 0x11126d750>
+2024-12-12 00:45:16,552 [DEBUG] No retry needed.
+2024-12-12 00:45:16,552 [DEBUG] Event needs-retry.s3.GetObject: calling handler <bound method S3RegionRedirectorv2.redirect_from_error of <botocore.utils.S3RegionRedirectorv2 object at 0x1112cd590>>
+2024-12-12 00:45:16,553 [DEBUG] Event choose-service-name: calling handler <function handle_service_name_alias at 0x10606f060>
+2024-12-12 00:45:16,553 [DEBUG] Event creating-client-class.s3: calling handler <function add_generate_presigned_post at 0x106000c20>
+2024-12-12 00:45:16,553 [DEBUG] Event creating-client-class.s3: calling handler <function lazy_call.<locals>._handler at 0x10667c7c0>
+2024-12-12 00:45:16,553 [DEBUG] Event creating-client-class.s3: calling handler <function add_generate_presigned_url at 0x1060009a0>
+2024-12-12 00:45:16,553 [DEBUG] Looking for endpoint for s3 via: environment_service
+2024-12-12 00:45:16,553 [DEBUG] Looking for endpoint for s3 via: environment_global
+2024-12-12 00:45:16,553 [DEBUG] Looking for endpoint for s3 via: config_service
+2024-12-12 00:45:16,553 [DEBUG] Looking for endpoint for s3 via: config_global
+2024-12-12 00:45:16,553 [DEBUG] No configured endpoint found.
+2024-12-12 00:45:16,554 [DEBUG] Setting s3 timeout as (60, 60)
+2024-12-12 00:45:16,554 [DEBUG] Registering retry handlers for service: s3
+2024-12-12 00:45:16,554 [DEBUG] Registering S3 region redirector handler
+2024-12-12 00:45:16,555 [DEBUG] Registering S3Express Identity Resolver
+2024-12-12 00:45:16,555 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function sse_md5 at 0x1060a9da0>
+2024-12-12 00:45:16,555 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function validate_bucket_name at 0x1060a9d00>
+2024-12-12 00:45:16,555 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function remove_bucket_from_url_paths_from_model at 0x1060abec0>
+2024-12-12 00:45:16,555 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <bound method S3RegionRedirectorv2.annotate_request_context of <botocore.utils.S3RegionRedirectorv2 object at 0x1112fbed0>>
+2024-12-12 00:45:16,555 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <bound method ClientCreator._inject_s3_input_parameters of <botocore.client.ClientCreator object at 0x106fa5010>>
+2024-12-12 00:45:16,555 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function generate_idempotent_uuid at 0x1060a9b20>
+2024-12-12 00:45:16,555 [DEBUG] Event before-endpoint-resolution.s3: calling handler <function customize_endpoint_resolver_builtins at 0x1060bc0e0>
+2024-12-12 00:45:16,555 [DEBUG] Event before-endpoint-resolution.s3: calling handler <bound method S3RegionRedirectorv2.redirect_from_cache of <botocore.utils.S3RegionRedirectorv2 object at 0x1112fbed0>>
+2024-12-12 00:45:16,555 [DEBUG] Calling endpoint provider with parameters: {'Bucket': 'aiademomagicaudio', 'Region': 'eu-north-1', 'UseFIPS': False, 'UseDualStack': False, 'ForcePathStyle': False, 'Accelerate': False, 'UseGlobalEndpoint': False, 'Key': '_config/frameworks_base.md', 'DisableMultiRegionAccessPoints': False, 'UseArnRegion': True}
+2024-12-12 00:45:16,555 [DEBUG] Endpoint provider result: https://aiademomagicaudio.s3.eu-north-1.amazonaws.com
+2024-12-12 00:45:16,555 [DEBUG] Selecting from endpoint provider's list of auth schemes: "sigv4". User selected auth scheme is: "None"
+2024-12-12 00:45:16,555 [DEBUG] Selected auth type "v4" as "v4" with signing context params: {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}
+2024-12-12 00:45:16,555 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_expect_header at 0x1060aa0c0>
+2024-12-12 00:45:16,555 [DEBUG] Event before-call.s3.GetObject: calling handler <bound method S3ExpressIdentityResolver.apply_signing_cache_key of <botocore.utils.S3ExpressIdentityResolver object at 0x111300d10>>
+2024-12-12 00:45:16,555 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_recursion_detection_header at 0x1060a82c0>
+2024-12-12 00:45:16,555 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_query_compatibility_header at 0x1060bc5e0>
+2024-12-12 00:45:16,555 [DEBUG] Event before-call.s3.GetObject: calling handler <function inject_api_version_header_if_needed at 0x1060ab600>
+2024-12-12 00:45:16,555 [DEBUG] Making request for OperationModel(name=GetObject) with params: {'url_path': '/_config/frameworks_base.md', 'query_string': {}, 'method': 'GET', 'headers': {'User-Agent': 'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57'}, 'body': b'', 'auth_path': '/aiademomagicaudio/_config/frameworks_base.md', 'url': 'https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/_config/frameworks_base.md', 'context': {'client_region': 'eu-north-1', 'client_config': <botocore.config.Config object at 0x1112ccd10>, 'has_streaming_input': False, 'auth_type': 'v4', 'unsigned_payload': None, 's3_redirect': {'redirected': False, 'bucket': 'aiademomagicaudio', 'params': {'Bucket': 'aiademomagicaudio', 'Key': '_config/frameworks_base.md'}}, 'input_params': {'Bucket': 'aiademomagicaudio', 'Key': '_config/frameworks_base.md'}, 'signing': {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}, 'endpoint_properties': {'authSchemes': [{'disableDoubleEncoding': True, 'name': 'sigv4', 'signingName': 's3', 'signingRegion': 'eu-north-1'}]}}}
+2024-12-12 00:45:16,555 [DEBUG] Event request-created.s3.GetObject: calling handler <bound method RequestSigner.handler of <botocore.signers.RequestSigner object at 0x1112ccc90>>
+2024-12-12 00:45:16,556 [DEBUG] Event choose-signer.s3.GetObject: calling handler <function set_operation_specific_signer at 0x1060a9940>
+2024-12-12 00:45:16,556 [DEBUG] Event before-sign.s3.GetObject: calling handler <function remove_arn_from_signing_path at 0x1060bc040>
+2024-12-12 00:45:16,556 [DEBUG] Event before-sign.s3.GetObject: calling handler <bound method S3ExpressIdentityResolver.resolve_s3express_identity of <botocore.utils.S3ExpressIdentityResolver object at 0x111300d10>>
+2024-12-12 00:45:16,556 [DEBUG] Calculating signature using v4 auth.
+2024-12-12 00:45:16,556 [DEBUG] CanonicalRequest:
+GET
+/_config/frameworks_base.md
+
+host:aiademomagicaudio.s3.eu-north-1.amazonaws.com
+x-amz-content-sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+x-amz-date:20241211T234516Z
+
+host;x-amz-content-sha256;x-amz-date
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+2024-12-12 00:45:16,556 [DEBUG] StringToSign:
+AWS4-HMAC-SHA256
+20241211T234516Z
+20241211/eu-north-1/s3/aws4_request
+ee4cbd3d4b1a751bb2f565a6b7b2b9115c379b2674693d525b36632dc21109d0
+2024-12-12 00:45:16,556 [DEBUG] Signature:
+07d2d29d32152babbb8c4a102115c48f5eb0a69544e5b02212ebffef451be18a
+2024-12-12 00:45:16,556 [DEBUG] Event request-created.s3.GetObject: calling handler <function add_retry_headers at 0x1060abe20>
+2024-12-12 00:45:16,556 [DEBUG] Sending http request: <AWSPreparedRequest stream_output=True, method=GET, url=https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/_config/frameworks_base.md, headers={'User-Agent': b'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57', 'X-Amz-Date': b'20241211T234516Z', 'X-Amz-Content-SHA256': b'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 'Authorization': b'AWS4-HMAC-SHA256 Credential=AKIAWPPO56WM77JT7YP7/20241211/eu-north-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=07d2d29d32152babbb8c4a102115c48f5eb0a69544e5b02212ebffef451be18a', 'amz-sdk-invocation-id': b'98b1f342-7fca-4de3-a139-f90fcf28bc85', 'amz-sdk-request': b'attempt=1'}>
+2024-12-12 00:45:16,556 [DEBUG] Certificate path: /Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_chat-local/venv/lib/python3.11/site-packages/certifi/cacert.pem
+2024-12-12 00:45:16,556 [DEBUG] Starting new HTTPS connection (1): aiademomagicaudio.s3.eu-north-1.amazonaws.com:443
+2024-12-12 00:45:16,613 [DEBUG] https://aiademomagicaudio.s3.eu-north-1.amazonaws.com:443 "GET /_config/frameworks_base.md HTTP/11" 200 7195
+2024-12-12 00:45:16,613 [DEBUG] Event before-parse.s3.GetObject: calling handler <function _handle_200_error at 0x1060bc400>
+2024-12-12 00:45:16,613 [DEBUG] Event before-parse.s3.GetObject: calling handler <function handle_expires_header at 0x1060bc220>
+2024-12-12 00:45:16,613 [DEBUG] Response headers: {'x-amz-id-2': 'O7UseWDmsQFJ+cNCzWatNwz8ie1AdJIt3JDy1YRQT6QXMM6AXharHi5nRt3qr7+2cH2WIpPTdxA=', 'x-amz-request-id': 'PJN5YEN2F3A3ED6Z', 'Date': 'Wed, 11 Dec 2024 23:45:17 GMT', 'Last-Modified': 'Wed, 11 Dec 2024 20:44:34 GMT', 'ETag': '"355e8347c91cdab51ec445456741ba8e"', 'x-amz-server-side-encryption': 'AES256', 'Accept-Ranges': 'bytes', 'Content-Type': 'text/plain', 'Content-Length': '7195', 'Server': 'AmazonS3'}
+2024-12-12 00:45:16,613 [DEBUG] Response body:
+<botocore.response.StreamingBody object at 0x1112fdb70>
+2024-12-12 00:45:16,613 [DEBUG] Event needs-retry.s3.GetObject: calling handler <function _update_status_code at 0x1060bc540>
+2024-12-12 00:45:16,613 [DEBUG] Event needs-retry.s3.GetObject: calling handler <botocore.retryhandler.RetryHandler object at 0x1113009d0>
+2024-12-12 00:45:16,614 [DEBUG] No retry needed.
+2024-12-12 00:45:16,614 [DEBUG] Event needs-retry.s3.GetObject: calling handler <bound method S3RegionRedirectorv2.redirect_from_error of <botocore.utils.S3RegionRedirectorv2 object at 0x1112fbed0>>
+2024-12-12 00:45:16,614 [DEBUG] Event choose-service-name: calling handler <function handle_service_name_alias at 0x10606f060>
+2024-12-12 00:45:16,615 [DEBUG] Event creating-client-class.s3: calling handler <function add_generate_presigned_post at 0x106000c20>
+2024-12-12 00:45:16,615 [DEBUG] Event creating-client-class.s3: calling handler <function lazy_call.<locals>._handler at 0x10667c7c0>
+2024-12-12 00:45:16,615 [DEBUG] Event creating-client-class.s3: calling handler <function add_generate_presigned_url at 0x1060009a0>
+2024-12-12 00:45:16,615 [DEBUG] Looking for endpoint for s3 via: environment_service
+2024-12-12 00:45:16,615 [DEBUG] Looking for endpoint for s3 via: environment_global
+2024-12-12 00:45:16,615 [DEBUG] Looking for endpoint for s3 via: config_service
+2024-12-12 00:45:16,615 [DEBUG] Looking for endpoint for s3 via: config_global
+2024-12-12 00:45:16,615 [DEBUG] No configured endpoint found.
+2024-12-12 00:45:16,615 [DEBUG] Setting s3 timeout as (60, 60)
+2024-12-12 00:45:16,616 [DEBUG] Registering retry handlers for service: s3
+2024-12-12 00:45:16,616 [DEBUG] Registering S3 region redirector handler
+2024-12-12 00:45:16,616 [DEBUG] Registering S3Express Identity Resolver
+2024-12-12 00:45:16,616 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function sse_md5 at 0x1060a9da0>
+2024-12-12 00:45:16,616 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function validate_bucket_name at 0x1060a9d00>
+2024-12-12 00:45:16,616 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function remove_bucket_from_url_paths_from_model at 0x1060abec0>
+2024-12-12 00:45:16,616 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <bound method S3RegionRedirectorv2.annotate_request_context of <botocore.utils.S3RegionRedirectorv2 object at 0x10654ce90>>
+2024-12-12 00:45:16,616 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <bound method ClientCreator._inject_s3_input_parameters of <botocore.client.ClientCreator object at 0x11127eb50>>
+2024-12-12 00:45:16,616 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function generate_idempotent_uuid at 0x1060a9b20>
+2024-12-12 00:45:16,616 [DEBUG] Event before-endpoint-resolution.s3: calling handler <function customize_endpoint_resolver_builtins at 0x1060bc0e0>
+2024-12-12 00:45:16,616 [DEBUG] Event before-endpoint-resolution.s3: calling handler <bound method S3RegionRedirectorv2.redirect_from_cache of <botocore.utils.S3RegionRedirectorv2 object at 0x10654ce90>>
+2024-12-12 00:45:16,616 [DEBUG] Calling endpoint provider with parameters: {'Bucket': 'aiademomagicaudio', 'Region': 'eu-north-1', 'UseFIPS': False, 'UseDualStack': False, 'ForcePathStyle': False, 'Accelerate': False, 'UseGlobalEndpoint': False, 'Key': 'organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md', 'DisableMultiRegionAccessPoints': False, 'UseArnRegion': True}
+2024-12-12 00:45:16,617 [DEBUG] Endpoint provider result: https://aiademomagicaudio.s3.eu-north-1.amazonaws.com
+2024-12-12 00:45:16,617 [DEBUG] Selecting from endpoint provider's list of auth schemes: "sigv4". User selected auth scheme is: "None"
+2024-12-12 00:45:16,617 [DEBUG] Selected auth type "v4" as "v4" with signing context params: {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}
+2024-12-12 00:45:16,617 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_expect_header at 0x1060aa0c0>
+2024-12-12 00:45:16,617 [DEBUG] Event before-call.s3.GetObject: calling handler <bound method S3ExpressIdentityResolver.apply_signing_cache_key of <botocore.utils.S3ExpressIdentityResolver object at 0x11132f6d0>>
+2024-12-12 00:45:16,617 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_recursion_detection_header at 0x1060a82c0>
+2024-12-12 00:45:16,617 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_query_compatibility_header at 0x1060bc5e0>
+2024-12-12 00:45:16,617 [DEBUG] Event before-call.s3.GetObject: calling handler <function inject_api_version_header_if_needed at 0x1060ab600>
+2024-12-12 00:45:16,617 [DEBUG] Making request for OperationModel(name=GetObject) with params: {'url_path': '/organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md', 'query_string': {}, 'method': 'GET', 'headers': {'User-Agent': 'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57'}, 'body': b'', 'auth_path': '/aiademomagicaudio/organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md', 'url': 'https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md', 'context': {'client_region': 'eu-north-1', 'client_config': <botocore.config.Config object at 0x11130a510>, 'has_streaming_input': False, 'auth_type': 'v4', 'unsigned_payload': None, 's3_redirect': {'redirected': False, 'bucket': 'aiademomagicaudio', 'params': {'Bucket': 'aiademomagicaudio', 'Key': 'organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md'}}, 'input_params': {'Bucket': 'aiademomagicaudio', 'Key': 'organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md'}, 'signing': {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}, 'endpoint_properties': {'authSchemes': [{'disableDoubleEncoding': True, 'name': 'sigv4', 'signingName': 's3', 'signingRegion': 'eu-north-1'}]}}}
+2024-12-12 00:45:16,617 [DEBUG] Event request-created.s3.GetObject: calling handler <bound method RequestSigner.handler of <botocore.signers.RequestSigner object at 0x11130a5d0>>
+2024-12-12 00:45:16,617 [DEBUG] Event choose-signer.s3.GetObject: calling handler <function set_operation_specific_signer at 0x1060a9940>
+2024-12-12 00:45:16,617 [DEBUG] Event before-sign.s3.GetObject: calling handler <function remove_arn_from_signing_path at 0x1060bc040>
+2024-12-12 00:45:16,617 [DEBUG] Event before-sign.s3.GetObject: calling handler <bound method S3ExpressIdentityResolver.resolve_s3express_identity of <botocore.utils.S3ExpressIdentityResolver object at 0x11132f6d0>>
+2024-12-12 00:45:16,617 [DEBUG] Calculating signature using v4 auth.
+2024-12-12 00:45:16,617 [DEBUG] CanonicalRequest:
+GET
+/organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md
+
+host:aiademomagicaudio.s3.eu-north-1.amazonaws.com
+x-amz-content-sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+x-amz-date:20241211T234516Z
+
+host;x-amz-content-sha256;x-amz-date
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+2024-12-12 00:45:16,617 [DEBUG] StringToSign:
+AWS4-HMAC-SHA256
+20241211T234516Z
+20241211/eu-north-1/s3/aws4_request
+e8711efbd7c6fbd320ef11d784d24479d04b2c0a6291509aca9cb1153ab3bd5d
+2024-12-12 00:45:16,617 [DEBUG] Signature:
+e80a968200ae46d6f4c3ce642f393c4feb4cd8bc9ef459d7203fcfd7d19a6d8e
+2024-12-12 00:45:16,617 [DEBUG] Event request-created.s3.GetObject: calling handler <function add_retry_headers at 0x1060abe20>
+2024-12-12 00:45:16,617 [DEBUG] Sending http request: <AWSPreparedRequest stream_output=True, method=GET, url=https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md, headers={'User-Agent': b'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57', 'X-Amz-Date': b'20241211T234516Z', 'X-Amz-Content-SHA256': b'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 'Authorization': b'AWS4-HMAC-SHA256 Credential=AKIAWPPO56WM77JT7YP7/20241211/eu-north-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=e80a968200ae46d6f4c3ce642f393c4feb4cd8bc9ef459d7203fcfd7d19a6d8e', 'amz-sdk-invocation-id': b'b115a613-3b88-47b6-bddb-51cb10e8b878', 'amz-sdk-request': b'attempt=1'}>
+2024-12-12 00:45:16,617 [DEBUG] Certificate path: /Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_chat-local/venv/lib/python3.11/site-packages/certifi/cacert.pem
+2024-12-12 00:45:16,617 [DEBUG] Starting new HTTPS connection (1): aiademomagicaudio.s3.eu-north-1.amazonaws.com:443
+2024-12-12 00:45:16,667 [DEBUG] https://aiademomagicaudio.s3.eu-north-1.amazonaws.com:443 "GET /organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md HTTP/11" 404 None
+2024-12-12 00:45:16,668 [DEBUG] Event before-parse.s3.GetObject: calling handler <function _handle_200_error at 0x1060bc400>
+2024-12-12 00:45:16,668 [DEBUG] Event before-parse.s3.GetObject: calling handler <function handle_expires_header at 0x1060bc220>
+2024-12-12 00:45:16,668 [DEBUG] Response headers: {'x-amz-request-id': 'PJND81NP8BWDRW43', 'x-amz-id-2': 'CQR7NLf+I8f3JZO/BL6kEusYMYYJ8Jw/8mQuC9uz5oSNzNp7+CDRnJbfXnGwmSkxTeoiUWacxsI=', 'Content-Type': 'application/xml', 'Transfer-Encoding': 'chunked', 'Date': 'Wed, 11 Dec 2024 23:45:15 GMT', 'Server': 'AmazonS3'}
+2024-12-12 00:45:16,668 [DEBUG] Response body:
+b'<?xml version="1.0" encoding="UTF-8"?>\n<Error><Code>NoSuchKey</Code><Message>The specified key does not exist.</Message><Key>organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md</Key><RequestId>PJND81NP8BWDRW43</RequestId><HostId>CQR7NLf+I8f3JZO/BL6kEusYMYYJ8Jw/8mQuC9uz5oSNzNp7+CDRnJbfXnGwmSkxTeoiUWacxsI=</HostId></Error>'
+2024-12-12 00:45:16,668 [DEBUG] Response headers: {'x-amz-request-id': 'PJND81NP8BWDRW43', 'x-amz-id-2': 'CQR7NLf+I8f3JZO/BL6kEusYMYYJ8Jw/8mQuC9uz5oSNzNp7+CDRnJbfXnGwmSkxTeoiUWacxsI=', 'Content-Type': 'application/xml', 'Transfer-Encoding': 'chunked', 'Date': 'Wed, 11 Dec 2024 23:45:15 GMT', 'Server': 'AmazonS3'}
+2024-12-12 00:45:16,668 [DEBUG] Response body:
+b'<?xml version="1.0" encoding="UTF-8"?>\n<Error><Code>NoSuchKey</Code><Message>The specified key does not exist.</Message><Key>organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md</Key><RequestId>PJND81NP8BWDRW43</RequestId><HostId>CQR7NLf+I8f3JZO/BL6kEusYMYYJ8Jw/8mQuC9uz5oSNzNp7+CDRnJbfXnGwmSkxTeoiUWacxsI=</HostId></Error>'
+2024-12-12 00:45:16,669 [DEBUG] Event needs-retry.s3.GetObject: calling handler <function _update_status_code at 0x1060bc540>
+2024-12-12 00:45:16,669 [DEBUG] Event needs-retry.s3.GetObject: calling handler <botocore.retryhandler.RetryHandler object at 0x11132f390>
+2024-12-12 00:45:16,669 [DEBUG] No retry needed.
+2024-12-12 00:45:16,669 [DEBUG] Event needs-retry.s3.GetObject: calling handler <bound method S3RegionRedirectorv2.redirect_from_error of <botocore.utils.S3RegionRedirectorv2 object at 0x10654ce90>>
+2024-12-12 00:45:16,669 [ERROR] Error reading agent frameworks from S3: An error occurred (NoSuchKey) when calling the GetObject operation: The specified key does not exist.
+2024-12-12 00:45:16,669 [DEBUG] Event choose-service-name: calling handler <function handle_service_name_alias at 0x10606f060>
+2024-12-12 00:45:16,670 [DEBUG] Event creating-client-class.s3: calling handler <function add_generate_presigned_post at 0x106000c20>
+2024-12-12 00:45:16,670 [DEBUG] Event creating-client-class.s3: calling handler <function lazy_call.<locals>._handler at 0x10667c7c0>
+2024-12-12 00:45:16,670 [DEBUG] Event creating-client-class.s3: calling handler <function add_generate_presigned_url at 0x1060009a0>
+2024-12-12 00:45:16,670 [DEBUG] Looking for endpoint for s3 via: environment_service
+2024-12-12 00:45:16,670 [DEBUG] Looking for endpoint for s3 via: environment_global
+2024-12-12 00:45:16,670 [DEBUG] Looking for endpoint for s3 via: config_service
+2024-12-12 00:45:16,670 [DEBUG] Looking for endpoint for s3 via: config_global
+2024-12-12 00:45:16,670 [DEBUG] No configured endpoint found.
+2024-12-12 00:45:16,670 [DEBUG] Setting s3 timeout as (60, 60)
+2024-12-12 00:45:16,671 [DEBUG] Registering retry handlers for service: s3
+2024-12-12 00:45:16,671 [DEBUG] Registering S3 region redirector handler
+2024-12-12 00:45:16,671 [DEBUG] Registering S3Express Identity Resolver
+2024-12-12 00:45:16,672 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function sse_md5 at 0x1060a9da0>
+2024-12-12 00:45:16,672 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function validate_bucket_name at 0x1060a9d00>
+2024-12-12 00:45:16,672 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function remove_bucket_from_url_paths_from_model at 0x1060abec0>
+2024-12-12 00:45:16,672 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <bound method S3RegionRedirectorv2.annotate_request_context of <botocore.utils.S3RegionRedirectorv2 object at 0x111341d10>>
+2024-12-12 00:45:16,672 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <bound method ClientCreator._inject_s3_input_parameters of <botocore.client.ClientCreator object at 0x11126d750>>
+2024-12-12 00:45:16,672 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function generate_idempotent_uuid at 0x1060a9b20>
+2024-12-12 00:45:16,672 [DEBUG] Event before-endpoint-resolution.s3: calling handler <function customize_endpoint_resolver_builtins at 0x1060bc0e0>
+2024-12-12 00:45:16,672 [DEBUG] Event before-endpoint-resolution.s3: calling handler <bound method S3RegionRedirectorv2.redirect_from_cache of <botocore.utils.S3RegionRedirectorv2 object at 0x111341d10>>
+2024-12-12 00:45:16,672 [DEBUG] Calling endpoint provider with parameters: {'Bucket': 'aiademomagicaudio', 'Region': 'eu-north-1', 'UseFIPS': False, 'UseDualStack': False, 'ForcePathStyle': False, 'Accelerate': False, 'UseGlobalEndpoint': False, 'Key': 'organizations/river/_config/context_oID-nordicequation.md', 'DisableMultiRegionAccessPoints': False, 'UseArnRegion': True}
+2024-12-12 00:45:16,672 [DEBUG] Endpoint provider result: https://aiademomagicaudio.s3.eu-north-1.amazonaws.com
+2024-12-12 00:45:16,672 [DEBUG] Selecting from endpoint provider's list of auth schemes: "sigv4". User selected auth scheme is: "None"
+2024-12-12 00:45:16,672 [DEBUG] Selected auth type "v4" as "v4" with signing context params: {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}
+2024-12-12 00:45:16,672 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_expect_header at 0x1060aa0c0>
+2024-12-12 00:45:16,672 [DEBUG] Event before-call.s3.GetObject: calling handler <bound method S3ExpressIdentityResolver.apply_signing_cache_key of <botocore.utils.S3ExpressIdentityResolver object at 0x111339c50>>
+2024-12-12 00:45:16,672 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_recursion_detection_header at 0x1060a82c0>
+2024-12-12 00:45:16,672 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_query_compatibility_header at 0x1060bc5e0>
+2024-12-12 00:45:16,672 [DEBUG] Event before-call.s3.GetObject: calling handler <function inject_api_version_header_if_needed at 0x1060ab600>
+2024-12-12 00:45:16,672 [DEBUG] Making request for OperationModel(name=GetObject) with params: {'url_path': '/organizations/river/_config/context_oID-nordicequation.md', 'query_string': {}, 'method': 'GET', 'headers': {'User-Agent': 'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57'}, 'body': b'', 'auth_path': '/aiademomagicaudio/organizations/river/_config/context_oID-nordicequation.md', 'url': 'https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/organizations/river/_config/context_oID-nordicequation.md', 'context': {'client_region': 'eu-north-1', 'client_config': <botocore.config.Config object at 0x1113404d0>, 'has_streaming_input': False, 'auth_type': 'v4', 'unsigned_payload': None, 's3_redirect': {'redirected': False, 'bucket': 'aiademomagicaudio', 'params': {'Bucket': 'aiademomagicaudio', 'Key': 'organizations/river/_config/context_oID-nordicequation.md'}}, 'input_params': {'Bucket': 'aiademomagicaudio', 'Key': 'organizations/river/_config/context_oID-nordicequation.md'}, 'signing': {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}, 'endpoint_properties': {'authSchemes': [{'disableDoubleEncoding': True, 'name': 'sigv4', 'signingName': 's3', 'signingRegion': 'eu-north-1'}]}}}
+2024-12-12 00:45:16,672 [DEBUG] Event request-created.s3.GetObject: calling handler <bound method RequestSigner.handler of <botocore.signers.RequestSigner object at 0x1113403d0>>
+2024-12-12 00:45:16,672 [DEBUG] Event choose-signer.s3.GetObject: calling handler <function set_operation_specific_signer at 0x1060a9940>
+2024-12-12 00:45:16,672 [DEBUG] Event before-sign.s3.GetObject: calling handler <function remove_arn_from_signing_path at 0x1060bc040>
+2024-12-12 00:45:16,673 [DEBUG] Event before-sign.s3.GetObject: calling handler <bound method S3ExpressIdentityResolver.resolve_s3express_identity of <botocore.utils.S3ExpressIdentityResolver object at 0x111339c50>>
+2024-12-12 00:45:16,673 [DEBUG] Calculating signature using v4 auth.
+2024-12-12 00:45:16,673 [DEBUG] CanonicalRequest:
+GET
+/organizations/river/_config/context_oID-nordicequation.md
+
+host:aiademomagicaudio.s3.eu-north-1.amazonaws.com
+x-amz-content-sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+x-amz-date:20241211T234516Z
+
+host;x-amz-content-sha256;x-amz-date
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+2024-12-12 00:45:16,673 [DEBUG] StringToSign:
+AWS4-HMAC-SHA256
+20241211T234516Z
+20241211/eu-north-1/s3/aws4_request
+81ed6945c188bdfd469d59e393f2fb208bb7e81b7b2a8cf1d0c424b176972397
+2024-12-12 00:45:16,673 [DEBUG] Signature:
+4b95f4161f36a7efa41be8a331bcf9cbf6a75fed1f3e485616cfe075c6adb557
+2024-12-12 00:45:16,673 [DEBUG] Event request-created.s3.GetObject: calling handler <function add_retry_headers at 0x1060abe20>
+2024-12-12 00:45:16,673 [DEBUG] Sending http request: <AWSPreparedRequest stream_output=True, method=GET, url=https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/organizations/river/_config/context_oID-nordicequation.md, headers={'User-Agent': b'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57', 'X-Amz-Date': b'20241211T234516Z', 'X-Amz-Content-SHA256': b'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 'Authorization': b'AWS4-HMAC-SHA256 Credential=AKIAWPPO56WM77JT7YP7/20241211/eu-north-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=4b95f4161f36a7efa41be8a331bcf9cbf6a75fed1f3e485616cfe075c6adb557', 'amz-sdk-invocation-id': b'ee2681a1-abf0-406d-ad98-09165124e04e', 'amz-sdk-request': b'attempt=1'}>
+2024-12-12 00:45:16,673 [DEBUG] Certificate path: /Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_chat-local/venv/lib/python3.11/site-packages/certifi/cacert.pem
+2024-12-12 00:45:16,673 [DEBUG] Starting new HTTPS connection (1): aiademomagicaudio.s3.eu-north-1.amazonaws.com:443
+2024-12-12 00:45:16,731 [DEBUG] https://aiademomagicaudio.s3.eu-north-1.amazonaws.com:443 "GET /organizations/river/_config/context_oID-nordicequation.md HTTP/11" 200 13573
+2024-12-12 00:45:16,731 [DEBUG] Event before-parse.s3.GetObject: calling handler <function _handle_200_error at 0x1060bc400>
+2024-12-12 00:45:16,731 [DEBUG] Event before-parse.s3.GetObject: calling handler <function handle_expires_header at 0x1060bc220>
+2024-12-12 00:45:16,731 [DEBUG] Response headers: {'x-amz-id-2': 'CieYnNK1nMf8vurwhAUsW12dA7m7ylarxw4KgjN7SRO8c/gU2XR2LG8G0P562zfAkk0kMA91Oqg=', 'x-amz-request-id': 'PJN0D0W95GGQ1VHV', 'Date': 'Wed, 11 Dec 2024 23:45:17 GMT', 'Last-Modified': 'Wed, 11 Dec 2024 20:12:56 GMT', 'ETag': '"d36ec74423a788eec0dbf75b71b51beb"', 'x-amz-server-side-encryption': 'AES256', 'Accept-Ranges': 'bytes', 'Content-Type': 'text/plain', 'Content-Length': '13573', 'Server': 'AmazonS3'}
+2024-12-12 00:45:16,731 [DEBUG] Response body:
+<botocore.response.StreamingBody object at 0x1112cb910>
+2024-12-12 00:45:16,732 [DEBUG] Event needs-retry.s3.GetObject: calling handler <function _update_status_code at 0x1060bc540>
+2024-12-12 00:45:16,732 [DEBUG] Event needs-retry.s3.GetObject: calling handler <botocore.retryhandler.RetryHandler object at 0x11133b210>
+2024-12-12 00:45:16,732 [DEBUG] No retry needed.
+2024-12-12 00:45:16,732 [DEBUG] Event needs-retry.s3.GetObject: calling handler <bound method S3RegionRedirectorv2.redirect_from_error of <botocore.utils.S3RegionRedirectorv2 object at 0x111341d10>>
+2024-12-12 00:45:16,735 [DEBUG] Event choose-service-name: calling handler <function handle_service_name_alias at 0x10606f060>
+2024-12-12 00:45:16,753 [DEBUG] Event creating-client-class.s3: calling handler <function add_generate_presigned_post at 0x106000c20>
+2024-12-12 00:45:16,753 [DEBUG] Event creating-client-class.s3: calling handler <function lazy_call.<locals>._handler at 0x10667c7c0>
+2024-12-12 00:45:16,753 [DEBUG] Event creating-client-class.s3: calling handler <function add_generate_presigned_url at 0x1060009a0>
+2024-12-12 00:45:16,753 [DEBUG] Looking for endpoint for s3 via: environment_service
+2024-12-12 00:45:16,753 [DEBUG] Looking for endpoint for s3 via: environment_global
+2024-12-12 00:45:16,753 [DEBUG] Looking for endpoint for s3 via: config_service
+2024-12-12 00:45:16,753 [DEBUG] Looking for endpoint for s3 via: config_global
+2024-12-12 00:45:16,753 [DEBUG] No configured endpoint found.
+2024-12-12 00:45:16,754 [DEBUG] Setting s3 timeout as (60, 60)
+2024-12-12 00:45:16,754 [DEBUG] Registering retry handlers for service: s3
+2024-12-12 00:45:16,754 [DEBUG] Registering S3 region redirector handler
+2024-12-12 00:45:16,755 [DEBUG] Registering S3Express Identity Resolver
+2024-12-12 00:45:16,755 [DEBUG] load_ssl_context verify=True cert=None trust_env=True http2=False
+2024-12-12 00:45:16,755 [DEBUG] load_verify_locations cafile='/Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_chat-local/venv/lib/python3.11/site-packages/certifi/cacert.pem'
+2024-12-12 00:45:16,762 [DEBUG] Event choose-service-name: calling handler <function handle_service_name_alias at 0x10606f060>
+2024-12-12 00:45:16,762 [DEBUG] Event creating-client-class.s3: calling handler <function add_generate_presigned_post at 0x106000c20>
+2024-12-12 00:45:16,762 [DEBUG] Event creating-client-class.s3: calling handler <function lazy_call.<locals>._handler at 0x10667c7c0>
+2024-12-12 00:45:16,762 [DEBUG] Event creating-client-class.s3: calling handler <function add_generate_presigned_url at 0x1060009a0>
+2024-12-12 00:45:16,762 [DEBUG] Looking for endpoint for s3 via: environment_service
+2024-12-12 00:45:16,762 [DEBUG] Looking for endpoint for s3 via: environment_global
+2024-12-12 00:45:16,762 [DEBUG] Looking for endpoint for s3 via: config_service
+2024-12-12 00:45:16,762 [DEBUG] Looking for endpoint for s3 via: config_global
+2024-12-12 00:45:16,762 [DEBUG] No configured endpoint found.
+2024-12-12 00:45:16,763 [DEBUG] Setting s3 timeout as (60, 60)
+2024-12-12 00:45:16,764 [DEBUG] Registering retry handlers for service: s3
+2024-12-12 00:45:16,764 [DEBUG] Registering S3 region redirector handler
+2024-12-12 00:45:16,764 [DEBUG] Registering S3Express Identity Resolver
+2024-12-12 00:45:16,764 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function sse_md5 at 0x1060a9da0>
+2024-12-12 00:45:16,764 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function validate_bucket_name at 0x1060a9d00>
+2024-12-12 00:45:16,764 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function remove_bucket_from_url_paths_from_model at 0x1060abec0>
+2024-12-12 00:45:16,764 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <bound method S3RegionRedirectorv2.annotate_request_context of <botocore.utils.S3RegionRedirectorv2 object at 0x111207250>>
+2024-12-12 00:45:16,764 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <bound method ClientCreator._inject_s3_input_parameters of <botocore.client.ClientCreator object at 0x106cadd90>>
+2024-12-12 00:45:16,764 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function generate_idempotent_uuid at 0x1060a9b20>
+2024-12-12 00:45:16,764 [DEBUG] Event before-endpoint-resolution.s3: calling handler <function customize_endpoint_resolver_builtins at 0x1060bc0e0>
+2024-12-12 00:45:16,764 [DEBUG] Event before-endpoint-resolution.s3: calling handler <bound method S3RegionRedirectorv2.redirect_from_cache of <botocore.utils.S3RegionRedirectorv2 object at 0x111207250>>
+2024-12-12 00:45:16,765 [DEBUG] Calling endpoint provider with parameters: {'Bucket': 'aiademomagicaudio', 'Region': 'eu-north-1', 'UseFIPS': False, 'UseDualStack': False, 'ForcePathStyle': False, 'Accelerate': False, 'UseGlobalEndpoint': False, 'Key': '_config/systemprompt_base.md', 'DisableMultiRegionAccessPoints': False, 'UseArnRegion': True}
+2024-12-12 00:45:16,765 [DEBUG] Endpoint provider result: https://aiademomagicaudio.s3.eu-north-1.amazonaws.com
+2024-12-12 00:45:16,765 [DEBUG] Selecting from endpoint provider's list of auth schemes: "sigv4". User selected auth scheme is: "None"
+2024-12-12 00:45:16,765 [DEBUG] Selected auth type "v4" as "v4" with signing context params: {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}
+2024-12-12 00:45:16,765 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_expect_header at 0x1060aa0c0>
+2024-12-12 00:45:16,765 [DEBUG] Event before-call.s3.GetObject: calling handler <bound method S3ExpressIdentityResolver.apply_signing_cache_key of <botocore.utils.S3ExpressIdentityResolver object at 0x11120f450>>
+2024-12-12 00:45:16,765 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_recursion_detection_header at 0x1060a82c0>
+2024-12-12 00:45:16,765 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_query_compatibility_header at 0x1060bc5e0>
+2024-12-12 00:45:16,765 [DEBUG] Event before-call.s3.GetObject: calling handler <function inject_api_version_header_if_needed at 0x1060ab600>
+2024-12-12 00:45:16,765 [DEBUG] Making request for OperationModel(name=GetObject) with params: {'url_path': '/_config/systemprompt_base.md', 'query_string': {}, 'method': 'GET', 'headers': {'User-Agent': 'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57'}, 'body': b'', 'auth_path': '/aiademomagicaudio/_config/systemprompt_base.md', 'url': 'https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/_config/systemprompt_base.md', 'context': {'client_region': 'eu-north-1', 'client_config': <botocore.config.Config object at 0x1110ef450>, 'has_streaming_input': False, 'auth_type': 'v4', 'unsigned_payload': None, 's3_redirect': {'redirected': False, 'bucket': 'aiademomagicaudio', 'params': {'Bucket': 'aiademomagicaudio', 'Key': '_config/systemprompt_base.md'}}, 'input_params': {'Bucket': 'aiademomagicaudio', 'Key': '_config/systemprompt_base.md'}, 'signing': {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}, 'endpoint_properties': {'authSchemes': [{'disableDoubleEncoding': True, 'name': 'sigv4', 'signingName': 's3', 'signingRegion': 'eu-north-1'}]}}}
+2024-12-12 00:45:16,765 [DEBUG] Event request-created.s3.GetObject: calling handler <bound method RequestSigner.handler of <botocore.signers.RequestSigner object at 0x1110ef410>>
+2024-12-12 00:45:16,765 [DEBUG] Event choose-signer.s3.GetObject: calling handler <function set_operation_specific_signer at 0x1060a9940>
+2024-12-12 00:45:16,765 [DEBUG] Event before-sign.s3.GetObject: calling handler <function remove_arn_from_signing_path at 0x1060bc040>
+2024-12-12 00:45:16,769 [DEBUG] Event before-sign.s3.GetObject: calling handler <bound method S3ExpressIdentityResolver.resolve_s3express_identity of <botocore.utils.S3ExpressIdentityResolver object at 0x11120f450>>
+2024-12-12 00:45:16,769 [DEBUG] Calculating signature using v4 auth.
+2024-12-12 00:45:16,769 [DEBUG] CanonicalRequest:
+GET
+/_config/systemprompt_base.md
+
+host:aiademomagicaudio.s3.eu-north-1.amazonaws.com
+x-amz-content-sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+x-amz-date:20241211T234516Z
+
+host;x-amz-content-sha256;x-amz-date
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+2024-12-12 00:45:16,769 [DEBUG] StringToSign:
+AWS4-HMAC-SHA256
+20241211T234516Z
+20241211/eu-north-1/s3/aws4_request
+236df5ed98a38819cf07484151abd221898aca788d6c7a5b2a71246ced359f1d
+2024-12-12 00:45:16,769 [DEBUG] Signature:
+eae516f9e3aa6ab398584073654137bf06f584d893ab1b84705bb94031e9afe1
+2024-12-12 00:45:16,769 [DEBUG] Event request-created.s3.GetObject: calling handler <function add_retry_headers at 0x1060abe20>
+2024-12-12 00:45:16,769 [DEBUG] Sending http request: <AWSPreparedRequest stream_output=True, method=GET, url=https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/_config/systemprompt_base.md, headers={'User-Agent': b'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57', 'X-Amz-Date': b'20241211T234516Z', 'X-Amz-Content-SHA256': b'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 'Authorization': b'AWS4-HMAC-SHA256 Credential=AKIAWPPO56WM77JT7YP7/20241211/eu-north-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=eae516f9e3aa6ab398584073654137bf06f584d893ab1b84705bb94031e9afe1', 'amz-sdk-invocation-id': b'1039f506-57dc-4fcd-ad79-75c96710bc28', 'amz-sdk-request': b'attempt=1'}>
+2024-12-12 00:45:16,769 [DEBUG] Certificate path: /Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_chat-local/venv/lib/python3.11/site-packages/certifi/cacert.pem
+2024-12-12 00:45:16,769 [DEBUG] Starting new HTTPS connection (1): aiademomagicaudio.s3.eu-north-1.amazonaws.com:443
+2024-12-12 00:45:16,774 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5001
+2024-12-12 00:45:16,774 [INFO] [33mPress CTRL+C to quit[0m
+2024-12-12 00:45:16,816 [DEBUG] https://aiademomagicaudio.s3.eu-north-1.amazonaws.com:443 "GET /_config/systemprompt_base.md HTTP/11" 200 7630
+2024-12-12 00:45:16,817 [DEBUG] Event before-parse.s3.GetObject: calling handler <function _handle_200_error at 0x1060bc400>
+2024-12-12 00:45:16,817 [DEBUG] Event before-parse.s3.GetObject: calling handler <function handle_expires_header at 0x1060bc220>
+2024-12-12 00:45:16,817 [DEBUG] Response headers: {'x-amz-id-2': 'GZWyalwN86XQkCLuJXiGfSovDqvawafpJ+tzeooJXb6JMQwHQajgYvaF/3DWDVWf6WKO2sjkjHE=', 'x-amz-request-id': 'PJN8G0N092RPN7PF', 'Date': 'Wed, 11 Dec 2024 23:45:17 GMT', 'Last-Modified': 'Wed, 11 Dec 2024 15:43:59 GMT', 'ETag': '"e6bebaaa8f78a67cd957e28ad1c50f18"', 'x-amz-server-side-encryption': 'AES256', 'Accept-Ranges': 'bytes', 'Content-Type': 'text/markdown', 'Content-Length': '7630', 'Server': 'AmazonS3'}
+2024-12-12 00:45:16,817 [DEBUG] Response body:
+<botocore.response.StreamingBody object at 0x1112675b0>
+2024-12-12 00:45:16,817 [DEBUG] Event needs-retry.s3.GetObject: calling handler <function _update_status_code at 0x1060bc540>
+2024-12-12 00:45:16,817 [DEBUG] Event needs-retry.s3.GetObject: calling handler <botocore.retryhandler.RetryHandler object at 0x111207bd0>
+2024-12-12 00:45:16,817 [DEBUG] No retry needed.
+2024-12-12 00:45:16,817 [DEBUG] Event needs-retry.s3.GetObject: calling handler <bound method S3RegionRedirectorv2.redirect_from_error of <botocore.utils.S3RegionRedirectorv2 object at 0x111207250>>
+2024-12-12 00:45:16,817 [DEBUG] Successfully read content from _config/systemprompt_base.md, length: 7630
+2024-12-12 00:45:16,817 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function sse_md5 at 0x1060a9da0>
+2024-12-12 00:45:16,817 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function validate_bucket_name at 0x1060a9d00>
+2024-12-12 00:45:16,817 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function remove_bucket_from_url_paths_from_model at 0x1060abec0>
+2024-12-12 00:45:16,817 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <bound method S3RegionRedirectorv2.annotate_request_context of <botocore.utils.S3RegionRedirectorv2 object at 0x111207250>>
+2024-12-12 00:45:16,817 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <bound method ClientCreator._inject_s3_input_parameters of <botocore.client.ClientCreator object at 0x106cadd90>>
+2024-12-12 00:45:16,817 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function generate_idempotent_uuid at 0x1060a9b20>
+2024-12-12 00:45:16,817 [DEBUG] Event before-endpoint-resolution.s3: calling handler <function customize_endpoint_resolver_builtins at 0x1060bc0e0>
+2024-12-12 00:45:16,817 [DEBUG] Event before-endpoint-resolution.s3: calling handler <bound method S3RegionRedirectorv2.redirect_from_cache of <botocore.utils.S3RegionRedirectorv2 object at 0x111207250>>
+2024-12-12 00:45:16,817 [DEBUG] Calling endpoint provider with parameters: {'Bucket': 'aiademomagicaudio', 'Region': 'eu-north-1', 'UseFIPS': False, 'UseDualStack': False, 'ForcePathStyle': False, 'Accelerate': False, 'UseGlobalEndpoint': False, 'Key': 'organizations/river/agents/nordicequation/_config/systemprompt_aID-nordicequation.md', 'DisableMultiRegionAccessPoints': False, 'UseArnRegion': True}
+2024-12-12 00:45:16,818 [DEBUG] Endpoint provider result: https://aiademomagicaudio.s3.eu-north-1.amazonaws.com
+2024-12-12 00:45:16,818 [DEBUG] Selecting from endpoint provider's list of auth schemes: "sigv4". User selected auth scheme is: "None"
+2024-12-12 00:45:16,818 [DEBUG] Selected auth type "v4" as "v4" with signing context params: {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}
+2024-12-12 00:45:16,818 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_expect_header at 0x1060aa0c0>
+2024-12-12 00:45:16,818 [DEBUG] Event before-call.s3.GetObject: calling handler <bound method S3ExpressIdentityResolver.apply_signing_cache_key of <botocore.utils.S3ExpressIdentityResolver object at 0x11120f450>>
+2024-12-12 00:45:16,818 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_recursion_detection_header at 0x1060a82c0>
+2024-12-12 00:45:16,818 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_query_compatibility_header at 0x1060bc5e0>
+2024-12-12 00:45:16,818 [DEBUG] Event before-call.s3.GetObject: calling handler <function inject_api_version_header_if_needed at 0x1060ab600>
+2024-12-12 00:45:16,818 [DEBUG] Making request for OperationModel(name=GetObject) with params: {'url_path': '/organizations/river/agents/nordicequation/_config/systemprompt_aID-nordicequation.md', 'query_string': {}, 'method': 'GET', 'headers': {'User-Agent': 'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57'}, 'body': b'', 'auth_path': '/aiademomagicaudio/organizations/river/agents/nordicequation/_config/systemprompt_aID-nordicequation.md', 'url': 'https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/organizations/river/agents/nordicequation/_config/systemprompt_aID-nordicequation.md', 'context': {'client_region': 'eu-north-1', 'client_config': <botocore.config.Config object at 0x1110ef450>, 'has_streaming_input': False, 'auth_type': 'v4', 'unsigned_payload': None, 's3_redirect': {'redirected': False, 'bucket': 'aiademomagicaudio', 'params': {'Bucket': 'aiademomagicaudio', 'Key': 'organizations/river/agents/nordicequation/_config/systemprompt_aID-nordicequation.md'}}, 'input_params': {'Bucket': 'aiademomagicaudio', 'Key': 'organizations/river/agents/nordicequation/_config/systemprompt_aID-nordicequation.md'}, 'signing': {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}, 'endpoint_properties': {'authSchemes': [{'disableDoubleEncoding': True, 'name': 'sigv4', 'signingName': 's3', 'signingRegion': 'eu-north-1'}]}}}
+2024-12-12 00:45:16,818 [DEBUG] Event request-created.s3.GetObject: calling handler <bound method RequestSigner.handler of <botocore.signers.RequestSigner object at 0x1110ef410>>
+2024-12-12 00:45:16,818 [DEBUG] Event choose-signer.s3.GetObject: calling handler <function set_operation_specific_signer at 0x1060a9940>
+2024-12-12 00:45:16,818 [DEBUG] Event before-sign.s3.GetObject: calling handler <function remove_arn_from_signing_path at 0x1060bc040>
+2024-12-12 00:45:16,818 [DEBUG] Event before-sign.s3.GetObject: calling handler <bound method S3ExpressIdentityResolver.resolve_s3express_identity of <botocore.utils.S3ExpressIdentityResolver object at 0x11120f450>>
+2024-12-12 00:45:16,818 [DEBUG] Calculating signature using v4 auth.
+2024-12-12 00:45:16,818 [DEBUG] CanonicalRequest:
+GET
+/organizations/river/agents/nordicequation/_config/systemprompt_aID-nordicequation.md
+
+host:aiademomagicaudio.s3.eu-north-1.amazonaws.com
+x-amz-content-sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+x-amz-date:20241211T234516Z
+
+host;x-amz-content-sha256;x-amz-date
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+2024-12-12 00:45:16,818 [DEBUG] StringToSign:
+AWS4-HMAC-SHA256
+20241211T234516Z
+20241211/eu-north-1/s3/aws4_request
+44c5fe0a244cccb6d6955ed314c46626f4a106dcc00c967cd3963735154e786b
+2024-12-12 00:45:16,818 [DEBUG] Signature:
+2ae82282fd1f4957d7eabfc4e5e11b531d087b19227f9139143197ebec8ebdb7
+2024-12-12 00:45:16,818 [DEBUG] Event request-created.s3.GetObject: calling handler <function add_retry_headers at 0x1060abe20>
+2024-12-12 00:45:16,818 [DEBUG] Sending http request: <AWSPreparedRequest stream_output=True, method=GET, url=https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/organizations/river/agents/nordicequation/_config/systemprompt_aID-nordicequation.md, headers={'User-Agent': b'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57', 'X-Amz-Date': b'20241211T234516Z', 'X-Amz-Content-SHA256': b'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 'Authorization': b'AWS4-HMAC-SHA256 Credential=AKIAWPPO56WM77JT7YP7/20241211/eu-north-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=2ae82282fd1f4957d7eabfc4e5e11b531d087b19227f9139143197ebec8ebdb7', 'amz-sdk-invocation-id': b'30da3386-fab4-47af-9598-2c50950d54a9', 'amz-sdk-request': b'attempt=1'}>
+2024-12-12 00:45:16,818 [DEBUG] Certificate path: /Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_chat-local/venv/lib/python3.11/site-packages/certifi/cacert.pem
+2024-12-12 00:45:16,845 [DEBUG] https://aiademomagicaudio.s3.eu-north-1.amazonaws.com:443 "GET /organizations/river/agents/nordicequation/_config/systemprompt_aID-nordicequation.md HTTP/11" 200 3659
+2024-12-12 00:45:16,845 [DEBUG] Event before-parse.s3.GetObject: calling handler <function _handle_200_error at 0x1060bc400>
+2024-12-12 00:45:16,845 [DEBUG] Event before-parse.s3.GetObject: calling handler <function handle_expires_header at 0x1060bc220>
+2024-12-12 00:45:16,845 [DEBUG] Response headers: {'x-amz-id-2': '8z8LVhwVuDvK7ATvNjIejdHwNC1D3/D0mNkUqMEvw6pUBTMcXjZKHyOv4hp0ilHNBjfmnmx40ow=', 'x-amz-request-id': 'PJN94JGAXQ7HD40B', 'Date': 'Wed, 11 Dec 2024 23:45:17 GMT', 'Last-Modified': 'Wed, 11 Dec 2024 19:00:37 GMT', 'ETag': '"ab1730aae755b22e7c2afc82872671ed"', 'x-amz-server-side-encryption': 'AES256', 'Accept-Ranges': 'bytes', 'Content-Type': 'text/markdown', 'Content-Length': '3659', 'Server': 'AmazonS3'}
+2024-12-12 00:45:16,845 [DEBUG] Response body:
+<botocore.response.StreamingBody object at 0x1112642e0>
+2024-12-12 00:45:16,846 [DEBUG] Event needs-retry.s3.GetObject: calling handler <function _update_status_code at 0x1060bc540>
+2024-12-12 00:45:16,846 [DEBUG] Event needs-retry.s3.GetObject: calling handler <botocore.retryhandler.RetryHandler object at 0x111207bd0>
+2024-12-12 00:45:16,846 [DEBUG] No retry needed.
+2024-12-12 00:45:16,846 [DEBUG] Event needs-retry.s3.GetObject: calling handler <bound method S3RegionRedirectorv2.redirect_from_error of <botocore.utils.S3RegionRedirectorv2 object at 0x111207250>>
+2024-12-12 00:45:16,846 [DEBUG] Successfully read content from organizations/river/agents/nordicequation/_config/systemprompt_aID-nordicequation.md, length: 3659
+2024-12-12 00:45:16,846 [DEBUG] Event choose-service-name: calling handler <function handle_service_name_alias at 0x10606f060>
+2024-12-12 00:45:16,846 [DEBUG] Event creating-client-class.s3: calling handler <function add_generate_presigned_post at 0x106000c20>
+2024-12-12 00:45:16,846 [DEBUG] Event creating-client-class.s3: calling handler <function lazy_call.<locals>._handler at 0x10667c7c0>
+2024-12-12 00:45:16,846 [DEBUG] Event creating-client-class.s3: calling handler <function add_generate_presigned_url at 0x1060009a0>
+2024-12-12 00:45:16,847 [DEBUG] Looking for endpoint for s3 via: environment_service
+2024-12-12 00:45:16,847 [DEBUG] Looking for endpoint for s3 via: environment_global
+2024-12-12 00:45:16,847 [DEBUG] Looking for endpoint for s3 via: config_service
+2024-12-12 00:45:16,847 [DEBUG] Looking for endpoint for s3 via: config_global
+2024-12-12 00:45:16,847 [DEBUG] No configured endpoint found.
+2024-12-12 00:45:16,847 [DEBUG] Setting s3 timeout as (60, 60)
+2024-12-12 00:45:16,849 [DEBUG] Registering retry handlers for service: s3
+2024-12-12 00:45:16,849 [DEBUG] Registering S3 region redirector handler
+2024-12-12 00:45:16,849 [DEBUG] Registering S3Express Identity Resolver
+2024-12-12 00:45:16,849 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function sse_md5 at 0x1060a9da0>
+2024-12-12 00:45:16,849 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function validate_bucket_name at 0x1060a9d00>
+2024-12-12 00:45:16,849 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function remove_bucket_from_url_paths_from_model at 0x1060abec0>
+2024-12-12 00:45:16,849 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <bound method S3RegionRedirectorv2.annotate_request_context of <botocore.utils.S3RegionRedirectorv2 object at 0x111207250>>
+2024-12-12 00:45:16,849 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <bound method ClientCreator._inject_s3_input_parameters of <botocore.client.ClientCreator object at 0x106cadd90>>
+2024-12-12 00:45:16,849 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function generate_idempotent_uuid at 0x1060a9b20>
+2024-12-12 00:45:16,850 [DEBUG] Event before-endpoint-resolution.s3: calling handler <function customize_endpoint_resolver_builtins at 0x1060bc0e0>
+2024-12-12 00:45:16,850 [DEBUG] Event before-endpoint-resolution.s3: calling handler <bound method S3RegionRedirectorv2.redirect_from_cache of <botocore.utils.S3RegionRedirectorv2 object at 0x111207250>>
+2024-12-12 00:45:16,850 [DEBUG] Calling endpoint provider with parameters: {'Bucket': 'aiademomagicaudio', 'Region': 'eu-north-1', 'UseFIPS': False, 'UseDualStack': False, 'ForcePathStyle': False, 'Accelerate': False, 'UseGlobalEndpoint': False, 'Key': '_config/frameworks_base.md', 'DisableMultiRegionAccessPoints': False, 'UseArnRegion': True}
+2024-12-12 00:45:16,851 [DEBUG] Endpoint provider result: https://aiademomagicaudio.s3.eu-north-1.amazonaws.com
+2024-12-12 00:45:16,851 [DEBUG] Selecting from endpoint provider's list of auth schemes: "sigv4". User selected auth scheme is: "None"
+2024-12-12 00:45:16,851 [DEBUG] Selected auth type "v4" as "v4" with signing context params: {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}
+2024-12-12 00:45:16,851 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_expect_header at 0x1060aa0c0>
+2024-12-12 00:45:16,851 [DEBUG] Event before-call.s3.GetObject: calling handler <bound method S3ExpressIdentityResolver.apply_signing_cache_key of <botocore.utils.S3ExpressIdentityResolver object at 0x11120f450>>
+2024-12-12 00:45:16,851 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_recursion_detection_header at 0x1060a82c0>
+2024-12-12 00:45:16,851 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_query_compatibility_header at 0x1060bc5e0>
+2024-12-12 00:45:16,851 [DEBUG] Event before-call.s3.GetObject: calling handler <function inject_api_version_header_if_needed at 0x1060ab600>
+2024-12-12 00:45:16,851 [DEBUG] Making request for OperationModel(name=GetObject) with params: {'url_path': '/_config/frameworks_base.md', 'query_string': {}, 'method': 'GET', 'headers': {'User-Agent': 'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57'}, 'body': b'', 'auth_path': '/aiademomagicaudio/_config/frameworks_base.md', 'url': 'https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/_config/frameworks_base.md', 'context': {'client_region': 'eu-north-1', 'client_config': <botocore.config.Config object at 0x1110ef450>, 'has_streaming_input': False, 'auth_type': 'v4', 'unsigned_payload': None, 's3_redirect': {'redirected': False, 'bucket': 'aiademomagicaudio', 'params': {'Bucket': 'aiademomagicaudio', 'Key': '_config/frameworks_base.md'}}, 'input_params': {'Bucket': 'aiademomagicaudio', 'Key': '_config/frameworks_base.md'}, 'signing': {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}, 'endpoint_properties': {'authSchemes': [{'disableDoubleEncoding': True, 'name': 'sigv4', 'signingName': 's3', 'signingRegion': 'eu-north-1'}]}}}
+2024-12-12 00:45:16,851 [DEBUG] Event request-created.s3.GetObject: calling handler <bound method RequestSigner.handler of <botocore.signers.RequestSigner object at 0x1110ef410>>
+2024-12-12 00:45:16,851 [DEBUG] Event choose-signer.s3.GetObject: calling handler <function set_operation_specific_signer at 0x1060a9940>
+2024-12-12 00:45:16,851 [DEBUG] Event before-sign.s3.GetObject: calling handler <function remove_arn_from_signing_path at 0x1060bc040>
+2024-12-12 00:45:16,851 [DEBUG] Event before-sign.s3.GetObject: calling handler <bound method S3ExpressIdentityResolver.resolve_s3express_identity of <botocore.utils.S3ExpressIdentityResolver object at 0x11120f450>>
+2024-12-12 00:45:16,851 [DEBUG] Calculating signature using v4 auth.
+2024-12-12 00:45:16,851 [DEBUG] CanonicalRequest:
+GET
+/_config/frameworks_base.md
+
+host:aiademomagicaudio.s3.eu-north-1.amazonaws.com
+x-amz-content-sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+x-amz-date:20241211T234516Z
+
+host;x-amz-content-sha256;x-amz-date
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+2024-12-12 00:45:16,851 [DEBUG] StringToSign:
+AWS4-HMAC-SHA256
+20241211T234516Z
+20241211/eu-north-1/s3/aws4_request
+ee4cbd3d4b1a751bb2f565a6b7b2b9115c379b2674693d525b36632dc21109d0
+2024-12-12 00:45:16,851 [DEBUG] Signature:
+07d2d29d32152babbb8c4a102115c48f5eb0a69544e5b02212ebffef451be18a
+2024-12-12 00:45:16,851 [DEBUG] Event request-created.s3.GetObject: calling handler <function add_retry_headers at 0x1060abe20>
+2024-12-12 00:45:16,851 [DEBUG] Sending http request: <AWSPreparedRequest stream_output=True, method=GET, url=https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/_config/frameworks_base.md, headers={'User-Agent': b'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57', 'X-Amz-Date': b'20241211T234516Z', 'X-Amz-Content-SHA256': b'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 'Authorization': b'AWS4-HMAC-SHA256 Credential=AKIAWPPO56WM77JT7YP7/20241211/eu-north-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=07d2d29d32152babbb8c4a102115c48f5eb0a69544e5b02212ebffef451be18a', 'amz-sdk-invocation-id': b'4378a059-131f-4d9c-8f22-3e9209b5ab67', 'amz-sdk-request': b'attempt=1'}>
+2024-12-12 00:45:16,851 [DEBUG] Certificate path: /Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_chat-local/venv/lib/python3.11/site-packages/certifi/cacert.pem
+2024-12-12 00:45:16,875 [DEBUG] https://aiademomagicaudio.s3.eu-north-1.amazonaws.com:443 "GET /_config/frameworks_base.md HTTP/11" 200 7195
+2024-12-12 00:45:16,875 [DEBUG] Event before-parse.s3.GetObject: calling handler <function _handle_200_error at 0x1060bc400>
+2024-12-12 00:45:16,875 [DEBUG] Event before-parse.s3.GetObject: calling handler <function handle_expires_header at 0x1060bc220>
+2024-12-12 00:45:16,875 [DEBUG] Response headers: {'x-amz-id-2': 'obA5hs7xcDQZW2c82rfnG/B6M4Dz0MD1STN80kahWIebt+JGDfPqI9ncJpQBuB3ADm46z+U1vYc=', 'x-amz-request-id': 'PJN5RD2ZZXDWX48Q', 'Date': 'Wed, 11 Dec 2024 23:45:17 GMT', 'Last-Modified': 'Wed, 11 Dec 2024 20:44:34 GMT', 'ETag': '"355e8347c91cdab51ec445456741ba8e"', 'x-amz-server-side-encryption': 'AES256', 'Accept-Ranges': 'bytes', 'Content-Type': 'text/plain', 'Content-Length': '7195', 'Server': 'AmazonS3'}
+2024-12-12 00:45:16,875 [DEBUG] Response body:
+<botocore.response.StreamingBody object at 0x111264ca0>
+2024-12-12 00:45:16,876 [DEBUG] Event needs-retry.s3.GetObject: calling handler <function _update_status_code at 0x1060bc540>
+2024-12-12 00:45:16,876 [DEBUG] Event needs-retry.s3.GetObject: calling handler <botocore.retryhandler.RetryHandler object at 0x111207bd0>
+2024-12-12 00:45:16,876 [DEBUG] No retry needed.
+2024-12-12 00:45:16,876 [DEBUG] Event needs-retry.s3.GetObject: calling handler <bound method S3RegionRedirectorv2.redirect_from_error of <botocore.utils.S3RegionRedirectorv2 object at 0x111207250>>
+2024-12-12 00:45:16,876 [DEBUG] Successfully read content from _config/frameworks_base.md, length: 7195
+2024-12-12 00:45:16,876 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function sse_md5 at 0x1060a9da0>
+2024-12-12 00:45:16,876 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function validate_bucket_name at 0x1060a9d00>
+2024-12-12 00:45:16,876 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function remove_bucket_from_url_paths_from_model at 0x1060abec0>
+2024-12-12 00:45:16,876 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <bound method S3RegionRedirectorv2.annotate_request_context of <botocore.utils.S3RegionRedirectorv2 object at 0x111207250>>
+2024-12-12 00:45:16,876 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <bound method ClientCreator._inject_s3_input_parameters of <botocore.client.ClientCreator object at 0x106cadd90>>
+2024-12-12 00:45:16,876 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function generate_idempotent_uuid at 0x1060a9b20>
+2024-12-12 00:45:16,876 [DEBUG] Event before-endpoint-resolution.s3: calling handler <function customize_endpoint_resolver_builtins at 0x1060bc0e0>
+2024-12-12 00:45:16,876 [DEBUG] Event before-endpoint-resolution.s3: calling handler <bound method S3RegionRedirectorv2.redirect_from_cache of <botocore.utils.S3RegionRedirectorv2 object at 0x111207250>>
+2024-12-12 00:45:16,876 [DEBUG] Calling endpoint provider with parameters: {'Bucket': 'aiademomagicaudio', 'Region': 'eu-north-1', 'UseFIPS': False, 'UseDualStack': False, 'ForcePathStyle': False, 'Accelerate': False, 'UseGlobalEndpoint': False, 'Key': 'organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md', 'DisableMultiRegionAccessPoints': False, 'UseArnRegion': True}
+2024-12-12 00:45:16,876 [DEBUG] Endpoint provider result: https://aiademomagicaudio.s3.eu-north-1.amazonaws.com
+2024-12-12 00:45:16,876 [DEBUG] Selecting from endpoint provider's list of auth schemes: "sigv4". User selected auth scheme is: "None"
+2024-12-12 00:45:16,876 [DEBUG] Selected auth type "v4" as "v4" with signing context params: {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}
+2024-12-12 00:45:16,876 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_expect_header at 0x1060aa0c0>
+2024-12-12 00:45:16,876 [DEBUG] Event before-call.s3.GetObject: calling handler <bound method S3ExpressIdentityResolver.apply_signing_cache_key of <botocore.utils.S3ExpressIdentityResolver object at 0x11120f450>>
+2024-12-12 00:45:16,876 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_recursion_detection_header at 0x1060a82c0>
+2024-12-12 00:45:16,876 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_query_compatibility_header at 0x1060bc5e0>
+2024-12-12 00:45:16,877 [DEBUG] Event before-call.s3.GetObject: calling handler <function inject_api_version_header_if_needed at 0x1060ab600>
+2024-12-12 00:45:16,877 [DEBUG] Making request for OperationModel(name=GetObject) with params: {'url_path': '/organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md', 'query_string': {}, 'method': 'GET', 'headers': {'User-Agent': 'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57'}, 'body': b'', 'auth_path': '/aiademomagicaudio/organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md', 'url': 'https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md', 'context': {'client_region': 'eu-north-1', 'client_config': <botocore.config.Config object at 0x1110ef450>, 'has_streaming_input': False, 'auth_type': 'v4', 'unsigned_payload': None, 's3_redirect': {'redirected': False, 'bucket': 'aiademomagicaudio', 'params': {'Bucket': 'aiademomagicaudio', 'Key': 'organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md'}}, 'input_params': {'Bucket': 'aiademomagicaudio', 'Key': 'organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md'}, 'signing': {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}, 'endpoint_properties': {'authSchemes': [{'disableDoubleEncoding': True, 'name': 'sigv4', 'signingName': 's3', 'signingRegion': 'eu-north-1'}]}}}
+2024-12-12 00:45:16,877 [DEBUG] Event request-created.s3.GetObject: calling handler <bound method RequestSigner.handler of <botocore.signers.RequestSigner object at 0x1110ef410>>
+2024-12-12 00:45:16,877 [DEBUG] Event choose-signer.s3.GetObject: calling handler <function set_operation_specific_signer at 0x1060a9940>
+2024-12-12 00:45:16,877 [DEBUG] Event before-sign.s3.GetObject: calling handler <function remove_arn_from_signing_path at 0x1060bc040>
+2024-12-12 00:45:16,877 [DEBUG] Event before-sign.s3.GetObject: calling handler <bound method S3ExpressIdentityResolver.resolve_s3express_identity of <botocore.utils.S3ExpressIdentityResolver object at 0x11120f450>>
+2024-12-12 00:45:16,877 [DEBUG] Calculating signature using v4 auth.
+2024-12-12 00:45:16,877 [DEBUG] CanonicalRequest:
+GET
+/organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md
+
+host:aiademomagicaudio.s3.eu-north-1.amazonaws.com
+x-amz-content-sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+x-amz-date:20241211T234516Z
+
+host;x-amz-content-sha256;x-amz-date
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+2024-12-12 00:45:16,877 [DEBUG] StringToSign:
+AWS4-HMAC-SHA256
+20241211T234516Z
+20241211/eu-north-1/s3/aws4_request
+e8711efbd7c6fbd320ef11d784d24479d04b2c0a6291509aca9cb1153ab3bd5d
+2024-12-12 00:45:16,877 [DEBUG] Signature:
+e80a968200ae46d6f4c3ce642f393c4feb4cd8bc9ef459d7203fcfd7d19a6d8e
+2024-12-12 00:45:16,877 [DEBUG] Event request-created.s3.GetObject: calling handler <function add_retry_headers at 0x1060abe20>
+2024-12-12 00:45:16,877 [DEBUG] Sending http request: <AWSPreparedRequest stream_output=True, method=GET, url=https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md, headers={'User-Agent': b'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57', 'X-Amz-Date': b'20241211T234516Z', 'X-Amz-Content-SHA256': b'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 'Authorization': b'AWS4-HMAC-SHA256 Credential=AKIAWPPO56WM77JT7YP7/20241211/eu-north-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=e80a968200ae46d6f4c3ce642f393c4feb4cd8bc9ef459d7203fcfd7d19a6d8e', 'amz-sdk-invocation-id': b'4ac98d12-95ea-443a-9f8f-eebd1895709d', 'amz-sdk-request': b'attempt=1'}>
+2024-12-12 00:45:16,877 [DEBUG] Certificate path: /Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_chat-local/venv/lib/python3.11/site-packages/certifi/cacert.pem
+2024-12-12 00:45:16,893 [DEBUG] https://aiademomagicaudio.s3.eu-north-1.amazonaws.com:443 "GET /organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md HTTP/11" 404 None
+2024-12-12 00:45:16,893 [DEBUG] Event before-parse.s3.GetObject: calling handler <function _handle_200_error at 0x1060bc400>
+2024-12-12 00:45:16,893 [DEBUG] Event before-parse.s3.GetObject: calling handler <function handle_expires_header at 0x1060bc220>
+2024-12-12 00:45:16,894 [DEBUG] Response headers: {'x-amz-request-id': 'PJN0J8F1P6HEBVXF', 'x-amz-id-2': 'mIvh/q8YWG1Mmy10HRg6eLdvLQvi4CvPnuWMOGQtRUldGenr+LvNlqMpkRJ4mxVDj1I074UiPLc=', 'Content-Type': 'application/xml', 'Transfer-Encoding': 'chunked', 'Date': 'Wed, 11 Dec 2024 23:45:16 GMT', 'Server': 'AmazonS3'}
+2024-12-12 00:45:16,894 [DEBUG] Response body:
+b'<?xml version="1.0" encoding="UTF-8"?>\n<Error><Code>NoSuchKey</Code><Message>The specified key does not exist.</Message><Key>organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md</Key><RequestId>PJN0J8F1P6HEBVXF</RequestId><HostId>mIvh/q8YWG1Mmy10HRg6eLdvLQvi4CvPnuWMOGQtRUldGenr+LvNlqMpkRJ4mxVDj1I074UiPLc=</HostId></Error>'
+2024-12-12 00:45:16,895 [DEBUG] Response headers: {'x-amz-request-id': 'PJN0J8F1P6HEBVXF', 'x-amz-id-2': 'mIvh/q8YWG1Mmy10HRg6eLdvLQvi4CvPnuWMOGQtRUldGenr+LvNlqMpkRJ4mxVDj1I074UiPLc=', 'Content-Type': 'application/xml', 'Transfer-Encoding': 'chunked', 'Date': 'Wed, 11 Dec 2024 23:45:16 GMT', 'Server': 'AmazonS3'}
+2024-12-12 00:45:16,895 [DEBUG] Response body:
+b'<?xml version="1.0" encoding="UTF-8"?>\n<Error><Code>NoSuchKey</Code><Message>The specified key does not exist.</Message><Key>organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md</Key><RequestId>PJN0J8F1P6HEBVXF</RequestId><HostId>mIvh/q8YWG1Mmy10HRg6eLdvLQvi4CvPnuWMOGQtRUldGenr+LvNlqMpkRJ4mxVDj1I074UiPLc=</HostId></Error>'
+2024-12-12 00:45:16,895 [DEBUG] Event needs-retry.s3.GetObject: calling handler <function _update_status_code at 0x1060bc540>
+2024-12-12 00:45:16,895 [DEBUG] Event needs-retry.s3.GetObject: calling handler <botocore.retryhandler.RetryHandler object at 0x111207bd0>
+2024-12-12 00:45:16,895 [DEBUG] No retry needed.
+2024-12-12 00:45:16,895 [DEBUG] Event needs-retry.s3.GetObject: calling handler <bound method S3RegionRedirectorv2.redirect_from_error of <botocore.utils.S3RegionRedirectorv2 object at 0x111207250>>
+2024-12-12 00:45:16,895 [ERROR] No agent frameworks file at 'organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md' in S3.
+2024-12-12 00:45:16,895 [DEBUG] Event choose-service-name: calling handler <function handle_service_name_alias at 0x10606f060>
+2024-12-12 00:45:16,896 [DEBUG] Event creating-client-class.s3: calling handler <function add_generate_presigned_post at 0x106000c20>
+2024-12-12 00:45:16,896 [DEBUG] Event creating-client-class.s3: calling handler <function lazy_call.<locals>._handler at 0x10667c7c0>
+2024-12-12 00:45:16,896 [DEBUG] Event creating-client-class.s3: calling handler <function add_generate_presigned_url at 0x1060009a0>
+2024-12-12 00:45:16,896 [DEBUG] Looking for endpoint for s3 via: environment_service
+2024-12-12 00:45:16,896 [DEBUG] Looking for endpoint for s3 via: environment_global
+2024-12-12 00:45:16,896 [DEBUG] Looking for endpoint for s3 via: config_service
+2024-12-12 00:45:16,896 [DEBUG] Looking for endpoint for s3 via: config_global
+2024-12-12 00:45:16,896 [DEBUG] No configured endpoint found.
+2024-12-12 00:45:16,897 [DEBUG] Setting s3 timeout as (60, 60)
+2024-12-12 00:45:16,898 [DEBUG] Registering retry handlers for service: s3
+2024-12-12 00:45:16,898 [DEBUG] Registering S3 region redirector handler
+2024-12-12 00:45:16,898 [DEBUG] Registering S3Express Identity Resolver
+2024-12-12 00:45:16,898 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function sse_md5 at 0x1060a9da0>
+2024-12-12 00:45:16,898 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function validate_bucket_name at 0x1060a9d00>
+2024-12-12 00:45:16,898 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function remove_bucket_from_url_paths_from_model at 0x1060abec0>
+2024-12-12 00:45:16,899 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <bound method S3RegionRedirectorv2.annotate_request_context of <botocore.utils.S3RegionRedirectorv2 object at 0x111207250>>
+2024-12-12 00:45:16,899 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <bound method ClientCreator._inject_s3_input_parameters of <botocore.client.ClientCreator object at 0x106cadd90>>
+2024-12-12 00:45:16,899 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function generate_idempotent_uuid at 0x1060a9b20>
+2024-12-12 00:45:16,899 [DEBUG] Event before-endpoint-resolution.s3: calling handler <function customize_endpoint_resolver_builtins at 0x1060bc0e0>
+2024-12-12 00:45:16,899 [DEBUG] Event before-endpoint-resolution.s3: calling handler <bound method S3RegionRedirectorv2.redirect_from_cache of <botocore.utils.S3RegionRedirectorv2 object at 0x111207250>>
+2024-12-12 00:45:16,899 [DEBUG] Calling endpoint provider with parameters: {'Bucket': 'aiademomagicaudio', 'Region': 'eu-north-1', 'UseFIPS': False, 'UseDualStack': False, 'ForcePathStyle': False, 'Accelerate': False, 'UseGlobalEndpoint': False, 'Key': 'organizations/river/_config/context_oID-nordicequation.md', 'DisableMultiRegionAccessPoints': False, 'UseArnRegion': True}
+2024-12-12 00:45:16,899 [DEBUG] Endpoint provider result: https://aiademomagicaudio.s3.eu-north-1.amazonaws.com
+2024-12-12 00:45:16,899 [DEBUG] Selecting from endpoint provider's list of auth schemes: "sigv4". User selected auth scheme is: "None"
+2024-12-12 00:45:16,899 [DEBUG] Selected auth type "v4" as "v4" with signing context params: {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}
+2024-12-12 00:45:16,899 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_expect_header at 0x1060aa0c0>
+2024-12-12 00:45:16,899 [DEBUG] Event before-call.s3.GetObject: calling handler <bound method S3ExpressIdentityResolver.apply_signing_cache_key of <botocore.utils.S3ExpressIdentityResolver object at 0x11120f450>>
+2024-12-12 00:45:16,899 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_recursion_detection_header at 0x1060a82c0>
+2024-12-12 00:45:16,899 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_query_compatibility_header at 0x1060bc5e0>
+2024-12-12 00:45:16,899 [DEBUG] Event before-call.s3.GetObject: calling handler <function inject_api_version_header_if_needed at 0x1060ab600>
+2024-12-12 00:45:16,899 [DEBUG] Making request for OperationModel(name=GetObject) with params: {'url_path': '/organizations/river/_config/context_oID-nordicequation.md', 'query_string': {}, 'method': 'GET', 'headers': {'User-Agent': 'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57'}, 'body': b'', 'auth_path': '/aiademomagicaudio/organizations/river/_config/context_oID-nordicequation.md', 'url': 'https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/organizations/river/_config/context_oID-nordicequation.md', 'context': {'client_region': 'eu-north-1', 'client_config': <botocore.config.Config object at 0x1110ef450>, 'has_streaming_input': False, 'auth_type': 'v4', 'unsigned_payload': None, 's3_redirect': {'redirected': False, 'bucket': 'aiademomagicaudio', 'params': {'Bucket': 'aiademomagicaudio', 'Key': 'organizations/river/_config/context_oID-nordicequation.md'}}, 'input_params': {'Bucket': 'aiademomagicaudio', 'Key': 'organizations/river/_config/context_oID-nordicequation.md'}, 'signing': {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}, 'endpoint_properties': {'authSchemes': [{'disableDoubleEncoding': True, 'name': 'sigv4', 'signingName': 's3', 'signingRegion': 'eu-north-1'}]}}}
+2024-12-12 00:45:16,899 [DEBUG] Event request-created.s3.GetObject: calling handler <bound method RequestSigner.handler of <botocore.signers.RequestSigner object at 0x1110ef410>>
+2024-12-12 00:45:16,899 [DEBUG] Event choose-signer.s3.GetObject: calling handler <function set_operation_specific_signer at 0x1060a9940>
+2024-12-12 00:45:16,899 [DEBUG] Event before-sign.s3.GetObject: calling handler <function remove_arn_from_signing_path at 0x1060bc040>
+2024-12-12 00:45:16,899 [DEBUG] Event before-sign.s3.GetObject: calling handler <bound method S3ExpressIdentityResolver.resolve_s3express_identity of <botocore.utils.S3ExpressIdentityResolver object at 0x11120f450>>
+2024-12-12 00:45:16,899 [DEBUG] Calculating signature using v4 auth.
+2024-12-12 00:45:16,899 [DEBUG] CanonicalRequest:
+GET
+/organizations/river/_config/context_oID-nordicequation.md
+
+host:aiademomagicaudio.s3.eu-north-1.amazonaws.com
+x-amz-content-sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+x-amz-date:20241211T234516Z
+
+host;x-amz-content-sha256;x-amz-date
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+2024-12-12 00:45:16,899 [DEBUG] StringToSign:
+AWS4-HMAC-SHA256
+20241211T234516Z
+20241211/eu-north-1/s3/aws4_request
+81ed6945c188bdfd469d59e393f2fb208bb7e81b7b2a8cf1d0c424b176972397
+2024-12-12 00:45:16,900 [DEBUG] Signature:
+4b95f4161f36a7efa41be8a331bcf9cbf6a75fed1f3e485616cfe075c6adb557
+2024-12-12 00:45:16,900 [DEBUG] Event request-created.s3.GetObject: calling handler <function add_retry_headers at 0x1060abe20>
+2024-12-12 00:45:16,900 [DEBUG] Sending http request: <AWSPreparedRequest stream_output=True, method=GET, url=https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/organizations/river/_config/context_oID-nordicequation.md, headers={'User-Agent': b'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57', 'X-Amz-Date': b'20241211T234516Z', 'X-Amz-Content-SHA256': b'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 'Authorization': b'AWS4-HMAC-SHA256 Credential=AKIAWPPO56WM77JT7YP7/20241211/eu-north-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=4b95f4161f36a7efa41be8a331bcf9cbf6a75fed1f3e485616cfe075c6adb557', 'amz-sdk-invocation-id': b'd02a81d4-6486-4474-8b5b-c0e935cd0432', 'amz-sdk-request': b'attempt=1'}>
+2024-12-12 00:45:16,900 [DEBUG] Certificate path: /Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_chat-local/venv/lib/python3.11/site-packages/certifi/cacert.pem
+2024-12-12 00:45:16,926 [DEBUG] https://aiademomagicaudio.s3.eu-north-1.amazonaws.com:443 "GET /organizations/river/_config/context_oID-nordicequation.md HTTP/11" 200 13573
+2024-12-12 00:45:16,926 [DEBUG] Event before-parse.s3.GetObject: calling handler <function _handle_200_error at 0x1060bc400>
+2024-12-12 00:45:16,926 [DEBUG] Event before-parse.s3.GetObject: calling handler <function handle_expires_header at 0x1060bc220>
+2024-12-12 00:45:16,926 [DEBUG] Response headers: {'x-amz-id-2': 'Sv6gZmNCNBVhLjtiNXx6K6jNDrXFx2nNHLWQNYE6cVgfmAor6gP3bX4qEGDdH933SS/mcm43vX4=', 'x-amz-request-id': 'PJNE250QPKTBDWYV', 'Date': 'Wed, 11 Dec 2024 23:45:17 GMT', 'Last-Modified': 'Wed, 11 Dec 2024 20:12:56 GMT', 'ETag': '"d36ec74423a788eec0dbf75b71b51beb"', 'x-amz-server-side-encryption': 'AES256', 'Accept-Ranges': 'bytes', 'Content-Type': 'text/plain', 'Content-Length': '13573', 'Server': 'AmazonS3'}
+2024-12-12 00:45:16,926 [DEBUG] Response body:
+<botocore.response.StreamingBody object at 0x1112b4580>
+2024-12-12 00:45:16,927 [DEBUG] Event needs-retry.s3.GetObject: calling handler <function _update_status_code at 0x1060bc540>
+2024-12-12 00:45:16,927 [DEBUG] Event needs-retry.s3.GetObject: calling handler <botocore.retryhandler.RetryHandler object at 0x111207bd0>
+2024-12-12 00:45:16,927 [DEBUG] No retry needed.
+2024-12-12 00:45:16,927 [DEBUG] Event needs-retry.s3.GetObject: calling handler <bound method S3RegionRedirectorv2.redirect_from_error of <botocore.utils.S3RegionRedirectorv2 object at 0x111207250>>
+2024-12-12 00:45:16,927 [DEBUG] Successfully read content from organizations/river/_config/context_oID-nordicequation.md, length: 13570
+2024-12-12 00:45:16,927 [ERROR] Error in main loop: name 'reload_memory' is not defined
+2024-12-12 00:46:08,653 [ERROR] No agent frameworks file at 'organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md' in S3.
+2024-12-12 00:46:08,681 [ERROR] Error in main loop: name 'reload_memory' is not defined
+2024-12-12 00:47:27,943 [ERROR] No agent frameworks file at 'organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md' in S3.
+2024-12-12 00:48:04,574 [ERROR] Error reading agent frameworks from S3: An error occurred (NoSuchKey) when calling the GetObject operation: The specified key does not exist.
+2024-12-12 00:48:04,799 [ERROR] Error in main loop: unsupported operand type(s) for +: 'NoneType' and 'str'
+2024-12-12 00:48:12,606 [DEBUG] IMDS ENDPOINT: http://169.254.169.254/
+2024-12-12 00:48:12,607 [DEBUG] Looking for credentials via: env
+2024-12-12 00:48:12,607 [INFO] Found credentials in environment variables.
+2024-12-12 00:48:12,607 [DEBUG] Event choose-service-name: calling handler <function handle_service_name_alias at 0x10626f060>
+2024-12-12 00:48:12,607 [DEBUG] Event creating-client-class.s3: calling handler <function add_generate_presigned_post at 0x106208c20>
+2024-12-12 00:48:12,607 [DEBUG] Event creating-client-class.s3: calling handler <function lazy_call.<locals>._handler at 0x1068787c0>
+2024-12-12 00:48:12,607 [DEBUG] Event creating-client-class.s3: calling handler <function add_generate_presigned_url at 0x1062089a0>
+2024-12-12 00:48:12,607 [DEBUG] Looking for endpoint for s3 via: environment_service
+2024-12-12 00:48:12,607 [DEBUG] Looking for endpoint for s3 via: environment_global
+2024-12-12 00:48:12,607 [DEBUG] Looking for endpoint for s3 via: config_service
+2024-12-12 00:48:12,607 [DEBUG] Looking for endpoint for s3 via: config_global
+2024-12-12 00:48:12,607 [DEBUG] No configured endpoint found.
+2024-12-12 00:48:12,608 [DEBUG] Setting s3 timeout as (60, 60)
+2024-12-12 00:48:12,608 [DEBUG] Registering retry handlers for service: s3
+2024-12-12 00:48:12,608 [DEBUG] Registering S3 region redirector handler
+2024-12-12 00:48:12,608 [DEBUG] Registering S3Express Identity Resolver
+2024-12-12 00:48:12,609 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function sse_md5 at 0x1062a9da0>
+2024-12-12 00:48:12,609 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function validate_bucket_name at 0x1062a9d00>
+2024-12-12 00:48:12,609 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function remove_bucket_from_url_paths_from_model at 0x1062abec0>
+2024-12-12 00:48:12,609 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <bound method S3RegionRedirectorv2.annotate_request_context of <botocore.utils.S3RegionRedirectorv2 object at 0x10726bc90>>
+2024-12-12 00:48:12,609 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <bound method ClientCreator._inject_s3_input_parameters of <botocore.client.ClientCreator object at 0x10721bb50>>
+2024-12-12 00:48:12,609 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function generate_idempotent_uuid at 0x1062a9b20>
+2024-12-12 00:48:12,609 [DEBUG] Event before-endpoint-resolution.s3: calling handler <function customize_endpoint_resolver_builtins at 0x1062bc0e0>
+2024-12-12 00:48:12,609 [DEBUG] Event before-endpoint-resolution.s3: calling handler <bound method S3RegionRedirectorv2.redirect_from_cache of <botocore.utils.S3RegionRedirectorv2 object at 0x10726bc90>>
+2024-12-12 00:48:12,609 [DEBUG] Calling endpoint provider with parameters: {'Bucket': 'aiademomagicaudio', 'Region': 'eu-north-1', 'UseFIPS': False, 'UseDualStack': False, 'ForcePathStyle': False, 'Accelerate': False, 'UseGlobalEndpoint': False, 'Key': '_config/systemprompt_base.md', 'DisableMultiRegionAccessPoints': False, 'UseArnRegion': True}
+2024-12-12 00:48:12,609 [DEBUG] Endpoint provider result: https://aiademomagicaudio.s3.eu-north-1.amazonaws.com
+2024-12-12 00:48:12,609 [DEBUG] Selecting from endpoint provider's list of auth schemes: "sigv4". User selected auth scheme is: "None"
+2024-12-12 00:48:12,609 [DEBUG] Selected auth type "v4" as "v4" with signing context params: {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}
+2024-12-12 00:48:12,609 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_expect_header at 0x1062aa0c0>
+2024-12-12 00:48:12,609 [DEBUG] Event before-call.s3.GetObject: calling handler <bound method S3ExpressIdentityResolver.apply_signing_cache_key of <botocore.utils.S3ExpressIdentityResolver object at 0x10726ca50>>
+2024-12-12 00:48:12,609 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_recursion_detection_header at 0x1062a82c0>
+2024-12-12 00:48:12,609 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_query_compatibility_header at 0x1062bc5e0>
+2024-12-12 00:48:12,609 [DEBUG] Event before-call.s3.GetObject: calling handler <function inject_api_version_header_if_needed at 0x1062ab600>
+2024-12-12 00:48:12,609 [DEBUG] Making request for OperationModel(name=GetObject) with params: {'url_path': '/_config/systemprompt_base.md', 'query_string': {}, 'method': 'GET', 'headers': {'User-Agent': 'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57'}, 'body': b'', 'auth_path': '/aiademomagicaudio/_config/systemprompt_base.md', 'url': 'https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/_config/systemprompt_base.md', 'context': {'client_region': 'eu-north-1', 'client_config': <botocore.config.Config object at 0x107257550>, 'has_streaming_input': False, 'auth_type': 'v4', 'unsigned_payload': None, 's3_redirect': {'redirected': False, 'bucket': 'aiademomagicaudio', 'params': {'Bucket': 'aiademomagicaudio', 'Key': '_config/systemprompt_base.md'}}, 'input_params': {'Bucket': 'aiademomagicaudio', 'Key': '_config/systemprompt_base.md'}, 'signing': {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}, 'endpoint_properties': {'authSchemes': [{'disableDoubleEncoding': True, 'name': 'sigv4', 'signingName': 's3', 'signingRegion': 'eu-north-1'}]}}}
+2024-12-12 00:48:12,610 [DEBUG] Event request-created.s3.GetObject: calling handler <bound method RequestSigner.handler of <botocore.signers.RequestSigner object at 0x107257510>>
+2024-12-12 00:48:12,610 [DEBUG] Event choose-signer.s3.GetObject: calling handler <function set_operation_specific_signer at 0x1062a9940>
+2024-12-12 00:48:12,610 [DEBUG] Event before-sign.s3.GetObject: calling handler <function remove_arn_from_signing_path at 0x1062bc040>
+2024-12-12 00:48:12,610 [DEBUG] Event before-sign.s3.GetObject: calling handler <bound method S3ExpressIdentityResolver.resolve_s3express_identity of <botocore.utils.S3ExpressIdentityResolver object at 0x10726ca50>>
+2024-12-12 00:48:12,610 [DEBUG] Calculating signature using v4 auth.
+2024-12-12 00:48:12,610 [DEBUG] CanonicalRequest:
+GET
+/_config/systemprompt_base.md
+
+host:aiademomagicaudio.s3.eu-north-1.amazonaws.com
+x-amz-content-sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+x-amz-date:20241211T234812Z
+
+host;x-amz-content-sha256;x-amz-date
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+2024-12-12 00:48:12,610 [DEBUG] StringToSign:
+AWS4-HMAC-SHA256
+20241211T234812Z
+20241211/eu-north-1/s3/aws4_request
+335a5853315914e526e1f7755e53bc11b67289d895846e769bf252c542822a86
+2024-12-12 00:48:12,610 [DEBUG] Signature:
+0b6214f78df3b7a2c3eb01704ad09e12e8f89c1af60f80da0322811f89d6fbdd
+2024-12-12 00:48:12,610 [DEBUG] Event request-created.s3.GetObject: calling handler <function add_retry_headers at 0x1062abe20>
+2024-12-12 00:48:12,610 [DEBUG] Sending http request: <AWSPreparedRequest stream_output=True, method=GET, url=https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/_config/systemprompt_base.md, headers={'User-Agent': b'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57', 'X-Amz-Date': b'20241211T234812Z', 'X-Amz-Content-SHA256': b'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 'Authorization': b'AWS4-HMAC-SHA256 Credential=AKIAWPPO56WM77JT7YP7/20241211/eu-north-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=0b6214f78df3b7a2c3eb01704ad09e12e8f89c1af60f80da0322811f89d6fbdd', 'amz-sdk-invocation-id': b'13efac87-4dbc-4dfe-ac5b-c116012177e8', 'amz-sdk-request': b'attempt=1'}>
+2024-12-12 00:48:12,610 [DEBUG] Certificate path: /Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_chat-local/venv/lib/python3.11/site-packages/certifi/cacert.pem
+2024-12-12 00:48:12,611 [DEBUG] Starting new HTTPS connection (1): aiademomagicaudio.s3.eu-north-1.amazonaws.com:443
+2024-12-12 00:48:12,663 [DEBUG] https://aiademomagicaudio.s3.eu-north-1.amazonaws.com:443 "GET /_config/systemprompt_base.md HTTP/11" 200 7630
+2024-12-12 00:48:12,663 [DEBUG] Event before-parse.s3.GetObject: calling handler <function _handle_200_error at 0x1062bc400>
+2024-12-12 00:48:12,663 [DEBUG] Event before-parse.s3.GetObject: calling handler <function handle_expires_header at 0x1062bc220>
+2024-12-12 00:48:12,663 [DEBUG] Response headers: {'x-amz-id-2': 'DC8axCPFJZKECoc2NSiFHHG0zi/dUifC2KdAcDnKyQ/kiyuK31s7x70MBdg9nIHDQ+sqhvOb4gsf8eLrM6Hojg==', 'x-amz-request-id': '0ZXVEWCNSF6T1MWM', 'Date': 'Wed, 11 Dec 2024 23:48:13 GMT', 'Last-Modified': 'Wed, 11 Dec 2024 15:43:59 GMT', 'ETag': '"e6bebaaa8f78a67cd957e28ad1c50f18"', 'x-amz-server-side-encryption': 'AES256', 'Accept-Ranges': 'bytes', 'Content-Type': 'text/markdown', 'Content-Length': '7630', 'Server': 'AmazonS3'}
+2024-12-12 00:48:12,663 [DEBUG] Response body:
+<botocore.response.StreamingBody object at 0x107262aa0>
+2024-12-12 00:48:12,664 [DEBUG] Event needs-retry.s3.GetObject: calling handler <function _update_status_code at 0x1062bc540>
+2024-12-12 00:48:12,664 [DEBUG] Event needs-retry.s3.GetObject: calling handler <botocore.retryhandler.RetryHandler object at 0x10726c710>
+2024-12-12 00:48:12,664 [DEBUG] No retry needed.
+2024-12-12 00:48:12,664 [DEBUG] Event needs-retry.s3.GetObject: calling handler <bound method S3RegionRedirectorv2.redirect_from_error of <botocore.utils.S3RegionRedirectorv2 object at 0x10726bc90>>
+2024-12-12 00:48:12,664 [DEBUG] Event choose-service-name: calling handler <function handle_service_name_alias at 0x10626f060>
+2024-12-12 00:48:12,665 [DEBUG] Event creating-client-class.s3: calling handler <function add_generate_presigned_post at 0x106208c20>
+2024-12-12 00:48:12,665 [DEBUG] Event creating-client-class.s3: calling handler <function lazy_call.<locals>._handler at 0x1068787c0>
+2024-12-12 00:48:12,665 [DEBUG] Event creating-client-class.s3: calling handler <function add_generate_presigned_url at 0x1062089a0>
+2024-12-12 00:48:12,665 [DEBUG] Looking for endpoint for s3 via: environment_service
+2024-12-12 00:48:12,665 [DEBUG] Looking for endpoint for s3 via: environment_global
+2024-12-12 00:48:12,665 [DEBUG] Looking for endpoint for s3 via: config_service
+2024-12-12 00:48:12,665 [DEBUG] Looking for endpoint for s3 via: config_global
+2024-12-12 00:48:12,665 [DEBUG] No configured endpoint found.
+2024-12-12 00:48:12,665 [DEBUG] Setting s3 timeout as (60, 60)
+2024-12-12 00:48:12,666 [DEBUG] Registering retry handlers for service: s3
+2024-12-12 00:48:12,666 [DEBUG] Registering S3 region redirector handler
+2024-12-12 00:48:12,666 [DEBUG] Registering S3Express Identity Resolver
+2024-12-12 00:48:12,666 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function sse_md5 at 0x1062a9da0>
+2024-12-12 00:48:12,666 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function validate_bucket_name at 0x1062a9d00>
+2024-12-12 00:48:12,666 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function remove_bucket_from_url_paths_from_model at 0x1062abec0>
+2024-12-12 00:48:12,666 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <bound method S3RegionRedirectorv2.annotate_request_context of <botocore.utils.S3RegionRedirectorv2 object at 0x1072c9610>>
+2024-12-12 00:48:12,666 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <bound method ClientCreator._inject_s3_input_parameters of <botocore.client.ClientCreator object at 0x10724bc10>>
+2024-12-12 00:48:12,666 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function generate_idempotent_uuid at 0x1062a9b20>
+2024-12-12 00:48:12,666 [DEBUG] Event before-endpoint-resolution.s3: calling handler <function customize_endpoint_resolver_builtins at 0x1062bc0e0>
+2024-12-12 00:48:12,666 [DEBUG] Event before-endpoint-resolution.s3: calling handler <bound method S3RegionRedirectorv2.redirect_from_cache of <botocore.utils.S3RegionRedirectorv2 object at 0x1072c9610>>
+2024-12-12 00:48:12,666 [DEBUG] Calling endpoint provider with parameters: {'Bucket': 'aiademomagicaudio', 'Region': 'eu-north-1', 'UseFIPS': False, 'UseDualStack': False, 'ForcePathStyle': False, 'Accelerate': False, 'UseGlobalEndpoint': False, 'Key': 'organizations/river/agents/nordicequation/_config/systemprompt_aID-nordicequation.md', 'DisableMultiRegionAccessPoints': False, 'UseArnRegion': True}
+2024-12-12 00:48:12,667 [DEBUG] Endpoint provider result: https://aiademomagicaudio.s3.eu-north-1.amazonaws.com
+2024-12-12 00:48:12,667 [DEBUG] Selecting from endpoint provider's list of auth schemes: "sigv4". User selected auth scheme is: "None"
+2024-12-12 00:48:12,667 [DEBUG] Selected auth type "v4" as "v4" with signing context params: {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}
+2024-12-12 00:48:12,667 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_expect_header at 0x1062aa0c0>
+2024-12-12 00:48:12,667 [DEBUG] Event before-call.s3.GetObject: calling handler <bound method S3ExpressIdentityResolver.apply_signing_cache_key of <botocore.utils.S3ExpressIdentityResolver object at 0x1072ca390>>
+2024-12-12 00:48:12,667 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_recursion_detection_header at 0x1062a82c0>
+2024-12-12 00:48:12,667 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_query_compatibility_header at 0x1062bc5e0>
+2024-12-12 00:48:12,667 [DEBUG] Event before-call.s3.GetObject: calling handler <function inject_api_version_header_if_needed at 0x1062ab600>
+2024-12-12 00:48:12,667 [DEBUG] Making request for OperationModel(name=GetObject) with params: {'url_path': '/organizations/river/agents/nordicequation/_config/systemprompt_aID-nordicequation.md', 'query_string': {}, 'method': 'GET', 'headers': {'User-Agent': 'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57'}, 'body': b'', 'auth_path': '/aiademomagicaudio/organizations/river/agents/nordicequation/_config/systemprompt_aID-nordicequation.md', 'url': 'https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/organizations/river/agents/nordicequation/_config/systemprompt_aID-nordicequation.md', 'context': {'client_region': 'eu-north-1', 'client_config': <botocore.config.Config object at 0x1072185d0>, 'has_streaming_input': False, 'auth_type': 'v4', 'unsigned_payload': None, 's3_redirect': {'redirected': False, 'bucket': 'aiademomagicaudio', 'params': {'Bucket': 'aiademomagicaudio', 'Key': 'organizations/river/agents/nordicequation/_config/systemprompt_aID-nordicequation.md'}}, 'input_params': {'Bucket': 'aiademomagicaudio', 'Key': 'organizations/river/agents/nordicequation/_config/systemprompt_aID-nordicequation.md'}, 'signing': {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}, 'endpoint_properties': {'authSchemes': [{'disableDoubleEncoding': True, 'name': 'sigv4', 'signingName': 's3', 'signingRegion': 'eu-north-1'}]}}}
+2024-12-12 00:48:12,667 [DEBUG] Event request-created.s3.GetObject: calling handler <bound method RequestSigner.handler of <botocore.signers.RequestSigner object at 0x10721a510>>
+2024-12-12 00:48:12,667 [DEBUG] Event choose-signer.s3.GetObject: calling handler <function set_operation_specific_signer at 0x1062a9940>
+2024-12-12 00:48:12,667 [DEBUG] Event before-sign.s3.GetObject: calling handler <function remove_arn_from_signing_path at 0x1062bc040>
+2024-12-12 00:48:12,667 [DEBUG] Event before-sign.s3.GetObject: calling handler <bound method S3ExpressIdentityResolver.resolve_s3express_identity of <botocore.utils.S3ExpressIdentityResolver object at 0x1072ca390>>
+2024-12-12 00:48:12,667 [DEBUG] Calculating signature using v4 auth.
+2024-12-12 00:48:12,667 [DEBUG] CanonicalRequest:
+GET
+/organizations/river/agents/nordicequation/_config/systemprompt_aID-nordicequation.md
+
+host:aiademomagicaudio.s3.eu-north-1.amazonaws.com
+x-amz-content-sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+x-amz-date:20241211T234812Z
+
+host;x-amz-content-sha256;x-amz-date
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+2024-12-12 00:48:12,667 [DEBUG] StringToSign:
+AWS4-HMAC-SHA256
+20241211T234812Z
+20241211/eu-north-1/s3/aws4_request
+afba38f48e972b0c1b7bfd37cbd2a65a84feb0a081ded26a820ed813dd4fadcf
+2024-12-12 00:48:12,667 [DEBUG] Signature:
+fc28ec3d38d4f28517f6b374143702d723aa9acd5313a68cdf5f9f4eb2c1e85c
+2024-12-12 00:48:12,667 [DEBUG] Event request-created.s3.GetObject: calling handler <function add_retry_headers at 0x1062abe20>
+2024-12-12 00:48:12,667 [DEBUG] Sending http request: <AWSPreparedRequest stream_output=True, method=GET, url=https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/organizations/river/agents/nordicequation/_config/systemprompt_aID-nordicequation.md, headers={'User-Agent': b'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57', 'X-Amz-Date': b'20241211T234812Z', 'X-Amz-Content-SHA256': b'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 'Authorization': b'AWS4-HMAC-SHA256 Credential=AKIAWPPO56WM77JT7YP7/20241211/eu-north-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=fc28ec3d38d4f28517f6b374143702d723aa9acd5313a68cdf5f9f4eb2c1e85c', 'amz-sdk-invocation-id': b'1d0f918b-ee3c-4e21-8ce9-cc56512f18e9', 'amz-sdk-request': b'attempt=1'}>
+2024-12-12 00:48:12,667 [DEBUG] Certificate path: /Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_chat-local/venv/lib/python3.11/site-packages/certifi/cacert.pem
+2024-12-12 00:48:12,667 [DEBUG] Starting new HTTPS connection (1): aiademomagicaudio.s3.eu-north-1.amazonaws.com:443
+2024-12-12 00:48:12,730 [DEBUG] https://aiademomagicaudio.s3.eu-north-1.amazonaws.com:443 "GET /organizations/river/agents/nordicequation/_config/systemprompt_aID-nordicequation.md HTTP/11" 200 3659
+2024-12-12 00:48:12,731 [DEBUG] Event before-parse.s3.GetObject: calling handler <function _handle_200_error at 0x1062bc400>
+2024-12-12 00:48:12,731 [DEBUG] Event before-parse.s3.GetObject: calling handler <function handle_expires_header at 0x1062bc220>
+2024-12-12 00:48:12,731 [DEBUG] Response headers: {'x-amz-id-2': 's1YTy9EX1IJ1DOkz3+Uq43d1bkhdjjnK5wzHfzUuyjSUjxNoPIJzuPYX1deWmHroQ6LP4DCb22twSDBLyb6Ckg==', 'x-amz-request-id': '0ZXJDDC6N6WZHG8F', 'Date': 'Wed, 11 Dec 2024 23:48:13 GMT', 'Last-Modified': 'Wed, 11 Dec 2024 19:00:37 GMT', 'ETag': '"ab1730aae755b22e7c2afc82872671ed"', 'x-amz-server-side-encryption': 'AES256', 'Accept-Ranges': 'bytes', 'Content-Type': 'text/markdown', 'Content-Length': '3659', 'Server': 'AmazonS3'}
+2024-12-12 00:48:12,731 [DEBUG] Response body:
+<botocore.response.StreamingBody object at 0x1072bece0>
+2024-12-12 00:48:12,731 [DEBUG] Event needs-retry.s3.GetObject: calling handler <function _update_status_code at 0x1062bc540>
+2024-12-12 00:48:12,731 [DEBUG] Event needs-retry.s3.GetObject: calling handler <botocore.retryhandler.RetryHandler object at 0x1072ca050>
+2024-12-12 00:48:12,731 [DEBUG] No retry needed.
+2024-12-12 00:48:12,731 [DEBUG] Event needs-retry.s3.GetObject: calling handler <bound method S3RegionRedirectorv2.redirect_from_error of <botocore.utils.S3RegionRedirectorv2 object at 0x1072c9610>>
+2024-12-12 00:48:12,732 [DEBUG] Event choose-service-name: calling handler <function handle_service_name_alias at 0x10626f060>
+2024-12-12 00:48:12,732 [DEBUG] Event creating-client-class.s3: calling handler <function add_generate_presigned_post at 0x106208c20>
+2024-12-12 00:48:12,732 [DEBUG] Event creating-client-class.s3: calling handler <function lazy_call.<locals>._handler at 0x1068787c0>
+2024-12-12 00:48:12,732 [DEBUG] Event creating-client-class.s3: calling handler <function add_generate_presigned_url at 0x1062089a0>
+2024-12-12 00:48:12,732 [DEBUG] Looking for endpoint for s3 via: environment_service
+2024-12-12 00:48:12,732 [DEBUG] Looking for endpoint for s3 via: environment_global
+2024-12-12 00:48:12,732 [DEBUG] Looking for endpoint for s3 via: config_service
+2024-12-12 00:48:12,732 [DEBUG] Looking for endpoint for s3 via: config_global
+2024-12-12 00:48:12,732 [DEBUG] No configured endpoint found.
+2024-12-12 00:48:12,733 [DEBUG] Setting s3 timeout as (60, 60)
+2024-12-12 00:48:12,733 [DEBUG] Registering retry handlers for service: s3
+2024-12-12 00:48:12,733 [DEBUG] Registering S3 region redirector handler
+2024-12-12 00:48:12,733 [DEBUG] Registering S3Express Identity Resolver
+2024-12-12 00:48:12,734 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function sse_md5 at 0x1062a9da0>
+2024-12-12 00:48:12,734 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function validate_bucket_name at 0x1062a9d00>
+2024-12-12 00:48:12,734 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function remove_bucket_from_url_paths_from_model at 0x1062abec0>
+2024-12-12 00:48:12,734 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <bound method S3RegionRedirectorv2.annotate_request_context of <botocore.utils.S3RegionRedirectorv2 object at 0x1072fbf50>>
+2024-12-12 00:48:12,734 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <bound method ClientCreator._inject_s3_input_parameters of <botocore.client.ClientCreator object at 0x107228090>>
+2024-12-12 00:48:12,734 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function generate_idempotent_uuid at 0x1062a9b20>
+2024-12-12 00:48:12,734 [DEBUG] Event before-endpoint-resolution.s3: calling handler <function customize_endpoint_resolver_builtins at 0x1062bc0e0>
+2024-12-12 00:48:12,734 [DEBUG] Event before-endpoint-resolution.s3: calling handler <bound method S3RegionRedirectorv2.redirect_from_cache of <botocore.utils.S3RegionRedirectorv2 object at 0x1072fbf50>>
+2024-12-12 00:48:12,734 [DEBUG] Calling endpoint provider with parameters: {'Bucket': 'aiademomagicaudio', 'Region': 'eu-north-1', 'UseFIPS': False, 'UseDualStack': False, 'ForcePathStyle': False, 'Accelerate': False, 'UseGlobalEndpoint': False, 'Key': '_config/frameworks_base.md', 'DisableMultiRegionAccessPoints': False, 'UseArnRegion': True}
+2024-12-12 00:48:12,734 [DEBUG] Endpoint provider result: https://aiademomagicaudio.s3.eu-north-1.amazonaws.com
+2024-12-12 00:48:12,734 [DEBUG] Selecting from endpoint provider's list of auth schemes: "sigv4". User selected auth scheme is: "None"
+2024-12-12 00:48:12,734 [DEBUG] Selected auth type "v4" as "v4" with signing context params: {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}
+2024-12-12 00:48:12,734 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_expect_header at 0x1062aa0c0>
+2024-12-12 00:48:12,734 [DEBUG] Event before-call.s3.GetObject: calling handler <bound method S3ExpressIdentityResolver.apply_signing_cache_key of <botocore.utils.S3ExpressIdentityResolver object at 0x1072fcd90>>
+2024-12-12 00:48:12,734 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_recursion_detection_header at 0x1062a82c0>
+2024-12-12 00:48:12,734 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_query_compatibility_header at 0x1062bc5e0>
+2024-12-12 00:48:12,734 [DEBUG] Event before-call.s3.GetObject: calling handler <function inject_api_version_header_if_needed at 0x1062ab600>
+2024-12-12 00:48:12,734 [DEBUG] Making request for OperationModel(name=GetObject) with params: {'url_path': '/_config/frameworks_base.md', 'query_string': {}, 'method': 'GET', 'headers': {'User-Agent': 'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57'}, 'body': b'', 'auth_path': '/aiademomagicaudio/_config/frameworks_base.md', 'url': 'https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/_config/frameworks_base.md', 'context': {'client_region': 'eu-north-1', 'client_config': <botocore.config.Config object at 0x1072c8f10>, 'has_streaming_input': False, 'auth_type': 'v4', 'unsigned_payload': None, 's3_redirect': {'redirected': False, 'bucket': 'aiademomagicaudio', 'params': {'Bucket': 'aiademomagicaudio', 'Key': '_config/frameworks_base.md'}}, 'input_params': {'Bucket': 'aiademomagicaudio', 'Key': '_config/frameworks_base.md'}, 'signing': {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}, 'endpoint_properties': {'authSchemes': [{'disableDoubleEncoding': True, 'name': 'sigv4', 'signingName': 's3', 'signingRegion': 'eu-north-1'}]}}}
+2024-12-12 00:48:12,734 [DEBUG] Event request-created.s3.GetObject: calling handler <bound method RequestSigner.handler of <botocore.signers.RequestSigner object at 0x1072c8e90>>
+2024-12-12 00:48:12,734 [DEBUG] Event choose-signer.s3.GetObject: calling handler <function set_operation_specific_signer at 0x1062a9940>
+2024-12-12 00:48:12,734 [DEBUG] Event before-sign.s3.GetObject: calling handler <function remove_arn_from_signing_path at 0x1062bc040>
+2024-12-12 00:48:12,734 [DEBUG] Event before-sign.s3.GetObject: calling handler <bound method S3ExpressIdentityResolver.resolve_s3express_identity of <botocore.utils.S3ExpressIdentityResolver object at 0x1072fcd90>>
+2024-12-12 00:48:12,734 [DEBUG] Calculating signature using v4 auth.
+2024-12-12 00:48:12,734 [DEBUG] CanonicalRequest:
+GET
+/_config/frameworks_base.md
+
+host:aiademomagicaudio.s3.eu-north-1.amazonaws.com
+x-amz-content-sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+x-amz-date:20241211T234812Z
+
+host;x-amz-content-sha256;x-amz-date
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+2024-12-12 00:48:12,734 [DEBUG] StringToSign:
+AWS4-HMAC-SHA256
+20241211T234812Z
+20241211/eu-north-1/s3/aws4_request
+dff1a523467a0454261a6d01d0af6f324532c815ca9f1b8d7382707bb0c43780
+2024-12-12 00:48:12,734 [DEBUG] Signature:
+008631b4a8c5ddf9e4e418baaef342eca650526a08d6b6e342daa21c388156a6
+2024-12-12 00:48:12,735 [DEBUG] Event request-created.s3.GetObject: calling handler <function add_retry_headers at 0x1062abe20>
+2024-12-12 00:48:12,735 [DEBUG] Sending http request: <AWSPreparedRequest stream_output=True, method=GET, url=https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/_config/frameworks_base.md, headers={'User-Agent': b'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57', 'X-Amz-Date': b'20241211T234812Z', 'X-Amz-Content-SHA256': b'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 'Authorization': b'AWS4-HMAC-SHA256 Credential=AKIAWPPO56WM77JT7YP7/20241211/eu-north-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=008631b4a8c5ddf9e4e418baaef342eca650526a08d6b6e342daa21c388156a6', 'amz-sdk-invocation-id': b'95669b74-96a7-4ceb-ad66-376e323b205d', 'amz-sdk-request': b'attempt=1'}>
+2024-12-12 00:48:12,735 [DEBUG] Certificate path: /Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_chat-local/venv/lib/python3.11/site-packages/certifi/cacert.pem
+2024-12-12 00:48:12,735 [DEBUG] Starting new HTTPS connection (1): aiademomagicaudio.s3.eu-north-1.amazonaws.com:443
+2024-12-12 00:48:12,785 [DEBUG] https://aiademomagicaudio.s3.eu-north-1.amazonaws.com:443 "GET /_config/frameworks_base.md HTTP/11" 200 7195
+2024-12-12 00:48:12,785 [DEBUG] Event before-parse.s3.GetObject: calling handler <function _handle_200_error at 0x1062bc400>
+2024-12-12 00:48:12,785 [DEBUG] Event before-parse.s3.GetObject: calling handler <function handle_expires_header at 0x1062bc220>
+2024-12-12 00:48:12,786 [DEBUG] Response headers: {'x-amz-id-2': 'KhRV9POYsVX4SUhkcbDu+34CUJDiY3kHBa+BuBq+FPnIRLr4fJLygVWLKURNryDlfwmeUh2npQhGQlOkvHpUbA==', 'x-amz-request-id': '0ZXPCCH1F3TH1P6B', 'Date': 'Wed, 11 Dec 2024 23:48:13 GMT', 'Last-Modified': 'Wed, 11 Dec 2024 20:44:34 GMT', 'ETag': '"355e8347c91cdab51ec445456741ba8e"', 'x-amz-server-side-encryption': 'AES256', 'Accept-Ranges': 'bytes', 'Content-Type': 'text/plain', 'Content-Length': '7195', 'Server': 'AmazonS3'}
+2024-12-12 00:48:12,786 [DEBUG] Response body:
+<botocore.response.StreamingBody object at 0x1072f6560>
+2024-12-12 00:48:12,786 [DEBUG] Event needs-retry.s3.GetObject: calling handler <function _update_status_code at 0x1062bc540>
+2024-12-12 00:48:12,786 [DEBUG] Event needs-retry.s3.GetObject: calling handler <botocore.retryhandler.RetryHandler object at 0x1072fca50>
+2024-12-12 00:48:12,786 [DEBUG] No retry needed.
+2024-12-12 00:48:12,786 [DEBUG] Event needs-retry.s3.GetObject: calling handler <bound method S3RegionRedirectorv2.redirect_from_error of <botocore.utils.S3RegionRedirectorv2 object at 0x1072fbf50>>
+2024-12-12 00:48:12,787 [DEBUG] Event choose-service-name: calling handler <function handle_service_name_alias at 0x10626f060>
+2024-12-12 00:48:12,787 [DEBUG] Event creating-client-class.s3: calling handler <function add_generate_presigned_post at 0x106208c20>
+2024-12-12 00:48:12,787 [DEBUG] Event creating-client-class.s3: calling handler <function lazy_call.<locals>._handler at 0x1068787c0>
+2024-12-12 00:48:12,787 [DEBUG] Event creating-client-class.s3: calling handler <function add_generate_presigned_url at 0x1062089a0>
+2024-12-12 00:48:12,787 [DEBUG] Looking for endpoint for s3 via: environment_service
+2024-12-12 00:48:12,787 [DEBUG] Looking for endpoint for s3 via: environment_global
+2024-12-12 00:48:12,787 [DEBUG] Looking for endpoint for s3 via: config_service
+2024-12-12 00:48:12,787 [DEBUG] Looking for endpoint for s3 via: config_global
+2024-12-12 00:48:12,787 [DEBUG] No configured endpoint found.
+2024-12-12 00:48:12,788 [DEBUG] Setting s3 timeout as (60, 60)
+2024-12-12 00:48:12,789 [DEBUG] Registering retry handlers for service: s3
+2024-12-12 00:48:12,789 [DEBUG] Registering S3 region redirector handler
+2024-12-12 00:48:12,789 [DEBUG] Registering S3Express Identity Resolver
+2024-12-12 00:48:12,789 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function sse_md5 at 0x1062a9da0>
+2024-12-12 00:48:12,789 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function validate_bucket_name at 0x1062a9d00>
+2024-12-12 00:48:12,790 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function remove_bucket_from_url_paths_from_model at 0x1062abec0>
+2024-12-12 00:48:12,790 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <bound method S3RegionRedirectorv2.annotate_request_context of <botocore.utils.S3RegionRedirectorv2 object at 0x10732eb90>>
+2024-12-12 00:48:12,790 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <bound method ClientCreator._inject_s3_input_parameters of <botocore.client.ClientCreator object at 0x10728f410>>
+2024-12-12 00:48:12,790 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function generate_idempotent_uuid at 0x1062a9b20>
+2024-12-12 00:48:12,790 [DEBUG] Event before-endpoint-resolution.s3: calling handler <function customize_endpoint_resolver_builtins at 0x1062bc0e0>
+2024-12-12 00:48:12,790 [DEBUG] Event before-endpoint-resolution.s3: calling handler <bound method S3RegionRedirectorv2.redirect_from_cache of <botocore.utils.S3RegionRedirectorv2 object at 0x10732eb90>>
+2024-12-12 00:48:12,790 [DEBUG] Calling endpoint provider with parameters: {'Bucket': 'aiademomagicaudio', 'Region': 'eu-north-1', 'UseFIPS': False, 'UseDualStack': False, 'ForcePathStyle': False, 'Accelerate': False, 'UseGlobalEndpoint': False, 'Key': 'organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md', 'DisableMultiRegionAccessPoints': False, 'UseArnRegion': True}
+2024-12-12 00:48:12,790 [DEBUG] Endpoint provider result: https://aiademomagicaudio.s3.eu-north-1.amazonaws.com
+2024-12-12 00:48:12,790 [DEBUG] Selecting from endpoint provider's list of auth schemes: "sigv4". User selected auth scheme is: "None"
+2024-12-12 00:48:12,790 [DEBUG] Selected auth type "v4" as "v4" with signing context params: {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}
+2024-12-12 00:48:12,790 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_expect_header at 0x1062aa0c0>
+2024-12-12 00:48:12,790 [DEBUG] Event before-call.s3.GetObject: calling handler <bound method S3ExpressIdentityResolver.apply_signing_cache_key of <botocore.utils.S3ExpressIdentityResolver object at 0x10732f910>>
+2024-12-12 00:48:12,790 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_recursion_detection_header at 0x1062a82c0>
+2024-12-12 00:48:12,790 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_query_compatibility_header at 0x1062bc5e0>
+2024-12-12 00:48:12,790 [DEBUG] Event before-call.s3.GetObject: calling handler <function inject_api_version_header_if_needed at 0x1062ab600>
+2024-12-12 00:48:12,790 [DEBUG] Making request for OperationModel(name=GetObject) with params: {'url_path': '/organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md', 'query_string': {}, 'method': 'GET', 'headers': {'User-Agent': 'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57'}, 'body': b'', 'auth_path': '/aiademomagicaudio/organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md', 'url': 'https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md', 'context': {'client_region': 'eu-north-1', 'client_config': <botocore.config.Config object at 0x107306650>, 'has_streaming_input': False, 'auth_type': 'v4', 'unsigned_payload': None, 's3_redirect': {'redirected': False, 'bucket': 'aiademomagicaudio', 'params': {'Bucket': 'aiademomagicaudio', 'Key': 'organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md'}}, 'input_params': {'Bucket': 'aiademomagicaudio', 'Key': 'organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md'}, 'signing': {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}, 'endpoint_properties': {'authSchemes': [{'disableDoubleEncoding': True, 'name': 'sigv4', 'signingName': 's3', 'signingRegion': 'eu-north-1'}]}}}
+2024-12-12 00:48:12,791 [DEBUG] Event request-created.s3.GetObject: calling handler <bound method RequestSigner.handler of <botocore.signers.RequestSigner object at 0x107306610>>
+2024-12-12 00:48:12,791 [DEBUG] Event choose-signer.s3.GetObject: calling handler <function set_operation_specific_signer at 0x1062a9940>
+2024-12-12 00:48:12,791 [DEBUG] Event before-sign.s3.GetObject: calling handler <function remove_arn_from_signing_path at 0x1062bc040>
+2024-12-12 00:48:12,791 [DEBUG] Event before-sign.s3.GetObject: calling handler <bound method S3ExpressIdentityResolver.resolve_s3express_identity of <botocore.utils.S3ExpressIdentityResolver object at 0x10732f910>>
+2024-12-12 00:48:12,791 [DEBUG] Calculating signature using v4 auth.
+2024-12-12 00:48:12,791 [DEBUG] CanonicalRequest:
+GET
+/organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md
+
+host:aiademomagicaudio.s3.eu-north-1.amazonaws.com
+x-amz-content-sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+x-amz-date:20241211T234812Z
+
+host;x-amz-content-sha256;x-amz-date
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+2024-12-12 00:48:12,791 [DEBUG] StringToSign:
+AWS4-HMAC-SHA256
+20241211T234812Z
+20241211/eu-north-1/s3/aws4_request
+258789bdd1ce5a81663719c8ce99889c1c1f072fa8ca84aa9373f6dabb7d22a6
+2024-12-12 00:48:12,791 [DEBUG] Signature:
+59471a153550566ca7821eca438d38538416096379f125311e6d49cd57d24ca6
+2024-12-12 00:48:12,791 [DEBUG] Event request-created.s3.GetObject: calling handler <function add_retry_headers at 0x1062abe20>
+2024-12-12 00:48:12,791 [DEBUG] Sending http request: <AWSPreparedRequest stream_output=True, method=GET, url=https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md, headers={'User-Agent': b'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57', 'X-Amz-Date': b'20241211T234812Z', 'X-Amz-Content-SHA256': b'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 'Authorization': b'AWS4-HMAC-SHA256 Credential=AKIAWPPO56WM77JT7YP7/20241211/eu-north-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=59471a153550566ca7821eca438d38538416096379f125311e6d49cd57d24ca6', 'amz-sdk-invocation-id': b'884b92ff-8314-4f69-9b61-0c18695388c1', 'amz-sdk-request': b'attempt=1'}>
+2024-12-12 00:48:12,791 [DEBUG] Certificate path: /Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_chat-local/venv/lib/python3.11/site-packages/certifi/cacert.pem
+2024-12-12 00:48:12,791 [DEBUG] Starting new HTTPS connection (1): aiademomagicaudio.s3.eu-north-1.amazonaws.com:443
+2024-12-12 00:48:12,849 [DEBUG] https://aiademomagicaudio.s3.eu-north-1.amazonaws.com:443 "GET /organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md HTTP/11" 404 None
+2024-12-12 00:48:12,849 [DEBUG] Event before-parse.s3.GetObject: calling handler <function _handle_200_error at 0x1062bc400>
+2024-12-12 00:48:12,849 [DEBUG] Event before-parse.s3.GetObject: calling handler <function handle_expires_header at 0x1062bc220>
+2024-12-12 00:48:12,849 [DEBUG] Response headers: {'x-amz-request-id': '0ZXGGDZZBEMG2NFM', 'x-amz-id-2': 'HwvY4zXNlllYyQoK4rsZs7z528o4NX/BhipNkc6+b+1pYQjPxaycpzrk/hMkFWfaaGej1yBWWuEZ7WdZBRR6eg==', 'Content-Type': 'application/xml', 'Transfer-Encoding': 'chunked', 'Date': 'Wed, 11 Dec 2024 23:48:12 GMT', 'Server': 'AmazonS3'}
+2024-12-12 00:48:12,849 [DEBUG] Response body:
+b'<?xml version="1.0" encoding="UTF-8"?>\n<Error><Code>NoSuchKey</Code><Message>The specified key does not exist.</Message><Key>organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md</Key><RequestId>0ZXGGDZZBEMG2NFM</RequestId><HostId>HwvY4zXNlllYyQoK4rsZs7z528o4NX/BhipNkc6+b+1pYQjPxaycpzrk/hMkFWfaaGej1yBWWuEZ7WdZBRR6eg==</HostId></Error>'
+2024-12-12 00:48:12,850 [DEBUG] Response headers: {'x-amz-request-id': '0ZXGGDZZBEMG2NFM', 'x-amz-id-2': 'HwvY4zXNlllYyQoK4rsZs7z528o4NX/BhipNkc6+b+1pYQjPxaycpzrk/hMkFWfaaGej1yBWWuEZ7WdZBRR6eg==', 'Content-Type': 'application/xml', 'Transfer-Encoding': 'chunked', 'Date': 'Wed, 11 Dec 2024 23:48:12 GMT', 'Server': 'AmazonS3'}
+2024-12-12 00:48:12,850 [DEBUG] Response body:
+b'<?xml version="1.0" encoding="UTF-8"?>\n<Error><Code>NoSuchKey</Code><Message>The specified key does not exist.</Message><Key>organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md</Key><RequestId>0ZXGGDZZBEMG2NFM</RequestId><HostId>HwvY4zXNlllYyQoK4rsZs7z528o4NX/BhipNkc6+b+1pYQjPxaycpzrk/hMkFWfaaGej1yBWWuEZ7WdZBRR6eg==</HostId></Error>'
+2024-12-12 00:48:12,850 [DEBUG] Event needs-retry.s3.GetObject: calling handler <function _update_status_code at 0x1062bc540>
+2024-12-12 00:48:12,850 [DEBUG] Event needs-retry.s3.GetObject: calling handler <botocore.retryhandler.RetryHandler object at 0x10732f5d0>
+2024-12-12 00:48:12,850 [DEBUG] No retry needed.
+2024-12-12 00:48:12,850 [DEBUG] Event needs-retry.s3.GetObject: calling handler <bound method S3RegionRedirectorv2.redirect_from_error of <botocore.utils.S3RegionRedirectorv2 object at 0x10732eb90>>
+2024-12-12 00:48:12,850 [ERROR] Error reading agent frameworks from S3: An error occurred (NoSuchKey) when calling the GetObject operation: The specified key does not exist.
+2024-12-12 00:48:12,851 [DEBUG] Event choose-service-name: calling handler <function handle_service_name_alias at 0x10626f060>
+2024-12-12 00:48:12,851 [DEBUG] Event creating-client-class.s3: calling handler <function add_generate_presigned_post at 0x106208c20>
+2024-12-12 00:48:12,851 [DEBUG] Event creating-client-class.s3: calling handler <function lazy_call.<locals>._handler at 0x1068787c0>
+2024-12-12 00:48:12,851 [DEBUG] Event creating-client-class.s3: calling handler <function add_generate_presigned_url at 0x1062089a0>
+2024-12-12 00:48:12,852 [DEBUG] Looking for endpoint for s3 via: environment_service
+2024-12-12 00:48:12,852 [DEBUG] Looking for endpoint for s3 via: environment_global
+2024-12-12 00:48:12,852 [DEBUG] Looking for endpoint for s3 via: config_service
+2024-12-12 00:48:12,852 [DEBUG] Looking for endpoint for s3 via: config_global
+2024-12-12 00:48:12,852 [DEBUG] No configured endpoint found.
+2024-12-12 00:48:12,852 [DEBUG] Setting s3 timeout as (60, 60)
+2024-12-12 00:48:12,854 [DEBUG] Registering retry handlers for service: s3
+2024-12-12 00:48:12,854 [DEBUG] Registering S3 region redirector handler
+2024-12-12 00:48:12,854 [DEBUG] Registering S3Express Identity Resolver
+2024-12-12 00:48:12,854 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function sse_md5 at 0x1062a9da0>
+2024-12-12 00:48:12,854 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function validate_bucket_name at 0x1062a9d00>
+2024-12-12 00:48:12,854 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function remove_bucket_from_url_paths_from_model at 0x1062abec0>
+2024-12-12 00:48:12,854 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <bound method S3RegionRedirectorv2.annotate_request_context of <botocore.utils.S3RegionRedirectorv2 object at 0x10733db10>>
+2024-12-12 00:48:12,854 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <bound method ClientCreator._inject_s3_input_parameters of <botocore.client.ClientCreator object at 0x1072c9210>>
+2024-12-12 00:48:12,854 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function generate_idempotent_uuid at 0x1062a9b20>
+2024-12-12 00:48:12,854 [DEBUG] Event before-endpoint-resolution.s3: calling handler <function customize_endpoint_resolver_builtins at 0x1062bc0e0>
+2024-12-12 00:48:12,854 [DEBUG] Event before-endpoint-resolution.s3: calling handler <bound method S3RegionRedirectorv2.redirect_from_cache of <botocore.utils.S3RegionRedirectorv2 object at 0x10733db10>>
+2024-12-12 00:48:12,854 [DEBUG] Calling endpoint provider with parameters: {'Bucket': 'aiademomagicaudio', 'Region': 'eu-north-1', 'UseFIPS': False, 'UseDualStack': False, 'ForcePathStyle': False, 'Accelerate': False, 'UseGlobalEndpoint': False, 'Key': 'organizations/river/_config/context_oID-nordicequation.md', 'DisableMultiRegionAccessPoints': False, 'UseArnRegion': True}
+2024-12-12 00:48:12,854 [DEBUG] Endpoint provider result: https://aiademomagicaudio.s3.eu-north-1.amazonaws.com
+2024-12-12 00:48:12,855 [DEBUG] Selecting from endpoint provider's list of auth schemes: "sigv4". User selected auth scheme is: "None"
+2024-12-12 00:48:12,855 [DEBUG] Selected auth type "v4" as "v4" with signing context params: {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}
+2024-12-12 00:48:12,855 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_expect_header at 0x1062aa0c0>
+2024-12-12 00:48:12,855 [DEBUG] Event before-call.s3.GetObject: calling handler <bound method S3ExpressIdentityResolver.apply_signing_cache_key of <botocore.utils.S3ExpressIdentityResolver object at 0x107335f10>>
+2024-12-12 00:48:12,855 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_recursion_detection_header at 0x1062a82c0>
+2024-12-12 00:48:12,855 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_query_compatibility_header at 0x1062bc5e0>
+2024-12-12 00:48:12,855 [DEBUG] Event before-call.s3.GetObject: calling handler <function inject_api_version_header_if_needed at 0x1062ab600>
+2024-12-12 00:48:12,855 [DEBUG] Making request for OperationModel(name=GetObject) with params: {'url_path': '/organizations/river/_config/context_oID-nordicequation.md', 'query_string': {}, 'method': 'GET', 'headers': {'User-Agent': 'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57'}, 'body': b'', 'auth_path': '/aiademomagicaudio/organizations/river/_config/context_oID-nordicequation.md', 'url': 'https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/organizations/river/_config/context_oID-nordicequation.md', 'context': {'client_region': 'eu-north-1', 'client_config': <botocore.config.Config object at 0x10733e690>, 'has_streaming_input': False, 'auth_type': 'v4', 'unsigned_payload': None, 's3_redirect': {'redirected': False, 'bucket': 'aiademomagicaudio', 'params': {'Bucket': 'aiademomagicaudio', 'Key': 'organizations/river/_config/context_oID-nordicequation.md'}}, 'input_params': {'Bucket': 'aiademomagicaudio', 'Key': 'organizations/river/_config/context_oID-nordicequation.md'}, 'signing': {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}, 'endpoint_properties': {'authSchemes': [{'disableDoubleEncoding': True, 'name': 'sigv4', 'signingName': 's3', 'signingRegion': 'eu-north-1'}]}}}
+2024-12-12 00:48:12,855 [DEBUG] Event request-created.s3.GetObject: calling handler <bound method RequestSigner.handler of <botocore.signers.RequestSigner object at 0x10733c110>>
+2024-12-12 00:48:12,855 [DEBUG] Event choose-signer.s3.GetObject: calling handler <function set_operation_specific_signer at 0x1062a9940>
+2024-12-12 00:48:12,855 [DEBUG] Event before-sign.s3.GetObject: calling handler <function remove_arn_from_signing_path at 0x1062bc040>
+2024-12-12 00:48:12,855 [DEBUG] Event before-sign.s3.GetObject: calling handler <bound method S3ExpressIdentityResolver.resolve_s3express_identity of <botocore.utils.S3ExpressIdentityResolver object at 0x107335f10>>
+2024-12-12 00:48:12,855 [DEBUG] Calculating signature using v4 auth.
+2024-12-12 00:48:12,855 [DEBUG] CanonicalRequest:
+GET
+/organizations/river/_config/context_oID-nordicequation.md
+
+host:aiademomagicaudio.s3.eu-north-1.amazonaws.com
+x-amz-content-sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+x-amz-date:20241211T234812Z
+
+host;x-amz-content-sha256;x-amz-date
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+2024-12-12 00:48:12,855 [DEBUG] StringToSign:
+AWS4-HMAC-SHA256
+20241211T234812Z
+20241211/eu-north-1/s3/aws4_request
+691d4985c2b657d880f118518eab60414d0614e899a73fb976b11411c2e20afb
+2024-12-12 00:48:12,855 [DEBUG] Signature:
+ca3a1cc08c961227fa43bc02dcfd1c869cf334c20bd5a6636e4aeb7adbdb595b
+2024-12-12 00:48:12,855 [DEBUG] Event request-created.s3.GetObject: calling handler <function add_retry_headers at 0x1062abe20>
+2024-12-12 00:48:12,855 [DEBUG] Sending http request: <AWSPreparedRequest stream_output=True, method=GET, url=https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/organizations/river/_config/context_oID-nordicequation.md, headers={'User-Agent': b'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57', 'X-Amz-Date': b'20241211T234812Z', 'X-Amz-Content-SHA256': b'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 'Authorization': b'AWS4-HMAC-SHA256 Credential=AKIAWPPO56WM77JT7YP7/20241211/eu-north-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=ca3a1cc08c961227fa43bc02dcfd1c869cf334c20bd5a6636e4aeb7adbdb595b', 'amz-sdk-invocation-id': b'ddb7e537-658d-4953-8488-9e1370ab44e6', 'amz-sdk-request': b'attempt=1'}>
+2024-12-12 00:48:12,856 [DEBUG] Certificate path: /Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_chat-local/venv/lib/python3.11/site-packages/certifi/cacert.pem
+2024-12-12 00:48:12,856 [DEBUG] Starting new HTTPS connection (1): aiademomagicaudio.s3.eu-north-1.amazonaws.com:443
+2024-12-12 00:48:12,908 [DEBUG] https://aiademomagicaudio.s3.eu-north-1.amazonaws.com:443 "GET /organizations/river/_config/context_oID-nordicequation.md HTTP/11" 200 13573
+2024-12-12 00:48:12,908 [DEBUG] Event before-parse.s3.GetObject: calling handler <function _handle_200_error at 0x1062bc400>
+2024-12-12 00:48:12,908 [DEBUG] Event before-parse.s3.GetObject: calling handler <function handle_expires_header at 0x1062bc220>
+2024-12-12 00:48:12,908 [DEBUG] Response headers: {'x-amz-id-2': 'gKSnCY6C6whz4ivqj4kGMQtsQKNDNIC3m1TKsbNc9BQ0pq5jDliln98WTxz8JwGGWyAEuMTy4smRs36lx4RjIw==', 'x-amz-request-id': '0ZXV8DG53G0151H1', 'Date': 'Wed, 11 Dec 2024 23:48:13 GMT', 'Last-Modified': 'Wed, 11 Dec 2024 20:12:56 GMT', 'ETag': '"d36ec74423a788eec0dbf75b71b51beb"', 'x-amz-server-side-encryption': 'AES256', 'Accept-Ranges': 'bytes', 'Content-Type': 'text/plain', 'Content-Length': '13573', 'Server': 'AmazonS3'}
+2024-12-12 00:48:12,908 [DEBUG] Response body:
+<botocore.response.StreamingBody object at 0x1072f4130>
+2024-12-12 00:48:12,908 [DEBUG] Event needs-retry.s3.GetObject: calling handler <function _update_status_code at 0x1062bc540>
+2024-12-12 00:48:12,908 [DEBUG] Event needs-retry.s3.GetObject: calling handler <botocore.retryhandler.RetryHandler object at 0x107337490>
+2024-12-12 00:48:12,908 [DEBUG] No retry needed.
+2024-12-12 00:48:12,908 [DEBUG] Event needs-retry.s3.GetObject: calling handler <bound method S3RegionRedirectorv2.redirect_from_error of <botocore.utils.S3RegionRedirectorv2 object at 0x10733db10>>
+2024-12-12 00:48:12,911 [DEBUG] Event choose-service-name: calling handler <function handle_service_name_alias at 0x10626f060>
+2024-12-12 00:48:12,931 [DEBUG] Event creating-client-class.s3: calling handler <function add_generate_presigned_post at 0x106208c20>
+2024-12-12 00:48:12,931 [DEBUG] Event creating-client-class.s3: calling handler <function lazy_call.<locals>._handler at 0x1068787c0>
+2024-12-12 00:48:12,932 [DEBUG] Event creating-client-class.s3: calling handler <function add_generate_presigned_url at 0x1062089a0>
+2024-12-12 00:48:12,932 [DEBUG] Looking for endpoint for s3 via: environment_service
+2024-12-12 00:48:12,932 [DEBUG] Looking for endpoint for s3 via: environment_global
+2024-12-12 00:48:12,932 [DEBUG] Looking for endpoint for s3 via: config_service
+2024-12-12 00:48:12,932 [DEBUG] Looking for endpoint for s3 via: config_global
+2024-12-12 00:48:12,932 [DEBUG] No configured endpoint found.
+2024-12-12 00:48:12,932 [DEBUG] Setting s3 timeout as (60, 60)
+2024-12-12 00:48:12,933 [DEBUG] Registering retry handlers for service: s3
+2024-12-12 00:48:12,933 [DEBUG] Registering S3 region redirector handler
+2024-12-12 00:48:12,933 [DEBUG] Registering S3Express Identity Resolver
+2024-12-12 00:48:12,933 [DEBUG] Event before-parameter-build.s3.ListObjectsV2: calling handler <function set_list_objects_encoding_type_url at 0x1062ab1a0>
+2024-12-12 00:48:12,933 [DEBUG] Event before-parameter-build.s3.ListObjectsV2: calling handler <function validate_bucket_name at 0x1062a9d00>
+2024-12-12 00:48:12,934 [DEBUG] Event before-parameter-build.s3.ListObjectsV2: calling handler <function remove_bucket_from_url_paths_from_model at 0x1062abec0>
+2024-12-12 00:48:12,934 [DEBUG] Event before-parameter-build.s3.ListObjectsV2: calling handler <bound method S3RegionRedirectorv2.annotate_request_context of <botocore.utils.S3RegionRedirectorv2 object at 0x107337590>>
+2024-12-12 00:48:12,934 [DEBUG] Event before-parameter-build.s3.ListObjectsV2: calling handler <bound method ClientCreator._inject_s3_input_parameters of <botocore.client.ClientCreator object at 0x107321f10>>
+2024-12-12 00:48:12,934 [DEBUG] Event before-parameter-build.s3.ListObjectsV2: calling handler <function generate_idempotent_uuid at 0x1062a9b20>
+2024-12-12 00:48:12,934 [DEBUG] Event before-endpoint-resolution.s3: calling handler <function customize_endpoint_resolver_builtins at 0x1062bc0e0>
+2024-12-12 00:48:12,934 [DEBUG] Event before-endpoint-resolution.s3: calling handler <bound method S3RegionRedirectorv2.redirect_from_cache of <botocore.utils.S3RegionRedirectorv2 object at 0x107337590>>
+2024-12-12 00:48:12,934 [DEBUG] Calling endpoint provider with parameters: {'Bucket': 'aiademomagicaudio', 'Region': 'eu-north-1', 'UseFIPS': False, 'UseDualStack': False, 'ForcePathStyle': False, 'Accelerate': False, 'UseGlobalEndpoint': False, 'Prefix': 'organizations/river/agents/nordicequation/events/0000/chats/saved/chat_', 'DisableMultiRegionAccessPoints': False, 'UseArnRegion': True}
+2024-12-12 00:48:12,934 [DEBUG] Endpoint provider result: https://aiademomagicaudio.s3.eu-north-1.amazonaws.com
+2024-12-12 00:48:12,934 [DEBUG] Selecting from endpoint provider's list of auth schemes: "sigv4". User selected auth scheme is: "None"
+2024-12-12 00:48:12,934 [DEBUG] Selected auth type "v4" as "v4" with signing context params: {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}
+2024-12-12 00:48:12,934 [DEBUG] Event before-call.s3.ListObjectsV2: calling handler <function add_expect_header at 0x1062aa0c0>
+2024-12-12 00:48:12,934 [DEBUG] Event before-call.s3.ListObjectsV2: calling handler <bound method S3ExpressIdentityResolver.apply_signing_cache_key of <botocore.utils.S3ExpressIdentityResolver object at 0x1072fa790>>
+2024-12-12 00:48:12,934 [DEBUG] Event before-call.s3.ListObjectsV2: calling handler <function add_recursion_detection_header at 0x1062a82c0>
+2024-12-12 00:48:12,934 [DEBUG] Event before-call.s3.ListObjectsV2: calling handler <function add_query_compatibility_header at 0x1062bc5e0>
+2024-12-12 00:48:12,934 [DEBUG] Event before-call.s3.ListObjectsV2: calling handler <function inject_api_version_header_if_needed at 0x1062ab600>
+2024-12-12 00:48:12,934 [DEBUG] Making request for OperationModel(name=ListObjectsV2) with params: {'url_path': '?list-type=2', 'query_string': {'prefix': 'organizations/river/agents/nordicequation/events/0000/chats/saved/chat_', 'encoding-type': 'url'}, 'method': 'GET', 'headers': {'User-Agent': 'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57'}, 'body': b'', 'auth_path': '/aiademomagicaudio/', 'url': 'https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/?list-type=2&prefix=organizations%2Friver%2Fagents%2Fnordicequation%2Fevents%2F0000%2Fchats%2Fsaved%2Fchat_&encoding-type=url', 'context': {'client_region': 'eu-north-1', 'client_config': <botocore.config.Config object at 0x107305b50>, 'has_streaming_input': False, 'auth_type': 'v4', 'unsigned_payload': None, 'encoding_type_auto_set': True, 's3_redirect': {'redirected': False, 'bucket': 'aiademomagicaudio', 'params': {'Bucket': 'aiademomagicaudio', 'Prefix': 'organizations/river/agents/nordicequation/events/0000/chats/saved/chat_', 'EncodingType': 'url'}}, 'input_params': {'Bucket': 'aiademomagicaudio', 'Prefix': 'organizations/river/agents/nordicequation/events/0000/chats/saved/chat_'}, 'signing': {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}, 'endpoint_properties': {'authSchemes': [{'disableDoubleEncoding': True, 'name': 'sigv4', 'signingName': 's3', 'signingRegion': 'eu-north-1'}]}}}
+2024-12-12 00:48:12,934 [DEBUG] Event request-created.s3.ListObjectsV2: calling handler <bound method RequestSigner.handler of <botocore.signers.RequestSigner object at 0x107307dd0>>
+2024-12-12 00:48:12,934 [DEBUG] Event choose-signer.s3.ListObjectsV2: calling handler <function set_operation_specific_signer at 0x1062a9940>
+2024-12-12 00:48:12,934 [DEBUG] Event before-sign.s3.ListObjectsV2: calling handler <function remove_arn_from_signing_path at 0x1062bc040>
+2024-12-12 00:48:12,934 [DEBUG] Event before-sign.s3.ListObjectsV2: calling handler <bound method S3ExpressIdentityResolver.resolve_s3express_identity of <botocore.utils.S3ExpressIdentityResolver object at 0x1072fa790>>
+2024-12-12 00:48:12,935 [DEBUG] Calculating signature using v4 auth.
+2024-12-12 00:48:12,935 [DEBUG] CanonicalRequest:
+GET
+/
+encoding-type=url&list-type=2&prefix=organizations%2Friver%2Fagents%2Fnordicequation%2Fevents%2F0000%2Fchats%2Fsaved%2Fchat_
+host:aiademomagicaudio.s3.eu-north-1.amazonaws.com
+x-amz-content-sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+x-amz-date:20241211T234812Z
+
+host;x-amz-content-sha256;x-amz-date
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+2024-12-12 00:48:12,935 [DEBUG] StringToSign:
+AWS4-HMAC-SHA256
+20241211T234812Z
+20241211/eu-north-1/s3/aws4_request
+76101238444c09dcd5da4d17322b75581c2985fe4c12c127bfc0fc46f755bb9a
+2024-12-12 00:48:12,935 [DEBUG] Signature:
+0f4c10533b17d40fcefdecb2ba24dd0ae12b216a30dbdf419087e6ff48d6f295
+2024-12-12 00:48:12,935 [DEBUG] Event request-created.s3.ListObjectsV2: calling handler <function add_retry_headers at 0x1062abe20>
+2024-12-12 00:48:12,935 [DEBUG] Sending http request: <AWSPreparedRequest stream_output=False, method=GET, url=https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/?list-type=2&prefix=organizations%2Friver%2Fagents%2Fnordicequation%2Fevents%2F0000%2Fchats%2Fsaved%2Fchat_&encoding-type=url, headers={'User-Agent': b'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57', 'X-Amz-Date': b'20241211T234812Z', 'X-Amz-Content-SHA256': b'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 'Authorization': b'AWS4-HMAC-SHA256 Credential=AKIAWPPO56WM77JT7YP7/20241211/eu-north-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=0f4c10533b17d40fcefdecb2ba24dd0ae12b216a30dbdf419087e6ff48d6f295', 'amz-sdk-invocation-id': b'208c9dad-9859-4f53-9312-82d16461cf98', 'amz-sdk-request': b'attempt=1'}>
+2024-12-12 00:48:12,935 [DEBUG] Certificate path: /Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_chat-local/venv/lib/python3.11/site-packages/certifi/cacert.pem
+2024-12-12 00:48:12,935 [DEBUG] Starting new HTTPS connection (1): aiademomagicaudio.s3.eu-north-1.amazonaws.com:443
+2024-12-12 00:48:12,997 [DEBUG] https://aiademomagicaudio.s3.eu-north-1.amazonaws.com:443 "GET /?list-type=2&prefix=organizations%2Friver%2Fagents%2Fnordicequation%2Fevents%2F0000%2Fchats%2Fsaved%2Fchat_&encoding-type=url HTTP/11" 200 None
+2024-12-12 00:48:12,998 [DEBUG] Event before-parse.s3.ListObjectsV2: calling handler <function _handle_200_error at 0x1062bc400>
+2024-12-12 00:48:12,998 [DEBUG] Event before-parse.s3.ListObjectsV2: calling handler <function handle_expires_header at 0x1062bc220>
+2024-12-12 00:48:12,998 [DEBUG] Response headers: {'x-amz-id-2': 'pQmVVbPSEWnOBB6Lb+NtAwLCE25Epo2DyrfFevt+70ULKG4Zu1gtP8bq7ZpJD2AfjwSvgwhZL5Os0kmPpRGfoQ==', 'x-amz-request-id': '0ZXMRJJR2N92MCX1', 'Date': 'Wed, 11 Dec 2024 23:48:13 GMT', 'x-amz-bucket-region': 'eu-north-1', 'Content-Type': 'application/xml', 'Transfer-Encoding': 'chunked', 'Server': 'AmazonS3'}
+2024-12-12 00:48:12,998 [DEBUG] Response body:
+b'<?xml version="1.0" encoding="UTF-8"?>\n<ListBucketResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Name>aiademomagicaudio</Name><Prefix>organizations/river/agents/nordicequation/events/0000/chats/saved/chat_</Prefix><KeyCount>1</KeyCount><MaxKeys>1000</MaxKeys><EncodingType>url</EncodingType><IsTruncated>false</IsTruncated><Contents><Key>organizations/river/agents/nordicequation/events/0000/chats/saved/chat_D20241204-T100329_uID-0112_oID-nordicequation_aID-nordicequation_eID-0000.txt</Key><LastModified>2024-12-11T21:41:28.000Z</LastModified><ETag>&quot;c47f0b95706988103f821bb53efd92b6&quot;</ETag><Size>9220</Size><StorageClass>STANDARD</StorageClass></Contents></ListBucketResult>'
+2024-12-12 00:48:12,998 [DEBUG] Event needs-retry.s3.ListObjectsV2: calling handler <function _update_status_code at 0x1062bc540>
+2024-12-12 00:48:12,998 [DEBUG] Event needs-retry.s3.ListObjectsV2: calling handler <botocore.retryhandler.RetryHandler object at 0x1072f8910>
+2024-12-12 00:48:12,998 [DEBUG] No retry needed.
+2024-12-12 00:48:12,998 [DEBUG] Event needs-retry.s3.ListObjectsV2: calling handler <bound method S3RegionRedirectorv2.redirect_from_error of <botocore.utils.S3RegionRedirectorv2 object at 0x107337590>>
+2024-12-12 00:48:12,998 [DEBUG] Event after-call.s3.ListObjectsV2: calling handler <function decode_list_object_v2 at 0x1062ab2e0>
+2024-12-12 00:48:12,998 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function sse_md5 at 0x1062a9da0>
+2024-12-12 00:48:12,998 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function validate_bucket_name at 0x1062a9d00>
+2024-12-12 00:48:12,998 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function remove_bucket_from_url_paths_from_model at 0x1062abec0>
+2024-12-12 00:48:12,999 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <bound method S3RegionRedirectorv2.annotate_request_context of <botocore.utils.S3RegionRedirectorv2 object at 0x107337590>>
+2024-12-12 00:48:12,999 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <bound method ClientCreator._inject_s3_input_parameters of <botocore.client.ClientCreator object at 0x107321f10>>
+2024-12-12 00:48:12,999 [DEBUG] Event before-parameter-build.s3.GetObject: calling handler <function generate_idempotent_uuid at 0x1062a9b20>
+2024-12-12 00:48:12,999 [DEBUG] Event before-endpoint-resolution.s3: calling handler <function customize_endpoint_resolver_builtins at 0x1062bc0e0>
+2024-12-12 00:48:12,999 [DEBUG] Event before-endpoint-resolution.s3: calling handler <bound method S3RegionRedirectorv2.redirect_from_cache of <botocore.utils.S3RegionRedirectorv2 object at 0x107337590>>
+2024-12-12 00:48:12,999 [DEBUG] Calling endpoint provider with parameters: {'Bucket': 'aiademomagicaudio', 'Region': 'eu-north-1', 'UseFIPS': False, 'UseDualStack': False, 'ForcePathStyle': False, 'Accelerate': False, 'UseGlobalEndpoint': False, 'Key': 'organizations/river/agents/nordicequation/events/0000/chats/saved/chat_D20241204-T100329_uID-0112_oID-nordicequation_aID-nordicequation_eID-0000.txt', 'DisableMultiRegionAccessPoints': False, 'UseArnRegion': True}
+2024-12-12 00:48:12,999 [DEBUG] Endpoint provider result: https://aiademomagicaudio.s3.eu-north-1.amazonaws.com
+2024-12-12 00:48:12,999 [DEBUG] Selecting from endpoint provider's list of auth schemes: "sigv4". User selected auth scheme is: "None"
+2024-12-12 00:48:12,999 [DEBUG] Selected auth type "v4" as "v4" with signing context params: {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}
+2024-12-12 00:48:12,999 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_expect_header at 0x1062aa0c0>
+2024-12-12 00:48:12,999 [DEBUG] Event before-call.s3.GetObject: calling handler <bound method S3ExpressIdentityResolver.apply_signing_cache_key of <botocore.utils.S3ExpressIdentityResolver object at 0x1072fa790>>
+2024-12-12 00:48:12,999 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_recursion_detection_header at 0x1062a82c0>
+2024-12-12 00:48:12,999 [DEBUG] Event before-call.s3.GetObject: calling handler <function add_query_compatibility_header at 0x1062bc5e0>
+2024-12-12 00:48:12,999 [DEBUG] Event before-call.s3.GetObject: calling handler <function inject_api_version_header_if_needed at 0x1062ab600>
+2024-12-12 00:48:12,999 [DEBUG] Making request for OperationModel(name=GetObject) with params: {'url_path': '/organizations/river/agents/nordicequation/events/0000/chats/saved/chat_D20241204-T100329_uID-0112_oID-nordicequation_aID-nordicequation_eID-0000.txt', 'query_string': {}, 'method': 'GET', 'headers': {'User-Agent': 'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57'}, 'body': b'', 'auth_path': '/aiademomagicaudio/organizations/river/agents/nordicequation/events/0000/chats/saved/chat_D20241204-T100329_uID-0112_oID-nordicequation_aID-nordicequation_eID-0000.txt', 'url': 'https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/organizations/river/agents/nordicequation/events/0000/chats/saved/chat_D20241204-T100329_uID-0112_oID-nordicequation_aID-nordicequation_eID-0000.txt', 'context': {'client_region': 'eu-north-1', 'client_config': <botocore.config.Config object at 0x107305b50>, 'has_streaming_input': False, 'auth_type': 'v4', 'unsigned_payload': None, 's3_redirect': {'redirected': False, 'bucket': 'aiademomagicaudio', 'params': {'Bucket': 'aiademomagicaudio', 'Key': 'organizations/river/agents/nordicequation/events/0000/chats/saved/chat_D20241204-T100329_uID-0112_oID-nordicequation_aID-nordicequation_eID-0000.txt'}}, 'input_params': {'Bucket': 'aiademomagicaudio', 'Key': 'organizations/river/agents/nordicequation/events/0000/chats/saved/chat_D20241204-T100329_uID-0112_oID-nordicequation_aID-nordicequation_eID-0000.txt'}, 'signing': {'region': 'eu-north-1', 'signing_name': 's3', 'disableDoubleEncoding': True}, 'endpoint_properties': {'authSchemes': [{'disableDoubleEncoding': True, 'name': 'sigv4', 'signingName': 's3', 'signingRegion': 'eu-north-1'}]}}}
+2024-12-12 00:48:12,999 [DEBUG] Event request-created.s3.GetObject: calling handler <bound method RequestSigner.handler of <botocore.signers.RequestSigner object at 0x107307dd0>>
+2024-12-12 00:48:13,000 [DEBUG] Event choose-signer.s3.GetObject: calling handler <function set_operation_specific_signer at 0x1062a9940>
+2024-12-12 00:48:13,000 [DEBUG] Event before-sign.s3.GetObject: calling handler <function remove_arn_from_signing_path at 0x1062bc040>
+2024-12-12 00:48:13,000 [DEBUG] Event before-sign.s3.GetObject: calling handler <bound method S3ExpressIdentityResolver.resolve_s3express_identity of <botocore.utils.S3ExpressIdentityResolver object at 0x1072fa790>>
+2024-12-12 00:48:13,000 [DEBUG] Calculating signature using v4 auth.
+2024-12-12 00:48:13,000 [DEBUG] CanonicalRequest:
+GET
+/organizations/river/agents/nordicequation/events/0000/chats/saved/chat_D20241204-T100329_uID-0112_oID-nordicequation_aID-nordicequation_eID-0000.txt
+
+host:aiademomagicaudio.s3.eu-north-1.amazonaws.com
+x-amz-content-sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+x-amz-date:20241211T234813Z
+
+host;x-amz-content-sha256;x-amz-date
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+2024-12-12 00:48:13,000 [DEBUG] StringToSign:
+AWS4-HMAC-SHA256
+20241211T234813Z
+20241211/eu-north-1/s3/aws4_request
+9f9e1cd216a7b20724a820482b2359b67a705c9c4bff85c3d13429fd7d49d579
+2024-12-12 00:48:13,000 [DEBUG] Signature:
+50fe79ddf2fcd54920f2d54fa18da90e60745e4aab8713d92a2303e89daa0835
+2024-12-12 00:48:13,000 [DEBUG] Event request-created.s3.GetObject: calling handler <function add_retry_headers at 0x1062abe20>
+2024-12-12 00:48:13,000 [DEBUG] Sending http request: <AWSPreparedRequest stream_output=True, method=GET, url=https://aiademomagicaudio.s3.eu-north-1.amazonaws.com/organizations/river/agents/nordicequation/events/0000/chats/saved/chat_D20241204-T100329_uID-0112_oID-nordicequation_aID-nordicequation_eID-0000.txt, headers={'User-Agent': b'Boto3/1.35.49 md/Botocore#1.35.57 ua/2.0 os/macos#23.5.0 md/arch#arm64 lang/python#3.11.10 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.35.57', 'X-Amz-Date': b'20241211T234813Z', 'X-Amz-Content-SHA256': b'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 'Authorization': b'AWS4-HMAC-SHA256 Credential=AKIAWPPO56WM77JT7YP7/20241211/eu-north-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=50fe79ddf2fcd54920f2d54fa18da90e60745e4aab8713d92a2303e89daa0835', 'amz-sdk-invocation-id': b'1f136cf9-68bb-4b37-b43e-04b359210f82', 'amz-sdk-request': b'attempt=1'}>
+2024-12-12 00:48:13,000 [DEBUG] Certificate path: /Users/neonvoid/Library/Mobile Documents/com~apple~CloudDocs/Documents/Projekt/River/River Resources/Code/magic_chat-local/venv/lib/python3.11/site-packages/certifi/cacert.pem
+2024-12-12 00:48:13,024 [DEBUG] https://aiademomagicaudio.s3.eu-north-1.amazonaws.com:443 "GET /organizations/river/agents/nordicequation/events/0000/chats/saved/chat_D20241204-T100329_uID-0112_oID-nordicequation_aID-nordicequation_eID-0000.txt HTTP/11" 200 9220
+2024-12-12 00:48:13,025 [DEBUG] Event before-parse.s3.GetObject: calling handler <function _handle_200_error at 0x1062bc400>
+2024-12-12 00:48:13,025 [DEBUG] Event before-parse.s3.GetObject: calling handler <function handle_expires_header at 0x1062bc220>
+2024-12-12 00:48:13,025 [DEBUG] Response headers: {'x-amz-id-2': 'iVIp3YDh9nLrHQTasq+Z+bM2FGnWtZ5g80/3DWlTwlu2CA8Q2xUefnXXpnekJM6rQo8IYAOVSyLVHgzmmExIWA==', 'x-amz-request-id': 'CG1AP5152CTHR70Q', 'Date': 'Wed, 11 Dec 2024 23:48:14 GMT', 'Last-Modified': 'Wed, 11 Dec 2024 21:41:28 GMT', 'ETag': '"c47f0b95706988103f821bb53efd92b6"', 'x-amz-server-side-encryption': 'AES256', 'Accept-Ranges': 'bytes', 'Content-Type': 'text/plain', 'Content-Length': '9220', 'Server': 'AmazonS3'}
+2024-12-12 00:48:13,025 [DEBUG] Response body:
+<botocore.response.StreamingBody object at 0x1072bd870>
+2024-12-12 00:48:13,025 [DEBUG] Event needs-retry.s3.GetObject: calling handler <function _update_status_code at 0x1062bc540>
+2024-12-12 00:48:13,025 [DEBUG] Event needs-retry.s3.GetObject: calling handler <botocore.retryhandler.RetryHandler object at 0x1072f8910>
+2024-12-12 00:48:13,025 [DEBUG] No retry needed.
+2024-12-12 00:48:13,025 [DEBUG] Event needs-retry.s3.GetObject: calling handler <bound method S3RegionRedirectorv2.redirect_from_error of <botocore.utils.S3RegionRedirectorv2 object at 0x107337590>>
+2024-12-12 00:48:13,025 [ERROR] Error in main loop: unsupported operand type(s) for +: 'NoneType' and 'str'

@@ -131,6 +131,8 @@ class WebChat:
         from magic_chat import load_existing_chats_from_s3, summarize_text
         
         # Load and process chat history
+        if not self.config.memory:
+            self.config.memory = [self.config.agent_name]
         previous_chats = load_existing_chats_from_s3(self.config.agent_name, self.config.memory)
         
         # Combine all chat content

@@ -349,6 +349,35 @@ def save_chat_to_s3(agent_name, chat_content, is_saved=False):
         logging.error(f"Error preparing to save chat: {e}")
         return False, None
 
+def reload_memory(agent_name, memory_agents, initial_system_prompt):
+    """Reload memory from chat history files"""
+    previous_chats = load_existing_chats_from_s3(agent_name, memory_agents)
+    
+    # Combine all chat content
+    all_content = []
+    for chat in previous_chats:
+        for msg in chat['messages']:
+            all_content.append(msg['content'])
+    
+    combined_content = "\n\n".join(all_content)  # Add extra newline between files
+    logging.debug(f"Combined content length: {len(combined_content)}")
+    summarized_content = summarize_text(combined_content, max_length=None)
+    logging.debug(f"Summarized content length: {len(summarized_content) if summarized_content else 0}")
+    
+    # Add the summarized content to the system prompt with clear context
+    if summarized_content:
+        new_system_prompt = (
+            initial_system_prompt + 
+            "\n\n## Previous Chat History\nThe following is a summary of previous chat interactions:\n\n" + 
+            summarized_content
+        )
+        logging.debug("Added chat history to system prompt")
+    else:
+        new_system_prompt = initial_system_prompt
+        logging.debug("No chat history to add to system prompt")
+    
+    return new_system_prompt
+
 def display_help():
     print("\nAvailable commands:")
     print("!help          - Display this help message")
@@ -429,6 +458,8 @@ def main():
             
             # Load memory if enabled
             if config.memory is not None:
+                if len(config.memory) == 0:
+                    config.memory = [config.agent_name]
                 system_prompt = reload_memory(config.agent_name, config.memory, system_prompt)
 
             conversation_history = []
