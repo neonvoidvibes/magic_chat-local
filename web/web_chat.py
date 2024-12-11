@@ -327,7 +327,7 @@ class WebChat:
                         Body=chat_content.encode('utf-8')
                     )
                     
-                    return jsonify({'message': 'Chat history saved successfully'})
+                    return jsonify({'message': 'Chat history saved successfully', 'file': filename})
                 except Exception as e:
                     return jsonify({'error': f'Error saving chat history: {str(e)}'})
             elif cmd == 'memory':
@@ -390,7 +390,7 @@ class WebChat:
                     Body=chat_content.encode('utf-8')
                 )
                 
-                return jsonify({'message': 'Chat history saved successfully'})
+                return jsonify({'message': 'Chat history saved successfully', 'file': filename})
             except Exception as e:
                 return jsonify({'error': f'Error saving chat history: {str(e)}'})
     
