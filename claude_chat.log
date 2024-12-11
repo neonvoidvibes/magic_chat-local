@@ -18130,3 +18130,5 @@ AWS4-HMAC-SHA256
 2024-12-12 00:48:13,025 [DEBUG] No retry needed.
 2024-12-12 00:48:13,025 [DEBUG] Event needs-retry.s3.GetObject: calling handler <bound method S3RegionRedirectorv2.redirect_from_error of <botocore.utils.S3RegionRedirectorv2 object at 0x107337590>>
 2024-12-12 00:48:13,025 [ERROR] Error in main loop: unsupported operand type(s) for +: 'NoneType' and 'str'
+2024-12-12 00:50:33,984 [ERROR] Error reading agent frameworks from S3: An error occurred (NoSuchKey) when calling the GetObject operation: The specified key does not exist.
+2024-12-12 00:50:34,319 [ERROR] No agent frameworks file at 'organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md' in S3.

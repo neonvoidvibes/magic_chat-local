@@ -115,11 +115,14 @@ class WebChat:
         if context:
             system_prompt += "\n\n## Context\n" + context
         
+        # Store the system prompt
+        self.system_prompt = system_prompt
+        
         # Load memory if enabled
         if self.config.memory is not None:
             self.system_prompt = self.reload_memory()
-        else:
-            self.system_prompt = system_prompt
+            if not self.system_prompt:  # If reload_memory fails, revert to original system prompt
+                self.system_prompt = system_prompt
 
         # Load transcript if listening is enabled
         if self.config.listen_transcript:
@@ -129,6 +132,11 @@ class WebChat:
         """Reload memory from chat history files"""
         # Import the necessary functions
         from magic_chat import load_existing_chats_from_s3, summarize_text
+        
+        # Make sure we have a valid system prompt
+        if not self.system_prompt:
+            logging.error("Cannot reload memory: system prompt is not initialized")
+            return None
         
         # Load and process chat history
         if not self.config.memory:
@@ -145,16 +153,14 @@ class WebChat:
         summarized_content = summarize_text(combined_content, max_length=None)
         
         # Build new system prompt
-        system_prompt = self.system_prompt
-        
         if summarized_content:
             new_system_prompt = (
-                system_prompt + 
+                self.system_prompt + 
                 "\n\n## Previous Chat History\nThe following is a summary of previous chat interactions:\n\n" + 
                 summarized_content
             )
         else:
-            new_system_prompt = system_prompt
+            new_system_prompt = self.system_prompt
         
         return new_system_prompt
 
@@ -279,6 +285,8 @@ class WebChat:
                 if self.config.memory is None:
                     self.config.memory = [self.config.agent_name]
                     self.system_prompt = self.reload_memory()
+                    if not self.system_prompt:  # If reload_memory fails, revert to original system prompt
+                        self.system_prompt = system_prompt
                     return jsonify({'message': 'Memory mode activated'})
                 else:
                     self.config.memory = None
