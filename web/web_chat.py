@@ -8,14 +8,6 @@ import logging
 from datetime import datetime
 import json
 
-def read_file_content_local(file_path, file_name):
-    try:
-        with open(file_path, 'r') as file:
-            return file.read()
-    except Exception as e:
-        logging.error(f"Error reading {file_name} from local file: {e}")
-        return ""
-
 def read_file_content(s3_key, file_name):
     try:
         s3 = boto3.client('s3')
@@ -27,49 +19,69 @@ def read_file_content(s3_key, file_name):
         return ""
 
 def get_latest_system_prompt(agent_name=None):
+    """Get and combine system prompts from S3"""
     try:
-        s3 = boto3.client('s3')
-        bucket = 'aiademomagicaudio'
+        # Get base system prompt
+        base_prompt = read_file_content('_config/systemprompt_base.md', "base system prompt")
         
-        # Get agent-specific system prompt
+        # Get agent-specific system prompt if agent name is provided
+        agent_prompt = ""
         if agent_name:
-            prefix = f'agents/{agent_name}/system-prompt/'
-            response = s3.list_objects_v2(Bucket=bucket, Prefix=prefix)
-            if 'Contents' in response:
-                prompt_files = [obj for obj in response['Contents'] if obj['Key'].endswith('.md')]
-                if prompt_files:
-                    latest_file = max(prompt_files, key=lambda x: x['LastModified'])
-                    return latest_file['Key']
+            agent_prompt_key = f'organizations/river/agents/{agent_name}/_config/systemprompt_aID-{agent_name}.md'
+            agent_prompt = read_file_content(agent_prompt_key, "agent system prompt")
         
-        # Get standard system prompt
-        prefix = 'system-prompt/'
-        response = s3.list_objects_v2(Bucket=bucket, Prefix=prefix)
-        if 'Contents' in response:
-            prompt_files = [obj for obj in response['Contents'] if obj['Key'].endswith('.md')]
-            if prompt_files:
-                latest_file = max(prompt_files, key=lambda x: x['LastModified'])
-                return latest_file['Key']
-        
-        return None
+        # Combine prompts
+        system_prompt = base_prompt
+        if agent_prompt:
+            system_prompt += "\n\n" + agent_prompt
+            
+        return system_prompt
     except Exception as e:
-        logging.error(f"Error getting latest system prompt from S3: {e}")
+        logging.error(f"Error getting system prompts: {e}")
         return None
 
-def get_latest_context(agent_name):
-    """Get the latest context file from S3"""
+def get_latest_frameworks(agent_name=None):
+    """Get and combine frameworks from S3"""
     try:
-        s3 = boto3.client('s3')
-        bucket = 'aiademomagicaudio'
-        prefix = f'agents/{agent_name}/context/'
-        response = s3.list_objects_v2(Bucket=bucket, Prefix=prefix)
-        if 'Contents' in response:
-            context_files = [obj for obj in response['Contents'] if obj['Key'].endswith('.txt')]
-            if context_files:
-                latest_file = max(context_files, key=lambda x: x['LastModified'])
-                return latest_file['Key']
-        return None
+        # Get base frameworks
+        base_frameworks = read_file_content('_config/frameworks_base.md', "base frameworks")
+        
+        # Get agent-specific frameworks if agent name is provided
+        agent_frameworks = ""
+        if agent_name:
+            agent_frameworks_key = f'organizations/river/agents/{agent_name}/_config/frameworks_aID-{agent_name}.md'
+            agent_frameworks = read_file_content(agent_frameworks_key, "agent frameworks")
+        
+        # Combine frameworks
+        frameworks = base_frameworks
+        if agent_frameworks:
+            frameworks += "\n\n" + agent_frameworks
+            
+        return frameworks
     except Exception as e:
-        logging.error(f"Error getting latest context file: {e}")
+        logging.error(f"Error getting frameworks: {e}")
+        return None
+
+def get_latest_context(agent_name, event_id=None):
+    """Get and combine contexts from S3"""
+    try:
+        # Get organization-specific context
+        org_context = read_file_content(f'organizations/river/_config/context_oID-{agent_name}.md', "organization context")
+        
+        # Get event-specific context if event ID is provided
+        event_context = ""
+        if event_id:
+            event_context_key = f'organizations/river/agents/{agent_name}/events/{event_id}/_config/context_aID-{agent_name}_eID-{event_id}.md'
+            event_context = read_file_content(event_context_key, "event context")
+        
+        # Combine contexts
+        context = org_context
+        if event_context:
+            context += "\n\n" + event_context
+            
+        return context
+    except Exception as e:
+        logging.error(f"Error getting contexts: {e}")
         return None
 
 class WebChat:
@@ -87,86 +99,27 @@ class WebChat:
         
     def load_resources(self):
         """Load context, frameworks, and transcript from S3"""
-        s3 = boto3.client('s3')
-        bucket = 'aiademomagicaudio'
-        
-        # Load standard and unique system prompts from S3
-        standard_prompt_key = get_latest_system_prompt()
-        unique_prompt_key = get_latest_system_prompt(self.config.agent_name)
-        
-        if not standard_prompt_key or not unique_prompt_key:
-            logging.error("Failed to find system prompt files in S3")
+        # Load and combine system prompts
+        system_prompt = get_latest_system_prompt(self.config.agent_name)
+        if not system_prompt:
+            logging.error("Failed to load system prompt")
             return
             
-        standard_system_prompt = read_file_content(standard_prompt_key, "standard system prompt")
-        unique_system_prompt = read_file_content(unique_prompt_key, "unique system prompt")
-        self.system_prompt = standard_system_prompt + "\n" + unique_system_prompt
+        # Add frameworks
+        frameworks = get_latest_frameworks(self.config.agent_name)
+        if frameworks:
+            system_prompt += "\n\n## Frameworks\n" + frameworks
+            
+        # Add context
+        context = get_latest_context(self.config.agent_name)  # Note: event_id not implemented yet
+        if context:
+            system_prompt += "\n\n## Context\n" + context
         
         # Load memory if enabled
         if self.config.memory is not None:
             self.system_prompt = self.reload_memory()
         else:
-            self.system_prompt = initial_system_prompt
-
-        # Load frameworks
-        try:
-            frameworks_obj = s3.get_object(Bucket=bucket, Key='frameworks/frameworks.txt')
-            self.frameworks = frameworks_obj['Body'].read().decode('utf-8')
-            if self.frameworks:
-                self.system_prompt += f"\nFrameworks:\n{self.frameworks}"
-        except Exception as e:
-            logging.error(f"Error loading frameworks from S3: {e}")
-        
-        # Load context
-        try:
-            context_key = get_latest_context(self.config.agent_name)
-            if context_key:
-                context_obj = s3.get_object(Bucket=bucket, Key=context_key)
-                self.context = context_obj['Body'].read().decode('utf-8')
-                if self.context:
-                    self.system_prompt += f"\nContext:\n{self.context}"
-        except Exception as e:
-            logging.error(f"Error loading context from S3: {e}")
-        
-        # Load transcript if listening is enabled
-        if self.config.listen_transcript:
-            self.load_transcript()
-        
-    def load_transcript(self):
-        """Load latest transcript from agent's transcript directory"""
-        try:
-            s3 = boto3.client('s3')
-            prefix = f'agents/{self.config.agent_name}/transcripts/'
-            response = s3.list_objects_v2(Bucket=self.config.aws_s3_bucket, Prefix=prefix)
-            
-            if 'Contents' in response:
-                transcript_files = [obj for obj in response['Contents'] if obj['Key'].endswith('.txt')]
-                if transcript_files:
-                    latest_file = max(transcript_files, key=lambda x: x['LastModified'])
-                    transcript_obj = s3.get_object(Bucket=self.config.aws_s3_bucket, Key=latest_file['Key'])
-                    transcript = transcript_obj['Body'].read().decode('utf-8')
-                    if transcript:
-                        self.transcript = transcript
-                        self.system_prompt += f"\n\nTranscript update: {transcript}"
-                        return True
-            
-            # Fallback to root transcript directory
-            response = s3.list_objects_v2(Bucket=self.config.aws_s3_bucket, Prefix='transcript_')
-            if 'Contents' in response:
-                transcript_files = [obj for obj in response['Contents'] if obj['Key'].endswith('.txt')]
-                if transcript_files:
-                    latest_file = max(transcript_files, key=lambda x: x['LastModified'])
-                    transcript_obj = s3.get_object(Bucket=self.config.aws_s3_bucket, Key=latest_file['Key'])
-                    transcript = transcript_obj['Body'].read().decode('utf-8')
-                    if transcript:
-                        self.transcript = transcript
-                        self.system_prompt += f"\n\nTranscript update: {transcript}"
-                        return True
-            
-            return False
-        except Exception as e:
-            logging.error(f"Error loading transcript from S3: {e}")
-            return False
+            self.system_prompt = system_prompt
 
     def reload_memory(self):
         """Reload memory from chat history files"""
@@ -186,19 +139,15 @@ class WebChat:
         summarized_content = summarize_text(combined_content, max_length=None)
         
         # Build new system prompt
-        standard_system_prompt = read_file_content(get_latest_system_prompt(), "standard system prompt")
-        unique_system_prompt = read_file_content(get_latest_system_prompt(self.config.agent_name), "unique system prompt")
-        initial_system_prompt = standard_system_prompt + "\n" + unique_system_prompt
-        
-        # Add the summarized content to the system prompt with clear context
+        system_prompt = self.system_prompt
         if summarized_content:
             new_system_prompt = (
-                initial_system_prompt + 
+                system_prompt + 
                 "\n\n## Previous Chat History\nThe following is a summary of previous chat interactions:\n\n" + 
                 summarized_content
             )
         else:
-            new_system_prompt = initial_system_prompt
+            new_system_prompt = system_prompt
         
         return new_system_prompt
 

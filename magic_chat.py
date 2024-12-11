@@ -91,101 +91,76 @@ def setup_logging(debug):
     
     logging.getLogger('anthropic').setLevel(logging.WARNING)
 
-def get_latest_summary_file():
-    try:
-        response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix='summary_')
-        if 'Contents' not in response:
-            return None
-        summary_files = response['Contents']
-        summary_files = [obj for obj in summary_files if obj['Key'].endswith('.txt')]
-        if not summary_files:
-            return None
-        latest_file = max(summary_files, key=lambda x: x['LastModified'])
-        latest_file_key = latest_file['Key']
-        return latest_file_key
-    except Exception as e:
-        logging.error(f"Error finding summary files in S3: {e}")
-        return None
-
-def get_latest_transcript_file(agent_name=None):
-    """Get the latest transcript file from the agent's transcript directory"""
-    try:
-        if agent_name:
-            # Look in agent-specific transcript directory
-            prefix = f'agents/{agent_name}/transcripts/'
-        else:
-            # Fallback to root transcript directory
-            prefix = 'transcript_'
-            
-        response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix=prefix)
-        if 'Contents' not in response:
-            return None
-            
-        transcript_files = [obj for obj in response['Contents'] if obj['Key'].endswith('.txt')]
-        if not transcript_files:
-            return None
-            
-        latest_file = max(transcript_files, key=lambda x: x['LastModified'])
-        return latest_file['Key']
-    except Exception as e:
-        logging.error(f"Error finding transcript files in S3: {e}")
-        return None
-
-def get_latest_insights_file():
-    try:
-        response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix='insights_')
-        if 'Contents' not in response:
-            return None
-        insights_files = [obj for obj in response['Contents'] if obj['Key'].endswith('.txt')]
-        if not insights_files:
-            return None
-        latest_file = max(insights_files, key=lambda x: x['LastModified'])
-        latest_file_key = latest_file['Key']
-        return latest_file_key
-    except Exception as e:
-        logging.error(f"Error finding insights files in S3: {e}")
-        return None
-
 def get_latest_system_prompt(agent_name=None):
-    """Get the latest system prompt file from S3"""
+    """Get and combine system prompts from S3"""
     try:
-        # Get agent-specific system prompt
+        s3_client = boto3.client('s3')
+        
+        # Get base system prompt
+        base_prompt = read_file_content('_config/systemprompt_base.md', "base system prompt")
+        
+        # Get agent-specific system prompt if agent name is provided
+        agent_prompt = ""
         if agent_name:
-            prefix = f'agents/{agent_name}/system-prompt/'
-            response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix=prefix)
-            if 'Contents' in response:
-                prompt_files = [obj for obj in response['Contents'] if obj['Key'].endswith('.md')]
-                if prompt_files:
-                    latest_file = max(prompt_files, key=lambda x: x['LastModified'])
-                    return latest_file['Key']
+            agent_prompt_key = f'organizations/river/agents/{agent_name}/_config/systemprompt_aID-{agent_name}.md'
+            agent_prompt = read_file_content(agent_prompt_key, "agent system prompt")
         
-        # Get standard system prompt
-        prefix = 'system-prompt/'
-        response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix=prefix)
-        if 'Contents' in response:
-            prompt_files = [obj for obj in response['Contents'] if obj['Key'].endswith('.md')]
-            if prompt_files:
-                latest_file = max(prompt_files, key=lambda x: x['LastModified'])
-                return latest_file['Key']
-        
-        return None
+        # Combine prompts
+        system_prompt = base_prompt
+        if agent_prompt:
+            system_prompt += "\n\n" + agent_prompt
+            
+        return system_prompt
     except Exception as e:
-        logging.error(f"Error getting latest system prompt file: {e}")
+        logging.error(f"Error getting system prompts: {e}")
         return None
 
-def get_latest_context(agent_name):
-    """Get the latest context file from S3"""
+def get_latest_frameworks(agent_name=None):
+    """Get and combine frameworks from S3"""
     try:
-        prefix = f'agents/{agent_name}/context/'
-        response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix=prefix)
-        if 'Contents' in response:
-            context_files = [obj for obj in response['Contents'] if obj['Key'].endswith('.txt')]
-            if context_files:
-                latest_file = max(context_files, key=lambda x: x['LastModified'])
-                return latest_file['Key']
-        return None
+        s3_client = boto3.client('s3')
+        
+        # Get base frameworks
+        base_frameworks = read_file_content('_config/frameworks_base.md', "base frameworks")
+        
+        # Get agent-specific frameworks if agent name is provided
+        agent_frameworks = ""
+        if agent_name:
+            agent_frameworks_key = f'organizations/river/agents/{agent_name}/_config/frameworks_aID-{agent_name}.md'
+            agent_frameworks = read_file_content(agent_frameworks_key, "agent frameworks")
+        
+        # Combine frameworks
+        frameworks = base_frameworks
+        if agent_frameworks:
+            frameworks += "\n\n" + agent_frameworks
+            
+        return frameworks
     except Exception as e:
-        logging.error(f"Error getting latest context file: {e}")
+        logging.error(f"Error getting frameworks: {e}")
+        return None
+
+def get_latest_context(agent_name, event_id=None):
+    """Get and combine contexts from S3"""
+    try:
+        s3_client = boto3.client('s3')
+        
+        # Get organization-specific context
+        org_context = read_file_content(f'organizations/river/_config/context_oID-{agent_name}.md', "organization context")
+        
+        # Get event-specific context if event ID is provided
+        event_context = ""
+        if event_id:
+            event_context_key = f'organizations/river/agents/{agent_name}/events/{event_id}/_config/context_aID-{agent_name}_eID-{event_id}.md'
+            event_context = read_file_content(event_context_key, "event context")
+        
+        # Combine contexts
+        context = org_context
+        if event_context:
+            context += "\n\n" + event_context
+            
+        return context
+    except Exception as e:
+        logging.error(f"Error getting contexts: {e}")
         return None
 
 def read_file_content(file_key, description):
@@ -414,41 +389,29 @@ def main():
         
             client = Anthropic(api_key=ANTHROPIC_API_KEY)
 
-            # Load standard system prompt from S3
-            standard_prompt_key = get_latest_system_prompt()
-            if not standard_prompt_key:
-                print("Error: No standard system prompt found in S3.")
+            # Initialize system prompt with frameworks and context
+            system_prompt = get_latest_system_prompt(config.agent_name)
+            if not system_prompt:
+                logging.error("Failed to load system prompt")
                 sys.exit(1)
-            standard_system_prompt = read_file_content(standard_prompt_key, "standard system prompt")
-            if not standard_system_prompt:
-                print("Error: Standard system prompt is empty or unreadable. Check the log for details.")
-                sys.exit(1)
+                
+            # Add frameworks
+            frameworks = get_latest_frameworks(config.agent_name)
+            if frameworks:
+                system_prompt += "\n\n## Frameworks\n" + frameworks
+                
+            # Add context
+            context = get_latest_context(config.agent_name)  # Note: event_id not implemented yet
+            if context:
+                system_prompt += "\n\n## Context\n" + context
             
-            # Load agent-specific system prompt from S3
-            unique_prompt_key = get_latest_system_prompt(config.agent_name)
-            if not unique_prompt_key:
-                print("Error: No unique system prompt found in S3 for agent.")
-                sys.exit(1)
-            unique_system_prompt = read_file_content(unique_prompt_key, "unique system prompt")
-            if not unique_system_prompt:
-                print("Error: Unique system prompt is empty or unreadable. Check the log for details.")
-                sys.exit(1)
-            
-            initial_system_prompt = standard_system_prompt + "\n" + unique_system_prompt
-
-            chat_summary = ""
+            # Load memory if enabled
             if config.memory is not None:
-                if len(config.memory) == 0:
-                    config.memory = [config.agent_name]
-                system_prompt = reload_memory(config.agent_name, config.memory, initial_system_prompt)
-            else:
-                system_prompt = initial_system_prompt
+                system_prompt = reload_memory(config.agent_name, config.memory, system_prompt)
 
             conversation_history = []
 
             org_id = 'River'  # Replace with actual organization ID as needed
-            frameworks_content = ""
-            context_content = ""
 
             try:
                 frameworks_key = 'frameworks/frameworks.txt'
@@ -516,11 +479,11 @@ def main():
                             elif command == 'memory':
                                 if config.memory is None:
                                     config.memory = [config.agent_name]
-                                    system_prompt = reload_memory(config.agent_name, config.memory, initial_system_prompt)
+                                    system_prompt = reload_memory(config.agent_name, config.memory, system_prompt)
                                     print("Memory mode activated.")
                                 else:
                                     config.memory = None
-                                    system_prompt = initial_system_prompt
+                                    system_prompt = get_latest_system_prompt(config.agent_name)
                                     print("Memory mode deactivated.")
                                 print("\nUser: ", end='', flush=True)
                                 continue
