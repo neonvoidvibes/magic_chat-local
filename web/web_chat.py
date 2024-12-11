@@ -102,6 +102,12 @@ class WebChat:
         unique_system_prompt = read_file_content(unique_prompt_key, "unique system prompt")
         self.system_prompt = standard_system_prompt + "\n" + unique_system_prompt
         
+        # Load memory if enabled
+        if self.config.memory is not None:
+            self.system_prompt = self.reload_memory()
+        else:
+            self.system_prompt = initial_system_prompt
+
         # Load frameworks
         try:
             frameworks_obj = s3.get_object(Bucket=bucket, Key='frameworks/frameworks.txt')
@@ -164,39 +170,35 @@ class WebChat:
 
     def reload_memory(self):
         """Reload memory from chat history files"""
-        script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        chat_history_folder = os.path.join(script_dir, 'chat_history')
-        
         # Import the necessary functions
-        from magic_chat import load_existing_chats, generate_summary_of_chats, summarize_text
+        from magic_chat import load_existing_chats_from_s3, summarize_text
         
         # Load and process chat history
-        previous_chats = load_existing_chats(chat_history_folder, self.config.agent_name, self.config.memory)
-        chat_summary = generate_summary_of_chats(previous_chats)
-        summarized_chat = summarize_text(chat_summary, max_length=None)
+        previous_chats = load_existing_chats_from_s3(self.config.agent_name, self.config.memory)
         
-        # Extract insights
-        insights = []
+        # Combine all chat content
+        all_content = []
         for chat in previous_chats:
             for msg in chat['messages']:
-                if msg['role'] == 'assistant' and msg['content'].startswith("[Insights]"):
-                    insights.append(msg['content'].replace("[Insights] ", ""))
+                all_content.append(msg['content'])
         
-        insights_summary = "\n".join(insights) if insights else ""
+        combined_content = "\n\n".join(all_content)  # Add extra newline between files
+        summarized_content = summarize_text(combined_content, max_length=None)
         
         # Build new system prompt
         standard_system_prompt = read_file_content(get_latest_system_prompt(), "standard system prompt")
         unique_system_prompt = read_file_content(get_latest_system_prompt(self.config.agent_name), "unique system prompt")
         initial_system_prompt = standard_system_prompt + "\n" + unique_system_prompt
         
-        if insights_summary:
+        # Add the summarized content to the system prompt with clear context
+        if summarized_content:
             new_system_prompt = (
-                initial_system_prompt +
-                "\nSummary of past conversations:\n" + summarized_chat +
-                "\n\nLatest Insights:\n" + insights_summary
+                initial_system_prompt + 
+                "\n\n## Previous Chat History\nThe following is a summary of previous chat interactions:\n\n" + 
+                summarized_content
             )
         else:
-            new_system_prompt = initial_system_prompt + "\nSummary of past conversations:\n" + summarized_chat
+            new_system_prompt = initial_system_prompt
         
         return new_system_prompt
 
@@ -324,6 +326,7 @@ class WebChat:
                         Key=s3_key,
                         Body=chat_content.encode('utf-8')
                     )
+                    
                     return jsonify({'message': 'Chat history saved successfully'})
                 except Exception as e:
                     return jsonify({'error': f'Error saving chat history: {str(e)}'})
@@ -369,6 +372,7 @@ class WebChat:
             
         @self.app.route('/api/save', methods=['POST'])
         def save_chat():
+            """Save current chat history to a file"""
             try:
                 chat_content = ""
                 for chat in self.chat_history:
@@ -386,9 +390,9 @@ class WebChat:
                     Body=chat_content.encode('utf-8')
                 )
                 
-                return jsonify({'message': 'Chat history saved successfully', 'file': filename})
+                return jsonify({'message': 'Chat history saved successfully'})
             except Exception as e:
-                return jsonify({'error': str(e)}), 500
+                return jsonify({'error': f'Error saving chat history: {str(e)}'})
     
     def run(self, host: str = '127.0.0.1', port: int = 5001, debug: bool = False):
         if self.config.interface_mode == 'web_only':
