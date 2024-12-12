@@ -434,7 +434,7 @@ def get_latest_transcript_file(agent_name=None):
                     logging.debug(f"No transcript files found in agent folder: {prefix}")
         
         # Fallback to default transcripts folder
-        prefix = '_files/transcripts/archive/'
+        prefix = '_files/transcripts/'
         response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix=prefix, Delimiter='/')
         
         if 'Contents' in response:
