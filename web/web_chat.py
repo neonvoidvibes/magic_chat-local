@@ -343,6 +343,28 @@ class WebChat:
             except Exception as e:
                 return jsonify({'error': f'Error saving chat history: {str(e)}'})
 
+    def load_transcript(self):
+        """Load latest transcript from agent's transcript directory"""
+        try:
+            # Import the transcript loading function from magic_chat
+            from magic_chat import get_latest_transcript_file
+            
+            transcript_key = get_latest_transcript_file(self.config.agent_name)
+            if transcript_key:
+                s3 = boto3.client('s3')
+                transcript_obj = s3.get_object(Bucket=self.config.aws_s3_bucket, Key=transcript_key)
+                transcript = transcript_obj['Body'].read().decode('utf-8')
+                if transcript:
+                    self.transcript = transcript
+                    self.system_prompt += f"\n\nTranscript update: {transcript}"
+                    return True
+            
+            return False
+            
+        except Exception as e:
+            logging.error(f"Error loading transcript from S3: {e}")
+            return False
+
     def run(self, host: str = '127.0.0.1', port: int = 5001, debug: bool = False):
         if self.config.interface_mode == 'web_only':
             self.app.run(host=host, port=port, debug=debug)

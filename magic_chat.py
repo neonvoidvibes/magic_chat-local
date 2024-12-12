@@ -407,6 +407,55 @@ def format_chat_history(messages):
             chat_content += f"**Agent:**\n{msg['content']}\n\n"
     return chat_content
 
+def get_latest_transcript_file(agent_name=None):
+    """Get the latest transcript file, first from agent's event folder, then from default folder"""
+    try:
+        # First try agent's default event folder
+        if agent_name:
+            prefix = f'organizations/river/agents/{agent_name}/events/0000/transcripts/'
+            response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix=prefix, Delimiter='/')
+            
+            if 'Contents' in response:
+                # Only consider files directly in this folder
+                transcript_files = [
+                    obj for obj in response['Contents'] 
+                    if obj['Key'].startswith(prefix) and obj['Key'] != prefix
+                    and not obj['Key'].replace(prefix, '').strip('/').count('/')  # No additional folders
+                    and obj['Key'].endswith('.txt')
+                ]
+                if transcript_files:
+                    latest_file = max(transcript_files, key=lambda x: x['LastModified'])
+                    logging.debug(f"Found latest transcript in agent folder: {latest_file['Key']}")
+                    return latest_file['Key']
+                else:
+                    logging.debug(f"No transcript files found in agent folder: {prefix}")
+        
+        # Fallback to default transcripts folder
+        prefix = '_files/transcripts/archive/'
+        response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix=prefix, Delimiter='/')
+        
+        if 'Contents' in response:
+            # Only consider files directly in this folder
+            transcript_files = [
+                obj for obj in response['Contents'] 
+                if obj['Key'].startswith(prefix) and obj['Key'] != prefix
+                and not obj['Key'].replace(prefix, '').strip('/').count('/')  # No additional folders
+                and obj['Key'].endswith('.txt')
+            ]
+            if transcript_files:
+                latest_file = max(transcript_files, key=lambda x: x['LastModified'])
+                logging.debug(f"Found latest transcript in default folder: {latest_file['Key']}")
+                return latest_file['Key']
+            else:
+                logging.debug(f"No transcript files found in default folder: {prefix}")
+                
+        logging.debug("No transcript files found in any location")
+        return None
+        
+    except Exception as e:
+        logging.error(f"Error finding transcript files in S3: {e}")
+        return None
+
 def main():
     global abort_requested
     try:
