@@ -27,7 +27,13 @@ MAX_MESSAGES = TOKEN_LIMIT // AVERAGE_TOKENS_PER_MESSAGE
 # Global transcript position tracker
 LAST_TRANSCRIPT_POS = 0
 
-def read_new_transcript(transcript_key):
+class TranscriptState:
+    def __init__(self):
+        self.current_key = None
+        self.last_position = 0
+        self.last_modified = None
+
+def read_new_transcript(transcript_key, agent_name):
     """Read new content from transcript file in S3 starting from last read position"""
     global LAST_TRANSCRIPT_POS
     new_content = ""
@@ -54,6 +60,64 @@ def read_new_transcript(transcript_key):
     except Exception as e:
         logging.error(f"Error reading transcript from S3: {e}")
     return new_content
+
+def read_new_transcript_content(state, agent_name):
+    """Read only new content from transcript file"""
+    try:
+        latest_key = get_latest_transcript_file(agent_name)
+        if not latest_key:
+            logging.debug("No transcript file found")
+            return None
+            
+        logging.debug(f"Found transcript file: {latest_key}")
+        response = s3_client.head_object(Bucket=AWS_S3_BUCKET, Key=latest_key)
+        current_modified = response['LastModified']
+        current_size = response['ContentLength']
+        
+        logging.debug(f"Current file: size={current_size}, modified={current_modified}")
+        logging.debug(f"Previous state: key={state.current_key}, position={state.last_position}, modified={state.last_modified}")
+        
+        # If file changed or new file
+        if (latest_key != state.current_key or 
+            current_modified != state.last_modified):
+            
+            logging.debug("Transcript file has changed, reading new content")
+            response = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=latest_key)
+            content = response['Body'].read().decode('utf-8')
+            
+            if latest_key != state.current_key:
+                # New file - read from start
+                new_content = content
+                state.last_position = len(content)
+                logging.debug(f"New transcript file detected, read {len(new_content)} bytes")
+            else:
+                # Existing file updated - get only new content
+                new_content = content[state.last_position:]
+                state.last_position = len(content)
+                logging.debug(f"Existing file updated, read {len(new_content)} new bytes")
+                
+            state.current_key = latest_key
+            state.last_modified = current_modified
+            return new_content
+            
+        logging.debug("No changes detected in transcript file")
+        return None
+        
+    except Exception as e:
+        logging.error(f"Error reading transcript: {e}")
+        return None
+
+def check_transcript_updates(transcript_state, conversation_history, agent_name):
+    logging.debug("Checking for transcript updates...")
+    new_content = read_new_transcript_content(transcript_state, agent_name)
+    if new_content:
+        logging.debug(f"Adding new transcript content: {new_content[:100]}...")
+        conversation_history.append({
+            "role": "transcript",
+            "content": new_content
+        })
+        return True
+    return False
 
 # Load environment variables from .env file
 load_dotenv()
@@ -638,24 +702,29 @@ def main():
             conversation_history = []
             org_id = 'River'  # Replace with actual organization ID as needed
 
+            # Initialize transcript handling
+            transcript_state = TranscriptState()
+            last_transcript_check = time.time()
+            TRANSCRIPT_CHECK_INTERVAL = 5  # seconds
+
             # Load initial content based on command line arguments
             if config.listen_transcript:
-                transcript_key = get_latest_transcript_file(config.agent_name)
-                if transcript_key:
-                    transcript_content = read_file_content(transcript_key, "transcript")
-                    if transcript_content:
-                        print("Initial transcript loaded.")
-                        system_prompt += f"\n\nTranscript update: {transcript_content}"
-                    else:
-                        print("No transcript content found.")
-                else:
-                    print("No transcript files found.")
+                config.listen_transcript_enabled = True
+                if check_transcript_updates(transcript_state, conversation_history, config.agent_name):
+                    print("Initial transcript loaded.")
 
             print("\nUser: ", end='', flush=True)  # Initial prompt
             
             # Main chat loop
             while True:
                 try:
+                    # Check for transcript updates periodically if enabled
+                    current_time = time.time()
+                    if config.listen_transcript_enabled and current_time - last_transcript_check > TRANSCRIPT_CHECK_INTERVAL:
+                        if check_transcript_updates(transcript_state, conversation_history, config.agent_name):
+                            logging.debug("New transcript content added")
+                        last_transcript_check = current_time
+
                     if sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
                         user_input = sys.stdin.readline().strip()
                         
@@ -708,17 +777,13 @@ def main():
                             elif command in ['listen', 'listen-all', 'listen-deep', 'listen-insights', 'listen-transcript']:
                                 # Load transcript if needed
                                 if command in ['listen', 'listen-all', 'listen-transcript']:
-                                    transcript_key = get_latest_transcript_file(config.agent_name)
-                                    if transcript_key:
-                                        transcript_content = read_file_content(transcript_key, "transcript")
-                                        if transcript_content:
-                                            print("Transcript loaded and listening mode activated.")
-                                            system_prompt += f"\n\nTranscript update: {transcript_content}"
-                                        else:
-                                            print("No transcript content found.")
+                                    config.listen_transcript_enabled = True
+                                    if check_transcript_updates(transcript_state, conversation_history, config.agent_name):
+                                        print("Transcript loaded and automatic listening mode activated.")
                                     else:
-                                        print("No transcript files found.")
-                                
+                                        print("No new transcript content found.")
+                                    last_transcript_check = time.time()  # Reset check timer
+
                                 # Handle other listen modes
                                 if command in ['listen', 'listen-all', 'listen-deep', 'listen-insights']:
                                     # Existing insights/summary loading code...
