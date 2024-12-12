@@ -25408,3 +25408,5 @@ b'<?xml version="1.0" encoding="UTF-8"?>\n<ListBucketResult xmlns="http://s3.ama
 2024-12-12 01:33:22,087 [ERROR] Error reading organization context from S3: An error occurred (NoSuchKey) when calling the GetObject operation: The specified key does not exist.
 2024-12-12 01:33:22,474 [ERROR] No agent frameworks file at 'organizations/river/agents/playground/_config/frameworks_aID-playground.md' in S3.
 2024-12-12 01:33:22,496 [ERROR] No organization context file at 'organizations/river/_config/context_oID-playground.md' in S3.
+2024-12-12 01:41:49,710 [ERROR] Error reading agent frameworks from S3: An error occurred (NoSuchKey) when calling the GetObject operation: The specified key does not exist.
+2024-12-12 01:41:50,022 [ERROR] No agent frameworks file at 'organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md' in S3.

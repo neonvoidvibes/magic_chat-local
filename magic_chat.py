@@ -163,6 +163,38 @@ def get_latest_context(agent_name, event_id=None):
         logging.error(f"Error getting contexts: {e}")
         return None
 
+def get_agent_docs(agent_name):
+    """Load documentation files for an agent"""
+    try:
+        docs_dir = f'organizations/river/agents/{agent_name}/docs'
+        docs_content = []
+        
+        try:
+            # List all files in the docs directory
+            response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix=f'{docs_dir}/')
+            
+            if 'Contents' in response:
+                for obj in response['Contents']:
+                    if obj['Key'].endswith(('md', 'txt', 'json', 'yaml', 'yml')):  # Add more extensions if needed
+                        content = read_file_content(obj['Key'], f"doc file {obj['Key']}")
+                        if content:
+                            docs_content.append(content)
+            
+            if docs_content:
+                logging.debug(f"Loaded {len(docs_content)} documentation files for agent {agent_name}")
+                return "\n\n".join(docs_content)
+            else:
+                logging.debug(f"No documentation files found for agent {agent_name}")
+                return None
+                
+        except s3_client.exceptions.NoSuchKey:
+            logging.debug(f"No docs directory found for agent {agent_name}")
+            return None
+            
+    except Exception as e:
+        logging.error(f"Error loading agent docs: {e}")
+        return None
+
 def read_file_content(file_key, description):
     try:
         response = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=file_key)
@@ -501,13 +533,18 @@ def main():
             # Add frameworks
             frameworks = get_latest_frameworks(config.agent_name)
             if frameworks:
-                system_prompt += "\n\n## Frameworks\n" + frameworks
+                system_prompt += "\n\n" + frameworks
                 
             # Add context
-            context = get_latest_context(config.agent_name)  # Note: event_id not implemented yet
+            context = get_latest_context(config.agent_name)
             if context:
-                system_prompt += "\n\n## Context\n" + context
-            
+                system_prompt += "\n\n" + context
+                
+            # Add docs if available
+            docs = get_agent_docs(config.agent_name)
+            if docs:
+                system_prompt += "\n\n# Agent Documentation\n\n" + docs
+
             # Load memory if enabled
             if config.memory is not None:
                 if len(config.memory) == 0:
