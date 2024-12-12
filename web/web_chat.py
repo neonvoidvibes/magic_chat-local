@@ -352,7 +352,7 @@ class WebChat:
                 # Copy the current chat file from archive to saved
                 success, filename = save_chat_to_s3(self.config.agent_name, "", is_saved=True, filename=self.current_chat_file)
                 if success:
-                    return jsonify({'message': f'Chat history saved successfully as {filename}'}), 200
+                    return jsonify({'message': 'Chat history saved successfully'}), 200
                 else:
                     return jsonify({'error': 'Failed to save chat history'}), 500
             except Exception as e:
