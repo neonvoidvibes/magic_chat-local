@@ -25410,3 +25410,27 @@ b'<?xml version="1.0" encoding="UTF-8"?>\n<ListBucketResult xmlns="http://s3.ama
 2024-12-12 01:33:22,496 [ERROR] No organization context file at 'organizations/river/_config/context_oID-playground.md' in S3.
 2024-12-12 01:41:49,710 [ERROR] Error reading agent frameworks from S3: An error occurred (NoSuchKey) when calling the GetObject operation: The specified key does not exist.
 2024-12-12 01:41:50,022 [ERROR] No agent frameworks file at 'organizations/river/agents/nordicequation/_config/frameworks_aID-nordicequation.md' in S3.
+2024-12-12 01:45:47,123 [ERROR] Error reading agent system prompt from S3: An error occurred (NoSuchKey) when calling the GetObject operation: The specified key does not exist.
+2024-12-12 01:45:47,278 [ERROR] Error reading agent frameworks from S3: An error occurred (NoSuchKey) when calling the GetObject operation: The specified key does not exist.
+2024-12-12 01:45:47,412 [ERROR] Error reading organization context from S3: An error occurred (NoSuchKey) when calling the GetObject operation: The specified key does not exist.
+2024-12-12 01:45:47,517 [ERROR] No agent system prompt file at 'organizations/river/agents/wlg/_config/systemprompt_aID-wlg.md' in S3.
+2024-12-12 01:45:47,564 [ERROR] No agent frameworks file at 'organizations/river/agents/wlg/_config/frameworks_aID-wlg.md' in S3.
+2024-12-12 01:45:47,588 [ERROR] No organization context file at 'organizations/river/_config/context_oID-wlg.md' in S3.
+2024-12-12 01:57:34,549 [ERROR] Error reading agent system prompt from S3: An error occurred (NoSuchKey) when calling the GetObject operation: The specified key does not exist.
+2024-12-12 01:57:34,653 [ERROR] Error reading agent frameworks from S3: An error occurred (NoSuchKey) when calling the GetObject operation: The specified key does not exist.
+2024-12-12 01:57:34,713 [ERROR] Error reading organization context from S3: An error occurred (NoSuchKey) when calling the GetObject operation: The specified key does not exist.
+2024-12-12 01:57:34,823 [ERROR] No agent system prompt file at 'organizations/river/agents/wlg/_config/systemprompt_aID-wlg.md' in S3.
+2024-12-12 01:57:34,865 [ERROR] No agent frameworks file at 'organizations/river/agents/wlg/_config/frameworks_aID-wlg.md' in S3.
+2024-12-12 01:57:34,886 [ERROR] No organization context file at 'organizations/river/_config/context_oID-wlg.md' in S3.
+2024-12-12 02:00:10,784 [ERROR] Error reading agent system prompt from S3: An error occurred (NoSuchKey) when calling the GetObject operation: The specified key does not exist.
+2024-12-12 02:00:10,909 [ERROR] Error reading agent frameworks from S3: An error occurred (NoSuchKey) when calling the GetObject operation: The specified key does not exist.
+2024-12-12 02:00:10,965 [ERROR] Error reading organization context from S3: An error occurred (NoSuchKey) when calling the GetObject operation: The specified key does not exist.
+2024-12-12 02:00:11,077 [ERROR] No agent system prompt file at 'organizations/river/agents/wlg/_config/systemprompt_aID-wlg.md' in S3.
+2024-12-12 02:00:11,119 [ERROR] No agent frameworks file at 'organizations/river/agents/wlg/_config/frameworks_aID-wlg.md' in S3.
+2024-12-12 02:00:11,142 [ERROR] No organization context file at 'organizations/river/_config/context_oID-wlg.md' in S3.
+2024-12-12 02:05:40,643 [ERROR] Error reading agent system prompt from S3: An error occurred (NoSuchKey) when calling the GetObject operation: The specified key does not exist.
+2024-12-12 02:05:40,778 [ERROR] Error reading agent frameworks from S3: An error occurred (NoSuchKey) when calling the GetObject operation: The specified key does not exist.
+2024-12-12 02:05:40,840 [ERROR] Error reading organization context from S3: An error occurred (NoSuchKey) when calling the GetObject operation: The specified key does not exist.
+2024-12-12 02:05:40,952 [ERROR] No agent system prompt file at 'organizations/river/agents/wlg/_config/systemprompt_aID-wlg.md' in S3.
+2024-12-12 02:05:40,995 [ERROR] No agent frameworks file at 'organizations/river/agents/wlg/_config/frameworks_aID-wlg.md' in S3.
+2024-12-12 02:05:41,018 [ERROR] No organization context file at 'organizations/river/_config/context_oID-wlg.md' in S3.
