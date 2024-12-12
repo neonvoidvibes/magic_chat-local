@@ -289,10 +289,10 @@ class WebChat:
                     # Import the save function from magic_chat
                     from magic_chat import save_chat_to_s3
                     
-                    success, _ = save_chat_to_s3(self.config.agent_name, chat_content, is_saved=False, filename=self.current_chat_file)
+                    success, filename = save_chat_to_s3(self.config.agent_name, chat_content, is_saved=True)
                     if success:
                         self.last_saved_index = len(self.chat_history)
-                        return jsonify({'message': 'Chat history saved successfully'})
+                        return jsonify({'message': 'Chat history saved successfully', 'file': filename})
                     else:
                         return jsonify({'error': 'Failed to save chat history'})
                 except Exception as e:
@@ -341,24 +341,23 @@ class WebChat:
             
         @self.app.route('/api/save', methods=['POST'])
         def save_chat():
-            """Save current chat history to a file"""
+            """Copy current chat file from archive to saved folder"""
             try:
-                chat_content = ""
-                for i, chat in enumerate(self.chat_history[self.last_saved_index:]):
-                    chat_content += f"**User:**\n{chat['user']}\n\n"
-                    chat_content += f"**Agent:**\n{chat['assistant']}\n\n"
+                if not self.current_chat_file:
+                    return jsonify({'error': 'No chat file exists to save'}), 404
                 
                 # Import the save function from magic_chat
                 from magic_chat import save_chat_to_s3
                 
-                success, filename = save_chat_to_s3(self.config.agent_name, chat_content, is_saved=True)
+                # Copy the current chat file from archive to saved
+                success, filename = save_chat_to_s3(self.config.agent_name, "", is_saved=True, filename=self.current_chat_file)
                 if success:
-                    self.last_saved_index = len(self.chat_history)
-                    return jsonify({'message': 'Chat history saved successfully', 'file': filename})
+                    return jsonify({'message': f'Chat history saved successfully as {filename}'}), 200
                 else:
-                    return jsonify({'error': 'Failed to save chat history'})
+                    return jsonify({'error': 'Failed to save chat history'}), 500
             except Exception as e:
-                return jsonify({'error': f'Error saving chat history: {str(e)}'})
+                logging.error(f"Error saving chat history: {e}")
+                return jsonify({'error': f'Error saving chat history: {str(e)}'}), 500
 
     def load_transcript(self):
         """Load latest transcript from agent's transcript directory"""

@@ -472,7 +472,7 @@ def load_existing_chats_from_s3(agent_name, memory_agents=None):
         return []
 
 def save_chat_to_s3(agent_name, chat_content, is_saved=False, filename=None):
-    """Save chat content to S3 bucket.
+    """Save chat content to S3 bucket or copy from archive to saved.
     
     Args:
         agent_name: Name of the agent
@@ -484,36 +484,56 @@ def save_chat_to_s3(agent_name, chat_content, is_saved=False, filename=None):
         Tuple of (success boolean, filename used)
     """
     try:
-        folder = 'saved' if is_saved else 'archive'
-        
         if not filename:
             # Generate filename if not provided
             timestamp = datetime.now().strftime('%Y%m%d-T%H%M%S')
             filename = f"chat_D{timestamp}_aID-{agent_name}_eID-{config.event_id}.txt"
             logging.debug(f"Generated new filename: {filename}")
         
-        s3_key = f"organizations/river/agents/{agent_name}/events/0000/chats/{folder}/{filename}"
-        logging.debug(f"Saving to {s3_key}")
+        # Base path for both archive and saved folders
+        base_path = f"organizations/river/agents/{agent_name}/events/0000/chats"
+        archive_key = f"{base_path}/archive/{filename}"
+        saved_key = f"{base_path}/saved/{filename}"
         
-        try:
-            # Try to get existing content
-            existing_obj = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=s3_key)
-            existing_content = existing_obj['Body'].read().decode('utf-8')
-            # Append new content
-            full_content = existing_content + '\n' + chat_content
-        except s3_client.exceptions.NoSuchKey:
-            # File doesn't exist yet, use just the new content
-            logging.debug(f"File {s3_key} does not exist. Creating new file.")
-            full_content = chat_content
-        
-        # Save the combined content
-        s3_client.put_object(
-            Bucket=AWS_S3_BUCKET,
-            Key=s3_key,
-            Body=full_content.encode('utf-8')
-        )
-        logging.debug(f"Successfully saved to {s3_key}")
-        return True, filename
+        if is_saved:
+            try:
+                # Copy from archive to saved
+                copy_source = {
+                    'Bucket': AWS_S3_BUCKET,
+                    'Key': archive_key
+                }
+                s3_client.copy_object(
+                    CopySource=copy_source,
+                    Bucket=AWS_S3_BUCKET,
+                    Key=saved_key
+                )
+                logging.debug(f"Successfully copied from {archive_key} to {saved_key}")
+                return True, filename
+            except Exception as e:
+                logging.error(f"Error copying chat file from archive to saved: {e}")
+                return False, None
+        else:
+            # Regular save to archive
+            try:
+                # Try to get existing content
+                existing_obj = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=archive_key)
+                existing_content = existing_obj['Body'].read().decode('utf-8')
+                # Append new content
+                full_content = existing_content + '\n' + chat_content
+            except s3_client.exceptions.NoSuchKey:
+                # File doesn't exist yet, use just the new content
+                logging.debug(f"File {archive_key} does not exist. Creating new file.")
+                full_content = chat_content
+            
+            # Save the combined content
+            s3_client.put_object(
+                Bucket=AWS_S3_BUCKET,
+                Key=archive_key,
+                Body=full_content.encode('utf-8')
+            )
+            logging.debug(f"Successfully saved to {archive_key}")
+            return True, filename
+            
     except Exception as e:
         logging.error(f"Error saving chat file {filename}: {e}")
         return False, None
