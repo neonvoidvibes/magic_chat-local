@@ -175,7 +175,7 @@ def get_agent_docs(agent_name):
             
             if 'Contents' in response:
                 for obj in response['Contents']:
-                    if obj['Key'].endswith(('md', 'txt', 'json', 'yaml', 'yml')):  # Add more extensions if needed
+                    if obj['Key'].endswith(('md', 'txt', 'json', 'yaml', 'yml', 'xml')):  # Add more extensions if needed
                         content = read_file_content(obj['Key'], f"doc file {obj['Key']}")
                         if content:
                             docs_content.append(content)
