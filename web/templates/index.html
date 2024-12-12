@@ -297,41 +297,29 @@
             gap: 8px;
             position: absolute;
             left: 32px;
-            bottom: auto;
-            top: 50%;
-            transform: translateY(-50%);
+            bottom: 21px;
             z-index: 1;
-        }
-
-        .action-buttons::before {
-            content: '';
-            position: absolute;
-            inset: -10px;
-            background: rgba(41, 41, 41, 0.95);
-            border-radius: 20px;
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.3s ease;
         }
 
         .action-buttons .action-button:not(#menu-trigger) {
             display: none;
             opacity: 0;
             transition: opacity 0.3s ease;
-        }
-
-        .action-buttons:hover::before {
-            opacity: 1;
+            transform: translateY(38px);
         }
 
         .action-buttons:hover .action-button:not(#menu-trigger) {
             display: flex;
             opacity: 1;
+            transform: translateY(0);
         }
 
         #menu-trigger {
             display: flex;
             opacity: 1;
+            position: absolute;
+            bottom: 0;
+            left: 0;
         }
 
         @media (min-width: 601px) {
@@ -339,20 +327,12 @@
                 left: 32px;
                 gap: 8px;
             }
-
-            .action-buttons::before {
-                background: rgba(41, 41, 41, 0.95);
-            }
         }
 
         @media (max-width: 600px) {
             .action-buttons {
                 left: 20px;
                 gap: 8px;
-            }
-
-            .action-buttons::before {
-                background: rgba(41, 41, 41, 0.95);
             }
         }
 
