@@ -351,12 +351,15 @@ class WebChat:
             
             transcript_key = get_latest_transcript_file(self.config.agent_name)
             if transcript_key:
+                logging.debug(f"Found transcript file: {transcript_key}")
                 s3 = boto3.client('s3')
                 transcript_obj = s3.get_object(Bucket=self.config.aws_s3_bucket, Key=transcript_key)
                 transcript = transcript_obj['Body'].read().decode('utf-8')
                 if transcript:
+                    logging.debug(f"Loaded transcript, length: {len(transcript)}")
                     self.transcript = transcript
                     self.system_prompt += f"\n\nTranscript update: {transcript}"
+                    logging.debug(f"Updated system prompt, new length: {len(self.system_prompt)}")
                     return True
             
             return False

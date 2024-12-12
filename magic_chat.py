@@ -352,26 +352,29 @@ def save_chat_to_s3(agent_name, chat_content, is_saved=False):
 def reload_memory(agent_name, memory_agents, initial_system_prompt):
     """Reload memory from chat history files"""
     previous_chats = load_existing_chats_from_s3(agent_name, memory_agents)
+    logging.debug(f"Loaded {len(previous_chats)} chat files for memory")
     
     # Combine all chat content
     all_content = []
     for chat in previous_chats:
+        chat_content = []
         for msg in chat['messages']:
-            all_content.append(msg['content'])
+            chat_content.append(msg['content'])
+        if chat_content:
+            all_content.append("\n\n".join(chat_content))
+            logging.debug(f"Added chat content from {chat['file']}, length: {len(chat_content[-1])}")
     
-    combined_content = "\n\n".join(all_content)  # Add extra newline between files
+    combined_content = "\n\n---\n\n".join(all_content)
     logging.debug(f"Combined content length: {len(combined_content)}")
-    summarized_content = summarize_text(combined_content, max_length=None)
-    logging.debug(f"Summarized content length: {len(summarized_content) if summarized_content else 0}")
     
-    # Add the summarized content to the system prompt with clear context
-    if summarized_content:
+    # Add the content to the system prompt with clear context
+    if combined_content:
         new_system_prompt = (
             initial_system_prompt + 
             "\n\n## Previous Chat History\nThe following is a summary of previous chat interactions:\n\n" + 
-            summarized_content
+            combined_content
         )
-        logging.debug("Added chat history to system prompt")
+        logging.debug(f"Final system prompt length: {len(new_system_prompt)}")
     else:
         new_system_prompt = initial_system_prompt
         logging.debug("No chat history to add to system prompt")
