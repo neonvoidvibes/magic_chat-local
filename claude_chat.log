@@ -25434,3 +25434,9 @@ b'<?xml version="1.0" encoding="UTF-8"?>\n<ListBucketResult xmlns="http://s3.ama
 2024-12-12 02:05:40,952 [ERROR] No agent system prompt file at 'organizations/river/agents/wlg/_config/systemprompt_aID-wlg.md' in S3.
 2024-12-12 02:05:40,995 [ERROR] No agent frameworks file at 'organizations/river/agents/wlg/_config/frameworks_aID-wlg.md' in S3.
 2024-12-12 02:05:41,018 [ERROR] No organization context file at 'organizations/river/_config/context_oID-wlg.md' in S3.
+2024-12-12 09:32:48,091 [ERROR] Error reading agent system prompt from S3: An error occurred (NoSuchKey) when calling the GetObject operation: The specified key does not exist.
+2024-12-12 09:32:48,228 [ERROR] Error reading agent frameworks from S3: An error occurred (NoSuchKey) when calling the GetObject operation: The specified key does not exist.
+2024-12-12 09:32:48,298 [ERROR] Error reading organization context from S3: An error occurred (NoSuchKey) when calling the GetObject operation: The specified key does not exist.
+2024-12-12 09:32:48,408 [ERROR] No agent system prompt file at 'organizations/river/agents/wlg/_config/systemprompt_aID-wlg.md' in S3.
+2024-12-12 09:32:48,451 [ERROR] No agent frameworks file at 'organizations/river/agents/wlg/_config/frameworks_aID-wlg.md' in S3.
+2024-12-12 09:32:48,470 [ERROR] No organization context file at 'organizations/river/_config/context_oID-wlg.md' in S3.

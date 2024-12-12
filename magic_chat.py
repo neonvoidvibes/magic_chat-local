@@ -358,51 +358,37 @@ def load_existing_chats_from_s3(agent_name, memory_agents=None):
 def save_chat_to_s3(agent_name, chat_content, is_saved=False, filename=None):
     """Save chat content to S3 in the new file structure"""
     try:
-        # Use default event '0000' since events are not yet implemented
-        # Save to either 'saved' or 'archive' directory
         folder = 'saved' if is_saved else 'archive'
         
-        logging.debug(f"save_chat_to_s3: filename={filename}, is_saved={is_saved}")
+        if not filename:
+            # Use a consistent session filename
+            filename = f"chat_{agent_name}_session.txt"
         
-        if filename:
-            # Use the provided filename
-            s3_key = f"organizations/river/agents/{agent_name}/events/0000/chats/{folder}/{filename}"
-            logging.debug(f"Using existing file: {s3_key}")
-            try:
-                # Get existing content if file exists
-                try:
-                    existing_obj = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=s3_key)
-                    existing_content = existing_obj['Body'].read().decode('utf-8')
-                    logging.debug(f"Found existing content in {s3_key}")
-                    # Append new content
-                    chat_content = existing_content + '\n' + chat_content
-                except s3_client.exceptions.NoSuchKey:
-                    logging.debug(f"File doesn't exist yet: {s3_key}")
-                    # File doesn't exist yet, use new content as is
-                    pass
-            except Exception as e:
-                logging.error(f"Error reading existing chat file {filename}: {e}")
-        else:
-            # Create new filename with timestamp
-            timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-            filename = f"chat_{agent_name}_{timestamp}.txt"
-            s3_key = f"organizations/river/agents/{agent_name}/events/0000/chats/{folder}/{filename}"
-            logging.debug(f"Creating new file: {s3_key}")
+        s3_key = f"organizations/river/agents/{agent_name}/events/0000/chats/{folder}/{filename}"
+        logging.debug(f"Using file: {s3_key}")
         
         try:
-            s3_client.put_object(
-                Bucket=AWS_S3_BUCKET,
-                Key=s3_key,
-                Body=chat_content.encode('utf-8')
-            )
-            logging.debug(f"Successfully saved to {s3_key}")
-            return True, filename
-        except Exception as e:
-            logging.error(f"Error saving chat file {filename}: {e}")
-            return False, None
+            # Get existing content if file exists
+            existing_obj = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=s3_key)
+            existing_content = existing_obj['Body'].read().decode('utf-8')
+            logging.debug(f"Found existing content in {s3_key}")
+            # Append new content
+            chat_content = existing_content + '\n' + chat_content
+        except s3_client.exceptions.NoSuchKey:
+            logging.debug(f"File doesn't exist yet: {s3_key}")
+            # File doesn't exist yet, use new content as is
+            pass
+        
+        s3_client.put_object(
+            Bucket=AWS_S3_BUCKET,
+            Key=s3_key,
+            Body=chat_content.encode('utf-8')
+        )
+        logging.debug(f"Successfully saved to {s3_key}")
+        return True, filename
             
     except Exception as e:
-        logging.error(f"Error preparing to save chat: {e}")
+        logging.error(f"Error saving chat: {e}")
         return False, None
 
 def reload_memory(agent_name, memory_agents, initial_system_prompt):
@@ -576,7 +562,9 @@ def main():
                 system_prompt = reload_memory(config.agent_name, config.memory, system_prompt)
 
             conversation_history = []
-            current_chat_file = None  # Track the current chat file for this session
+            # Initialize consistent chat filename for this session
+            current_chat_file = f"chat_{config.agent_name}_session.txt"
+            logging.debug(f"Initialized current_chat_file to {current_chat_file}")
 
             org_id = 'River'  # Replace with actual organization ID as needed
 
@@ -620,18 +608,8 @@ def main():
                             elif command == 'save':
                                 # Save chat history to saved folder
                                 chat_content = format_chat_history(conversation_history)
-                                logging.debug(f"Saving chat, current_chat_file={current_chat_file}")
-                                if not current_chat_file:
-                                    # First save of the session - create new file
-                                    logging.debug("First save of session, creating new file")
-                                    success, filename = save_chat_to_s3(config.agent_name, chat_content, is_saved=True)
-                                    if success:
-                                        current_chat_file = filename
-                                        logging.debug(f"Set current_chat_file to {filename}")
-                                else:
-                                    # Append to existing session file
-                                    logging.debug(f"Appending to existing file {current_chat_file}")
-                                    success, _ = save_chat_to_s3(config.agent_name, chat_content, is_saved=True, filename=current_chat_file)
+                                logging.debug(f"Saving chat to {current_chat_file}")
+                                success, _ = save_chat_to_s3(config.agent_name, chat_content, is_saved=True, filename=current_chat_file)
                                 
                                 if success:
                                     print(f"Chat history saved to {current_chat_file}")
@@ -686,18 +664,8 @@ def main():
                             
                             # Save chat history to archive folder after each message
                             chat_content = format_chat_history(conversation_history)
-                            logging.debug(f"Saving chat, current_chat_file={current_chat_file}")
-                            if not current_chat_file:
-                                # First save of the session - create new file
-                                logging.debug("First save of session, creating new file")
-                                success, filename = save_chat_to_s3(config.agent_name, chat_content, is_saved=False)
-                                if success:
-                                    current_chat_file = filename
-                                    logging.debug(f"Set current_chat_file to {filename}")
-                            else:
-                                # Append to existing session file
-                                logging.debug(f"Appending to existing file {current_chat_file}")
-                                success, _ = save_chat_to_s3(config.agent_name, chat_content, is_saved=False, filename=current_chat_file)
+                            logging.debug(f"Saving chat to {current_chat_file}")
+                            success, _ = save_chat_to_s3(config.agent_name, chat_content, is_saved=False, filename=current_chat_file)
                             
                             if not success:
                                 print("Failed to save chat history")
