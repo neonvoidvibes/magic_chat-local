@@ -572,8 +572,13 @@ def main():
                 
             # Add docs if available
             docs = get_agent_docs(config.agent_name)
+            print("[DEBUG] Type of docs:", type(docs))
+            print("[DEBUG] Length of docs:", len(docs) if docs else "None")
             if docs:
+                print("[DEBUG] First 200 characters of docs:", docs[:200])
                 system_prompt += "\n\n# Agent Documentation\n\n" + docs
+                print("[DEBUG] System prompt now contains docs section:", "# Agent Documentation" in system_prompt)
+                print("[DEBUG] Total system prompt length:", len(system_prompt))
 
             # Load memory if enabled
             if config.memory is not None:
