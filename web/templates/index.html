@@ -293,29 +293,14 @@
 
         .action-buttons {
             display: flex;
-            align-items: center;
-            gap: 2px;
+            flex-direction: column-reverse;
+            gap: 8px;
             position: absolute;
             left: 32px;
-            bottom: 21px;
+            bottom: auto;
+            top: 50%;
+            transform: translateY(-50%);
             z-index: 1;
-        }
-
-        .action-buttons .action-button:not(#menu-trigger) {
-            display: none;
-        }
-
-        #menu-trigger {
-            display: flex !important;
-        }
-
-        .action-buttons:hover {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .action-buttons:hover .action-button:not(#menu-trigger) {
-            display: flex;
         }
 
         .action-buttons::before {
@@ -329,18 +314,45 @@
             transition: opacity 0.3s ease;
         }
 
+        .action-buttons .action-button:not(#menu-trigger) {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
         .action-buttons:hover::before {
             opacity: 1;
         }
 
+        .action-buttons:hover .action-button:not(#menu-trigger) {
+            display: flex;
+            opacity: 1;
+        }
+
+        #menu-trigger {
+            display: flex;
+            opacity: 1;
+        }
+
+        @media (min-width: 601px) {
+            .action-buttons {
+                left: 32px;
+                gap: 8px;
+            }
+
+            .action-buttons::before {
+                background: rgba(41, 41, 41, 0.95);
+            }
+        }
+
         @media (max-width: 600px) {
             .action-buttons {
-                flex-direction: column-reverse;
-                gap: 8px;
                 left: 20px;
-                bottom: auto;
-                top: 50%;
-                transform: translateY(-50%);
+                gap: 8px;
+            }
+
+            .action-buttons::before {
+                background: rgba(41, 41, 41, 0.95);
             }
         }
 
