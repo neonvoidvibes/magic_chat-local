@@ -108,7 +108,12 @@ def setup_logging(debug):
         console_handler.setFormatter(console_formatter)
         logger.addHandler(console_handler)
     
+    # Disable debug logging for external libraries
     logging.getLogger('anthropic').setLevel(logging.WARNING)
+    logging.getLogger('boto3').setLevel(logging.WARNING)
+    logging.getLogger('botocore').setLevel(logging.WARNING)
+    logging.getLogger('urllib3').setLevel(logging.WARNING)
+    logging.getLogger('s3transfer').setLevel(logging.WARNING)
 
 def get_latest_system_prompt(agent_name=None):
     """Get and combine system prompts from S3"""
