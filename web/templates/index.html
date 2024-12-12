@@ -301,6 +301,49 @@
             z-index: 1;
         }
 
+        .action-buttons .action-button:not(#menu-trigger) {
+            display: none;
+        }
+
+        #menu-trigger {
+            display: flex !important;
+        }
+
+        .action-buttons:hover {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .action-buttons:hover .action-button:not(#menu-trigger) {
+            display: flex;
+        }
+
+        .action-buttons::before {
+            content: '';
+            position: absolute;
+            inset: -10px;
+            background: rgba(41, 41, 41, 0.95);
+            border-radius: 20px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .action-buttons:hover::before {
+            opacity: 1;
+        }
+
+        @media (max-width: 600px) {
+            .action-buttons {
+                flex-direction: column-reverse;
+                gap: 8px;
+                left: 20px;
+                bottom: auto;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+        }
+
         .action-button {
             background: transparent;
             border: none;
@@ -435,6 +478,12 @@
         </div>
         <div id="input-container">
             <div class="action-buttons">
+                <button class="action-button" id="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                </button>
                 <button class="action-button" id="record-button">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="10"></circle>
@@ -449,7 +498,7 @@
                 </button>
                 <button class="action-button">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+                        <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a2 2 0 0 1 2.83 2.83l-8.49 8.48"></path>
                     </svg>
                 </button>
                 <button class="action-button" id="save-button">
