@@ -356,42 +356,50 @@ def load_existing_chats_from_s3(agent_name, memory_agents=None):
         return []
 
 def save_chat_to_s3(agent_name, chat_content, is_saved=False, filename=None):
-    """Save chat content to S3 in the new file structure"""
+    """Save chat content to S3 bucket.
+    
+    Args:
+        agent_name: Name of the agent
+        chat_content: Content to append to chat file
+        is_saved: Whether this is a manual save (True) or auto-archive (False)
+        filename: Optional filename to use, if None one will be generated
+        
+    Returns:
+        Tuple of (success boolean, filename used)
+    """
     try:
         folder = 'saved' if is_saved else 'archive'
         
         if not filename:
-            # Generate filename with timestamp, agent ID and event ID
+            # Generate filename if not provided
             timestamp = datetime.now().strftime('%Y%m%d-T%H%M%S')
-            event_id = "0000"  # Default event ID if not provided
-            filename = f"chat_D{timestamp}_aID-{agent_name}_eID-{event_id}.txt"
+            filename = f"chat_D{timestamp}_aID-{agent_name}_eID-{config.event_id}.txt"
             logging.debug(f"Generated new filename: {filename}")
         
         s3_key = f"organizations/river/agents/{agent_name}/events/0000/chats/{folder}/{filename}"
-        logging.debug(f"Using file: {s3_key}")
+        logging.debug(f"Saving to {s3_key}")
         
         try:
-            # Get existing content if file exists
+            # Try to get existing content
             existing_obj = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=s3_key)
             existing_content = existing_obj['Body'].read().decode('utf-8')
-            logging.debug(f"Found existing content in {s3_key}")
             # Append new content
-            chat_content = existing_content + '\n' + chat_content
+            full_content = existing_content + '\n' + chat_content
         except s3_client.exceptions.NoSuchKey:
-            logging.debug(f"File doesn't exist yet: {s3_key}")
-            # File doesn't exist yet, use new content as is
-            pass
+            # File doesn't exist yet, use just the new content
+            logging.debug(f"File {s3_key} does not exist. Creating new file.")
+            full_content = chat_content
         
+        # Save the combined content
         s3_client.put_object(
             Bucket=AWS_S3_BUCKET,
             Key=s3_key,
-            Body=chat_content.encode('utf-8')
+            Body=full_content.encode('utf-8')
         )
         logging.debug(f"Successfully saved to {s3_key}")
         return True, filename
-            
     except Exception as e:
-        logging.error(f"Error saving chat: {e}")
+        logging.error(f"Error saving chat file {filename}: {e}")
         return False, None
 
 def reload_memory(agent_name, memory_agents, initial_system_prompt):
@@ -497,7 +505,7 @@ def get_latest_transcript_file(agent_name=None):
             else:
                 logging.debug(f"No transcript files found in default folder: {prefix}")
                 
-        logging.debug("No transcript files found in any location")
+        logging.debug("No transcript files found.")
         return None
         
     except Exception as e:
@@ -518,6 +526,9 @@ def main():
         event_id = "0000"  # Default event ID if not provided
         current_chat_file = f"chat_D{timestamp}_aID-{config.agent_name}_eID-{event_id}.txt"
         logging.debug(f"Initialized chat filename: {current_chat_file}")
+        
+        # Initialize last saved message index
+        last_saved_index = 0
         
         # Start web interface if requested
         if config.interface_mode in ['web', 'web_only']:
@@ -612,12 +623,19 @@ def main():
                                 continue
                             elif command == 'save':
                                 # Save chat history to saved folder
-                                chat_content = format_chat_history(conversation_history)
+                                new_messages = conversation_history[last_saved_index:]
+                                if not new_messages:
+                                    print("No new messages to save.")
+                                    print("\nUser: ", end='', flush=True)
+                                    continue
+                                
+                                chat_content = format_chat_history(new_messages)
                                 logging.debug(f"Saving chat to {current_chat_file}")
                                 success, _ = save_chat_to_s3(config.agent_name, chat_content, is_saved=True, filename=current_chat_file)
                                 
                                 if success:
                                     print(f"Chat history saved to {current_chat_file}")
+                                    last_saved_index = len(conversation_history)
                                 else:
                                     print("Failed to save chat history")
                                 print("\nUser: ", end='', flush=True)
@@ -667,9 +685,10 @@ def main():
                                 continue
                             conversation_history.append({"role": "assistant", "content": response})
                             
-                            # Save chat history to archive folder after each message
-                            chat_content = format_chat_history(conversation_history)
-                            logging.debug(f"Saving chat to {current_chat_file}")
+                            # Format and save only the latest message round
+                            latest_messages = conversation_history[-2:]  # Get user message and assistant response
+                            chat_content = format_chat_history(latest_messages)
+                            logging.debug(f"Saving latest message round to {current_chat_file}")
                             success, _ = save_chat_to_s3(config.agent_name, chat_content, is_saved=False, filename=current_chat_file)
                             
                             if not success:

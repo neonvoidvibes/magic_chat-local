@@ -100,6 +100,7 @@ class WebChat:
         timestamp = datetime.now().strftime('%Y%m%d-T%H%M%S')
         event_id = "0000"  # Default event ID if not provided
         self.current_chat_file = f"chat_D{timestamp}_aID-{config.agent_name}_eID-{event_id}.txt"
+        self.last_saved_index = 0  # Track last saved message
         logging.debug(f"Initialized chat filename: {self.current_chat_file}")
         
         self.load_resources()
@@ -220,16 +221,20 @@ class WebChat:
                     
                     # Save chat history to archive folder
                     try:
-                        chat_content = ""
-                        for chat in self.chat_history:
-                            chat_content += f"**User:**\n{chat['user']}\n\n"
-                            chat_content += f"**Agent:**\n{chat['assistant']}\n\n"
-                        
-                        # Import the save function from magic_chat
-                        from magic_chat import save_chat_to_s3
-                        success, _ = save_chat_to_s3(self.config.agent_name, chat_content, is_saved=False, filename=self.current_chat_file)
-                        if not success:
-                            logging.error("Failed to save chat history")
+                        new_messages = self.chat_history[self.last_saved_index:]
+                        if new_messages:
+                            chat_content = ""
+                            for chat in new_messages:
+                                chat_content += f"**User:**\n{chat['user']}\n\n"
+                                chat_content += f"**Agent:**\n{chat['assistant']}\n\n"
+                            
+                            # Import the save function from magic_chat
+                            from magic_chat import save_chat_to_s3
+                            success, _ = save_chat_to_s3(self.config.agent_name, chat_content, is_saved=False, filename=self.current_chat_file)
+                            if success:
+                                self.last_saved_index = len(self.chat_history)
+                            else:
+                                logging.error("Failed to save chat history")
                     except Exception as e:
                         logging.error(f"Error saving chat history to S3: {e}")
                     
@@ -272,20 +277,22 @@ class WebChat:
                 return jsonify({'message': help_text})
             elif cmd == 'clear':
                 self.chat_history = []
+                self.last_saved_index = 0
                 return jsonify({'message': 'Chat history cleared'})
             elif cmd == 'save':
                 try:
                     chat_content = ""
-                    for chat in self.chat_history:
+                    for i, chat in enumerate(self.chat_history[self.last_saved_index:]):
                         chat_content += f"**User:**\n{chat['user']}\n\n"
                         chat_content += f"**Agent:**\n{chat['assistant']}\n\n"
                     
                     # Import the save function from magic_chat
                     from magic_chat import save_chat_to_s3
                     
-                    success, _ = save_chat_to_s3(self.config.agent_name, chat_content, is_saved=True, filename=self.current_chat_file)
+                    success, _ = save_chat_to_s3(self.config.agent_name, chat_content, is_saved=False, filename=self.current_chat_file)
                     if success:
-                        return jsonify({'message': f'Chat history saved successfully to {self.current_chat_file}'})
+                        self.last_saved_index = len(self.chat_history)
+                        return jsonify({'message': 'Chat history saved successfully'})
                     else:
                         return jsonify({'error': 'Failed to save chat history'})
                 except Exception as e:
@@ -337,7 +344,7 @@ class WebChat:
             """Save current chat history to a file"""
             try:
                 chat_content = ""
-                for chat in self.chat_history:
+                for i, chat in enumerate(self.chat_history[self.last_saved_index:]):
                     chat_content += f"**User:**\n{chat['user']}\n\n"
                     chat_content += f"**Agent:**\n{chat['assistant']}\n\n"
                 
@@ -346,6 +353,7 @@ class WebChat:
                 
                 success, filename = save_chat_to_s3(self.config.agent_name, chat_content, is_saved=True)
                 if success:
+                    self.last_saved_index = len(self.chat_history)
                     return jsonify({'message': 'Chat history saved successfully', 'file': filename})
                 else:
                     return jsonify({'error': 'Failed to save chat history'})
