@@ -361,8 +361,11 @@ def save_chat_to_s3(agent_name, chat_content, is_saved=False, filename=None):
         folder = 'saved' if is_saved else 'archive'
         
         if not filename:
-            # Use a consistent session filename
-            filename = f"chat_{agent_name}_session.txt"
+            # Generate filename with timestamp, agent ID and event ID
+            timestamp = datetime.now().strftime('%Y%m%d-T%H%M%S')
+            event_id = "0000"  # Default event ID if not provided
+            filename = f"chat_D{timestamp}_aID-{agent_name}_eID-{event_id}.txt"
+            logging.debug(f"Generated new filename: {filename}")
         
         s3_key = f"organizations/river/agents/{agent_name}/events/0000/chats/{folder}/{filename}"
         logging.debug(f"Using file: {s3_key}")
@@ -510,6 +513,12 @@ def main():
         # Setup logging
         setup_logging(config.debug)
         
+        # Initialize chat filename with timestamp at session start
+        timestamp = datetime.now().strftime('%Y%m%d-T%H%M%S')
+        event_id = "0000"  # Default event ID if not provided
+        current_chat_file = f"chat_D{timestamp}_aID-{config.agent_name}_eID-{event_id}.txt"
+        logging.debug(f"Initialized chat filename: {current_chat_file}")
+        
         # Start web interface if requested
         if config.interface_mode in ['web', 'web_only']:
             web_interface = WebChat(config)
@@ -562,10 +571,6 @@ def main():
                 system_prompt = reload_memory(config.agent_name, config.memory, system_prompt)
 
             conversation_history = []
-            # Initialize consistent chat filename for this session
-            current_chat_file = f"chat_{config.agent_name}_session.txt"
-            logging.debug(f"Initialized current_chat_file to {current_chat_file}")
-
             org_id = 'River'  # Replace with actual organization ID as needed
 
             # Load initial content based on command line arguments

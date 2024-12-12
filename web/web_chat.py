@@ -95,6 +95,13 @@ class WebChat:
         self.frameworks = None
         self.transcript = None
         self.system_prompt = None
+        
+        # Initialize chat filename with timestamp at session start
+        timestamp = datetime.now().strftime('%Y%m%d-T%H%M%S')
+        event_id = "0000"  # Default event ID if not provided
+        self.current_chat_file = f"chat_D{timestamp}_aID-{config.agent_name}_eID-{event_id}.txt"
+        logging.debug(f"Initialized chat filename: {self.current_chat_file}")
+        
         self.load_resources()
         
     def load_resources(self):
@@ -220,7 +227,9 @@ class WebChat:
                         
                         # Import the save function from magic_chat
                         from magic_chat import save_chat_to_s3
-                        save_chat_to_s3(self.config.agent_name, chat_content, is_saved=False)
+                        success, _ = save_chat_to_s3(self.config.agent_name, chat_content, is_saved=False, filename=self.current_chat_file)
+                        if not success:
+                            logging.error("Failed to save chat history")
                     except Exception as e:
                         logging.error(f"Error saving chat history to S3: {e}")
                     
@@ -274,9 +283,9 @@ class WebChat:
                     # Import the save function from magic_chat
                     from magic_chat import save_chat_to_s3
                     
-                    success, filename = save_chat_to_s3(self.config.agent_name, chat_content, is_saved=True)
+                    success, _ = save_chat_to_s3(self.config.agent_name, chat_content, is_saved=True, filename=self.current_chat_file)
                     if success:
-                        return jsonify({'message': 'Chat history saved successfully', 'file': filename})
+                        return jsonify({'message': f'Chat history saved successfully to {self.current_chat_file}'})
                     else:
                         return jsonify({'error': 'Failed to save chat history'})
                 except Exception as e:
