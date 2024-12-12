@@ -328,15 +328,18 @@ def analyze_with_claude(client, messages, system_prompt):
     info_displayed = False
     response_received = threading.Event()
 
-    # Format messages for Claude API
+    # Format messages for Claude API - handle transcript updates
     formatted_messages = []
     for msg in messages:
         if msg["role"] == "transcript":
-            # Add transcript updates as system messages
+            # Add transcript updates as assistant messages
             formatted_messages.append({
-                "role": "system",
-                "content": f"New transcript segment: {msg['content']}"
+                "role": "assistant",
+                "content": f"## Transcript Update:\n{msg['content']}"
             })
+        elif msg["role"] == "system":
+            # Skip system messages - they'll be handled by the system parameter
+            continue
         else:
             formatted_messages.append(msg)
 
@@ -358,7 +361,7 @@ def analyze_with_claude(client, messages, system_prompt):
                 max_tokens=4096,
                 temperature=0.7,
                 system=system_prompt,
-                messages=formatted_messages  # Use formatted messages that handle transcript role
+                messages=formatted_messages
             ) as stream:
                 for text in stream.text_stream:
                     response_received.set()
