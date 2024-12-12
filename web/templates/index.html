@@ -688,7 +688,7 @@
                 if (response.ok) {
                     const messageDiv = document.createElement('div');
                     messageDiv.className = 'system-message';
-                    messageDiv.textContent = `Chat history saved successfully as ${data.file}`;
+                    messageDiv.textContent = data.message;
                     const chatMessages = document.getElementById('chat-messages');
                     chatMessages.appendChild(messageDiv);
                     chatMessages.scrollTop = chatMessages.scrollHeight;
