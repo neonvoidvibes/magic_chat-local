@@ -709,10 +709,10 @@ def main():
             transcript_state = TranscriptState()
             last_transcript_check = time.time()
             TRANSCRIPT_CHECK_INTERVAL = 5  # seconds
+            config.listen_transcript_enabled = config.listen_transcript
 
             # Load initial content based on command line arguments
             if config.listen_transcript:
-                config.listen_transcript_enabled = True
                 if check_transcript_updates(transcript_state, conversation_history, config.agent_name):
                     print("Initial transcript loaded.")
 

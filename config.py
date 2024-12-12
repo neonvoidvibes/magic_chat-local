@@ -22,6 +22,7 @@ class AppConfig:
     listen_insights: bool = False
     listen_deep: bool = False
     listen_all: bool = False
+    listen_transcript_enabled: bool = False  # Track if transcript listening is currently enabled
     
     # Environment settings
     aws_region: Optional[str] = None
@@ -78,6 +79,7 @@ class AppConfig:
             listen_insights=listen_insights,
             listen_deep=args.listen_deep,
             listen_all=args.listen_all,
+            listen_transcript_enabled=listen_transcript,
             # Environment variables
             aws_region=os.getenv('AWS_REGION'),
             aws_s3_bucket=os.getenv('AWS_S3_BUCKET'),
