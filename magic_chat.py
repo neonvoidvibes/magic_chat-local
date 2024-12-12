@@ -237,6 +237,7 @@ def summarize_text(text, max_length=None):
         return text[:max_length] + "..."
 
 def analyze_with_claude(client, messages, system_prompt):
+    """Process messages with Claude API, handling transcript updates appropriately"""
     global abort_requested
     max_retries = 5
     initial_backoff = 1
@@ -245,6 +246,18 @@ def analyze_with_claude(client, messages, system_prompt):
     request_start_time = time.time()
     info_displayed = False
     response_received = threading.Event()
+
+    # Format messages for Claude API
+    formatted_messages = []
+    for msg in messages:
+        if msg["role"] == "transcript":
+            # Add transcript updates as system messages
+            formatted_messages.append({
+                "role": "system",
+                "content": f"New transcript segment: {msg['content']}"
+            })
+        else:
+            formatted_messages.append(msg)
 
     def show_delay_message():
         if not response_received.is_set():
@@ -264,7 +277,7 @@ def analyze_with_claude(client, messages, system_prompt):
                 max_tokens=4096,
                 temperature=0.7,
                 system=system_prompt,
-                messages=messages
+                messages=formatted_messages  # Use formatted messages that handle transcript role
             ) as stream:
                 for text in stream.text_stream:
                     response_received.set()
