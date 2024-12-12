@@ -32,13 +32,25 @@ def read_new_transcript(transcript_key):
     global LAST_TRANSCRIPT_POS
     new_content = ""
     try:
+        logging.debug(f"Reading transcript from S3: {transcript_key}")
+        logging.debug(f"Current transcript position: {LAST_TRANSCRIPT_POS}")
+        
         response = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=transcript_key)
         transcript_stream = response['Body']
+        total_size = response.get('ContentLength', 0)
+        logging.debug(f"Total transcript size: {total_size} bytes")
+        
         transcript_stream.seek(LAST_TRANSCRIPT_POS)
         new_content = transcript_stream.read().decode('utf-8')
+        
         if new_content:
+            old_pos = LAST_TRANSCRIPT_POS
             LAST_TRANSCRIPT_POS = transcript_stream.tell()
-            logging.debug(f"Read {len(new_content)} bytes of new transcript content")
+            logging.debug(f"Read {len(new_content)} bytes from position {old_pos} to {LAST_TRANSCRIPT_POS}")
+            logging.debug(f"New content preview: {new_content[:100]}...")
+        else:
+            logging.debug("No new content found in transcript")
+            
     except Exception as e:
         logging.error(f"Error reading transcript from S3: {e}")
     return new_content
