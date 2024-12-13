@@ -15,6 +15,8 @@
             --accent-color-hover: #ffffff;
             --action-color: #777777;
             --action-color-hover: #e0e0e0;
+            --trigger-color: #a7a7a7;
+            --trigger-color-hover: #a7a7a7;
             --message-user-bg: #292929;
             --message-assistant-bg: transparent;
             --message-system-bg: #4a4a4a;
@@ -309,26 +311,28 @@
             border-radius: 20px;
             z-index: -1;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: all 0.3s ease;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(8px);
+            transform: translateY(-4px) translateX(0);
+        }
+
+        .action-buttons:hover::before {
+            opacity: 1;
+            transform: translateY(-4px) translateX(4px);
         }
 
         .action-buttons .action-button:not(#menu-trigger) {
             display: none;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: all 0.3s ease;
             transform: translateY(38px) translateX(0);
-        }
-
-        .action-buttons:hover::before {
-            opacity: 1;
         }
 
         .action-buttons:hover .action-button:not(#menu-trigger) {
             display: flex;
             opacity: 1;
-            transform: translateY(-3px) translateX(2px);
+            transform: translateY(-4px) translateX(4px);
         }
 
         .action-buttons:hover #menu-trigger {
@@ -342,10 +346,10 @@
             position: absolute;
             bottom: 0;
             left: 0;
-            color: var(--accent-color);
+            color: var(--trigger-color);
             transition: opacity 0.3s ease;
-            width: 35px;
-            height: 35px;
+            width: 37px;
+            height: 37px;
             padding: 4px;
         }
 
@@ -355,7 +359,7 @@
         }
 
         #menu-trigger:hover {
-            color: var(--accent-color-hover);
+            color: var(--trigger-color-hover);
         }
 
         @media (min-width: 601px) {
@@ -405,7 +409,7 @@
 
         #message-input {
             flex-grow: 1;
-            padding: 22px 78px 22px 70px;
+            padding: 22px 78px 22px 80px;
             border: none;
             border-radius: 35px;
             font-size: 20px;
