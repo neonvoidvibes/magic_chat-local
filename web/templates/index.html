@@ -555,6 +555,25 @@
     <script>
         let lastMessage = null;  // Track last message globally
 
+        // Initialize message input and event handlers
+        const messageInput = document.getElementById('message-input');
+        const initialHeight = 72;  // matches CSS height (22px + 24px + 22px)
+
+        // Handle Enter key and Shift+Enter
+        messageInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Auto-resize textarea
+        messageInput.style.height = initialHeight + 'px';
+        messageInput.addEventListener('input', function() {
+            this.style.height = initialHeight + 'px';
+            this.style.height = Math.min(this.scrollHeight, initialHeight + (28 * 4)) + 'px';
+        });
+
         function updateStatus() {
             fetch('/api/status')
                 .then(response => response.json())
@@ -572,7 +591,6 @@
         }
 
         function sendMessage() {
-            const messageInput = document.getElementById('message-input');
             const message = messageInput.value.trim();
             if (!message) return;
             
@@ -726,30 +744,6 @@
         // Initial setup
         initializeWelcomeText();
         animateWelcomeText();
-
-        // Handle Enter key
-        document.getElementById('message-input').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
-        });
-
-        // Auto-resize textarea
-        const messageInput = document.getElementById('message-input');
-        const initialHeight = 72;  // matches CSS height (22px + 24px + 22px)
-
-        messageInput.addEventListener('input', function() {
-            if (this.value.trim() === '') {
-                this.style.height = initialHeight + 'px';
-            } else {
-                // Reset to initial height first
-                this.style.height = initialHeight + 'px';
-                // Then check if we need more height
-                if (this.scrollHeight > initialHeight) {
-                    this.style.height = Math.min(this.scrollHeight, parseInt(getComputedStyle(this).maxHeight)) + 'px';
-                }
-            }
-        });
 
         // Initial status update
         updateStatus();
