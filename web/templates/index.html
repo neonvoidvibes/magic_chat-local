@@ -212,14 +212,14 @@
 
         @media (max-width: 600px) {
             .glow-text {
-                font-size: 29px;
+                font-size: 32px;
             }
         }
 
         #welcome-text {
             position: absolute;
             top: 65%;
-            left: 53%;
+            left: 50%;
             transform: translate(-50%, -50%);
             text-align: center;
             width: 100%;
@@ -314,7 +314,7 @@
             content: '';
             position: absolute;
             inset: -10px;
-            background: rgb(41, 41, 41);
+            background: rgba(19, 19, 19, 0.75);  /* Darker, slightly transparent background */
             border-radius: 20px;
             z-index: -1;
             opacity: 0;
@@ -416,7 +416,7 @@
 
         #message-input {
             flex-grow: 1;
-            padding: 19px 78px 25px 80px;
+            padding: 19px 78px 25px 70px;
             border: none;
             border-radius: 35px;
             font-size: 20px;
@@ -481,7 +481,7 @@
         #status-bar {
             font-size: 16px;
             color: var(--status-bar);
-            margin-top: 15px;
+            margin-top: 14px;
             text-align: center;
         }
 
@@ -515,12 +515,25 @@
                 padding: 0;
             }
 
+            h2 {
+                margin: 20px 0 30px 0;
+                font-size: 17px;
+            }
+
+            #input-container {
+                margin: 15px 0 30px 0;
+            }
+
             .message {
                 font-size: 18px;
             }
 
             #message-input {
                 font-size: 18px;
+            }
+
+            #status-bar {
+                display: none;
             }
         }
     </style>
