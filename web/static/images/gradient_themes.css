@@ -1,0 +1,52 @@
+/* Base gradient theme variables */
+:root {
+    --gradient-color-1: #1a1a1a;
+    --gradient-color-2: #2a2a2a;
+    --gradient-color-3: #3a3a3a;
+}
+
+/* Preset themes that can be triggered by keywords */
+.theme-calm {
+    --gradient-color-1: #2c3e50;
+    --gradient-color-2: #3498db;
+    --gradient-color-3: #2980b9;
+}
+
+.theme-energetic {
+    --gradient-color-1: #c0392b;
+    --gradient-color-2: #e74c3c;
+    --gradient-color-3: #d35400;
+}
+
+.theme-peaceful {
+    --gradient-color-1: #27ae60;
+    --gradient-color-2: #2ecc71;
+    --gradient-color-3: #16a085;
+}
+
+.theme-mysterious {
+    --gradient-color-1: #8e44ad;
+    --gradient-color-2: #9b59b6;
+    --gradient-color-3: #6c3483;
+}
+
+/* Animation keyframes (moved from index.html) */
+@keyframes gradientFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Gradient background styles */
+.gradient-background {
+    background: linear-gradient(
+        270deg,
+        var(--gradient-color-1),
+        var(--gradient-color-2),
+        var(--gradient-color-3),
+        var(--gradient-color-2),
+        var(--gradient-color-1)
+    );
+    background-size: 400% 100%;
+    animation: gradientFlow 15s ease infinite;
+}

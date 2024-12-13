@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/gradient_themes.css">
     <title>Magic Chat - {{ agent_name }}</title>
     <style>
         :root {
@@ -56,16 +57,6 @@
             /* background-size: 100% 100%; */
             /* background-position: center; */
             /* background-repeat: no-repeat; */
-            background: linear-gradient(
-                270deg,
-                var(--gradient-color-1, #1a1a1a),
-                var(--gradient-color-2, #2a2a2a),
-                var(--gradient-color-3, #3a3a3a),
-                var(--gradient-color-2, #2a2a2a),
-                var(--gradient-color-1, #1a1a1a)
-            );
-            background-size: 400% 100%;
-            animation: gradientFlow 15s ease infinite;
         }
 
         #chat-container {
@@ -522,7 +513,7 @@
     </style>
 </head>
 <body>
-    <div id="bg-wrapper"></div>
+    <div id="bg-wrapper" class="gradient-background"></div>
     <div id="chat-container">
         <h2>River AI Streamer</h2>
         <div id="chat-messages">
