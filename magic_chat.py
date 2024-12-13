@@ -729,12 +729,14 @@ def main():
             transcript_state = TranscriptState()
             last_transcript_check = time.time()
             TRANSCRIPT_CHECK_INTERVAL = 5  # seconds
-            config.listen_transcript_enabled = config.listen_transcript
+            config.listen_transcript_enabled = False  # Start with transcript listening disabled
 
-            # Load initial content based on command line arguments
+            # Only load initial content if --listen-transcript flag was used
             if config.listen_transcript:
+                config.listen_transcript_enabled = True
                 if check_transcript_updates(transcript_state, conversation_history, config.agent_name):
                     print("Initial transcript loaded.")
+                last_transcript_check = time.time()
 
             print("\nUser: ", end='', flush=True)  # Initial prompt
             
@@ -798,7 +800,7 @@ def main():
                                 print("\nUser: ", end='', flush=True)
                                 continue
                             elif command in ['listen', 'listen-all', 'listen-deep', 'listen-insights', 'listen-transcript']:
-                                # Load transcript if needed
+                                # Enable transcript loading only for relevant commands
                                 if command in ['listen', 'listen-all', 'listen-transcript']:
                                     config.listen_transcript_enabled = True
                                     if check_transcript_updates(transcript_state, conversation_history, config.agent_name):
@@ -806,6 +808,9 @@ def main():
                                     else:
                                         print("No new transcript content found.")
                                     last_transcript_check = time.time()  # Reset check timer
+                                elif command == 'silent':
+                                    config.listen_transcript_enabled = False
+                                    print("Transcript listening mode deactivated.")
 
                                 # Handle other listen modes
                                 if command in ['listen', 'listen-all', 'listen-deep', 'listen-insights']:

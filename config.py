@@ -23,7 +23,7 @@ class AppConfig:
     listen_deep: bool = False
     listen_all: bool = False
     listen_transcript_enabled: bool = False  # Track if transcript listening is currently enabled
-    
+
     # Environment settings
     aws_region: Optional[str] = None
     aws_s3_bucket: Optional[str] = None
@@ -75,11 +75,11 @@ class AppConfig:
             memory=args.memory,
             debug=args.debug,
             listen_summary=listen_summary,
-            listen_transcript=listen_transcript,
+            listen_transcript=listen_transcript,  # Set from command line arg
             listen_insights=listen_insights,
             listen_deep=args.listen_deep,
             listen_all=args.listen_all,
-            listen_transcript_enabled=listen_transcript,
+            listen_transcript_enabled=False,  # Always start disabled, enable only when needed
             # Environment variables
             aws_region=os.getenv('AWS_REGION'),
             aws_s3_bucket=os.getenv('AWS_S3_BUCKET'),
