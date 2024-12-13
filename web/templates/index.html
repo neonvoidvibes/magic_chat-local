@@ -8,19 +8,23 @@
     <style>
         :root {
             --bg-color: #1a1a1a;
-            --chat-bg: rgb(20, 20, 20, 1.0);
+            /* --chat-bg: rgb(20, 20, 20, 1.0); */
+            --chat-bg: transparent;
             --text-color: #f0f0f0;
             --input-bg: transparent;
-            --input-field-bg: #292929;
+            --input-field-bg: #1d1d1d;
             --accent-color: #e2e2e2;
             --accent-color-hover: #ffffff;
             --action-color: #777777;
             --action-color-hover: #e0e0e0;
             --trigger-color: #a7a7a7;
             --trigger-color-hover: #a7a7a7;
-            --message-user-bg: #292929;
+            /* --message-user-bg: #292929; */
+            --message-user-bg: rgba(29, 29, 29, 0.5);
             --message-assistant-bg: transparent;
-            --message-system-bg: #4a4a4a;
+            /* --message-system-bg: #4a4a4a; */
+            --message-system-bg: #898989;
+            --status-bar: #898989;
         }
 
         @font-face {
@@ -444,7 +448,7 @@
         }
 
         #message-input::placeholder {
-            color: rgba(85, 85, 85, 0.5);
+            color: #898989
         }
 
         #send-button {
@@ -475,7 +479,7 @@
 
         #status-bar {
             font-size: 16px;
-            color: #6a6a6a;
+            color: var(--status-bar);
             margin-top: 15px;
             text-align: center;
         }
