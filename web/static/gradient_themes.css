@@ -1,38 +1,39 @@
 /* Base gradient theme variables */
 :root {
-    --gradient-color-1: #007e8f;
-    --gradient-color-2: #00be95;
-    --gradient-color-3: #41a571;
-    --gradient-color-4: #6a9a5e;
+    --gradient-color-1: rgba(0, 126, 143, 0.5);
+    --gradient-color-2: rgba(0, 190, 149, 0.5);
+    --gradient-color-3: rgba(65, 165, 113, 0.5);
+    --gradient-color-4: rgba(106, 154, 94, 0.5);
+    --base-bg: #fff; /* Base color that affects gradient appearance */
 }
 
 /* Preset themes that can be triggered by keywords */
 .theme-calm {
-    --gradient-color-1: #2c3e50;
-    --gradient-color-2: #3498db;
-    --gradient-color-3: #2980b9;
-    --gradient-color-4: #34495e;
+    --gradient-color-1: rgba(44, 62, 80, 0.5);
+    --gradient-color-2: rgba(52, 152, 219, 0.5);
+    --gradient-color-3: rgba(41, 128, 185, 0.5);
+    --gradient-color-4: rgba(52, 73, 94, 0.5);
 }
 
 .theme-energetic {
-    --gradient-color-1: #c0392b;
-    --gradient-color-2: #e74c3c;
-    --gradient-color-3: #d35400;
-    --gradient-color-4: #e67e22;
+    --gradient-color-1: rgba(192, 57, 43, 0.5);
+    --gradient-color-2: rgba(231, 76, 60, 0.5);
+    --gradient-color-3: rgba(211, 84, 0, 0.5);
+    --gradient-color-4: rgba(230, 126, 34, 0.5);
 }
 
 .theme-peaceful {
-    --gradient-color-1: #27ae60;
-    --gradient-color-2: #2ecc71;
-    --gradient-color-3: #16a085;
-    --gradient-color-4: #1abc9c;
+    --gradient-color-1: rgba(39, 174, 96, 0.5);
+    --gradient-color-2: rgba(46, 204, 113, 0.5);
+    --gradient-color-3: rgba(22, 160, 133, 0.5);
+    --gradient-color-4: rgba(26, 188, 156, 0.5);
 }
 
 .theme-mysterious {
-    --gradient-color-1: #8e44ad;
-    --gradient-color-2: #9b59b6;
-    --gradient-color-3: #6c3483;
-    --gradient-color-4: #9b59b6;
+    --gradient-color-1: rgba(142, 68, 173, 0.5);
+    --gradient-color-2: rgba(155, 89, 182, 0.5);
+    --gradient-color-3: rgba(108, 52, 131, 0.5);
+    --gradient-color-4: rgba(155, 89, 182, 0.5);
 }
 
 /* Animation keyframes for multiple flows */
@@ -58,7 +59,7 @@
 .gradient-background {
     position: relative;
     overflow: hidden;
-    background-color: var(--gradient-color-1);
+    background-color: var(--base-bg);  /* Base color that affects gradient appearance */
     background-image: linear-gradient(
         135deg,
         var(--gradient-color-1),
