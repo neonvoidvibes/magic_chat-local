@@ -3,6 +3,7 @@
     --gradient-color-1: #1a1a1a;
     --gradient-color-2: #2a2a2a;
     --gradient-color-3: #3a3a3a;
+    --gradient-color-4: #2d2d2d;
 }
 
 /* Preset themes that can be triggered by keywords */
@@ -10,43 +11,99 @@
     --gradient-color-1: #2c3e50;
     --gradient-color-2: #3498db;
     --gradient-color-3: #2980b9;
+    --gradient-color-4: #34495e;
 }
 
 .theme-energetic {
     --gradient-color-1: #c0392b;
     --gradient-color-2: #e74c3c;
     --gradient-color-3: #d35400;
+    --gradient-color-4: #e67e22;
 }
 
 .theme-peaceful {
     --gradient-color-1: #27ae60;
     --gradient-color-2: #2ecc71;
     --gradient-color-3: #16a085;
+    --gradient-color-4: #1abc9c;
 }
 
 .theme-mysterious {
     --gradient-color-1: #8e44ad;
     --gradient-color-2: #9b59b6;
     --gradient-color-3: #6c3483;
+    --gradient-color-4: #9b59b6;
 }
 
-/* Animation keyframes (moved from index.html) */
-@keyframes gradientFlow {
-    0% { background-position: 0% 0%; }
-    50% { background-position: 100% 100%; }
-    100% { background-position: 0% 0%; }
+/* Animation keyframes for multiple flows */
+@keyframes flow1 {
+    0% { transform: translate(0, 0); }
+    50% { transform: translate(-25%, 20%); }
+    100% { transform: translate(0, 0); }
+}
+
+@keyframes flow2 {
+    0% { transform: translate(0, 0); }
+    50% { transform: translate(25%, -20%); }
+    100% { transform: translate(0, 0); }
+}
+
+@keyframes flow3 {
+    0% { transform: translate(0, 0); }
+    50% { transform: translate(-15%, -25%); }
+    100% { transform: translate(0, 0); }
 }
 
 /* Gradient background styles */
+.gradient-background {
+    position: relative;
+    overflow: hidden;
+}
+
+.gradient-background::before,
+.gradient-background::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    opacity: 0.5;
+}
+
+.gradient-background::before {
+    background: radial-gradient(
+        circle at center,
+        var(--gradient-color-1) 0%,
+        transparent 50%
+    ), radial-gradient(
+        circle at 60% 40%,
+        var(--gradient-color-2) 0%,
+        transparent 60%
+    );
+    animation: flow1 20s ease-in-out infinite;
+}
+
+.gradient-background::after {
+    background: radial-gradient(
+        circle at 40% 60%,
+        var(--gradient-color-3) 0%,
+        transparent 50%
+    ), radial-gradient(
+        circle at 50% 50%,
+        var(--gradient-color-4) 0%,
+        transparent 60%
+    );
+    animation: flow2 25s ease-in-out infinite;
+    mix-blend-mode: soft-light;
+}
+
 .gradient-background {
     background: linear-gradient(
         135deg,
         var(--gradient-color-1),
         var(--gradient-color-2),
         var(--gradient-color-3),
-        var(--gradient-color-2),
-        var(--gradient-color-1)
+        var(--gradient-color-4)
     );
-    background-size: 200% 200%;
-    animation: gradientFlow 15s ease infinite;
 }
