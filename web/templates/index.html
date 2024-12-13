@@ -75,17 +75,6 @@
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
-            border: 4px solid transparent;
-        }
-
-        #chat-container.thinking {
-            border-color: rgba(66, 220, 219, 0.5);
-            animation: fadeInGlow 0.5s ease-in forwards,
-                       neonGlow 3s ease-in-out infinite 0.5s;
-        }
-
-        #chat-container.thinking-end {
-            animation: fadeOutGlow 0.5s ease-out forwards;
         }
 
         h2 {
@@ -446,6 +435,17 @@
             display: block;
             white-space: pre-wrap;
             word-wrap: break-word;
+            border: 4px solid transparent;
+        }
+
+        #message-input.thinking {
+            border-color: rgba(66, 220, 219, 0.5);
+            animation: fadeInGlow 0.5s ease-in forwards,
+                       neonGlow 3s ease-in-out infinite 0.5s;
+        }
+
+        #message-input.thinking-end {
+            animation: fadeOutGlow 0.5s ease-out forwards;
         }
 
         #message-input::placeholder {
@@ -660,7 +660,7 @@
             });
             
             let assistantMessage = '';
-            document.getElementById('chat-container').classList.add('thinking');
+            messageInput.classList.add('thinking');
             const assistantElement = appendMessage('assistant', '<span class="waiting"></span>');
             
             // Set up event stream from response
@@ -681,11 +681,10 @@
                                 if (data.delta) {
                                     if (assistantMessage === '') {
                                         assistantElement.innerHTML = ''; // Remove "Thinking..." message
-                                        const chatContainer = document.getElementById('chat-container');
-                                        chatContainer.classList.add('thinking-end');
+                                        messageInput.classList.add('thinking-end');
                                         setTimeout(() => {
-                                            chatContainer.classList.remove('thinking');
-                                            chatContainer.classList.remove('thinking-end');
+                                            messageInput.classList.remove('thinking');
+                                            messageInput.classList.remove('thinking-end');
                                         }, 500);
                                     }
                                     assistantMessage += data.delta;
