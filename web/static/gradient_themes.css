@@ -68,34 +68,37 @@
     left: -50%;
     width: 200%;
     height: 200%;
-    opacity: 0.5;
+    opacity: 0.15;
+    filter: blur(150px);
+    background-size: 400% 400%;
 }
 
 .gradient-background::before {
     background: radial-gradient(
         circle at center,
         var(--gradient-color-1) 0%,
-        transparent 50%
+        transparent 80%
     ), radial-gradient(
         circle at 60% 40%,
         var(--gradient-color-2) 0%,
-        transparent 60%
+        transparent 80%
     );
     animation: flow1 20s ease-in-out infinite;
+    mix-blend-mode: plus-lighter;
 }
 
 .gradient-background::after {
     background: radial-gradient(
         circle at 40% 60%,
         var(--gradient-color-3) 0%,
-        transparent 50%
+        transparent 80%
     ), radial-gradient(
         circle at 50% 50%,
         var(--gradient-color-4) 0%,
-        transparent 60%
+        transparent 80%
     );
     animation: flow2 25s ease-in-out infinite;
-    mix-blend-mode: soft-light;
+    mix-blend-mode: plus-lighter;
 }
 
 .gradient-background {
