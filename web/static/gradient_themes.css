@@ -1,9 +1,9 @@
 /* Base gradient theme variables */
 :root {
-    --gradient-color-1: #1a1a1a;
-    --gradient-color-2: #2a2a2a;
-    --gradient-color-3: #3a3a3a;
-    --gradient-color-4: #2d2d2d;
+    --gradient-color-1: #007e8f;
+    --gradient-color-2: #00be95;
+    --gradient-color-3: #41a571;
+    --gradient-color-4: #6a9a5e;
 }
 
 /* Preset themes that can be triggered by keywords */
@@ -58,6 +58,14 @@
 .gradient-background {
     position: relative;
     overflow: hidden;
+    background-color: var(--gradient-color-1);
+    background-image: linear-gradient(
+        135deg,
+        var(--gradient-color-1),
+        var(--gradient-color-2),
+        var(--gradient-color-3),
+        var(--gradient-color-4)
+    );
 }
 
 .gradient-background::before,
@@ -99,14 +107,4 @@
     );
     animation: flow2 25s ease-in-out infinite;
     mix-blend-mode: plus-lighter;
-}
-
-.gradient-background {
-    background: linear-gradient(
-        135deg,
-        var(--gradient-color-1),
-        var(--gradient-color-2),
-        var(--gradient-color-3),
-        var(--gradient-color-4)
-    );
 }
