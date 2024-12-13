@@ -7,6 +7,7 @@ import boto3
 import logging
 from datetime import datetime
 import json
+import time
 
 def read_file_content(s3_key, file_name):
     try:
@@ -197,8 +198,10 @@ class WebChat:
                 # Build conversation history from previous messages
                 messages = []
                 for chat in self.chat_history:
-                    messages.append({"role": "user", "content": chat['user']})
-                    messages.append({"role": "assistant", "content": chat['assistant']})
+                    if chat['user']:  # Only add if user message exists
+                        messages.append({"role": "user", "content": chat['user']})
+                    if chat['assistant']:  # Only add if assistant message exists
+                        messages.append({"role": "assistant", "content": chat['assistant']})
                 messages.append({"role": "user", "content": user_content})
                 
                 def generate():
@@ -384,12 +387,34 @@ class WebChat:
             logging.error(f"Error loading transcript from S3: {e}")
             return False
 
+    def check_transcript_updates(self):
+        logging.debug("Checking for transcript updates...")
+        from magic_chat import read_new_transcript_content
+        new_content = read_new_transcript_content(self.transcript_state, self.config.agent_name)
+        if new_content:
+            logging.debug(f"Adding new transcript content: {new_content}")
+            self.chat_history.append({
+                'user': None,  # Use None instead of empty string
+                'assistant': f"Transcript update: {new_content}"
+            })
+            return True
+        return False
+
     def run(self, host: str = '127.0.0.1', port: int = 5001, debug: bool = False):
+        def check_updates():
+            while True:
+                if self.config.listen_transcript:
+                    self.check_transcript_updates()
+                time.sleep(5)  # Same 5-second interval as CLI
+
+        if self.config.listen_transcript:
+            from magic_chat import TranscriptState
+            self.transcript_state = TranscriptState()
+            threading.Thread(target=check_updates, daemon=True).start()
+
         if self.config.interface_mode == 'web_only':
             self.app.run(host=host, port=port, debug=debug)
         else:
-            # Run in a separate thread if we're also running CLI
-            # Disable reloader when running in a thread to avoid signal handling issues
             thread = threading.Thread(
                 target=lambda: self.app.run(host=host, port=port, debug=debug, use_reloader=False),
                 daemon=True
