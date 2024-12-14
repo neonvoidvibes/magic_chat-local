@@ -1,9 +1,9 @@
 /* Base gradient theme variables */
 :root {
-    --gradient-color-1: rgba(0, 126, 143, 0.5);
-    --gradient-color-2: rgba(0, 190, 149, 0.5);
-    --gradient-color-3: rgba(65, 165, 113, 0.5);
-    --gradient-color-4: rgba(106, 154, 94, 0.5);
+    --gradient-color-1: rgba(149, 149, 149, 0.5);
+    --gradient-color-2: rgba(116, 116, 116, 0.5);
+    --gradient-color-3: rgba(76, 76, 76, 0.5);
+    --gradient-color-4: rgba(32, 32, 32, 0.5);
     --base-bg: #fff; /* Base color that affects gradient appearance */
 }
 
