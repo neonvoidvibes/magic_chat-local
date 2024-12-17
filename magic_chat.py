@@ -328,11 +328,12 @@ def get_agent_docs(agent_name):
         response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix=docs_path)
         
         if 'Contents' in response:
-            doc_files = [obj['Key'] for obj in response['Contents']]
+            # Filter out directory entry
+            doc_files = [obj['Key'] for obj in response['Contents'] if not obj['Key'].endswith('/')]
             logging.debug(f"Found {len(doc_files)} documentation files: {doc_files}")
             
             for doc_file in doc_files:
-                content = read_file_content(doc_file)
+                content = read_file_content(doc_file, f"documentation file {doc_file}")
                 if content:
                     logging.debug(f"\n=== Doc file: {doc_file} ===")
                     logging.debug(f"Content type: {type(content)}")
@@ -351,6 +352,7 @@ def get_agent_docs(agent_name):
     except Exception as e:
         logging.error(f"Error loading agent docs: {str(e)}")
     
+    logging.debug("No documentation files found for agent")
     return None
 
 def load_existing_chats_from_s3(agent_name, memory_agents=None):
