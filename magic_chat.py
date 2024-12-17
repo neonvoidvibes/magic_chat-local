@@ -319,36 +319,39 @@ def get_latest_context(agent_name, event_id=None):
         return None
 
 def get_agent_docs(agent_name):
-    """Load documentation files for an agent"""
+    """Get documentation files for the specified agent."""
+    docs_path = f"organizations/river/agents/{agent_name}/docs/"
+    docs_content = []
+    
     try:
-        docs_dir = f'organizations/river/agents/{agent_name}/docs'
-        docs_content = []
+        # List objects in the docs directory
+        response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix=docs_path)
         
-        try:
-            # List all files in the docs directory
-            response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix=f'{docs_dir}/')
+        if 'Contents' in response:
+            doc_files = [obj['Key'] for obj in response['Contents']]
+            logging.debug(f"Found {len(doc_files)} documentation files: {doc_files}")
             
-            if 'Contents' in response:
-                for obj in response['Contents']:
-                    if obj['Key'].endswith(('md', 'txt', 'json', 'yaml', 'yml', 'xml')):  # Add more extensions if needed
-                        content = read_file_content(obj['Key'], f"doc file {obj['Key']}")
-                        if content:
-                            docs_content.append(content)
+            for doc_file in doc_files:
+                content = read_file_content(doc_file)
+                if content:
+                    logging.debug(f"\n=== Doc file: {doc_file} ===")
+                    logging.debug(f"Content type: {type(content)}")
+                    logging.debug(f"First 100 chars: {content[:100]}")
+                    logging.debug(f"Last 100 chars: {content[-100:]}")
+                    docs_content.append(content)
             
             if docs_content:
-                logging.debug(f"Loaded {len(docs_content)} documentation files for agent {agent_name}")
-                return "\n\n".join(docs_content)
-            else:
-                logging.debug(f"No documentation files found for agent {agent_name}")
-                return None
+                combined_docs = "\n\n".join(docs_content)
+                logging.debug(f"\n=== Combined docs ===")
+                logging.debug(f"Number of files combined: {len(docs_content)}")
+                logging.debug(f"First 100 chars of combined: {combined_docs[:100]}")
+                logging.debug(f"Last 100 chars of combined: {combined_docs[-100:]}")
+                return combined_docs
                 
-        except s3_client.exceptions.NoSuchKey:
-            logging.debug(f"No docs directory found for agent {agent_name}")
-            return None
-            
     except Exception as e:
-        logging.error(f"Error loading agent docs: {e}")
-        return None
+        logging.error(f"Error loading agent docs: {str(e)}")
+    
+    return None
 
 def load_existing_chats_from_s3(agent_name, memory_agents=None):
     """Load chat history from S3 for the specified agent(s)"""
@@ -825,13 +828,24 @@ def main():
                 
             # Add docs if available
             docs = get_agent_docs(config.agent_name)
-            print("[DEBUG] Type of docs:", type(docs))
-            print("[DEBUG] Length of docs:", len(docs) if docs else "None")
+            logging.debug(f"Retrieved docs object type: {type(docs)}")
+            logging.debug(f"Retrieved docs length: {len(docs) if docs else 'None'}")
             if docs:
-                print("[DEBUG] First 200 characters of docs:", docs[:200])
+                logging.debug("=== Start of docs content preview ===")
+                logging.debug(docs[:500])  # First 500 chars
+                logging.debug("=== End of docs content preview ===")
+                
                 system_prompt += "\n\n# Agent Documentation\n\n" + docs
-                print("[DEBUG] System prompt now contains docs section:", "# Agent Documentation" in system_prompt)
-                print("[DEBUG] Total system prompt length:", len(system_prompt))
+                logging.debug("=== System prompt sections ===")
+                sections = system_prompt.split("#")
+                for section in sections:
+                    if section.strip():
+                        logging.debug(f"Section starts with: {section.strip()[:100]}")
+                
+                logging.debug(f"System prompt now contains docs section: {'# Agent Documentation' in system_prompt}")
+                logging.debug(f"Total system prompt length: {len(system_prompt)}")
+            else:
+                logging.debug("No documentation files found for agent")
 
             # Load memory if enabled
             if config.memory is not None:
