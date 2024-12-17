@@ -474,37 +474,31 @@ def parse_xml_content(xml_string):
         return xml_string
 
 def read_file_content(file_key, description):
+    """Read content from S3 file"""
     try:
-        response = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=file_key)
+        # Verify S3 key exists before reading
         try:
-            content = response['Body'].read().decode('utf-8')
-        except UnicodeDecodeError as e:
-            content = response['Body'].read().decode('utf-8', errors='replace')
-            logging.warning(f"Found invalid UTF-8 characters in {file_key}, replaced with '�': {e}")
-            
-        if not content.strip():
-            logging.debug(f"Empty content in {file_key}")
+            s3_client.head_object(Bucket=AWS_S3_BUCKET, Key=file_key)
+        except s3_client.exceptions.ClientError as e:
+            if e.response['Error']['Code'] == '404':
+                logging.warning(f"S3 key not found: {file_key}")
+                return None
+            else:
+                raise
+
+        logging.debug(f"Reading {description} from S3: {file_key}")
+        response = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=file_key)
+        content = response['Body'].read().decode('utf-8')
+        
+        if content:
+            logging.debug(f"Successfully read {description} ({len(content)} chars)")
+            return content
+        else:
+            logging.warning(f"Empty content for {description}")
             return None
             
-        # Parse XML if the file appears to be XML
-        original_length = len(content)
-        if content.strip().startswith('<?xml'):
-            logging.debug(f"Detected XML content in {file_key}")
-            content = parse_xml_content(content)
-            logging.debug(f"XML parsing complete for {file_key}. Original length: {original_length}, New length: {len(content)}")
-        else:
-            logging.debug(f"No XML detected in {file_key}, treating as plain text")
-            
-        # Log first few characters to verify content
-        preview = content[:100].replace('\n', '\\n')
-        logging.debug(f"Final content preview from {file_key}: {preview}...")
-        logging.debug(f"Successfully read content from {file_key}, final length: {len(content)}")
-        return content
-    except s3_client.exceptions.NoSuchKey:
-        logging.error(f"No {description} file at '{file_key}' in S3.")
-        return None
     except Exception as e:
-        logging.error(f"Error reading {description} file '{file_key}' from S3: {e}")
+        logging.error(f"Error reading {description} from S3: {e}")
         return None
 
 def summarize_text(text, max_length=None):
