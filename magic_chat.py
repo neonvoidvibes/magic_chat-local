@@ -815,34 +815,39 @@ def main():
             # Add frameworks
             frameworks = get_latest_frameworks(config.agent_name)
             if frameworks:
-                system_prompt += "\n\n" + frameworks
+                logging.info("Adding frameworks to system prompt")
+                framework_file = f'organizations/river/agents/{config.agent_name}/_config/frameworks_aID-{config.agent_name}.md'
+                system_prompt += f"\n\n=== Frameworks ===\nSource: {framework_file}\n\n" + frameworks
+            else:
+                logging.warning("No frameworks found for agent")
                 
             # Add context
             context = get_latest_context(config.agent_name)
             if context:
-                system_prompt += "\n\n" + context
+                logging.info("Adding context to system prompt")
+                context_file = f'organizations/river/_config/context_oID-{config.agent_name}.xml'
+                system_prompt += f"\n\n=== Context ===\nSource: {context_file}\n\n" + context
+            else:
+                logging.warning("No context found for agent")
                 
             # Add docs if available
             docs = get_agent_docs(config.agent_name)
-            logging.debug(f"Retrieved docs object type: {type(docs)}")
-            logging.debug(f"Retrieved docs length: {len(docs) if docs else 'None'}")
             if docs:
-                logging.debug("=== Start of docs content preview ===")
-                logging.debug(docs[:500])  # First 500 chars
-                logging.debug("=== End of docs content preview ===")
+                logging.info("Adding documentation to system prompt")
+                docs_path = f'organizations/river/agents/{config.agent_name}/docs/'
+                system_prompt += f"\n\n=== Documentation ===\nSource: {docs_path}\n\n" + docs
                 
-                system_prompt += "\n\n# Agent Documentation\n\n" + docs
-                logging.debug("=== System prompt sections ===")
-                sections = system_prompt.split("#")
-                for section in sections:
-                    if section.strip():
-                        logging.debug(f"Section starts with: {section.strip()[:100]}")
-                
-                logging.debug(f"System prompt now contains docs section: {'# Agent Documentation' in system_prompt}")
-                logging.debug(f"Total system prompt length: {len(system_prompt)}")
-            else:
-                logging.debug("No documentation files found for agent")
-
+            # Log sections for verification
+            logging.info("System prompt sections:")
+            sections = system_prompt.split("===")
+            for section in sections:
+                if section.strip():
+                    lines = section.strip().split("\n")
+                    section_name = lines[0].strip()
+                    source = lines[1].strip() if len(lines) > 1 and lines[1].startswith("Source:") else "No source file"
+                    logging.info(f"=== {section_name} ===")
+                    logging.info(source)
+                    
             # Load memory if enabled
             if config.memory is not None:
                 if len(config.memory) == 0:
