@@ -239,26 +239,63 @@ def get_latest_frameworks(agent_name=None):
         logging.error(f"Error getting frameworks: {e}")
         return None
 
+def find_file_any_extension(base_pattern, description):
+    """Find a file matching base pattern with any extension in S3.
+    Args:
+        base_pattern: Base filename pattern without extension (e.g. 'path/to/file')
+        description: Description for logging
+    Returns:
+        Tuple of (file_key, content) or (None, None) if not found
+    """
+    try:
+        # List objects with the base pattern
+        prefix = base_pattern.rsplit('/', 1)[0] + '/'
+        response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix=prefix)
+        
+        if 'Contents' in response:
+            base_name = base_pattern.rsplit('/', 1)[1]
+            # Find files matching base pattern regardless of extension
+            matching_files = [
+                obj['Key'] for obj in response['Contents']
+                if obj['Key'].rsplit('.', 1)[0] == base_pattern
+            ]
+            
+            if matching_files:
+                # Sort by last modified time to get the most recent
+                matching_files.sort(
+                    key=lambda k: s3_client.head_object(Bucket=AWS_S3_BUCKET, Key=k)['LastModified'],
+                    reverse=True
+                )
+                content = read_file_content(matching_files[0], description)
+                return matching_files[0], content
+                
+        logging.debug(f"No {description} file matching pattern '{base_pattern}.*' in S3")
+        return None, None
+        
+    except Exception as e:
+        logging.error(f"Error finding {description} file for pattern '{base_pattern}': {e}")
+        return None, None
+
 def get_latest_context(agent_name, event_id=None):
     """Get and combine contexts from S3"""
     try:
-        s3_client = boto3.client('s3')
-        
         # Get organization-specific context
-        org_context = read_file_content(f'organizations/river/_config/context_oID-{agent_name}.md', "organization context")
+        org_context_base = f'organizations/river/_config/context_oID-{agent_name}'
+        _, org_context = find_file_any_extension(org_context_base, "organization context")
         
         # Get event-specific context if event ID is provided
         event_context = ""
         if event_id:
-            event_context_key = f'organizations/river/agents/{agent_name}/events/{event_id}/_config/context_aID-{agent_name}_eID-{event_id}.md'
-            event_context = read_file_content(event_context_key, "event context")
+            event_context_base = f'organizations/river/agents/{agent_name}/events/{event_id}/_config/context_aID-{agent_name}_eID-{event_id}'
+            _, event_context = find_file_any_extension(event_context_base, "event context")
         
         # Combine contexts
-        context = org_context
+        context = org_context if org_context else ""
         if event_context:
             context += "\n\n" + event_context
             
-        return context
+        return context if context else None
+        
     except Exception as e:
         logging.error(f"Error getting contexts: {e}")
         return None
@@ -294,6 +331,85 @@ def get_agent_docs(agent_name):
     except Exception as e:
         logging.error(f"Error loading agent docs: {e}")
         return None
+
+def load_existing_chats_from_s3(agent_name, memory_agents=None):
+    """Load chat history from S3 for the specified agent(s)"""
+    try:
+        chat_histories = []
+        agents_to_load = [agent_name] if memory_agents is None else memory_agents
+
+        for agent in agents_to_load:
+            # Use default event '0000' since events are not yet implemented
+            # Only load from saved directory when memory is enabled
+            prefix = f'organizations/river/agents/{agent}/events/0000/chats/saved/'
+            
+            try:
+                response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix=prefix)
+                if 'Contents' in response:
+                    # Find all chat files regardless of extension
+                    chat_files = [
+                        obj for obj in response['Contents'] 
+                        if obj['Key'].startswith(prefix + 'chat_')
+                    ]
+                    
+                    for chat_file in chat_files:
+                        try:
+                            chat_content = read_file_content(chat_file['Key'], f"chat file {chat_file['Key']}")
+                            if not chat_content:
+                                continue
+                                
+                            # Parse chat content into messages
+                            messages = []
+                            current_role = None
+                            current_content = []
+                            
+                            for line in chat_content.split('\n'):
+                                if line.startswith('**User:**'):
+                                    if current_role and current_content:
+                                        messages.append({
+                                            'role': current_role,
+                                            'content': '\n'.join(current_content).strip()
+                                        })
+                                    current_role = 'user'
+                                    current_content = []
+                                elif line.startswith('**Agent:**'):
+                                    if current_role and current_content:
+                                        messages.append({
+                                            'role': current_role,
+                                            'content': '\n'.join(current_content).strip()
+                                        })
+                                    current_role = 'assistant'
+                                    current_content = []
+                                elif line.strip():
+                                    current_content.append(line.strip())
+                            
+                            # Add the last message if exists
+                            if current_role and current_content:
+                                messages.append({
+                                    'role': current_role,
+                                    'content': '\n'.join(current_content).strip()
+                                })
+                            
+                            if messages:  # Only add if there are valid messages
+                                chat_histories.append({
+                                    'agent': agent,
+                                    'file': chat_file['Key'],
+                                    'messages': messages
+                                })
+                            
+                        except Exception as e:
+                            logging.error(f"Error reading chat file {chat_file['Key']}: {e}")
+                            continue
+                    
+            except Exception as e:
+                logging.error(f"Error listing chat files for agent {agent}: {e}")
+                continue
+                
+        return chat_histories
+        
+    except Exception as e:
+        logging.error(f"Error loading chat histories from S3: {e}")
+        return []
 
 def read_file_content(file_key, description):
     try:
@@ -396,80 +512,6 @@ def analyze_with_claude(client, messages, system_prompt):
             return None
     logging.error(f"Failed after {max_retries} attempts.")
     return None
-
-def load_existing_chats_from_s3(agent_name, memory_agents=None):
-    """Load chat history from S3 for the specified agent(s)"""
-    try:
-        chat_histories = []
-        agents_to_load = [agent_name] if memory_agents is None else memory_agents
-
-        for agent in agents_to_load:
-            # Use default event '0000' since events are not yet implemented
-            # Only load from saved directory when memory is enabled
-            prefix = f'organizations/river/agents/{agent}/events/0000/chats/saved/chat_'
-            
-            try:
-                response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix=prefix)
-                if 'Contents' in response:
-                    chat_files = [obj for obj in response['Contents'] if obj['Key'].endswith('.txt')]
-                    
-                    for chat_file in chat_files:
-                        try:
-                            chat_obj = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=chat_file['Key'])
-                            chat_content = chat_obj['Body'].read().decode('utf-8')
-                            
-                            # Parse chat content into messages
-                            messages = []
-                            current_role = None
-                            current_content = []
-                            
-                            for line in chat_content.split('\n'):
-                                if line.startswith('**User:**'):
-                                    if current_role and current_content:
-                                        messages.append({
-                                            'role': current_role,
-                                            'content': '\n'.join(current_content).strip()
-                                        })
-                                    current_role = 'user'
-                                    current_content = []
-                                elif line.startswith('**Agent:**'):
-                                    if current_role and current_content:
-                                        messages.append({
-                                            'role': current_role,
-                                            'content': '\n'.join(current_content).strip()
-                                        })
-                                    current_role = 'assistant'
-                                    current_content = []
-                                elif line.strip():
-                                    current_content.append(line.strip())
-                            
-                            # Add the last message if exists
-                            if current_role and current_content:
-                                messages.append({
-                                    'role': current_role,
-                                    'content': '\n'.join(current_content).strip()
-                                })
-                            
-                            if messages:  # Only add if there are valid messages
-                                chat_histories.append({
-                                    'agent': agent,
-                                    'file': chat_file['Key'],
-                                    'messages': messages
-                                })
-                            
-                        except Exception as e:
-                            logging.error(f"Error reading chat file {chat_file['Key']}: {e}")
-                            continue
-                    
-            except Exception as e:
-                logging.error(f"Error listing chat files for agent {agent}: {e}")
-                continue
-                
-        return chat_histories
-        
-    except Exception as e:
-        logging.error(f"Error loading chat histories from S3: {e}")
-        return []
 
 def save_chat_to_s3(agent_name, chat_content, is_saved=False, filename=None):
     """Save chat content to S3 bucket or copy from archive to saved.
