@@ -13,6 +13,8 @@ from models import InsightsOutput
 from dotenv import load_dotenv
 from config import AppConfig
 from web.web_chat import WebChat
+import xml.etree.ElementTree as ET
+from io import StringIO
 
 SESSION_START_TAG = '<session>'
 SESSION_END_TAG = '</session>'
@@ -427,19 +429,56 @@ def load_existing_chats_from_s3(agent_name, memory_agents=None):
         logging.error(f"Error loading chat histories from S3: {e}")
         return []
 
+def parse_xml_content(xml_string):
+    """Parse XML content and return a formatted string"""
+    try:
+        # Parse XML
+        root = ET.fromstring(xml_string)
+        
+        # Extract text content recursively
+        def extract_text(element, depth=0):
+            result = []
+            # Add element name as section header if it's not a technical element
+            if not element.tag.startswith('{'):
+                result.append('#' * (depth + 1) + ' ' + element.tag.capitalize())
+            
+            # Add element text if it exists and is not just whitespace
+            if element.text and element.text.strip():
+                result.append(element.text.strip())
+            
+            # Process child elements
+            for child in element:
+                result.extend(extract_text(child, depth + 1))
+                # Add tail text if it exists and is not just whitespace
+                if child.tail and child.tail.strip():
+                    result.append(child.tail.strip())
+            
+            return result
+        
+        # Convert to formatted string
+        content = '\n\n'.join(extract_text(root))
+        return content
+    except ET.ParseError as e:
+        logging.warning(f"Failed to parse XML content, returning raw text: {e}")
+        return xml_string
+
 def read_file_content(file_key, description):
     try:
         response = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=file_key)
         try:
             content = response['Body'].read().decode('utf-8')
         except UnicodeDecodeError as e:
-            # Try with error handling
             content = response['Body'].read().decode('utf-8', errors='replace')
             logging.warning(f"Found invalid UTF-8 characters in {file_key}, replaced with '�': {e}")
             
         if not content.strip():
             logging.debug(f"Empty content in {file_key}")
             return None
+            
+        # Parse XML if the file appears to be XML
+        if content.strip().startswith('<?xml'):
+            content = parse_xml_content(content)
+            logging.debug(f"Parsed XML content from {file_key}")
             
         # Log first few characters to verify content
         preview = content[:100].replace('\n', '\\n')
