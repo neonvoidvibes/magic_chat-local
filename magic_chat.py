@@ -434,13 +434,17 @@ def parse_xml_content(xml_string):
     try:
         # Parse XML
         root = ET.fromstring(xml_string)
+        logging.debug(f"XML root element: <{root.tag}>")
         
         # Extract text content recursively
         def extract_text(element, depth=0):
             result = []
             # Add element name as section header if it's not a technical element
             if not element.tag.startswith('{'):
-                result.append('#' * (depth + 1) + ' ' + element.tag.capitalize())
+                header = '#' * (depth + 1) + ' ' + element.tag.capitalize()
+                result.append(header)
+                if depth == 0:  # Log top-level sections
+                    logging.debug(f"Processing XML section: {header}")
             
             # Add element text if it exists and is not just whitespace
             if element.text and element.text.strip():
@@ -457,6 +461,8 @@ def parse_xml_content(xml_string):
         
         # Convert to formatted string
         content = '\n\n'.join(extract_text(root))
+        preview = content[:100].replace('\n', '\\n')
+        logging.debug(f"XML parsed successfully. Preview of formatted content: {preview}...")
         return content
     except ET.ParseError as e:
         logging.warning(f"Failed to parse XML content, returning raw text: {e}")
@@ -476,14 +482,18 @@ def read_file_content(file_key, description):
             return None
             
         # Parse XML if the file appears to be XML
+        original_length = len(content)
         if content.strip().startswith('<?xml'):
+            logging.debug(f"Detected XML content in {file_key}")
             content = parse_xml_content(content)
-            logging.debug(f"Parsed XML content from {file_key}")
+            logging.debug(f"XML parsing complete for {file_key}. Original length: {original_length}, New length: {len(content)}")
+        else:
+            logging.debug(f"No XML detected in {file_key}, treating as plain text")
             
         # Log first few characters to verify content
         preview = content[:100].replace('\n', '\\n')
-        logging.debug(f"Content preview from {file_key}: {preview}...")
-        logging.debug(f"Successfully read content from {file_key}, length: {len(content)}")
+        logging.debug(f"Final content preview from {file_key}: {preview}...")
+        logging.debug(f"Successfully read content from {file_key}, final length: {len(content)}")
         return content
     except s3_client.exceptions.NoSuchKey:
         logging.error(f"No {description} file at '{file_key}' in S3.")
