@@ -817,7 +817,7 @@ def main():
             if frameworks:
                 logging.info("Adding frameworks to system prompt")
                 framework_file = f'organizations/river/agents/{config.agent_name}/_config/frameworks_aID-{config.agent_name}.md'
-                system_prompt += f"\n\n=== Frameworks ===\nSource: {framework_file}\n\n" + frameworks
+                system_prompt += "\n\n=== Frameworks ===\n[Source: _config/frameworks_base.md]\n\n" + frameworks
             else:
                 logging.warning("No frameworks found for agent")
                 
@@ -826,7 +826,7 @@ def main():
             if context:
                 logging.info("Adding context to system prompt")
                 context_file = f'organizations/river/_config/context_oID-{config.agent_name}.xml'
-                system_prompt += f"\n\n=== Context ===\nSource: {context_file}\n\n" + context
+                system_prompt += f"\n\n=== Context ===\n[Source: {context_file}]\n\n" + context
             else:
                 logging.warning("No context found for agent")
                 
@@ -835,7 +835,7 @@ def main():
             if docs:
                 logging.info("Adding documentation to system prompt")
                 docs_path = f'organizations/river/agents/{config.agent_name}/docs/'
-                system_prompt += f"\n\n=== Documentation ===\nSource: {docs_path}\n\n" + docs
+                system_prompt += f"\n\n=== Documentation ===\n[Source: {docs_path}]\n\n" + docs
                 
             # Log sections for verification
             logging.info("System prompt sections:")
@@ -844,9 +844,9 @@ def main():
                 if section.strip():
                     lines = section.strip().split("\n")
                     section_name = lines[0].strip()
-                    source = lines[1].strip() if len(lines) > 1 and lines[1].startswith("Source:") else "No source file"
+                    source_line = next((line for line in lines if line.strip().startswith("[Source:")), "No source file")
                     logging.info(f"=== {section_name} ===")
-                    logging.info(source)
+                    logging.info(f"{source_line}")
                     
             # Load memory if enabled
             if config.memory is not None:
