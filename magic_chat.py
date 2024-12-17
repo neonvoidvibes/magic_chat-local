@@ -250,10 +250,12 @@ def find_file_any_extension(base_pattern, description):
     try:
         # List objects with the base pattern
         prefix = base_pattern.rsplit('/', 1)[0] + '/'
+        logging.debug(f"Searching for {description} with prefix '{prefix}'")
         response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix=prefix)
         
         if 'Contents' in response:
             base_name = base_pattern.rsplit('/', 1)[1]
+            logging.debug(f"Found {len(response['Contents'])} objects in prefix '{prefix}'")
             # Find files matching base pattern regardless of extension
             matching_files = [
                 obj['Key'] for obj in response['Contents']
@@ -261,15 +263,18 @@ def find_file_any_extension(base_pattern, description):
             ]
             
             if matching_files:
+                logging.debug(f"Found {len(matching_files)} matching files for {description}: {matching_files}")
                 # Sort by last modified time to get the most recent
                 matching_files.sort(
                     key=lambda k: s3_client.head_object(Bucket=AWS_S3_BUCKET, Key=k)['LastModified'],
                     reverse=True
                 )
                 content = read_file_content(matching_files[0], description)
+                if content:
+                    logging.debug(f"Successfully loaded content from {matching_files[0]}, length: {len(content)}")
                 return matching_files[0], content
-                
-        logging.debug(f"No {description} file matching pattern '{base_pattern}.*' in S3")
+        else:
+            logging.debug(f"No objects found in prefix '{prefix}'")
         return None, None
         
     except Exception as e:
@@ -279,21 +284,32 @@ def find_file_any_extension(base_pattern, description):
 def get_latest_context(agent_name, event_id=None):
     """Get and combine contexts from S3"""
     try:
+        logging.debug(f"Getting context for agent '{agent_name}' event '{event_id}'")
         # Get organization-specific context
         org_context_base = f'organizations/river/_config/context_oID-{agent_name}'
-        _, org_context = find_file_any_extension(org_context_base, "organization context")
+        logging.debug(f"Looking for organization context at base path: {org_context_base}")
+        org_key, org_context = find_file_any_extension(org_context_base, "organization context")
+        
+        if org_context:
+            logging.debug(f"Found organization context at {org_key}")
         
         # Get event-specific context if event ID is provided
         event_context = ""
         if event_id:
             event_context_base = f'organizations/river/agents/{agent_name}/events/{event_id}/_config/context_aID-{agent_name}_eID-{event_id}'
-            _, event_context = find_file_any_extension(event_context_base, "event context")
+            logging.debug(f"Looking for event context at base path: {event_context_base}")
+            event_key, event_context = find_file_any_extension(event_context_base, "event context")
+            if event_context:
+                logging.debug(f"Found event context at {event_key}")
         
         # Combine contexts
         context = org_context if org_context else ""
         if event_context:
             context += "\n\n" + event_context
             
+        if context:
+            logging.debug(f"Combined context length: {len(context)}")
+        
         return context if context else None
         
     except Exception as e:
@@ -414,10 +430,20 @@ def load_existing_chats_from_s3(agent_name, memory_agents=None):
 def read_file_content(file_key, description):
     try:
         response = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=file_key)
-        content = response['Body'].read().decode('utf-8')
+        try:
+            content = response['Body'].read().decode('utf-8')
+        except UnicodeDecodeError as e:
+            # Try with error handling
+            content = response['Body'].read().decode('utf-8', errors='replace')
+            logging.warning(f"Found invalid UTF-8 characters in {file_key}, replaced with '�': {e}")
+            
         if not content.strip():
             logging.debug(f"Empty content in {file_key}")
             return None
+            
+        # Log first few characters to verify content
+        preview = content[:100].replace('\n', '\\n')
+        logging.debug(f"Content preview from {file_key}: {preview}...")
         logging.debug(f"Successfully read content from {file_key}, length: {len(content)}")
         return content
     except s3_client.exceptions.NoSuchKey:
@@ -652,15 +678,15 @@ def get_latest_transcript_file(agent_name=None):
             if 'Contents' in response:
                 # Only consider files directly in this folder
                 transcript_files = [
-                    obj for obj in response['Contents'] 
+                    obj['Key'] for obj in response['Contents'] 
                     if obj['Key'].startswith(prefix) and obj['Key'] != prefix
                     and not obj['Key'].replace(prefix, '').strip('/').count('/')  # No additional folders
                     and obj['Key'].endswith('.txt')
                 ]
                 if transcript_files:
-                    latest_file = max(transcript_files, key=lambda x: x['LastModified'])
-                    logging.debug(f"Found latest transcript in agent folder: {latest_file['Key']}")
-                    return latest_file['Key']
+                    latest_file = max(transcript_files, key=lambda x: s3_client.head_object(Bucket=AWS_S3_BUCKET, Key=x)['LastModified'])
+                    logging.debug(f"Found latest transcript in agent folder: {latest_file}")
+                    return latest_file
                 else:
                     logging.debug(f"No transcript files found in agent folder: {prefix}")
         
@@ -671,15 +697,15 @@ def get_latest_transcript_file(agent_name=None):
         if 'Contents' in response:
             # Only consider files directly in this folder
             transcript_files = [
-                obj for obj in response['Contents'] 
+                obj['Key'] for obj in response['Contents'] 
                 if obj['Key'].startswith(prefix) and obj['Key'] != prefix
                 and not obj['Key'].replace(prefix, '').strip('/').count('/')  # No additional folders
                 and obj['Key'].endswith('.txt')
             ]
             if transcript_files:
-                latest_file = max(transcript_files, key=lambda x: x['LastModified'])
-                logging.debug(f"Found latest transcript in default folder: {latest_file['Key']}")
-                return latest_file['Key']
+                latest_file = max(transcript_files, key=lambda x: s3_client.head_object(Bucket=AWS_S3_BUCKET, Key=x)['LastModified'])
+                logging.debug(f"Found latest transcript in default folder: {latest_file}")
+                return latest_file
             else:
                 logging.debug(f"No transcript files found in default folder: {prefix}")
                 
