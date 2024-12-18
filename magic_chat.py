@@ -769,26 +769,43 @@ def main():
         
             client = Anthropic(api_key=ANTHROPIC_API_KEY)
 
-            # Initialize system prompt with frameworks and context
+            # Initialize conversation with system messages
+            conversation_history = []
+
+            # Load base system prompt (keep core instructions here)
             system_prompt = get_latest_system_prompt(config.agent_name)
             if not system_prompt:
                 logging.error("Failed to load system prompt")
                 sys.exit(1)
 
-            # Add frameworks
+            # Add frameworks as system messages
             frameworks = get_latest_frameworks(config.agent_name)
             if frameworks:
-                logging.info("Adding frameworks to system prompt")
-                system_prompt += "\n\n=== Frameworks ===\n[Source: _config/frameworks_base.md]\n" + frameworks
+                logging.info("Adding frameworks as system message")
+                # Split base and agent frameworks if both exist
+                framework_parts = frameworks.split("\n\n")
+                for i, part in enumerate(framework_parts):
+                    source = "_config/frameworks_base.md" if i == 0 else f"organizations/river/agents/{config.agent_name}/_config/frameworks_aID-{config.agent_name}.md"
+                    framework_msg = {
+                        "role": "system",
+                        "content": f"=== Frameworks ===\n[Source: {source}]\n{part}"
+                    }
+                    conversation_history.append(framework_msg)
+                    logging.debug(f"Added framework message {i+1}: {len(part)} chars")
             else:
                 logging.warning("No frameworks found for agent")
                 
-            # Add context
+            # Add context as system message
             context = get_latest_context(config.agent_name)
             if context:
-                logging.info("Adding context to system prompt")
+                logging.info("Adding context as system message")
                 context_file = f'organizations/river/_config/context_oID-{config.agent_name}.xml'
-                system_prompt += f"\n\n=== Context ===\n[Source: {context_file}]\n" + context
+                context_msg = {
+                    "role": "system",
+                    "content": f"=== Context ===\n[Source: {context_file}]\n{context}"
+                }
+                conversation_history.append(context_msg)
+                logging.debug(f"Added context message: {len(context)} chars")
             else:
                 logging.warning("No context found for agent")
                 
@@ -797,7 +814,14 @@ def main():
             if docs:
                 logging.info("Adding documentation to system prompt")
                 docs_path = f'organizations/river/agents/{config.agent_name}/docs/'
-                system_prompt += f"\n\n=== Documentation ===\n[Source: {docs_path}]\n" + docs
+                docs_msg = {
+                    "role": "system",
+                    "content": f"=== Documentation ===\n[Source: {docs_path}]\n{docs}"
+                }
+                conversation_history.append(docs_msg)
+                logging.debug(f"Added documentation message: {len(docs)} chars")
+            else:
+                logging.warning("No documentation found for agent")
 
             # Load memory after adding all content
             if config.memory is not None:
@@ -837,7 +861,6 @@ def main():
             print("\nUser: ", end='', flush=True)  # Initial prompt
             
             # Main chat loop
-            conversation_history = []
             while True:
                 try:
                     # Check for transcript updates periodically if enabled
