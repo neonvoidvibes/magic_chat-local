@@ -512,7 +512,7 @@ def analyze_with_claude(client, messages, system_prompt):
     logging.debug(f"\n=== Claude API Request ===")
     logging.debug(f"System prompt length: {len(system_prompt)} chars")
     
-    # Format messages for Claude API - handle transcript updates
+    # Format messages for Claude API - handle transcript updates and maintain system messages
     formatted_messages = []
     for msg in messages:
         if msg["role"] == "transcript":
@@ -521,9 +521,15 @@ def analyze_with_claude(client, messages, system_prompt):
                 "role": "assistant",
                 "content": f"## Transcript Update:\n{msg['content']}"
             })
-        else:
-            # Include all messages, including system messages
+        elif msg["role"] == "system":
+            # Keep system messages as is
             formatted_messages.append(msg)
+        else:
+            # Include all other messages
+            formatted_messages.append({
+                "role": "assistant" if msg["role"] == "assistant" else "user",
+                "content": msg["content"]
+            })
 
     logging.debug(f"Number of messages: {len(formatted_messages)}")
     logging.debug("Message sizes:")
@@ -531,18 +537,10 @@ def analyze_with_claude(client, messages, system_prompt):
         logging.debug(f"  Message {i}: {len(msg['content'])} chars ({msg['role']})")
     
     try:
-        max_retries = 5
-        initial_backoff = 1
-        backoff_factor = 2
-        full_response = ""
-        request_start_time = time.time()
-        info_displayed = False
-        response_received = threading.Event()
-
         response = client.messages.create(
             model="claude-3-opus-20240229",
-            system=system_prompt,
-            messages=formatted_messages,
+            system=system_prompt,  # Keep core instructions in system parameter
+            messages=formatted_messages,  # Context/docs/memory in messages array
             max_tokens=4096
         )
         logging.debug("\n=== Claude API Response ===")
