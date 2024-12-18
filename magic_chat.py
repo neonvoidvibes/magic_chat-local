@@ -509,15 +509,9 @@ def summarize_text(text, max_length=None):
 
 def analyze_with_claude(client, messages, system_prompt):
     """Process messages with Claude API, handling transcript updates appropriately"""
-    global abort_requested
-    max_retries = 5
-    initial_backoff = 1
-    backoff_factor = 2
-    full_response = ""
-    request_start_time = time.time()
-    info_displayed = False
-    response_received = threading.Event()
-
+    logging.debug(f"\n=== Claude API Request ===")
+    logging.debug(f"System prompt length: {len(system_prompt)} chars")
+    
     # Format messages for Claude API - handle transcript updates
     formatted_messages = []
     for msg in messages:
@@ -527,65 +521,36 @@ def analyze_with_claude(client, messages, system_prompt):
                 "role": "assistant",
                 "content": f"## Transcript Update:\n{msg['content']}"
             })
-        elif msg["role"] == "system":
-            # Skip system messages - they'll be handled by the system parameter
-            continue
         else:
+            # Include all messages, including system messages
             formatted_messages.append(msg)
 
-    def show_delay_message():
-        if not response_received.is_set():
-            print("[info] Response is taking longer than 7 seconds. Please wait...")
+    logging.debug(f"Number of messages: {len(formatted_messages)}")
+    logging.debug("Message sizes:")
+    for i, msg in enumerate(formatted_messages):
+        logging.debug(f"  Message {i}: {len(msg['content'])} chars ({msg['role']})")
+    
+    try:
+        max_retries = 5
+        initial_backoff = 1
+        backoff_factor = 2
+        full_response = ""
+        request_start_time = time.time()
+        info_displayed = False
+        response_received = threading.Event()
 
-    for attempt in range(1, max_retries + 1):
-        if abort_requested:
-            abort_requested = False
-            return None
-        try:
-            timer = threading.Timer(7, show_delay_message)
-            timer.start()
-
-            print("AI: ", end='', flush=True)  
-            with client.messages.stream(
-                model='claude-3-5-sonnet-20241022',
-                max_tokens=4096,
-                temperature=0.7,
-                system=system_prompt,
-                messages=formatted_messages
-            ) as stream:
-                for text in stream.text_stream:
-                    response_received.set()
-                    timer.cancel()
-                    print(text, end='', flush=True)
-                    full_response += text
-                    if sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
-                        user_input = sys.stdin.readline().strip()
-                        if user_input.lower() == '!back':
-                            abort_requested = True
-                            print("\n[info] Aborting the current request...\n")
-                            timer.cancel()
-                            return None
-            print()  
-            return full_response
-        except AnthropicError as e:
-            timer.cancel()
-            if e.status_code == 429:
-                retry_after = e.response_headers.get('retry-after')
-                if retry_after:
-                    wait_time = int(retry_after)
-                else:
-                    wait_time = initial_backoff * (backoff_factor ** (attempt - 1))
-                print(f"[info] Rate limit hit. Retrying after {wait_time} seconds...")
-                time.sleep(wait_time)
-            else:
-                logging.error(f"Anthropic API error: {e}")
-                return None
-        except Exception as e:
-            timer.cancel()
-            logging.error(f"Unexpected error: {e}")
-            return None
-    logging.error(f"Failed after {max_retries} attempts.")
-    return None
+        response = client.messages.create(
+            model="claude-3-opus-20240229",
+            system=system_prompt,
+            messages=formatted_messages,
+            max_tokens=4096
+        )
+        logging.debug("\n=== Claude API Response ===")
+        logging.debug(f"Response length: {len(response.content[0].text)} chars")
+        return response.content[0].text
+    except Exception as e:
+        logging.error(f"Error calling Claude API: {str(e)}")
+        return f"Error: {str(e)}"
 
 def save_chat_to_s3(agent_name, chat_content, is_saved=False, filename=None):
     """Save chat content to S3 bucket or copy from archive to saved.
@@ -811,13 +776,12 @@ def main():
             if not system_prompt:
                 logging.error("Failed to load system prompt")
                 sys.exit(1)
-                
+
             # Add frameworks
             frameworks = get_latest_frameworks(config.agent_name)
             if frameworks:
                 logging.info("Adding frameworks to system prompt")
-                framework_file = f'organizations/river/agents/{config.agent_name}/_config/frameworks_aID-{config.agent_name}.md'
-                system_prompt += "\n\n=== Frameworks ===\n[Source: _config/frameworks_base.md]\n\n" + frameworks
+                system_prompt += "\n\n=== Frameworks ===\n[Source: _config/frameworks_base.md]\n" + frameworks
             else:
                 logging.warning("No frameworks found for agent")
                 
@@ -826,7 +790,7 @@ def main():
             if context:
                 logging.info("Adding context to system prompt")
                 context_file = f'organizations/river/_config/context_oID-{config.agent_name}.xml'
-                system_prompt += f"\n\n=== Context ===\n[Source: {context_file}]\n\n" + context
+                system_prompt += f"\n\n=== Context ===\n[Source: {context_file}]\n" + context
             else:
                 logging.warning("No context found for agent")
                 
@@ -835,27 +799,29 @@ def main():
             if docs:
                 logging.info("Adding documentation to system prompt")
                 docs_path = f'organizations/river/agents/{config.agent_name}/docs/'
-                system_prompt += f"\n\n=== Documentation ===\n[Source: {docs_path}]\n\n" + docs
-                
-            # Log sections for verification
-            logging.info("System prompt sections:")
-            sections = system_prompt.split("===")
-            for section in sections:
-                if section.strip():
-                    lines = section.strip().split("\n")
-                    section_name = lines[0].strip()
-                    source_line = next((line for line in lines if line.strip().startswith("[Source:")), "No source file")
-                    logging.info(f"=== {section_name} ===")
-                    logging.info(f"{source_line}")
-                    
-            # Load memory if enabled
+                system_prompt += f"\n\n=== Documentation ===\n[Source: {docs_path}]\n" + docs
+
+            # Load memory after adding all content
             if config.memory is not None:
                 if len(config.memory) == 0:
                     config.memory = [config.agent_name]
                 system_prompt = reload_memory(config.agent_name, config.memory, system_prompt)
 
-            conversation_history = []
-            org_id = 'River'  # Replace with actual organization ID as needed
+            # Log final system prompt for verification
+            logging.debug("\n=== Final System Prompt ===")
+            logging.debug(f"Total length: {len(system_prompt)} chars")
+            sections = [s for s in system_prompt.split("\n\n=== ") if s.strip()]
+            for section in sections:
+                lines = section.split("\n")
+                if lines[0].endswith(" ==="):
+                    section_name = lines[0].replace("===", "").strip()
+                    source_line = next((line for line in lines[1:] if line.strip().startswith("[Source:")), "No source file")
+                    content = "\n".join(lines[2:])
+                    logging.debug(f"\n=== {section_name} ===")
+                    logging.debug(f"{source_line}")
+                    logging.debug(f"Content length: {len(content)} chars")
+                    logging.debug(f"First 100 chars: {content[:100]}")
+                    logging.debug(f"Last 100 chars: {content[-100:]}")
 
             # Initialize transcript handling
             transcript_state = TranscriptState()
@@ -873,6 +839,7 @@ def main():
             print("\nUser: ", end='', flush=True)  # Initial prompt
             
             # Main chat loop
+            conversation_history = []
             while True:
                 try:
                     # Check for transcript updates periodically if enabled
