@@ -812,7 +812,7 @@ def main():
             # Add docs if available
             docs = get_agent_docs(config.agent_name)
             if docs:
-                logging.info("Adding documentation to system prompt")
+                logging.info("Adding documentation as system message")
                 docs_path = f'organizations/river/agents/{config.agent_name}/docs/'
                 docs_msg = {
                     "role": "system",
