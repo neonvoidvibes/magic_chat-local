@@ -4,7 +4,20 @@
     --gradient-color-2: rgba(52, 224, 204, 0.5);
     --gradient-color-3: rgba(47, 255, 147, 0.5);
     --gradient-color-4: rgba(13, 210, 82, 0.5);
-    --base-bg: #fff; /* Base color that affects gradient appearance */
+    --base-bg: #000000;
+}
+
+/* Background toggle classes */
+.bg-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.use-image-bg {
+    background-image: url('../static/images/river_bg01.jpg');
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 /* Preset themes that can be triggered by keywords */

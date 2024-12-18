@@ -64,9 +64,18 @@
             /* background-repeat: no-repeat; */
         }
 
+        /* Adjust container transparency based on background type */
+        .use-image-bg ~ #chat-container {
+            background: rgba(71, 71, 71, 0.98);  /* Less transparent when image background is used */
+        }
+        
+        .gradient-background ~ #chat-container {
+            background: var(--chat-bg);  /* Default transparency for gradient background */
+        }
+
         #chat-container {
             background: var(--chat-bg);
-            border-radius: 35px;
+            border-radius: 25px;
             box-shadow: 0;
             padding: 35px 40px 17px 40px;
             width: calc(95% - 80px);
@@ -91,7 +100,7 @@
             overflow-x: hidden;
             margin-bottom: 20px;
             padding: 20px 10px 20px 10px;
-            border-radius: 35px;
+            border-radius: 25px;
             background: var(--input-bg);
             width: calc(100% - 20px);
             display: flex;
@@ -579,7 +588,11 @@
     </style>
 </head>
 <body>
-    <div id="bg-wrapper" class="gradient-background"></div>
+    <!-- To switch between backgrounds, add/remove classes:
+         - For gradient: class="bg-wrapper gradient-background"
+         - For image: class="bg-wrapper use-image-bg"
+    -->
+    <div id="bg-wrapper" class="bg-wrapper use-image-bg"></div>
     <div id="chat-container">
         <h2>River AI Streamer</h2>
         <div id="chat-messages">
