@@ -199,13 +199,15 @@ def get_latest_system_prompt(agent_name=None):
         s3_client = boto3.client('s3')
         
         # Get base system prompt
-        base_prompt = read_file_content('_config/systemprompt_base.md', "base system prompt")
+        base_key, base_prompt = find_file_any_extension('_config/systemprompt_base', "base system prompt")
         
         # Get agent-specific system prompt if agent name is provided
         agent_prompt = ""
         if agent_name:
-            agent_prompt_key = f'organizations/river/agents/{agent_name}/_config/systemprompt_aID-{agent_name}.md'
-            agent_prompt = read_file_content(agent_prompt_key, "agent system prompt")
+            agent_key, agent_prompt = find_file_any_extension(
+                f'organizations/river/agents/{agent_name}/_config/systemprompt_aID-{agent_name}',
+                "agent system prompt"
+            )
         
         # Combine prompts
         system_prompt = base_prompt
@@ -223,13 +225,15 @@ def get_latest_frameworks(agent_name=None):
         s3_client = boto3.client('s3')
         
         # Get base frameworks
-        base_frameworks = read_file_content('_config/frameworks_base.md', "base frameworks")
+        base_key, base_frameworks = find_file_any_extension('_config/frameworks_base', "base frameworks")
         
         # Get agent-specific frameworks if agent name is provided
         agent_frameworks = ""
         if agent_name:
-            agent_frameworks_key = f'organizations/river/agents/{agent_name}/_config/frameworks_aID-{agent_name}.md'
-            agent_frameworks = read_file_content(agent_frameworks_key, "agent frameworks")
+            agent_key, agent_frameworks = find_file_any_extension(
+                f'organizations/river/agents/{agent_name}/_config/frameworks_aID-{agent_name}',
+                "agent frameworks"
+            )
         
         # Combine frameworks
         frameworks = base_frameworks
@@ -239,6 +243,58 @@ def get_latest_frameworks(agent_name=None):
         return frameworks
     except Exception as e:
         logging.error(f"Error getting frameworks: {e}")
+        return None
+
+def get_latest_context(agent_name, event_id=None):
+    """Get and combine contexts from S3"""
+    try:
+        # Get organization-specific context
+        org_key, org_context = find_file_any_extension(
+            f'organizations/river/_config/context_oID-{agent_name}',
+            "organization context"
+        )
+        
+        # Get event-specific context if event ID is provided
+        event_context = ""
+        if event_id:
+            event_key, event_context = find_file_any_extension(
+                f'organizations/river/agents/{agent_name}/events/{event_id}/_config/context_aID-{agent_name}_eID-{event_id}',
+                "event context"
+            )
+        
+        # Combine contexts
+        context = org_context if org_context else ""
+        if event_context:
+            context += "\n\n" + event_context
+            
+        return context
+    except Exception as e:
+        logging.error(f"Error getting contexts: {e}")
+        return None
+
+def get_agent_docs(agent_name):
+    """Get documentation files for the specified agent."""
+    try:
+        # List objects in the agent's docs folder
+        prefix = f'organizations/river/agents/{agent_name}/docs/'
+        logging.debug(f"Searching for agent documentation in '{prefix}'")
+        
+        response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix=prefix)
+        
+        if 'Contents' not in response:
+            logging.debug(f"No documentation files found in '{prefix}'")
+            return None
+            
+        # Get all documentation files regardless of extension
+        docs = []
+        for obj in response['Contents']:
+            content = read_file_content(obj['Key'], 'agent documentation')
+            if content:
+                docs.append(content)
+                    
+        return "\n\n".join(docs) if docs else None
+    except Exception as e:
+        logging.error(f"Error getting agent documentation: {e}")
         return None
 
 def find_file_any_extension(base_pattern, description):
@@ -282,78 +338,6 @@ def find_file_any_extension(base_pattern, description):
     except Exception as e:
         logging.error(f"Error finding {description} file for pattern '{base_pattern}': {e}")
         return None, None
-
-def get_latest_context(agent_name, event_id=None):
-    """Get and combine contexts from S3"""
-    try:
-        logging.debug(f"Getting context for agent '{agent_name}' event '{event_id}'")
-        # Get organization-specific context
-        org_context_base = f'organizations/river/_config/context_oID-{agent_name}'
-        logging.debug(f"Looking for organization context at base path: {org_context_base}")
-        org_key, org_context = find_file_any_extension(org_context_base, "organization context")
-        
-        if org_context:
-            logging.debug(f"Found organization context at {org_key}")
-        
-        # Get event-specific context if event ID is provided
-        event_context = ""
-        if event_id:
-            event_context_base = f'organizations/river/agents/{agent_name}/events/{event_id}/_config/context_aID-{agent_name}_eID-{event_id}'
-            logging.debug(f"Looking for event context at base path: {event_context_base}")
-            event_key, event_context = find_file_any_extension(event_context_base, "event context")
-            if event_context:
-                logging.debug(f"Found event context at {event_key}")
-        
-        # Combine contexts
-        context = org_context if org_context else ""
-        if event_context:
-            context += "\n\n" + event_context
-            
-        if context:
-            logging.debug(f"Combined context length: {len(context)}")
-        
-        return context if context else None
-        
-    except Exception as e:
-        logging.error(f"Error getting contexts: {e}")
-        return None
-
-def get_agent_docs(agent_name):
-    """Get documentation files for the specified agent."""
-    docs_path = f"organizations/river/agents/{agent_name}/docs/"
-    docs_content = []
-    
-    try:
-        # List objects in the docs directory
-        response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix=docs_path)
-        
-        if 'Contents' in response:
-            # Filter out directory entry
-            doc_files = [obj['Key'] for obj in response['Contents'] if not obj['Key'].endswith('/')]
-            logging.debug(f"Found {len(doc_files)} documentation files: {doc_files}")
-            
-            for doc_file in doc_files:
-                content = read_file_content(doc_file, f"documentation file {doc_file}")
-                if content:
-                    logging.debug(f"\n=== Doc file: {doc_file} ===")
-                    logging.debug(f"Content type: {type(content)}")
-                    logging.debug(f"First 100 chars: {content[:100]}")
-                    logging.debug(f"Last 100 chars: {content[-100:]}")
-                    docs_content.append(content)
-            
-            if docs_content:
-                combined_docs = "\n\n".join(docs_content)
-                logging.debug(f"\n=== Combined docs ===")
-                logging.debug(f"Number of files combined: {len(docs_content)}")
-                logging.debug(f"First 100 chars of combined: {combined_docs[:100]}")
-                logging.debug(f"Last 100 chars of combined: {combined_docs[-100:]}")
-                return combined_docs
-                
-    except Exception as e:
-        logging.error(f"Error loading agent docs: {str(e)}")
-    
-    logging.debug("No documentation files found for agent")
-    return None
 
 def load_existing_chats_from_s3(agent_name, memory_agents=None):
     """Load chat history from S3 for the specified agent(s)"""
@@ -516,16 +500,16 @@ def analyze_with_claude(client, messages, system_prompt):
     formatted_messages = []
     for msg in messages:
         if msg["role"] == "transcript":
-            # Add transcript updates as assistant messages
+            # Convert transcript updates to user messages for API call
             formatted_messages.append({
-                "role": "assistant",
-                "content": f"## Transcript Update:\n{msg['content']}"
+                "role": "user",
+                "content": f"[Transcript update - DO NOT SUMMARIZE, just acknowledge receipt]: {msg['content']}"
             })
         elif msg["role"] == "system":
             # Keep system messages as is
             formatted_messages.append(msg)
         else:
-            # Include all other messages
+            # Include all other messages with their original roles
             formatted_messages.append({
                 "role": "assistant" if msg["role"] == "assistant" else "user",
                 "content": msg["content"]
@@ -539,7 +523,7 @@ def analyze_with_claude(client, messages, system_prompt):
     try:
         response = client.messages.create(
             model="claude-3-opus-20240229",
-            system=system_prompt,  # Keep core instructions in system parameter
+            system=system_prompt + "\nIMPORTANT: When you receive transcript updates, do not summarize them. Simply acknowledge that you've received the update and continue the conversation.",  # Add instruction to not summarize
             messages=formatted_messages,  # Context/docs/memory in messages array
             max_tokens=4096
         )
@@ -785,7 +769,7 @@ def main():
                 # Split base and agent frameworks if both exist
                 framework_parts = frameworks.split("\n\n")
                 for i, part in enumerate(framework_parts):
-                    source = "_config/frameworks_base.md" if i == 0 else f"organizations/river/agents/{config.agent_name}/_config/frameworks_aID-{config.agent_name}.md"
+                    source = "_config/frameworks_base" if i == 0 else f"organizations/river/agents/{config.agent_name}/_config/frameworks_aID-{config.agent_name}"
                     framework_msg = {
                         "role": "system",
                         "content": f"=== Frameworks ===\n[Source: {source}]\n{part}"
@@ -799,7 +783,7 @@ def main():
             context = get_latest_context(config.agent_name)
             if context:
                 logging.info("Adding context as system message")
-                context_file = f'organizations/river/_config/context_oID-{config.agent_name}.xml'
+                context_file = f'organizations/river/_config/context_oID-{config.agent_name}'
                 context_msg = {
                     "role": "system",
                     "content": f"=== Context ===\n[Source: {context_file}]\n{context}"

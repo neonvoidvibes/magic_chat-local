@@ -3,6 +3,7 @@ import os
 import boto3
 from datetime import datetime
 import json
+import logging
 
 # S3 configuration
 AWS_S3_BUCKET = os.getenv('AWS_S3_BUCKET', 'aiademomagicaudio')
@@ -87,14 +88,42 @@ def summarize_text(text, max_length=100):
         return text
     return " ".join(words[:max_length]) + "..."
 
+def find_file_by_base(base_path, description):
+    """Find a file by its base path, ignoring extension."""
+    try:
+        # List objects with the prefix
+        prefix = os.path.dirname(base_path)
+        base_name = os.path.basename(base_path).split('.')[0]
+        
+        s3 = boto3.client('s3')
+        response = s3.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix=prefix)
+        
+        if 'Contents' not in response:
+            return None
+            
+        # Find matching file
+        for obj in response['Contents']:
+            obj_base = os.path.basename(obj['Key']).split('.')[0]
+            if obj_base == base_name:
+                return obj['Key']
+                
+        return None
+    except Exception as e:
+        logging.error(f"Error finding {description}: {e}")
+        return None
+
 def get_latest_system_prompt(agent_name):
     """Get the latest system prompt for an agent."""
     try:
         # Read base system prompt
-        base_content = read_file_content('_config/systemprompt_base.md', 'base system prompt')
+        base_key = find_file_by_base('_config/systemprompt_base', 'base system prompt')
+        base_content = read_file_content(base_key, 'base system prompt')
         
         # Try to read agent-specific system prompt
-        agent_key = f'organizations/river/agents/{agent_name}/_config/systemprompt_aID-{agent_name}.md'
+        agent_key = find_file_by_base(
+            f'organizations/river/agents/{agent_name}/_config/systemprompt_aID-{agent_name}',
+            'agent system prompt'
+        )
         agent_content = read_file_content(agent_key, 'agent system prompt')
         
         if base_content:
@@ -108,10 +137,14 @@ def read_frameworks(agent_name):
     """Read frameworks for an agent."""
     try:
         # Read base frameworks
-        base_content = read_file_content('_config/frameworks_base.md', 'base frameworks')
+        base_key = find_file_by_base('_config/frameworks_base', 'base frameworks')
+        base_content = read_file_content(base_key, 'base frameworks')
         
         # Try to read agent-specific frameworks
-        agent_key = f'organizations/river/agents/{agent_name}/_config/frameworks_aID-{agent_name}.md'
+        agent_key = find_file_by_base(
+            f'organizations/river/agents/{agent_name}/_config/frameworks_aID-{agent_name}',
+            'agent frameworks'
+        )
         agent_content = read_file_content(agent_key, 'agent frameworks')
         
         if base_content:
@@ -124,7 +157,7 @@ def read_frameworks(agent_name):
 def read_organization_context(agent_name):
     """Read organization context."""
     try:
-        context_key = f'organizations/river/_config/context_oID-{agent_name}.md'
+        context_key = find_file_by_base(f'organizations/river/_config/context_oID-{agent_name}', 'organization context')
         return read_file_content(context_key, 'organization context')
     except Exception as e:
         print(f"Error reading organization context: {e}")
@@ -146,12 +179,27 @@ def read_agent_docs(agent_name):
             
         docs = []
         for obj in response['Contents']:
-            if obj['Key'].endswith('.md'):
-                content = read_file_content(obj['Key'], 'agent documentation')
-                if content:
-                    docs.append(content)
+            content = read_file_content(obj['Key'], 'agent documentation')
+            if content:
+                docs.append(content)
                     
         return "\n\n".join(docs) if docs else None
     except Exception as e:
         print(f"Error reading agent docs: {e}")
         return None
+
+def list_context_files(prefix):
+    """List context files in a prefix."""
+    try:
+        s3 = boto3.client('s3')
+        response = s3.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix=prefix)
+        if 'Contents' not in response:
+            return []
+            
+        context_files = []
+        for obj in response['Contents']:
+            context_files.append(obj['Key'])
+        return context_files
+    except Exception as e:
+        logging.error(f"Error listing context files: {e}")
+        return []

@@ -19,17 +19,39 @@ def read_file_content(s3_key, file_name):
         logging.error(f"Error reading {file_name} from S3: {e}")
         return ""
 
+def find_file_by_base(base_key, file_name):
+    try:
+        s3 = boto3.client('s3')
+        bucket = 'aiademomagicaudio'
+        response = s3.list_objects_v2(Bucket=bucket, Prefix=base_key)
+        if 'Contents' in response:
+            for obj in response['Contents']:
+                if obj['Key'].startswith(base_key) and obj['Key'] != base_key:
+                    return obj['Key']
+        logging.error(f"Error finding {file_name} in S3: {e}")
+        return None
+    except Exception as e:
+        logging.error(f"Error finding {file_name} in S3: {e}")
+        return None
+
 def get_latest_system_prompt(agent_name=None):
     """Get and combine system prompts from S3"""
     try:
         # Get base system prompt
-        base_prompt = read_file_content('_config/systemprompt_base.md', "base system prompt")
+        base_key = find_file_by_base('_config/systemprompt_base', 'base system prompt')
+        if not base_key:
+            return None
+        base_prompt = read_file_content(base_key, "base system prompt")
         
         # Get agent-specific system prompt if agent name is provided
         agent_prompt = ""
         if agent_name:
-            agent_prompt_key = f'organizations/river/agents/{agent_name}/_config/systemprompt_aID-{agent_name}.md'
-            agent_prompt = read_file_content(agent_prompt_key, "agent system prompt")
+            agent_key = find_file_by_base(
+                f'organizations/river/agents/{agent_name}/_config/systemprompt_aID-{agent_name}',
+                'agent system prompt'
+            )
+            if agent_key:
+                agent_prompt = read_file_content(agent_key, "agent system prompt")
         
         # Combine prompts
         system_prompt = base_prompt
@@ -45,13 +67,20 @@ def get_latest_frameworks(agent_name=None):
     """Get and combine frameworks from S3"""
     try:
         # Get base frameworks
-        base_frameworks = read_file_content('_config/frameworks_base.md', "base frameworks")
+        base_key = find_file_by_base('_config/frameworks_base', 'base frameworks')
+        if not base_key:
+            return None
+        base_frameworks = read_file_content(base_key, "base frameworks")
         
         # Get agent-specific frameworks if agent name is provided
         agent_frameworks = ""
         if agent_name:
-            agent_frameworks_key = f'organizations/river/agents/{agent_name}/_config/frameworks_aID-{agent_name}.md'
-            agent_frameworks = read_file_content(agent_frameworks_key, "agent frameworks")
+            agent_key = find_file_by_base(
+                f'organizations/river/agents/{agent_name}/_config/frameworks_aID-{agent_name}',
+                'agent frameworks'
+            )
+            if agent_key:
+                agent_frameworks = read_file_content(agent_key, "agent frameworks")
         
         # Combine frameworks
         frameworks = base_frameworks
@@ -67,13 +96,23 @@ def get_latest_context(agent_name, event_id=None):
     """Get and combine contexts from S3"""
     try:
         # Get organization-specific context
-        org_context = read_file_content(f'organizations/river/_config/context_oID-{agent_name}.md', "organization context")
+        org_key = find_file_by_base(
+            f'organizations/river/_config/context_oID-{agent_name}',
+            'organization context'
+        )
+        if not org_key:
+            return None
+        org_context = read_file_content(org_key, "organization context")
         
         # Get event-specific context if event ID is provided
         event_context = ""
         if event_id:
-            event_context_key = f'organizations/river/agents/{agent_name}/events/{event_id}/_config/context_aID-{agent_name}_eID-{event_id}.md'
-            event_context = read_file_content(event_context_key, "event context")
+            event_key = find_file_by_base(
+                f'organizations/river/agents/{agent_name}/events/{event_id}/_config/context_aID-{agent_name}_eID-{event_id}',
+                'event context'
+            )
+            if event_key:
+                event_context = read_file_content(event_key, "event context")
         
         # Combine contexts
         context = org_context
@@ -394,8 +433,8 @@ class WebChat:
         if new_content:
             logging.debug(f"Adding new transcript content: {new_content}")
             self.chat_history.append({
-                'user': None,  # Use None instead of empty string
-                'assistant': f"Transcript update: {new_content}"
+                'user': f"[Transcript update - DO NOT SUMMARIZE, just acknowledge receipt]: {new_content}",
+                'assistant': None
             })
             return True
         return False
