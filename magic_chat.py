@@ -671,39 +671,49 @@ def get_latest_transcript_file(agent_name=None):
             response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix=prefix, Delimiter='/')
             
             if 'Contents' in response:
-                # Only consider files directly in this folder
                 transcript_files = [
                     obj['Key'] for obj in response['Contents'] 
                     if obj['Key'].startswith(prefix) and obj['Key'] != prefix
-                    and not obj['Key'].replace(prefix, '').strip('/').count('/')  # No additional folders
+                    and not obj['Key'].replace(prefix, '').strip('/').count('/')
                     and obj['Key'].endswith('.txt')
                 ]
                 if transcript_files:
+                    logging.debug(f"Found {len(transcript_files)} transcript files in agent folder:")
+                    for tf in transcript_files:
+                        obj = s3_client.head_object(Bucket=AWS_S3_BUCKET, Key=tf)
+                        logging.debug(f"  - {tf} (Size: {obj['ContentLength']} bytes, Modified: {obj['LastModified']})")
+                    
                     latest_file = max(transcript_files, key=lambda x: s3_client.head_object(Bucket=AWS_S3_BUCKET, Key=x)['LastModified'])
-                    logging.debug(f"Found latest transcript in agent folder: {latest_file}")
+                    obj = s3_client.head_object(Bucket=AWS_S3_BUCKET, Key=latest_file)
+                    logging.debug(f"Selected latest transcript in agent folder: {latest_file} (Size: {obj['ContentLength']} bytes)")
                     return latest_file
                 else:
                     logging.debug(f"No transcript files found in agent folder: {prefix}")
-        
+
         # Fallback to default transcripts folder
         prefix = '_files/transcripts/'
         response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix=prefix, Delimiter='/')
         
         if 'Contents' in response:
-            # Only consider files directly in this folder
             transcript_files = [
                 obj['Key'] for obj in response['Contents'] 
                 if obj['Key'].startswith(prefix) and obj['Key'] != prefix
-                and not obj['Key'].replace(prefix, '').strip('/').count('/')  # No additional folders
+                and not obj['Key'].replace(prefix, '').strip('/').count('/')
                 and obj['Key'].endswith('.txt')
             ]
             if transcript_files:
+                logging.debug(f"Found {len(transcript_files)} transcript files in default folder:")
+                for tf in transcript_files:
+                    obj = s3_client.head_object(Bucket=AWS_S3_BUCKET, Key=tf)
+                    logging.debug(f"  - {tf} (Size: {obj['ContentLength']} bytes, Modified: {obj['LastModified']})")
+                
                 latest_file = max(transcript_files, key=lambda x: s3_client.head_object(Bucket=AWS_S3_BUCKET, Key=x)['LastModified'])
-                logging.debug(f"Found latest transcript in default folder: {latest_file}")
+                obj = s3_client.head_object(Bucket=AWS_S3_BUCKET, Key=latest_file)
+                logging.debug(f"Selected latest transcript in default folder: {latest_file} (Size: {obj['ContentLength']} bytes)")
                 return latest_file
             else:
                 logging.debug(f"No transcript files found in default folder: {prefix}")
-                
+        
         logging.debug("No transcript files found.")
         return None
         
