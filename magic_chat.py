@@ -247,6 +247,7 @@ def get_latest_frameworks(agent_name=None):
         return None
 
 def get_latest_context(agent_name, event_id=None):
+    """Get and combine contexts from S3, with optional event_id"""
     """Get and combine contexts from S3"""
     try:
         # Get organization-specific context
@@ -256,12 +257,12 @@ def get_latest_context(agent_name, event_id=None):
         )
         
         # Get event-specific context if event ID is provided
-        event_context = ""
-        if event_id:
-            event_key, event_context = find_file_any_extension(
-                f'organizations/river/agents/{agent_name}/events/{event_id}/_config/context_aID-{agent_name}_eID-{event_id}',
-                "event context"
-            )
+event_context = ""
+    if event_id:
+        event_key, event_context = find_file_any_extension(
+            f'organizations/river/agents/{agent_name}/events/{event_id}/_config/context_aID-{agent_name}_eID-{event_id}',
+            "event context"
+        )
         
         # Combine contexts
         context = org_context if org_context else ""
@@ -664,7 +665,7 @@ def format_chat_history(messages):
             chat_content += f"**Agent:**\n{msg['content']}\n\n"
     return chat_content
 
-def get_latest_transcript_file(agent_name=None, event_id='0000'):
+def get_latest_transcript_file(agent_name=None, event_id=None):
     """Get the latest transcript file, first from agent's event folder, then from default folder"""
     try:
         # First try agent's event folder
@@ -734,7 +735,7 @@ def main():
         
         # Initialize chat filename with timestamp at session start
         timestamp = datetime.now().strftime('%Y%m%d-T%H%M%S')
-        event_id = config.event  # Get from config
+        event_id = config.event_id  # Updated from config.event to config.event_id
         current_chat_file = f"chat_D{timestamp}_aID-{config.agent_name}_eID-{event_id}.txt"
         logging.debug(f"Initialized chat filename: {current_chat_file}")
         
@@ -895,7 +896,7 @@ def main():
                                 
                                 chat_content = format_chat_history(new_messages)
                                 logging.debug(f"Saving chat to {current_chat_file}")
-                                success, _ = save_chat_to_s3(config.agent_name, chat_content, is_saved=True, filename=current_chat_file)
+                                success, _ = save_chat_to_s3(config.agent_name, chat_content, event_id=config.event_id, is_saved=False, filename=current_chat_file)
                                 
                                 if success:
                                     print(f"Chat history saved to {current_chat_file}")
