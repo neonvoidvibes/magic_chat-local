@@ -895,7 +895,7 @@ def main():
                                 
                                 chat_content = format_chat_history(new_messages)
                                 logging.debug(f"Saving chat to {current_chat_file}")
-                                success, _ = save_chat_to_s3(config.agent_name, chat_content, event_id=config.event_id, is_saved=False, filename=current_chat_file)
+                                success, _ = save_chat_to_s3(config.agent_name, chat_content, event_id=config.event_id, is_saved=True, filename=current_chat_file)
                                 
                                 if success:
                                     print(f"Chat history saved to {current_chat_file}")
@@ -952,7 +952,7 @@ def main():
                             latest_messages = conversation_history[-2:]  # Get user message and assistant response
                             chat_content = format_chat_history(latest_messages)
                             logging.debug(f"Saving latest message round to {current_chat_file}")
-                            success, _ = save_chat_to_s3(config.agent_name, chat_content, is_saved=False, filename=current_chat_file)
+                            success, _ = save_chat_to_s3(config.agent_name, chat_content, event_id=config.event_id, is_saved=False, filename=current_chat_file)
                             
                             if not success:
                                 print("Failed to save chat history")

@@ -427,17 +427,57 @@ class WebChat:
             return False
 
     def check_transcript_updates(self):
+        """Check for new transcript updates"""
         logging.debug("Checking for transcript updates...")
-        from magic_chat import read_new_transcript_content
-        new_content = read_new_transcript_content(self.transcript_state, self.config.agent_name)
-        if new_content:
-            logging.debug(f"Adding new transcript content: {new_content}")
-            self.chat_history.append({
-                'user': f"[Transcript update - DO NOT SUMMARIZE, just acknowledge receipt]: {new_content}",
-                'assistant': None
-            })
-            return True
-        return False
+        
+        try:
+            # First check if we actually have the state and config we need
+            if not hasattr(self, 'transcript_state') or not self.transcript_state:
+                from magic_chat import TranscriptState
+                self.transcript_state = TranscriptState()
+                
+            # Get latest transcript file
+            latest_key = get_latest_transcript_file(self.config.agent_name, self.config.event_id)
+            if not latest_key:
+                logging.debug("No transcript file found")
+                return False
+                
+            # Get the file content and check for changes
+            s3_client = boto3.client('s3')
+            response = s3_client.get_object(Bucket=os.getenv('AWS_S3_BUCKET'), Key=latest_key)
+            content = response['Body'].read().decode('utf-8')
+            
+            # Update transcript state if this is a new file or it has changed
+            if (latest_key != self.transcript_state.current_key or
+                response['LastModified'] != self.transcript_state.last_modified):
+                
+                if latest_key != self.transcript_state.current_key:
+                    # New file - read from start
+                    new_content = content
+                    self.transcript_state.last_position = len(content)
+                    logging.debug(f"New transcript file detected, read {len(new_content)} bytes")
+                else:
+                    # Existing file updated - get only new content
+                    new_content = content[self.transcript_state.last_position:]
+                    self.transcript_state.last_position = len(content)
+                    logging.debug(f"Existing file updated, read {len(new_content)} new bytes")
+                
+                self.transcript_state.current_key = latest_key
+                self.transcript_state.last_modified = response['LastModified']
+                
+                if new_content:
+                    self.chat_history.append({
+                        'user': f"[Transcript update - DO NOT SUMMARIZE, just acknowledge receipt]: {new_content}",
+                        'assistant': None
+                    })
+                    return True
+                
+            logging.debug("No changes detected in transcript file")
+            return False
+        
+        except Exception as e:
+            logging.error(f"Error checking transcript updates: {e}")
+            return False
 
     def run(self, host: str = '127.0.0.1', port: int = 5001, debug: bool = False):
         def check_updates():
