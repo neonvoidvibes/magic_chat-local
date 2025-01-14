@@ -63,10 +63,10 @@ def read_new_transcript(transcript_key, agent_name):
         logging.error(f"Error reading transcript from S3: {e}")
     return new_content
 
-def read_new_transcript_content(state, agent_name):
+def read_new_transcript_content(state, agent_name, event_id):
     """Read only new content from transcript file"""
     try:
-        latest_key = get_latest_transcript_file(agent_name)
+        latest_key = get_latest_transcript_file(agent_name, event_id)
         if not latest_key:
             logging.debug("No transcript file found")
             return None
@@ -109,9 +109,9 @@ def read_new_transcript_content(state, agent_name):
         logging.error(f"Error reading transcript: {e}")
         return None
 
-def check_transcript_updates(transcript_state, conversation_history, agent_name):
+def check_transcript_updates(transcript_state, conversation_history, agent_name, event_id):
     logging.debug("Checking for transcript updates...")
-    new_content = read_new_transcript_content(transcript_state, agent_name)
+    new_content = read_new_transcript_content(transcript_state, agent_name, event_id)
     if new_content:
         logging.debug(f"Adding new transcript content: {new_content[:100]}...")
         conversation_history.append({
@@ -248,7 +248,6 @@ def get_latest_frameworks(agent_name=None):
 
 def get_latest_context(agent_name, event_id=None):
     """Get and combine contexts from S3, with optional event_id"""
-    """Get and combine contexts from S3"""
     try:
         # Get organization-specific context
         org_key, org_context = find_file_any_extension(
@@ -257,18 +256,18 @@ def get_latest_context(agent_name, event_id=None):
         )
         
         # Get event-specific context if event ID is provided
-event_context = ""
-    if event_id:
-        event_key, event_context = find_file_any_extension(
-            f'organizations/river/agents/{agent_name}/events/{event_id}/_config/context_aID-{agent_name}_eID-{event_id}',
-            "event context"
-        )
+        event_context = ""
+        if event_id:
+            event_key, event_context = find_file_any_extension(
+                f'organizations/river/agents/{agent_name}/events/{event_id}/_config/context_aID-{agent_name}_eID-{event_id}',
+                "event context"
+            )
         
         # Combine contexts
         context = org_context if org_context else ""
         if event_context:
             context += "\n\n" + event_context
-            
+        
         return context
     except Exception as e:
         logging.error(f"Error getting contexts: {e}")
@@ -851,7 +850,7 @@ def main():
             # Only load initial content if --listen-transcript flag was used
             if config.listen_transcript:
                 config.listen_transcript_enabled = True
-                if check_transcript_updates(transcript_state, conversation_history, config.agent_name):
+                if check_transcript_updates(transcript_state, conversation_history, config.agent_name, config.event_id):
                     print("Initial transcript loaded.")
                 last_transcript_check = time.time()
 
@@ -863,7 +862,7 @@ def main():
                     # Check for transcript updates periodically if enabled
                     current_time = time.time()
                     if config.listen_transcript_enabled and current_time - last_transcript_check > TRANSCRIPT_CHECK_INTERVAL:
-                        if check_transcript_updates(transcript_state, conversation_history, config.agent_name):
+                        if check_transcript_updates(transcript_state, conversation_history, config.agent_name, config.event_id):
                             logging.debug("New transcript content added")
                         last_transcript_check = current_time
 
@@ -920,7 +919,7 @@ def main():
                                 # Enable transcript loading only for relevant commands
                                 if command in ['listen', 'listen-all', 'listen-transcript']:
                                     config.listen_transcript_enabled = True
-                                    if check_transcript_updates(transcript_state, conversation_history, config.agent_name):
+                                    if check_transcript_updates(transcript_state, conversation_history, config.agent_name, config.event_id):
                                         print("Transcript loaded and automatic listening mode activated.")
                                     else:
                                         print("No new transcript content found.")
