@@ -222,18 +222,20 @@ class WebChat:
             data = request.json
             if not data or 'message' not in data:
                 return jsonify({'error': 'No message provided'}), 400
-                
-            # Initialize Anthropic client if needed
-            if not self.client:
-                from anthropic import Anthropic
-                import os
-                self.client = Anthropic(api_key=os.getenv('ANTHROPIC_API_KEY'))
-            
-            # Process the chat message
+            # Process the message and get response
             try:
+                # Initialize Anthropic client if needed
+                if not self.client:
+                    from anthropic import Anthropic
+                    import os
+                    self.client = Anthropic(api_key=os.getenv('ANTHROPIC_API_KEY'))
                 current_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 user_content = f"On {current_timestamp}, user said: {data['message']}"
-                
+                # Add user message to history
+                self.chat_history.append({
+                    'user': user_content,
+                    'assistant': None
+                })
                 # Build conversation history from previous messages
                 messages = []
                 for chat in self.chat_history:
@@ -241,8 +243,6 @@ class WebChat:
                         messages.append({"role": "user", "content": chat['user']})
                     if chat['assistant']:  # Only add if assistant message exists
                         messages.append({"role": "assistant", "content": chat['assistant']})
-                messages.append({"role": "user", "content": user_content})
-                
                 def generate():
                     full_response = ""
                     with self.client.messages.stream(
@@ -254,42 +254,34 @@ class WebChat:
                         for text in stream.text_stream:
                             full_response += text
                             yield f"data: {json.dumps({'delta': text})}\n\n"
-                    
-                    # Store in chat history after completion
-                    self.chat_history.append({
-                        'user': user_content,
-                        'assistant': full_response
-                    })
-                    
-                    # Save chat history to archive folder
-                    try:
-                        new_messages = self.chat_history[self.last_saved_index:]
-                        if new_messages:
-                            chat_content = ""
-                            for chat in new_messages:
+                    # Update the last message with assistant's response
+                    if self.chat_history:
+                        self.chat_history[-1]['assistant'] = full_response
+                    # Save to archive
+                    new_messages = self.chat_history[self.last_saved_index:]
+                    if new_messages:
+                        chat_content = ""
+                        for chat in new_messages:
+                            if chat.get('user'):
                                 chat_content += f"**User:**\n{chat['user']}\n\n"
+                            if chat.get('assistant'):
                                 chat_content += f"**Agent:**\n{chat['assistant']}\n\n"
-                            
-                            # Import the save function from magic_chat
-                            from magic_chat import save_chat_to_s3
-                            success, _ = save_chat_to_s3(
-                                agent_name=self.config.agent_name,
-                                chat_content=chat_content,
-                                event_id=self.config.event_id,
-                                is_saved=False,
-                                filename=self.current_chat_file
-                            )
-                            if success:
-                                self.last_saved_index = len(self.chat_history)
-                            else:
-                                logging.error("Failed to save chat history")
-                    except Exception as e:
-                        logging.error(f"Error saving chat history to S3: {e}")
-                    
+                        from magic_chat import save_chat_to_s3
+                        success, _ = save_chat_to_s3(
+                            agent_name=self.config.agent_name,
+                            chat_content=chat_content,
+                            event_id=self.config.event_id,
+                            is_saved=False,
+                            filename=self.current_chat_file
+                        )
+                        if success:
+                            self.last_saved_index = len(self.chat_history)
+                        else:
+                            logging.error("Failed to save chat history")
                     yield f"data: {json.dumps({'done': True})}\n\n"
-                
                 return Response(generate(), mimetype='text/event-stream')
             except Exception as e:
+                logging.error(f"Error in chat endpoint: {e}")
                 return jsonify({'error': str(e)}), 500
             
         @self.app.route('/api/status', methods=['GET'])
