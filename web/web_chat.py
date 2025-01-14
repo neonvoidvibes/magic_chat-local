@@ -139,8 +139,7 @@ class WebChat:
         
         # Initialize chat filename with timestamp at session start
         timestamp = datetime.now().strftime('%Y%m%d-T%H%M%S')
-        event_id = "0000"  # Default event ID if not provided
-        self.current_chat_file = f"chat_D{timestamp}_aID-{config.agent_name}_eID-{event_id}.txt"
+        self.current_chat_file = f"chat_D{timestamp}_aID-{config.agent_name}_eID-{config.event_id}.txt"
         self.last_saved_index = 0  # Track last saved message
         logging.debug(f"Initialized chat filename: {self.current_chat_file}")
         
@@ -273,7 +272,13 @@ class WebChat:
                             
                             # Import the save function from magic_chat
                             from magic_chat import save_chat_to_s3
-                            success, _ = save_chat_to_s3(self.config.agent_name, chat_content, is_saved=False, filename=self.current_chat_file)
+                            success, _ = save_chat_to_s3(
+                                agent_name=self.config.agent_name,
+                                chat_content=chat_content,
+                                event_id=self.config.event_id,
+                                is_saved=False,
+                                filename=self.current_chat_file
+                            )
                             if success:
                                 self.last_saved_index = len(self.chat_history)
                             else:
@@ -393,7 +398,13 @@ class WebChat:
                 from magic_chat import save_chat_to_s3
                 
                 # Copy the current chat file from archive to saved
-                success, filename = save_chat_to_s3(self.config.agent_name, "", is_saved=True, filename=self.current_chat_file)
+                success, filename = save_chat_to_s3(
+                    agent_name=self.config.agent_name,
+                    chat_content="",  # Empty content since we're just copying
+                    event_id=self.config.event_id,
+                    is_saved=True,
+                    filename=self.current_chat_file
+                )
                 if success:
                     return jsonify({'message': 'Chat history saved successfully'}), 200
                 else:

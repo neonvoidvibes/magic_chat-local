@@ -456,19 +456,22 @@ def analyze_with_claude(client, messages, system_prompt):
         logging.error(f"Error calling Claude API: {str(e)}")
         return f"Error: {str(e)}"
 
-def save_chat_to_s3(agent_name, chat_content, event_id='0000', is_saved=False, filename=None):
+def save_chat_to_s3(agent_name, chat_content, event_id, is_saved=False, filename=None):
     """Save chat content to S3 bucket or copy from archive to saved.
     
     Args:
         agent_name: Name of the agent
         chat_content: Content to append to chat file
-        event_id: Event ID for folder path
+        event_id: Event ID for folder path (defaults to 0000)
         is_saved: Whether this is a manual save (True) or auto-archive (False)
         filename: Optional filename to use, if None one will be generated
         
     Returns:
         Tuple of (success boolean, filename used)
     """
+    if event_id is None:
+        event_id = '0000'  # Default event ID if none provided
+
     try:
         if not filename:
             # Generate filename if not provided
@@ -761,7 +764,7 @@ def main():
                                 
                                 chat_content = format_chat_history(new_messages)
                                 logging.debug(f"Saving chat to {current_chat_file}")
-                                success, _ = save_chat_to_s3(config.agent_name, chat_content, event_id=config.event_id, is_saved=True, filename=current_chat_file)
+                                success, _ = save_chat_to_s3(config.agent_name, chat_content, config.event_id, is_saved=False, filename=current_chat_file)
                                 
                                 if success:
                                     print(f"Chat history saved to {current_chat_file}")
