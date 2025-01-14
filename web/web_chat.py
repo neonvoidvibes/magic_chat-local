@@ -229,13 +229,16 @@ class WebChat:
                     from anthropic import Anthropic
                     import os
                     self.client = Anthropic(api_key=os.getenv('ANTHROPIC_API_KEY'))
+
+                # Add user message to history with timestamp
                 current_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 user_content = f"On {current_timestamp}, user said: {data['message']}"
-                # Add user message to history
                 self.chat_history.append({
                     'user': user_content,
-                    'assistant': None
+                    'assistant': None,
+                    'timestamp': current_timestamp
                 })
+                logging.debug(f"Added user message to history. Total messages: {len(self.chat_history)}")
                 # Build conversation history from previous messages
                 messages = []
                 for chat in self.chat_history:
@@ -323,12 +326,15 @@ class WebChat:
                 try:
                     # Get new messages since last save
                     new_messages = self.chat_history[self.last_saved_index:]
+                    logging.debug(f"Messages to save: {len(new_messages)} (total: {len(self.chat_history)}, last saved: {self.last_saved_index})")
+                    
                     if not new_messages:
                         return jsonify({'message': 'No new messages to save'})
                     
                     chat_content = ""
                     for chat in new_messages:
-                        chat_content += f"**User:**\n{chat['user']}\n\n"
+                        timestamp = chat.get('timestamp', '')
+                        chat_content += f"**User ({timestamp}):**\n{chat['user']}\n\n"
                         if chat['assistant']:
                             chat_content += f"**Agent:**\n{chat['assistant']}\n\n"
                     
