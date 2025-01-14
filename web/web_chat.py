@@ -140,7 +140,8 @@ class WebChat:
         # Initialize chat filename with timestamp at session start
         timestamp = datetime.now().strftime('%Y%m%d-T%H%M%S')
         self.current_chat_file = f"chat_D{timestamp}_aID-{config.agent_name}_eID-{config.event_id}.txt"
-        self.last_saved_index = 0  # Track last saved message
+        self.last_saved_index = 0     # Track messages saved via !save command
+        self.last_archive_index = 0   # Track messages auto-archived
         logging.debug(f"Initialized chat filename: {self.current_chat_file}")
         
         self.load_resources()
@@ -261,7 +262,7 @@ class WebChat:
                     if self.chat_history:
                         self.chat_history[-1]['assistant'] = full_response
                     # Save to archive
-                    new_messages = self.chat_history[self.last_saved_index:]
+                    new_messages = self.chat_history[self.last_archive_index:]
                     if new_messages:
                         chat_content = ""
                         for chat in new_messages:
@@ -278,7 +279,7 @@ class WebChat:
                             filename=self.current_chat_file
                         )
                         if success:
-                            self.last_saved_index = len(self.chat_history)
+                            self.last_archive_index = len(self.chat_history)
                         else:
                             logging.error("Failed to save chat history")
                     yield f"data: {json.dumps({'done': True})}\n\n"
@@ -350,7 +351,7 @@ class WebChat:
                     )
                     
                     if success:
-                        self.last_saved_index = len(self.chat_history)
+                        self.last_saved_index = len(self.chat_history)  # Update save index only
                         return jsonify({'message': f'Chat history saved successfully as {filename}'})
                     else:
                         return jsonify({'error': 'Failed to save chat history'})
