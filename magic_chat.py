@@ -15,6 +15,7 @@ from config import AppConfig
 from web.web_chat import WebChat
 import xml.etree.ElementTree as ET
 from io import StringIO
+from utils.transcript_utils import TranscriptState, get_latest_transcript_file, read_new_transcript_content
 
 SESSION_START_TAG = '<session>'
 SESSION_END_TAG = '</session>'
@@ -28,86 +29,6 @@ MAX_MESSAGES = TOKEN_LIMIT // AVERAGE_TOKENS_PER_MESSAGE
 
 # Global transcript position tracker
 LAST_TRANSCRIPT_POS = 0
-
-class TranscriptState:
-    def __init__(self):
-        self.current_key = None
-        self.last_position = 0
-        self.last_modified = None
-
-def read_new_transcript(transcript_key, agent_name):
-    """Read new content from transcript file in S3 starting from last read position"""
-    global LAST_TRANSCRIPT_POS
-    new_content = ""
-    try:
-        logging.debug(f"Reading transcript from S3: {transcript_key}")
-        logging.debug(f"Current transcript position: {LAST_TRANSCRIPT_POS}")
-        
-        response = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=transcript_key)
-        transcript_stream = response['Body']
-        total_size = response.get('ContentLength', 0)
-        logging.debug(f"Total transcript size: {total_size} bytes")
-        
-        transcript_stream.seek(LAST_TRANSCRIPT_POS)
-        new_content = transcript_stream.read().decode('utf-8')
-        
-        if new_content:
-            old_pos = LAST_TRANSCRIPT_POS
-            LAST_TRANSCRIPT_POS = transcript_stream.tell()
-            logging.debug(f"Read {len(new_content)} bytes from position {old_pos} to {LAST_TRANSCRIPT_POS}")
-            logging.debug(f"New content preview: {new_content[:100]}...")
-        else:
-            logging.debug("No new content found in transcript")
-            
-    except Exception as e:
-        logging.error(f"Error reading transcript from S3: {e}")
-    return new_content
-
-def read_new_transcript_content(state, agent_name, event_id):
-    """Read only new content from transcript file"""
-    try:
-        latest_key = get_latest_transcript_file(agent_name, event_id)
-        if not latest_key:
-            logging.debug("No transcript file found")
-            return None
-            
-        logging.debug(f"Found transcript file: {latest_key}")
-        response = s3_client.head_object(Bucket=AWS_S3_BUCKET, Key=latest_key)
-        current_modified = response['LastModified']
-        current_size = response['ContentLength']
-        
-        logging.debug(f"Current file: size={current_size}, modified={current_modified}")
-        logging.debug(f"Previous state: key={state.current_key}, position={state.last_position}, modified={state.last_modified}")
-        
-        # If file changed or new file
-        if (latest_key != state.current_key or 
-            current_modified != state.last_modified):
-            
-            logging.debug("Transcript file has changed, reading new content")
-            response = s3_client.get_object(Bucket=AWS_S3_BUCKET, Key=latest_key)
-            content = response['Body'].read().decode('utf-8')
-            
-            if latest_key != state.current_key:
-                # New file - read from start
-                new_content = content
-                state.last_position = len(content)
-                logging.debug(f"New transcript file detected, read {len(new_content)} bytes")
-            else:
-                # Existing file updated - get only new content
-                new_content = content[state.last_position:]
-                state.last_position = len(content)
-                logging.debug(f"Existing file updated, read {len(new_content)} new bytes")
-                
-            state.current_key = latest_key
-            state.last_modified = current_modified
-            return new_content
-            
-        logging.debug("No changes detected in transcript file")
-        return None
-        
-    except Exception as e:
-        logging.error(f"Error reading transcript: {e}")
-        return None
 
 def check_transcript_updates(transcript_state, conversation_history, agent_name, event_id):
     logging.debug("Checking for transcript updates...")
@@ -664,64 +585,7 @@ def format_chat_history(messages):
             chat_content += f"**Agent:**\n{msg['content']}\n\n"
     return chat_content
 
-def get_latest_transcript_file(agent_name=None, event_id=None):
-    """Get the latest transcript file, first from agent's event folder"""
-    try:
-        # First try agent's event folder
-        if agent_name and event_id:
-            prefix = f'organizations/river/agents/{agent_name}/events/{event_id}/transcripts/'
-            response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix=prefix, Delimiter='/')
-            
-            if 'Contents' in response:
-                transcript_files = [
-                    obj['Key'] for obj in response['Contents'] 
-                    if obj['Key'].startswith(prefix) and obj['Key'] != prefix
-                    and not obj['Key'].replace(prefix, '').strip('/').count('/')
-                    and obj['Key'].endswith('.txt')
-                ]
-                if transcript_files:
-                    logging.debug(f"Found {len(transcript_files)} transcript files in agent folder:")
-                    for tf in transcript_files:
-                        obj = s3_client.head_object(Bucket=AWS_S3_BUCKET, Key=tf)
-                        logging.debug(f"  - {tf} (Size: {obj['ContentLength']} bytes, Modified: {obj['LastModified']})")
-                    
-                    latest_file = max(transcript_files, key=lambda x: s3_client.head_object(Bucket=AWS_S3_BUCKET, Key=x)['LastModified'])
-                    obj = s3_client.head_object(Bucket=AWS_S3_BUCKET, Key=latest_file)
-                    logging.debug(f"Selected latest transcript in agent folder: {latest_file} (Size: {obj['ContentLength']} bytes)")
-                    return latest_file
-                else:
-                    logging.debug(f"No transcript files found in agent folder: {prefix}")
 
-        # Fallback to default transcripts folder
-        prefix = '_files/transcripts/'
-        response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix=prefix, Delimiter='/')
-        
-        if 'Contents' in response:
-            transcript_files = [
-                obj['Key'] for obj in response['Contents'] 
-                if obj['Key'].startswith(prefix) and obj['Key'] != prefix
-                and not obj['Key'].replace(prefix, '').strip('/').count('/')
-                and obj['Key'].endswith('.txt')
-            ]
-            if transcript_files:
-                logging.debug(f"Found {len(transcript_files)} transcript files in default folder:")
-                for tf in transcript_files:
-                    obj = s3_client.head_object(Bucket=AWS_S3_BUCKET, Key=tf)
-                    logging.debug(f"  - {tf} (Size: {obj['ContentLength']} bytes, Modified: {obj['LastModified']})")
-                
-                latest_file = max(transcript_files, key=lambda x: s3_client.head_object(Bucket=AWS_S3_BUCKET, Key=x)['LastModified'])
-                obj = s3_client.head_object(Bucket=AWS_S3_BUCKET, Key=latest_file)
-                logging.debug(f"Selected latest transcript in default folder: {latest_file} (Size: {obj['ContentLength']} bytes)")
-                return latest_file
-            else:
-                logging.debug(f"No transcript files found in default folder: {prefix}")
-        
-        logging.debug("No transcript files found.")
-        return None
-        
-    except Exception as e:
-        logging.error(f"Error finding transcript files in S3: {e}")
-        return None
 
 def main():
     global abort_requested

@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, render_template, current_app, Response
 from typing import Optional
-from magic_chat import get_latest_transcript_file, TranscriptState
+from utils.transcript_utils import TranscriptState, get_latest_transcript_file, read_new_transcript_content
 import threading
 from config import AppConfig
 import os
@@ -436,50 +436,21 @@ class WebChat:
             if not hasattr(self, 'transcript_state') or not self.transcript_state:
                 self.transcript_state = TranscriptState()
                 
-            # Get latest transcript file
-            latest_key = get_latest_transcript_file(self.config.agent_name, self.config.event_id)
-            if not latest_key:
-                logging.debug("No transcript file found")
-                return False
-                
-            # Get the file content and check for changes
-            s3_client = boto3.client(
-                's3',
-                region_name=os.getenv('AWS_REGION'),
-                aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
-                aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY')
+            new_content = read_new_transcript_content(
+                self.transcript_state,
+                self.config.agent_name,
+                self.config.event_id
             )
-            response = s3_client.get_object(Bucket=os.getenv('AWS_S3_BUCKET'), Key=latest_key)
-            content = response['Body'].read().decode('utf-8')
             
-            # Update transcript state if this is a new file or it has changed
-            if (latest_key != self.transcript_state.current_key or
-                response['LastModified'] != self.transcript_state.last_modified):
-                
-                if latest_key != self.transcript_state.current_key:
-                    # New file - read from start
-                    new_content = content
-                    self.transcript_state.last_position = len(content)
-                    logging.debug(f"New transcript file detected, read {len(new_content)} bytes")
-                else:
-                    # Existing file updated - get only new content
-                    new_content = content[self.transcript_state.last_position:]
-                    self.transcript_state.last_position = len(content)
-                    logging.debug(f"Existing file updated, read {len(new_content)} new bytes")
-                
-                self.transcript_state.current_key = latest_key
-                self.transcript_state.last_modified = response['LastModified']
-                
-                if new_content:
-                    self.chat_history.append({
-                        'user': f"[Transcript update - DO NOT SUMMARIZE, just acknowledge receipt]: {new_content}",
-                        'assistant': None
-                    })
-                    return True
-                
-            logging.debug("No changes detected in transcript file")
+            if new_content:
+                self.chat_history.append({
+                    'user': f"[Transcript update - DO NOT SUMMARIZE, just acknowledge receipt]: {new_content}",
+                    'assistant': None
+                })
+                return True
+                    
             return False
-        
+            
         except Exception as e:
             logging.error(f"Error checking transcript updates: {e}")
             return False
