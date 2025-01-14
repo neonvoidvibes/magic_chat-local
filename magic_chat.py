@@ -166,6 +166,7 @@ def parse_arguments():
     parser.add_argument('--listen-deep', action='store_true', help='Enable summary and insights listening at startup.')
     parser.add_argument('--listen-all', action='store_true', help='Enable all listening at startup.')
     parser.add_argument('--interface-mode', choices=['cli', 'web', 'web_only'], default='cli', help='Interface mode.')
+    parser.add_argument('--event', type=str, default='0000', help='Event ID for transcript folder (e.g., "20250116")')
     return parser.parse_args()
 
 def setup_logging(debug):
@@ -534,12 +535,13 @@ def analyze_with_claude(client, messages, system_prompt):
         logging.error(f"Error calling Claude API: {str(e)}")
         return f"Error: {str(e)}"
 
-def save_chat_to_s3(agent_name, chat_content, is_saved=False, filename=None):
+def save_chat_to_s3(agent_name, chat_content, event_id='0000', is_saved=False, filename=None):
     """Save chat content to S3 bucket or copy from archive to saved.
     
     Args:
         agent_name: Name of the agent
         chat_content: Content to append to chat file
+        event_id: Event ID for folder path
         is_saved: Whether this is a manual save (True) or auto-archive (False)
         filename: Optional filename to use, if None one will be generated
         
@@ -550,11 +552,11 @@ def save_chat_to_s3(agent_name, chat_content, is_saved=False, filename=None):
         if not filename:
             # Generate filename if not provided
             timestamp = datetime.now().strftime('%Y%m%d-T%H%M%S')
-            filename = f"chat_D{timestamp}_aID-{agent_name}_eID-{config.event_id}.txt"
+            filename = f"chat_D{timestamp}_aID-{agent_name}_eID-{event_id}.txt"
             logging.debug(f"Generated new filename: {filename}")
         
         # Base path for both archive and saved folders
-        base_path = f"organizations/river/agents/{agent_name}/events/0000/chats"
+        base_path = f"organizations/river/agents/{agent_name}/events/{event_id}/chats"
         archive_key = f"{base_path}/archive/{filename}"
         saved_key = f"{base_path}/saved/{filename}"
         
@@ -662,12 +664,12 @@ def format_chat_history(messages):
             chat_content += f"**Agent:**\n{msg['content']}\n\n"
     return chat_content
 
-def get_latest_transcript_file(agent_name=None):
+def get_latest_transcript_file(agent_name=None, event_id='0000'):
     """Get the latest transcript file, first from agent's event folder, then from default folder"""
     try:
-        # First try agent's default event folder
+        # First try agent's event folder
         if agent_name:
-            prefix = f'organizations/river/agents/{agent_name}/events/0000/transcripts/'
+            prefix = f'organizations/river/agents/{agent_name}/events/{event_id}/transcripts/'
             response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix=prefix, Delimiter='/')
             
             if 'Contents' in response:
@@ -732,7 +734,7 @@ def main():
         
         # Initialize chat filename with timestamp at session start
         timestamp = datetime.now().strftime('%Y%m%d-T%H%M%S')
-        event_id = "0000"  # Default event ID if not provided
+        event_id = config.event  # Get from config
         current_chat_file = f"chat_D{timestamp}_aID-{config.agent_name}_eID-{event_id}.txt"
         logging.debug(f"Initialized chat filename: {current_chat_file}")
         

@@ -29,6 +29,7 @@ class AppConfig:
     aws_s3_bucket: Optional[str] = None
     anthropic_api_key: Optional[str] = None
     openai_api_key: Optional[str] = None
+    event_id: str = '0000'  # Default event ID
 
     @classmethod
     def from_env_and_args(cls) -> 'AppConfig':
@@ -51,6 +52,7 @@ class AppConfig:
         parser.add_argument('--listen-insights', action='store_true', help='Enable insights listening at startup.')
         parser.add_argument('--listen-deep', action='store_true', help='Enable summary and insights listening at startup.')
         parser.add_argument('--listen-all', action='store_true', help='Enable all listening at startup.')
+        parser.add_argument('--event', type=str, default='0000', help='Event ID (default: 0000)')
         
         args = parser.parse_args()
         
@@ -72,6 +74,7 @@ class AppConfig:
             agent_name=args.agent,
             interface_mode=interface_mode,
             web_port=args.web_port,
+            event_id=args.event,  # Add event_id from args
             memory=args.memory,
             debug=args.debug,
             listen_summary=listen_summary,
