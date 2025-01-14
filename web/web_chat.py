@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, render_template, current_app, Response
 from typing import Optional
+from magic_chat import get_latest_transcript_file, TranscriptState
 import threading
 from config import AppConfig
 import os
@@ -433,7 +434,6 @@ class WebChat:
         try:
             # First check if we actually have the state and config we need
             if not hasattr(self, 'transcript_state') or not self.transcript_state:
-                from magic_chat import TranscriptState
                 self.transcript_state = TranscriptState()
                 
             # Get latest transcript file
@@ -443,7 +443,12 @@ class WebChat:
                 return False
                 
             # Get the file content and check for changes
-            s3_client = boto3.client('s3')
+            s3_client = boto3.client(
+                's3',
+                region_name=os.getenv('AWS_REGION'),
+                aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
+                aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY')
+            )
             response = s3_client.get_object(Bucket=os.getenv('AWS_S3_BUCKET'), Key=latest_key)
             content = response['Body'].read().decode('utf-8')
             

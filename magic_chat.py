@@ -665,10 +665,10 @@ def format_chat_history(messages):
     return chat_content
 
 def get_latest_transcript_file(agent_name=None, event_id=None):
-    """Get the latest transcript file, first from agent's event folder, then from default folder"""
+    """Get the latest transcript file, first from agent's event folder"""
     try:
         # First try agent's event folder
-        if agent_name:
+        if agent_name and event_id:
             prefix = f'organizations/river/agents/{agent_name}/events/{event_id}/transcripts/'
             response = s3_client.list_objects_v2(Bucket=AWS_S3_BUCKET, Prefix=prefix, Delimiter='/')
             
@@ -845,13 +845,15 @@ def main():
             transcript_state = TranscriptState()
             last_transcript_check = time.time()
             TRANSCRIPT_CHECK_INTERVAL = 5  # seconds
-            config.listen_transcript_enabled = False  # Start with transcript listening disabled
+            config.listen_transcript_enabled = config.listen_transcript  # Set from command line arg
 
             # Only load initial content if --listen-transcript flag was used
             if config.listen_transcript:
-                config.listen_transcript_enabled = True
                 if check_transcript_updates(transcript_state, conversation_history, config.agent_name, config.event_id):
-                    print("Initial transcript loaded.")
+                    print("Initial transcript loaded and listening mode activated")
+                    config.listen_transcript_enabled = True
+                else:
+                    print("No initial transcript found, but listening mode activated")
                 last_transcript_check = time.time()
 
             print("\nUser: ", end='', flush=True)  # Initial prompt
