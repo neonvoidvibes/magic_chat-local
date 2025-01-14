@@ -329,21 +329,35 @@ class WebChat:
                 return jsonify({'message': 'Chat history cleared'})
             elif cmd == 'save':
                 try:
+                    # Get new messages since last save
+                    new_messages = self.chat_history[self.last_saved_index:]
+                    if not new_messages:
+                        return jsonify({'message': 'No new messages to save'})
+                    
                     chat_content = ""
-                    for i, chat in enumerate(self.chat_history[self.last_saved_index:]):
+                    for chat in new_messages:
                         chat_content += f"**User:**\n{chat['user']}\n\n"
-                        chat_content += f"**Agent:**\n{chat['assistant']}\n\n"
+                        if chat['assistant']:
+                            chat_content += f"**Agent:**\n{chat['assistant']}\n\n"
                     
                     # Import the save function from magic_chat
                     from magic_chat import save_chat_to_s3
                     
-                    success, filename = save_chat_to_s3(self.config.agent_name, chat_content, is_saved=True)
+                    success, filename = save_chat_to_s3(
+                        agent_name=self.config.agent_name,
+                        chat_content=chat_content,
+                        event_id=self.config.event_id,
+                        is_saved=True,
+                        filename=self.current_chat_file
+                    )
+                    
                     if success:
                         self.last_saved_index = len(self.chat_history)
-                        return jsonify({'message': 'Chat history saved successfully', 'file': filename})
+                        return jsonify({'message': f'Chat history saved successfully as {filename}'})
                     else:
                         return jsonify({'error': 'Failed to save chat history'})
                 except Exception as e:
+                    logging.error(f"Error saving chat history: {e}")
                     return jsonify({'error': f'Error saving chat history: {str(e)}'})
             elif cmd == 'memory':
                 if self.config.memory is None:
