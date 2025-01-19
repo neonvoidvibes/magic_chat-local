@@ -101,3 +101,55 @@ def read_new_transcript_content(state, agent_name, event_id, s3_client=None, buc
     except Exception as e:
         logging.error(f"Error reading transcript: {e}")
         return None
+
+def read_all_transcripts_in_folder(agent_name, event_id, s3_client=None, bucket_name=None):
+    """
+    Read the entire content of all .txt transcripts in 
+    organizations/river/agents/{agent_name}/events/{event_id}/transcripts/
+    Combine them in chronological order, return as a single string.
+    """
+    if s3_client is None:
+        s3_client = boto3.client(
+            's3',
+            region_name=os.getenv('AWS_REGION'),
+            aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
+            aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY')
+        )
+    if bucket_name is None:
+        bucket_name = os.getenv('AWS_S3_BUCKET')
+
+    prefix = f'organizations/river/agents/{agent_name}/events/{event_id}/transcripts/'
+    try:
+        response = s3_client.list_objects_v2(Bucket=bucket_name, Prefix=prefix)
+        if 'Contents' not in response:
+            logging.debug(f"No transcripts found in {prefix}")
+            return None
+
+        # Collect all .txt files
+        transcripts = []
+        for obj in response['Contents']:
+            key = obj['Key']
+            if key.endswith('.txt'):
+                transcripts.append({
+                    'Key': key,
+                    'LastModified': obj['LastModified']
+                })
+        if not transcripts:
+            logging.debug(f"No .txt transcripts found in {prefix}")
+            return None
+
+        # Sort by LastModified ascending
+        transcripts.sort(key=lambda x: x['LastModified'])
+        combined_content = []
+        for t in transcripts:
+            obj = s3_client.get_object(Bucket=bucket_name, Key=t['Key'])
+            text = obj['Body'].read().decode('utf-8')
+            combined_content.append(text)
+
+        if combined_content:
+            return "\n\n".join(combined_content)
+        else:
+            return None
+    except Exception as e:
+        logging.error(f"Error reading all transcripts from S3: {e}")
+        return None

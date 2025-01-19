@@ -23,6 +23,7 @@ class AppConfig:
     listen_deep: bool = False
     listen_all: bool = False
     listen_transcript_enabled: bool = False  # Track if transcript listening is currently enabled
+    read_all: bool = False                  # If True, read all transcripts in event folder at once
 
     # Environment settings
     aws_region: Optional[str] = None
@@ -52,6 +53,7 @@ class AppConfig:
         parser.add_argument('--listen-insights', action='store_true', help='Enable insights listening at startup.')
         parser.add_argument('--listen-deep', action='store_true', help='Enable summary and insights listening at startup.')
         parser.add_argument('--listen-all', action='store_true', help='Enable all listening at startup.')
+        parser.add_argument('--all', action='store_true', help='Read all transcripts in the selected folder at launch, ignore further updates.')
         parser.add_argument('--event', type=str, default='0000', help='Event ID (default: 0000)')
         
         args = parser.parse_args()
@@ -83,6 +85,7 @@ class AppConfig:
             listen_deep=args.listen_deep,
             listen_all=args.listen_all,
             listen_transcript_enabled=False,  # Always start disabled, enable only when needed
+            read_all=args.all,
             # Environment variables
             aws_region=os.getenv('AWS_REGION'),
             aws_s3_bucket=os.getenv('AWS_S3_BUCKET'),

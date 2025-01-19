@@ -15,7 +15,7 @@ from config import AppConfig
 from web.web_chat import WebChat
 import xml.etree.ElementTree as ET
 from io import StringIO
-from utils.transcript_utils import TranscriptState, get_latest_transcript_file, read_new_transcript_content
+from utils.transcript_utils import TranscriptState, get_latest_transcript_file, read_new_transcript_content, read_all_transcripts_in_folder
 
 SESSION_START_TAG = '<session>'
 SESSION_END_TAG = '</session>'
@@ -88,6 +88,7 @@ def parse_arguments():
     parser.add_argument('--listen-all', action='store_true', help='Enable all listening at startup.')
     parser.add_argument('--interface-mode', choices=['cli', 'web', 'web_only'], default='cli', help='Interface mode.')
     parser.add_argument('--event', type=str, default='0000', help='Event ID for transcript folder (e.g., "20250116")')
+    parser.add_argument('--all', action='store_true', help='Read all transcripts from the folder once, then disable further transcript checks.')
     return parser.parse_args()
 
 def setup_logging(debug):
@@ -578,6 +579,7 @@ def display_help():
     print("--listen-deep  - Start with summary and insights listening enabled")
     print("--listen-insights - Start with insights listening enabled")
     print("--listen-transcript - Start with transcript listening enabled")
+    print("--all          - Read all transcripts from the folder once, then disable further transcript checks")
 
 def format_chat_history(messages):
     chat_content = ""
@@ -712,16 +714,33 @@ def main():
             transcript_state = TranscriptState()
             last_transcript_check = time.time()
             TRANSCRIPT_CHECK_INTERVAL = 5  # seconds
-            config.listen_transcript_enabled = config.listen_transcript  # Set from command line arg
 
-            # Only load initial content if --listen-transcript flag was used
-            if config.listen_transcript:
-                if check_transcript_updates(transcript_state, conversation_history, config.agent_name, config.event_id):
-                    print("Initial transcript loaded and listening mode activated")
-                    config.listen_transcript_enabled = True
+            # If --all is set, read all transcripts from the folder once, then disable further transcript checks
+            if config.read_all:
+                from utils.transcript_utils import read_all_transcripts_in_folder
+                all_content = read_all_transcripts_in_folder(config.agent_name, config.event_id)
+                if all_content:
+                    logging.debug("Loaded all transcripts from folder; appending to conversation history.")
+                    conversation_history.append({
+                        "role": "transcript",
+                        "content": all_content
+                    })
                 else:
-                    print("No initial transcript found, but listening mode activated")
-                last_transcript_check = time.time()
+                    logging.debug("No transcripts found in folder (or error).")
+                # Do not listen for new transcripts if we've loaded everything
+                config.listen_transcript_enabled = False
+                config.listen_transcript = False
+            else:
+                config.listen_transcript_enabled = config.listen_transcript  # Set from command line arg
+
+                # Only load initial content if --listen-transcript flag was used
+                if config.listen_transcript:
+                    if check_transcript_updates(transcript_state, conversation_history, config.agent_name, config.event_id):
+                        print("Initial transcript loaded and listening mode activated")
+                        config.listen_transcript_enabled = True
+                    else:
+                        print("No initial transcript found, but listening mode activated")
+                    last_transcript_check = time.time()
 
             print("\nUser: ", end='', flush=True)  # Initial prompt
             
