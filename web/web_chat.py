@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, render_template, current_app, Response
 from typing import Optional
-from utils.transcript_utils import TranscriptState, get_latest_transcript_file, read_new_transcript_content
+from utils.transcript_utils import TranscriptState, get_latest_transcript_file, read_new_transcript_content, read_all_transcripts_in_folder
 import threading
 from config import AppConfig
 import os
@@ -427,23 +427,33 @@ class WebChat:
                 return jsonify({'error': f'Error saving chat history: {str(e)}'}), 500
 
     def load_transcript(self):
-        """Load latest transcript from agent's transcript directory"""
+        """Load transcript(s) from the agent's event folder"""
         try:
-            # Import the transcript loading function from magic_chat
-            from magic_chat import get_latest_transcript_file
-            
-            transcript_key = get_latest_transcript_file(self.config.agent_name, self.config.event_id)
-            if transcript_key:
-                logging.debug(f"Found transcript file: {transcript_key}")
-                s3 = boto3.client('s3')
-                transcript_obj = s3.get_object(Bucket=self.config.aws_s3_bucket, Key=transcript_key)
-                transcript = transcript_obj['Body'].read().decode('utf-8')
-                if transcript:
-                    logging.debug(f"Loaded transcript, length: {len(transcript)}")
-                    self.transcript = transcript
-                    self.system_prompt += f"\n\nTranscript update: {transcript}"
+            if self.config.read_all:
+                # Load and append all transcripts at once
+                all_content = read_all_transcripts_in_folder(self.config.agent_name, self.config.event_id)
+                if all_content:
+                    logging.debug(f"Loaded all transcripts, total length: {len(all_content)}")
+                    self.transcript = all_content
+                    self.system_prompt += f"\n\nTranscript update (all): {all_content}"
                     logging.debug(f"Updated system prompt, new length: {len(self.system_prompt)}")
                     return True
+            else:
+                # Import the transcript loading function from magic_chat for single latest transcript
+                from magic_chat import get_latest_transcript_file
+                
+                transcript_key = get_latest_transcript_file(self.config.agent_name, self.config.event_id)
+                if transcript_key:
+                    logging.debug(f"Found transcript file: {transcript_key}")
+                    s3 = boto3.client('s3')
+                    transcript_obj = s3.get_object(Bucket=self.config.aws_s3_bucket, Key=transcript_key)
+                    transcript = transcript_obj['Body'].read().decode('utf-8')
+                    if transcript:
+                        logging.debug(f"Loaded transcript, length: {len(transcript)}")
+                        self.transcript = transcript
+                        self.system_prompt += f"\n\nTranscript update: {transcript}"
+                        logging.debug(f"Updated system prompt, new length: {len(self.system_prompt)}")
+                        return True
             
             return False
             
