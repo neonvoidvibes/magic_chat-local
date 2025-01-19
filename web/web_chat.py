@@ -432,7 +432,7 @@ class WebChat:
             # Import the transcript loading function from magic_chat
             from magic_chat import get_latest_transcript_file
             
-            transcript_key = get_latest_transcript_file(self.config.agent_name)
+            transcript_key = get_latest_transcript_file(self.config.agent_name, self.config.event_id)
             if transcript_key:
                 logging.debug(f"Found transcript file: {transcript_key}")
                 s3 = boto3.client('s3')
