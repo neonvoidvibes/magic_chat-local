@@ -727,9 +727,8 @@ def main():
                     })
                 else:
                     logging.debug("No transcripts found in folder (or error).")
-                # Do not listen for new transcripts if we've loaded everything
-                config.listen_transcript_enabled = False
-                config.listen_transcript = False
+                # After loading everything, keep rolling updates active
+                config.listen_transcript_enabled = config.listen_transcript
             else:
                 config.listen_transcript_enabled = config.listen_transcript  # Set from command line arg
 

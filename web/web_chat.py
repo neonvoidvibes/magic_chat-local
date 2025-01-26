@@ -435,12 +435,12 @@ class WebChat:
                 if all_content:
                     logging.debug(f"Loaded all transcripts, total length: {len(all_content)}")
                     self.transcript = all_content
-                    self.system_prompt += f"\n\nTranscript update (all): {all_content}"
+                    self.system_prompt += f"\\n\\nTranscript update (all): {all_content}"
                     logging.debug(f"Updated system prompt, new length: {len(self.system_prompt)}")
-                    return True
+                else:
+                    logging.debug("No transcripts found in folder (or error).")
+                # keep rolling updates
             else:
-                # Import the transcript loading function from magic_chat for single latest transcript
-                from magic_chat import get_latest_transcript_file
                 
                 transcript_key = get_latest_transcript_file(self.config.agent_name, self.config.event_id)
                 if transcript_key:
