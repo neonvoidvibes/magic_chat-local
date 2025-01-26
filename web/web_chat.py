@@ -29,7 +29,7 @@ def find_file_by_base(base_key, file_name):
             for obj in response['Contents']:
                 if obj['Key'].startswith(base_key) and obj['Key'] != base_key:
                     return obj['Key']
-        logging.error(f"Error finding {file_name} in S3: {e}")
+        logging.error(f"No matching file found in S3 for '{file_name}' with prefix '{base_key}'")
         return None
     except Exception as e:
         logging.error(f"Error finding {file_name} in S3: {e}")
