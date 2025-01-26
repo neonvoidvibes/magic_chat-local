@@ -179,6 +179,9 @@ def read_agent_docs(agent_name):
             
         docs = []
         for obj in response['Contents']:
+            # skip if it's the prefix itself or ends with a slash
+            if obj['Key'] == prefix or obj['Key'].endswith('/'):
+                continue
             content = read_file_content(obj['Key'], 'agent documentation')
             if content:
                 docs.append(content)
