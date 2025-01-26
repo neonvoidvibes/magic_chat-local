@@ -1,10 +1,10 @@
 /* Base gradient theme variables */
 :root {
-    --gradient-color-1: rgba(105, 219, 234, 0.5);
-    --gradient-color-2: rgba(52, 224, 204, 0.5);
-    --gradient-color-3: rgba(47, 255, 147, 0.5);
-    --gradient-color-4: rgba(13, 210, 82, 0.5);
-    --base-bg: #000000;
+    --gradient-color-1: rgba(105, 219, 234, 0.0);
+    --gradient-color-2: rgba(52, 224, 204, 0.0);
+    --gradient-color-3: rgba(47, 255, 147, 0.0);
+    --gradient-color-4: rgba(13, 210, 82, 0.0);
+    --base-bg: #0a0a0a;
 }
 
 /* Background toggle classes */

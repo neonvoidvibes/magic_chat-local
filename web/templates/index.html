@@ -7,7 +7,7 @@
     <title>Magic Chat - {{ agent_name }}</title>
     <style>
         :root {
-            --bg-color: #1a1a1a;
+            --bg-color: #0a0a0a;
             --base-bg: #0a0a0a;  /* Dark mode/evening default */
             --chat-bg: rgba(0, 0, 0, 0);  /* Fully transparent */
             --text-color: #f0f0f0;
@@ -57,7 +57,7 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            background-color: #0a0a0a;  /* Near-black background */
+            background-color: var(--base-bg);  /* Near-black background */
             /* background-image: url('../static/images/river_bg01.jpg'); */
             /* background-size: 100% 100%; */
             /* background-position: center; */
@@ -458,6 +458,9 @@
             white-space: pre-wrap;
             word-wrap: break-word;
             border: 4px solid transparent;
+            border-width: 1px;  /* Add default border width */
+            border-style: solid;  /* Add border style */
+            border-color: transparent;  /* Make it invisible by default */
         }
 
         @media (max-width: 600px) {
@@ -592,7 +595,7 @@
          - For gradient: class="bg-wrapper gradient-background"
          - For image: class="bg-wrapper use-image-bg"
     -->
-    <div id="bg-wrapper" class="bg-wrapper use-image-bg"></div>
+    <div id="bg-wrapper" class="bg-wrapper gradient-background"></div>
     <div id="chat-container">
         <h2>River AI Streamer</h2>
         <div id="chat-messages">
