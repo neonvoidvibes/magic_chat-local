@@ -30,9 +30,9 @@ MAX_MESSAGES = TOKEN_LIMIT // AVERAGE_TOKENS_PER_MESSAGE
 # Global transcript position tracker
 LAST_TRANSCRIPT_POS = 0
 
-def check_transcript_updates(transcript_state, conversation_history, agent_name, event_id):
+def check_transcript_updates(transcript_state, conversation_history, agent_name, event_id, read_all=False):
     logging.debug("Checking for transcript updates...")
-    new_content = read_new_transcript_content(transcript_state, agent_name, event_id)
+    new_content = read_new_transcript_content(transcript_state, agent_name, event_id, read_all=read_all)
     if new_content:
         logging.debug(f"Adding new transcript content: {new_content[:100]}...")
         conversation_history.append({
@@ -734,7 +734,7 @@ def main():
 
                 # Only load initial content if --listen-transcript flag was used
                 if config.listen_transcript:
-                    if check_transcript_updates(transcript_state, conversation_history, config.agent_name, config.event_id):
+                    if check_transcript_updates(transcript_state, conversation_history, config.agent_name, config.event_id, read_all=True):
                         print("Initial transcript loaded and listening mode activated")
                         config.listen_transcript_enabled = True
                     else:
@@ -749,7 +749,7 @@ def main():
                     # Check for transcript updates periodically if enabled
                     current_time = time.time()
                     if config.listen_transcript_enabled and current_time - last_transcript_check > TRANSCRIPT_CHECK_INTERVAL:
-                        if check_transcript_updates(transcript_state, conversation_history, config.agent_name, config.event_id):
+                        if check_transcript_updates(transcript_state, conversation_history, config.agent_name, config.event_id, read_all=config.read_all):
                             logging.debug("New transcript content added")
                         last_transcript_check = current_time
 
@@ -806,7 +806,7 @@ def main():
                                 # Enable transcript loading only for relevant commands
                                 if command in ['listen', 'listen-all', 'listen-transcript']:
                                     config.listen_transcript_enabled = True
-                                    if check_transcript_updates(transcript_state, conversation_history, config.agent_name, config.event_id):
+                                    if check_transcript_updates(transcript_state, conversation_history, config.agent_name, config.event_id, read_all=config.read_all):
                                         print("Transcript loaded and automatic listening mode activated.")
                                     else:
                                         print("No new transcript content found.")
