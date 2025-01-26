@@ -125,6 +125,14 @@ def get_latest_context(agent_name, event_id=None):
         logging.error(f"Error getting contexts: {e}")
         return None
 
+def get_agent_docs(agent_name):
+    try:
+        from magic_chat import get_agent_docs as get_docs
+        return get_docs(agent_name)
+    except Exception as e:
+        logging.error(f"Error getting agent documentation: {e}")
+        return None
+
 class WebChat:
     def __init__(self, config: AppConfig):
         self.config = config
@@ -153,16 +161,21 @@ class WebChat:
         if not system_prompt:
             logging.error("Failed to load system prompt")
             return
-            
+        
         # Add frameworks
         frameworks = get_latest_frameworks(self.config.agent_name)
         if frameworks:
             system_prompt += "\n\n## Frameworks\n" + frameworks
-            
+        
         # Add context
         context = get_latest_context(self.config.agent_name)  # Note: event_id not implemented yet
         if context:
             system_prompt += "\n\n## Context\n" + context
+        
+        # Add agent documentation
+        docs = get_agent_docs(self.config.agent_name)
+        if docs:
+            system_prompt += "\n\n## Agent Documentation\n" + docs
         
         # Store the system prompt
         self.system_prompt = system_prompt
