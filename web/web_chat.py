@@ -264,6 +264,8 @@ class WebChat:
                     full_response = ""
                     with self.client.messages.stream(
                         model="claude-3-5-sonnet-20241022",
+                        # model="claude-3-5-sonnet-20240620",
+                        # model="claude-3-5-haiku-20241022",
                         max_tokens=1024,
                         system=self.system_prompt,
                         messages=messages
