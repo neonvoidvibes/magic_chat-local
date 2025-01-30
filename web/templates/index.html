@@ -442,7 +442,7 @@
 
         #message-input {
             flex-grow: 1;
-            padding: 19px 78px 25px 70px;
+            padding: 15px 78px 20px 70px;  
             border: none;
             border-radius: 35px;
             font-size: 20px;
@@ -454,9 +454,9 @@
             resize: none;
             overflow-y: hidden;
             line-height: 28px;
-            height: 72px;
-            min-height: 72px;
-            max-height: calc(72px + (28px * 4));
+            height: 62px;  
+            min-height: 62px;  
+            max-height: calc(62px + (28px * 4));  
             box-sizing: border-box;
             display: block;
             white-space: pre-wrap;
@@ -661,7 +661,7 @@
         // Initialize message input and event handlers
         const messageInput = document.getElementById('message-input');
         const isMobile = window.innerWidth <= 600;
-        const initialHeight = isMobile ? '54px' : '72px';
+        const initialHeight = isMobile ? '54px' : '62px';
         messageInput.style.height = initialHeight;
 
         messageInput.addEventListener('input', function() {
