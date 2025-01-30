@@ -74,31 +74,32 @@
         }
 
         #chat-container {
-            background: rgba(0, 0, 0, 0);  /* Fully transparent */
+            background: rgba(0, 0, 0, 0);
             border-radius: 25px;
             box-shadow: 0;
-            padding: 35px 40px 17px 40px;
+            padding: 15px 40px 5px 40px;
             width: calc(95% - 80px);
             max-width: calc(1000px - 40px);
-            height: 87vh;
+            height: 97vh;
             display: flex;
             flex-direction: column;
-            overflow-x: hidden;
+            overflow: hidden;
+            margin-top: -3vh;
         }
 
         h2 {
             text-align: center;
-            margin: 0 0 10px 0;     /* top right bottom left */
+            margin: 10px 0 5px 0;  /* Increased top margin from 0 to 10px */
             font-size: 20px;
             color: var(--message-system-bg);
             font-weight: 100;
         }
 
         #chat-messages {
-            flex-grow: 1;
+            flex: 1;
             overflow-y: auto;
             overflow-x: hidden;
-            margin-bottom: 20px;
+            margin-bottom: 5px;
             padding: 20px 10px 20px 10px;
             border-radius: 25px;
             background: var(--input-bg);
@@ -106,6 +107,7 @@
             display: flex;
             flex-direction: column;
             position: relative;
+            padding-right: 10px;
         }
 
         #chat-messages.thinking {
@@ -307,6 +309,8 @@
             gap: 10px;
             position: relative;
             padding: 0 10px;
+            margin-bottom: 8px;  
+            transform: translateY(0);
         }
 
         .action-buttons {
@@ -458,9 +462,9 @@
             white-space: pre-wrap;
             word-wrap: break-word;
             border: 4px solid transparent;
-            border-width: 1px;  /* Add default border width */
-            border-style: solid;  /* Add border style */
-            border-color: transparent;  /* Make it invisible by default */
+            border-width: 1px;
+            border-style: solid;
+            border-color: transparent;
         }
 
         @media (max-width: 600px) {
@@ -533,8 +537,11 @@
         #status-bar {
             font-size: 16px;
             color: var(--status-bar);
-            margin-top: 14px;
+            margin: 0 0 5px 0;
             text-align: center;
+            transform: translateY(0);
+            position: relative;
+            z-index: 100;
         }
 
         .waiting {
