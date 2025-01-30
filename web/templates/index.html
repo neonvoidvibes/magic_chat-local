@@ -442,7 +442,7 @@
 
         #message-input {
             flex-grow: 1;
-            padding: 15px 78px 20px 70px;  
+            padding: 18px 78px 20px 70px;
             border: none;
             border-radius: 35px;
             font-size: 20px;
@@ -450,13 +450,13 @@
             color: var(--text-color);
             outline: none;
             font-family: 'Avenir Next', 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            font-weight: 300;  /* Changed from 100 */
+            font-weight: 300;
             resize: none;
             overflow-y: hidden;
-            line-height: 28px;
-            height: 62px;  
-            min-height: 62px;  
-            max-height: calc(62px + (28px * 4));  
+            line-height: 24px;
+            height: 62px;
+            min-height: 62px;
+            max-height: calc(62px + (24px * 4));
             box-sizing: border-box;
             display: block;
             white-space: pre-wrap;
@@ -666,7 +666,7 @@
 
         messageInput.addEventListener('input', function() {
             this.style.height = initialHeight;
-            const lineHeight = isMobile ? 20 : 28;
+            const lineHeight = isMobile ? 20 : 24;
             const maxHeight = parseInt(initialHeight) + (lineHeight * 4);
             this.style.height = Math.min(this.scrollHeight, maxHeight) + 'px';
         });
