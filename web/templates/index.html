@@ -14,17 +14,19 @@
             --input-bg: transparent;
             --input-field-bg: rgba(252, 252, 252, 0.5);
             --accent-color: transparent;
-            --accent-color-hover: rgb(222, 221, 221);
-            --action-color: rgb(85, 85, 85);  /* Dark icon color */
+            --accent-color-hover: #EEC2A7;
+            --action-color: rgb(137, 137, 137);  /* Dark icon color */
             --action-color-hover: rgb(20, 20, 20);  /* Even darker on hover */
-            --trigger-color: #a7a7a7;
-            --trigger-color-hover: #a7a7a7;
+            --trigger-color: #c79375;
+            --trigger-color-hover: #c79375;
             /* --message-user-bg: #292929; */
             --message-user-bg: rgba(252, 252, 252, 0.5);
             --message-assistant-bg: transparent;
             /* --message-system-bg: #4a4a4a; */
-            --message-system-bg: #898989;
-            --status-bar: #a3a3a3;
+            --message-system-bg: #ffffff;
+            --status-bar: #b89581;
+            --send-button: #c79375;  /* New variable for send button arrow color */
+            --placeholder-color: #c9b69b;  /* New variable for input placeholder */
         }
 
         @font-face {
@@ -384,14 +386,14 @@
 
         @media (min-width: 601px) {
             .action-buttons {
-                left: 32px;
+                left: 22px;
                 gap: 8px;
             }
         }
 
         @media (max-width: 600px) {
             .action-buttons {
-                left: 23px;
+                left: 20px;
                 gap: 8px;
                 bottom: 9px;
             }
@@ -489,7 +491,7 @@
         }
 
         #message-input::placeholder {
-            color: #898989
+            color: var(--placeholder-color);
         }
 
         #send-button {
@@ -500,7 +502,7 @@
             height: 42px;
             border-radius: 50%;
             background: var(--accent-color);
-            color: rgb(70, 70, 70);  /* Darker arrow color */
+            color: var(--send-button);  /* Using the new variable */
             border: none;
             cursor: pointer;
             display: flex;
