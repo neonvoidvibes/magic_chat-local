@@ -50,7 +50,7 @@ def main():
     parser = argparse.ArgumentParser(description='Embed text files into Pinecone')
     parser.add_argument('file', help='Path to text file to embed')
     parser.add_argument('--agent', required=True, help='Agent name (e.g., "river")')
-    parser.add_argument('--index', default='chat-docs-index', help='Pinecone index name')
+    parser.add_argument('--index', default='magicchat', help='Pinecone index name')
     parser.add_argument('--event', help='Optional event ID for metadata filtering')
 
     args = parser.parse_args()

@@ -14,7 +14,7 @@ class RetrievalHandler:
 
     def __init__(
         self,
-        index_name: str = "chat-docs-index",
+        index_name: str = "magicchat"
         agent_name: str = None,  # We'll use this as the namespace
         top_k: int = 5
     ):

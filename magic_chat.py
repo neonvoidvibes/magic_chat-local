@@ -641,7 +641,7 @@ def main():
 
             # Initialize retrieval handler with agent namespace
             retriever = RetrievalHandler(
-                index_name="chat-docs-index",
+                index_name="magicchat",
                 agent_name=config.agent_name  # Pass agent name for namespace
             )
 
