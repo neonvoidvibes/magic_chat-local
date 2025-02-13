@@ -13,6 +13,15 @@ except ImportError:
 import logging
 from typing import List, Optional, Dict, Any
 import pinecone
+try:
+    from langchain_core import utils as lc_utils
+    if not hasattr(lc_utils, "from_env"):
+         lc_utils.from_env = lambda key, default=None: default
+    if not hasattr(lc_utils, "secret_from_env"):
+         lc_utils.secret_from_env = lambda key, default=None: default
+except Exception as e:
+    pass
+
 from langchain_openai import OpenAIEmbeddings
 from .document_handler import DocumentHandler
 from .pinecone_utils import init_pinecone, create_or_verify_index
