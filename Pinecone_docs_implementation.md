@@ -201,11 +201,37 @@ Key security features:
 - Retrieval always requires agent_name filter
 
 ### D. CLI Usage with Agent Context
+
+The CLI tool requires an `--agent` flag to properly map documents to specific agents:
+
 ```bash
-# Embed a document for specific agent
+# Basic usage - embedding a file for a specific agent
 python utils/cli_embed.py path/to/file.txt --agent river
 
-# Verify embedding (optional)
+# With optional parameters
+python utils/cli_embed.py path/to/file.txt --agent river --index my-index-name --namespace docs
+```
+
+This ensures:
+- Documents are tagged with the correct agent metadata
+- Agent path structure mirrors S3: `organizations/river/agents/{agent_name}/docs/`
+- Only the specified agent can access these documents
+- Metadata includes full agent path for verification
+
+Example metadata structure:
+```python
+metadata = {
+    'agent_path': f'organizations/river/agents/{agent_name}/docs/',
+    'agent_name': agent_name,
+    'file_name': file_name,
+    'source': 'manual_upload'
+}
+```
+
+### Verifying Agent Access
+You can verify embedding access:
+```bash
+# Verify embeddings for an agent
 python utils/cli_embed.py --verify --agent river
 ```
 
