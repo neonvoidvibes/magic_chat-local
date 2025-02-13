@@ -19,11 +19,10 @@ class RetrievalHandler:
     def __init__(
         self,
         index_name: str = "chat-docs-index",
-        agent_name: str = None,  # We'll use this as the namespace
+        agent_name: str = None,
         top_k: int = 5
     ):
-        """Initialize retrieval handler with agent namespace.
-
+        """
         Args:
             index_name: Name of the Pinecone index
             agent_name: Namespace for the agent
@@ -40,14 +39,14 @@ class RetrievalHandler:
         if not init_pinecone():
             raise RuntimeError("Failed to initialize Pinecone")
 
-        # Create vector store instance
-        # This wraps a pinecone.Index object but avoids the problematic
-        # PineconeHybridSearchRetriever from langchain_community.
-        index = pinecone.Index(index_name)
+        # Classic usage: pinecone.Index(...)
+        self.index = pinecone.Index(index_name)
+
+        # Create vector store with the old langchain.vectorstores.Pinecone
         self.vectorstore = PineconeVectorStore(
-            index=index,
+            index=self.index,
             embedding_function=self.embeddings,
-            text_key="content",        # Our chunk text is stored under metadata['content']
+            text_key="content",
             namespace=self.namespace
         )
 
@@ -63,36 +62,25 @@ class RetrievalHandler:
         filter_metadata: Optional[Dict[str, Any]] = None
     ) -> List[Dict[str, Any]]:
         """
-        Retrieve the most relevant chunks for `query`. Optionally accept a metadata filter.
+        Retrieve the most relevant chunks for `query`. Optionally accept metadata filter.
 
         Returns:
-            A list of dicts containing:
-              {
-                'content': chunk text,
-                'metadata': {...},
-                'score': similarity score or 0.0
-              }
+            A list of dicts with 'content', 'metadata', 'score'
         """
         try:
-            # If we want to apply metadata-based filtering, pass it to search
-            # but the standard "as_retriever" approach doesn't handle a "filter" param by default.
-            # We can implement it if needed; for now, ignoring filter_metadata or do a manual post-filter.
-
+            # We won't do metadata-based filtering automatically here,
+            # since the built-in as_retriever doesn't handle a "filter" param by default.
             docs: List[Document] = self.retriever.get_relevant_documents(query)
 
             results = []
             for doc in docs:
-                # doc.page_content is the chunk text
-                # doc.metadata is the stored metadata
-                # 'score' is not always provided by default; we can store it in metadata if needed
                 metadata = dict(doc.metadata)
                 content = doc.page_content
-                # We won't have a raw "score" from similarity unless we store it in doc.metadata,
-                # so let's just default to 0.0
+                score = metadata.get("score", 0.0)  # fallback
                 results.append({
                     "content": content,
                     "metadata": metadata,
-                    "score": metadata.get("score", 0.0)  # fallback
+                    "score": score
                 })
 
             logger.info(f"Retrieved {len(results)} relevant contexts for query")
@@ -108,14 +96,11 @@ class RetrievalHandler:
         (Placeholder for user-specified summarization approach.)
         """
         try:
-            # Basic approach: get top docs, combine, then truncate
             contexts = self.get_relevant_context(query)
             if not contexts:
                 return None
-
             combined_text = "\n\n".join(c["content"] for c in contexts)
-            # No real summarization logic yet; just truncate
-            truncated = combined_text[: max_tokens * 4]  # rough char estimate
+            truncated = combined_text[: max_tokens * 4]
             return truncated
 
         except Exception as e:
