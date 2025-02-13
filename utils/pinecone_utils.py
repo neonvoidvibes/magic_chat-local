@@ -3,76 +3,70 @@ import os
 import time
 import logging
 from typing import Optional
-import pinecone
 from dotenv import load_dotenv
+from pinecone import Pinecone, ServerlessSpec
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def init_pinecone() -> bool:
-    """Initialize Pinecone with environment variables.
+def init_pinecone() -> Optional[Pinecone]:
+    """Initialize Pinecone with environment variables and return a Pinecone instance.
     
     Returns:
-        bool: True if initialization successful, False otherwise
+        Pinecone instance if initialization is successful, None otherwise.
     """
     try:
+        load_dotenv()  # Ensure environment variables are loaded
         api_key = os.getenv('PINECONE_API_KEY')
+        # Use PINECONE_ENVIRONMENT for compatibility, but for region use a separate variable if needed.
         environment = os.getenv('PINECONE_ENVIRONMENT', 'us-east1-gcp')
         
         if not api_key:
             logger.error("PINECONE_API_KEY not found in environment variables")
-            return False
-            
-        pinecone.init(api_key=api_key, environment=environment)
-        logger.info(f"Pinecone initialized with environment: {environment}")
-        return True
+            return None
         
+        # Create a Pinecone instance using the new API.
+        pc = Pinecone(api_key=api_key, environment=environment)
+        logger.info(f"Pinecone initialized with environment: {environment}")
+        return pc
     except Exception as e:
         logger.error(f"Error initializing Pinecone: {e}")
-        return False
+        return None
 
 def create_or_verify_index(
     index_name: str = "chat-docs-index",
     dimension: int = 1536,  # OpenAI ada-002 dimension
-    metric: str = "cosine",
-) -> Optional[pinecone.Index]:
-    """Create a new Pinecone index if it doesn't exist, or verify and return existing one.
+    metric: str = "cosine"
+) -> Optional[object]:
+    """Create a new Pinecone index if it doesn't exist, or verify and return the existing index.
     
-    Args:
-        index_name: Name for the index
-        dimension: Vector dimension (1536 for OpenAI ada-002)
-        metric: Distance metric for similarity search
-        
     Returns:
-        pinecone.Index if successful, None if failed
+        The index object if successful, None otherwise.
     """
     try:
-        # Initialize Pinecone if not already done
-        if not init_pinecone():
+        pc = init_pinecone()
+        if not pc:
             return None
-            
-        # Check if index already exists
-        if index_name in pinecone.list_indexes():
+        indexes = pc.list_indexes().names()
+        if index_name in indexes:
             logger.info(f"Index '{index_name}' already exists")
-            return pinecone.Index(index_name)
-            
-        # Create new index (serverless mode)
+            return pc.Index(index_name)
         logger.info(f"Creating new index '{index_name}'...")
-        pinecone.create_index(
+        # Use a region value; if not set, default to environment value or 'us-east1-gcp'
+        region = os.getenv('PINECONE_REGION', 'us-east1-gcp')
+        pc.create_index(
             name=index_name,
             dimension=dimension,
-            metric=metric
+            metric=metric,
+            spec=ServerlessSpec(cloud='aws', region=region)
         )
-        
-        # Wait for index to be ready
-        while not pinecone.describe_index(index_name).status.get("ready", False):
+        # Wait for the index to be ready
+        while not pc.describe_index(index_name).status.get("ready", False):
             logger.info("Waiting for index to be ready...")
             time.sleep(1)
-            
         logger.info(f"Index '{index_name}' created successfully")
-        return pinecone.Index(index_name)
-        
+        return pc.Index(index_name)
     except Exception as e:
         logger.error(f"Error creating/verifying index: {e}")
         return None
@@ -80,24 +74,20 @@ def create_or_verify_index(
 def delete_index(index_name: str) -> bool:
     """Delete a Pinecone index.
     
-    Args:
-        index_name: Name of the index to delete
-        
     Returns:
-        bool: True if successful, False otherwise
+        True if deletion is successful, False otherwise.
     """
     try:
-        if not init_pinecone():
+        pc = init_pinecone()
+        if not pc:
             return False
-            
-        if index_name in pinecone.list_indexes():
-            pinecone.delete_index(index_name)
+        if index_name in pc.list_indexes().names():
+            pc.delete_index(index_name)
             logger.info(f"Index '{index_name}' deleted successfully")
             return True
         else:
             logger.warning(f"Index '{index_name}' does not exist")
             return False
-            
     except Exception as e:
         logger.error(f"Error deleting index: {e}")
         return False
@@ -105,25 +95,20 @@ def delete_index(index_name: str) -> bool:
 def get_index_stats(index_name: str) -> Optional[dict]:
     """Get statistics for a Pinecone index.
     
-    Args:
-        index_name: Name of the index
-        
     Returns:
-        dict: Index statistics if successful, None if failed
+        A dictionary of index statistics if successful, None otherwise.
     """
     try:
-        if not init_pinecone():
+        pc = init_pinecone()
+        if not pc:
             return None
-            
-        if index_name not in pinecone.list_indexes():
+        if index_name not in pc.list_indexes().names():
             logger.warning(f"Index '{index_name}' does not exist")
             return None
-            
-        index = pinecone.Index(index_name)
+        index = pc.Index(index_name)
         stats = index.describe_index_stats()
         logger.info(f"Retrieved stats for index '{index_name}'")
         return stats
-        
     except Exception as e:
         logger.error(f"Error getting index stats: {e}")
         return None
