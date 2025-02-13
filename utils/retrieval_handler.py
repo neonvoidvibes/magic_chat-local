@@ -51,13 +51,15 @@ class RetrievalHandler:
     def get_relevant_context(
         self,
         query: str,
+        agent_name: str,
         filter_metadata: Optional[Dict[str, Any]] = None
     ) -> List[Dict[str, Any]]:
-        """Retrieve relevant document chunks for a query.
+        """Retrieve relevant document chunks for a query, filtered by agent.
         
         Args:
             query: Search query text
-            filter_metadata: Optional metadata filters
+            agent_name: Name of agent to filter documents
+            filter_metadata: Additional optional metadata filters
             
         Returns:
             List of relevant document chunks with metadata
@@ -66,10 +68,17 @@ class RetrievalHandler:
             # Generate query embedding
             vector = self.embeddings.embed_query(query)
             
-            # Query index
+            # Combine agent filter with any additional filters
+            agent_filter = {
+                "agent_name": agent_name
+            }
+            if filter_metadata:
+                agent_filter.update(filter_metadata)
+            
+            # Query index with agent filter
             results = self.index.query(
                 vector=vector,
-                filter=filter_metadata,
+                filter=agent_filter,
                 namespace=self.namespace,
                 top_k=self.top_k,
                 include_metadata=True

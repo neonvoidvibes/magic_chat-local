@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, render_template, current_app, Response
 from typing import Optional
 from utils.transcript_utils import TranscriptState, get_latest_transcript_file, read_new_transcript_content, read_all_transcripts_in_folder
+from utils.retrieval_handler import RetrievalHandler
 import threading
 from config import AppConfig
 import os
@@ -144,6 +145,10 @@ class WebChat:
         self.frameworks = None
         self.transcript = None
         self.system_prompt = None
+        self.retriever = RetrievalHandler(
+            index_name="chat-docs-index",
+            namespace=None
+        )
         
         # Initialize chat filename with timestamp at session start
         timestamp = datetime.now().strftime('%Y%m%d-T%H%M%S')
@@ -154,6 +159,21 @@ class WebChat:
         
         self.load_resources()
         
+    def get_document_context(self, query: str):
+        """Get relevant document context for query, enforcing agent access"""
+        try:
+            contexts = self.retriever.get_relevant_context(
+                query=query,
+                agent_name=self.config.agent_name,
+                filter_metadata={
+                    'source': 'manual_upload'
+                }
+            )
+            return contexts
+        except Exception as e:
+            logging.error(f"Error retrieving document context: {e}")
+            return None
+
     def load_resources(self):
         """Load context, frameworks, and transcript from S3"""
         # Load and combine system prompts
@@ -253,6 +273,13 @@ class WebChat:
                     'timestamp': current_timestamp
                 })
                 logging.debug(f"Added user message to history. Total messages: {len(self.chat_history)}")
+                # Get relevant document context
+                relevant_context = self.get_document_context(data['message'])
+                current_system_prompt = self.system_prompt
+                if relevant_context:
+                    context_text = "\n\n".join(c['content'] for c in relevant_context)
+                    current_system_prompt += f"\n\nRelevant context:\n{context_text}"
+
                 # Build conversation history from previous messages
                 messages = []
                 for chat in self.chat_history:
@@ -267,7 +294,7 @@ class WebChat:
                         # model="claude-3-5-sonnet-20240620",
                         # model="claude-3-5-haiku-20241022",
                         max_tokens=1024,
-                        system=self.system_prompt,
+                        system=current_system_prompt,
                         messages=messages
                     ) as stream:
                         for text in stream.text_stream:

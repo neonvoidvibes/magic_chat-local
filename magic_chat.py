@@ -11,6 +11,8 @@ import boto3
 import json
 from models import InsightsOutput
 from dotenv import load_dotenv
+from typing import Optional
+from retrieval import RetrievalHandler
 from config import AppConfig
 from web.web_chat import WebChat
 import xml.etree.ElementTree as ET
@@ -637,6 +639,25 @@ def main():
         
             client = Anthropic(api_key=ANTHROPIC_API_KEY)
 
+            # Initialize retrieval handler for document context
+            retriever = RetrievalHandler(
+                index_name="chat-docs-index",
+                namespace=None
+            )
+
+            def get_document_context(query: str) -> Optional[str]:
+                """Get relevant document context for query, enforcing agent access"""
+                contexts = retriever.get_relevant_context(
+                    query=query,
+                    agent_name=config.agent_name,  # Required: enforces agent-specific access
+                    filter_metadata={
+                        'source': 'manual_upload'
+                    }
+                )
+                if contexts:
+                    return "\n\n".join(c['content'] for c in contexts)
+                return None
+
             # Initialize conversation with system messages
             conversation_history = []
 
@@ -832,7 +853,16 @@ def main():
                         conversation_history.append({"role": "user", "content": user_content})
                         
                         try:
-                            response = analyze_with_claude(client, conversation_history, system_prompt)
+                            # Add relevant context to the system prompt
+                            relevant_context = get_document_context(user_input)
+                            if relevant_context:
+                                conversation_context = f"\n\nRelevant context:\n{relevant_context}"
+                                temp_system_prompt = system_prompt + conversation_context
+                            else:
+                                temp_system_prompt = system_prompt
+
+                            # Use temp_system_prompt when calling Claude
+                            response = analyze_with_claude(client, conversation_history, temp_system_prompt)
                             if response is None:
                                 print("\nUser: ", end='', flush=True)
                                 continue

@@ -161,6 +161,60 @@ This manual approach:
 - Provides direct control over embedding process
 - Makes testing and verification straightforward
 
+## 5. Document Organization & Access Control
+
+### A. Agent-Specific Document Organization
+Documents in Pinecone are organized using metadata to mirror the S3 structure:
+
+```python
+metadata = {
+    'agent_path': f'organizations/river/agents/{agent_name}/docs/',
+    'agent_name': agent_name,
+    'file_name': file_name,
+    'source': 'manual_upload'
+}
+```
+
+### B. Metadata Structure
+Each vector includes metadata that:
+- Maps to S3 paths for consistency
+- Identifies the owning agent
+- Tracks document source and file name
+- Enables filtering and access control
+
+### C. Access Control Implementation
+```python
+def get_agent_retriever(agent_name, vectorstore):
+    """
+    Creates a filtered retriever for specific agent access
+    """
+    search_kwargs = {
+        "filter": {"agent_name": agent_name}
+    }
+    return vectorstore.as_retriever(search_kwargs=search_kwargs)
+```
+
+Key security features:
+- Each agent can only access its own documents
+- Enforced through metadata filtering during retrieval
+- No cross-agent access possible
+- Retrieval always requires agent_name filter
+
+### D. CLI Usage with Agent Context
+```bash
+# Embed a document for specific agent
+python utils/cli_embed.py path/to/file.txt --agent river
+
+# Verify embedding (optional)
+python utils/cli_embed.py --verify --agent river
+```
+
+### E. Security Best Practices
+- Always include agent_name in metadata
+- Always filter queries by agent_name
+- No default/fallback access - explicit agent required
+- Maintains isolation between agent document sets
+
 ## Note on Architecture
 
 This implementation intentionally separates document storage (S3) from vector embeddings (Pinecone):
@@ -177,7 +231,7 @@ This separation allows for:
 
 ---
 
-## 5. Chat Agent Integration
+## 6. Chat Agent Integration
 
 ### A. Initialize the Retriever
 - **Using LangChain’s Abstraction:**  
@@ -219,7 +273,7 @@ This separation allows for:
 
 ---
 
-## 6. Testing, Deployment, and Monitoring
+## 7. Testing, Deployment, and Monitoring
 
 ### A. Local Testing
 - **Simulate File Upload:**  
