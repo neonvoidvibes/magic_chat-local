@@ -31,7 +31,7 @@ def embed_file(file_path: str, agent_name: str, index_name: str, metadata: dict 
             'agent_path': f'organizations/river/agents/{agent_name}/docs/',
             'file_name': Path(file_path).name,
             'source': 'manual_upload',
-            **metadata or {}
+            **(metadata or {})
         }
             
         # Embed and upsert with metadata
