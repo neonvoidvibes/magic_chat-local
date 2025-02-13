@@ -89,11 +89,13 @@ class EmbeddingHandler:
                 if not vector:
                     continue
                     
-                # Create vector record
+                # Create vector record with standardized metadata field
                 vector_id = f"{metadata.get('file_name', 'doc')}_{chunk['metadata']['chunk_index']}"
                 vector_metadata = {
                     **chunk['metadata'],
-                    'content': chunk['content']  # Store text for retrieval
+                    'content': chunk['content'],  # Consistent content field for retrieval
+                    'file_name': metadata.get('file_name', 'unknown'),  # Ensure file_name is present
+                    'source': metadata.get('source', 'manual_upload')
                 }
                 vectors.append((vector_id, vector, vector_metadata))
                 
@@ -120,12 +122,35 @@ class EmbeddingHandler:
             bool indicating success
         """
         try:
-            # Delete vectors by matching metadata
-            self.index.delete(
-                filter={"file_name": file_name},
-                namespace=self.namespace
+            # Delete vectors both by file_name filter and by vector IDs
+            # First get all vectors matching the file name
+            vector_ids = []
+            filter_query = {"file_name": file_name}
+            fetch_response = self.index.query(
+                vector=[0] * 1536,  # Dummy vector for metadata-only query
+                filter=filter_query,
+                namespace=self.namespace,
+                top_k=10000,  # Large enough to get all matches
+                include_metadata=True
             )
-            logger.info(f"Deleted vectors for document: {file_name}")
+            
+            if fetch_response.matches:
+                # Collect vector IDs
+                vector_ids = [match.id for match in fetch_response.matches]
+                
+                # Delete by IDs for precise removal
+                self.index.delete(
+                    ids=vector_ids,
+                    namespace=self.namespace
+                )
+                
+                # Also delete by filter as backup
+                self.index.delete(
+                    filter=filter_query,
+                    namespace=self.namespace
+                )
+                
+            logger.info(f"Deleted {len(vector_ids)} vectors for document: {file_name}")
             return True
             
         except Exception as e:

@@ -44,7 +44,7 @@ class RetrievalHandler:
         self.retriever = PineconeHybridSearchRetriever(
             embeddings=self.embeddings,
             index=self.index,
-            namespace=namespace,
+            namespace=self.namespace,  # Fixed: Use self.namespace
             top_k=top_k
         )
         

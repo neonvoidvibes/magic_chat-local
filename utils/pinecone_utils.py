@@ -39,9 +39,6 @@ def create_or_verify_index(
     index_name: str = "chat-docs-index",
     dimension: int = 1536,  # OpenAI ada-002 dimension
     metric: str = "cosine",
-    pods: int = 1,
-    replicas: int = 1,
-    pod_type: str = "p1.x1"
 ) -> Optional[pinecone.Index]:
     """Create a new Pinecone index if it doesn't exist, or verify and return existing one.
     
@@ -49,9 +46,6 @@ def create_or_verify_index(
         index_name: Name for the index
         dimension: Vector dimension (1536 for OpenAI ada-002)
         metric: Distance metric for similarity search
-        pods: Number of pods for the index
-        replicas: Number of replicas for redundancy
-        pod_type: Pinecone pod type for the index
         
     Returns:
         pinecone.Index if successful, None if failed
@@ -66,15 +60,12 @@ def create_or_verify_index(
             logger.info(f"Index '{index_name}' already exists")
             return pinecone.Index(index_name)
             
-        # Create new index
+        # Create new index (serverless mode)
         logger.info(f"Creating new index '{index_name}'...")
         pinecone.create_index(
             name=index_name,
             dimension=dimension,
-            metric=metric,
-            pods=pods,
-            replicas=replicas,
-            pod_type=pod_type
+            metric=metric
         )
         
         # Wait for index to be ready
