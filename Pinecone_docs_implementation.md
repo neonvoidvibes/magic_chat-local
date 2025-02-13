@@ -116,11 +116,11 @@ def embed_and_upsert(text, file_name, index_name, namespace=None):
 The project includes a command-line tool for manually embedding text files into Pinecone:
 
 ```bash
-# Basic usage
-python utils/cli_embed.py path/to/file.txt
+# Basic usage - embedding a file for a specific agent
+python utils/cli_embed.py path/to/file.txt --agent river
 
 # With optional parameters
-python utils/cli_embed.py path/to/file.txt --index my-index-name --namespace docs
+python utils/cli_embed.py path/to/file.txt --agent river --index my-index-name --namespace docs
 ```
 
 ### B. Text Chunking Strategy
