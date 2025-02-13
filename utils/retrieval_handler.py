@@ -2,7 +2,7 @@
 import logging
 from typing import List, Optional, Dict, Any
 from langchain_openai import OpenAIEmbeddings
-from langchain_pinecone import Pinecone as PineconeVectorStore
+from langchain.vectorstores import Pinecone as PineconeVectorStore
 from utils.pinecone_utils import init_pinecone
 
 # Configure logging
@@ -57,7 +57,8 @@ class RetrievalHandler:
     def get_relevant_context(
         self,
         query: str,
-        filter_metadata: Optional[Dict[str, Any]] = None
+        filter_metadata: Optional[Dict[str, Any]] = None,
+        top_k: Optional[int] = None
     ) -> List[Dict[str, Any]]:
         """
         Retrieve the most relevant chunks for `query`.
@@ -67,7 +68,15 @@ class RetrievalHandler:
             A list of dicts with keys: 'content', 'metadata', 'score'
         """
         try:
-            docs = self.retriever.get_relevant_documents(query)
+            if top_k is None:
+                docs = self.retriever.get_relevant_documents(query)
+            else:
+                temp_retriever = self.vectorstore.as_retriever(
+                    search_type="similarity",
+                    search_kwargs={"k": top_k}
+                )
+                docs = temp_retriever.get_relevant_documents(query)
+
             results = []
             for doc in docs:
                 metadata = dict(doc.metadata)
