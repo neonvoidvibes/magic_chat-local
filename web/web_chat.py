@@ -146,7 +146,7 @@ class WebChat:
         self.transcript = None
         self.system_prompt = None
         self.retriever = RetrievalHandler(
-            index_name="chat-docs-index",
+            index_name="magicchat",
             agent_name=config.agent_name  # Pass agent name for namespace
         )
         
