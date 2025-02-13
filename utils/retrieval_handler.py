@@ -1,12 +1,8 @@
 """Utilities for retrieving relevant document context for chat."""
 import logging
 from typing import List, Optional, Dict, Any
-
-import pinecone
 from langchain_openai import OpenAIEmbeddings
-from langchain.vectorstores import Pinecone as PineconeVectorStore
-from langchain.schema import Document
-
+from langchain_community.vectorstores import Pinecone as PineconeVectorStore
 from utils.pinecone_utils import init_pinecone
 
 # Configure logging
@@ -14,15 +10,16 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class RetrievalHandler:
-    """Handles document retrieval for chat context using a standard Pinecone vector store."""
+    """Handles document retrieval for chat context."""
 
     def __init__(
         self,
         index_name: str = "chat-docs-index",
-        agent_name: str = None,
+        agent_name: str = None,  # We'll use this as the namespace
         top_k: int = 5
     ):
-        """
+        """Initialize retrieval handler with agent namespace.
+
         Args:
             index_name: Name of the Pinecone index
             agent_name: Namespace for the agent
@@ -35,14 +32,15 @@ class RetrievalHandler:
         # Initialize embeddings
         self.embeddings = OpenAIEmbeddings()
 
-        # Ensure Pinecone is up
-        if not init_pinecone():
+        # Use the new Pinecone class-based usage
+        pc = init_pinecone()
+        if not pc:
             raise RuntimeError("Failed to initialize Pinecone")
 
-        # Classic usage: pinecone.Index(...)
-        self.index = pinecone.Index(index_name)
+        # Create or retrieve the actual index object
+        self.index = pc.Index(self.index_name)
 
-        # Create vector store with the old langchain.vectorstores.Pinecone
+        # Create the LangChain vector store
         self.vectorstore = PineconeVectorStore(
             index=self.index,
             embedding_function=self.embeddings,
@@ -62,21 +60,20 @@ class RetrievalHandler:
         filter_metadata: Optional[Dict[str, Any]] = None
     ) -> List[Dict[str, Any]]:
         """
-        Retrieve the most relevant chunks for `query`. Optionally accept metadata filter.
+        Retrieve the most relevant chunks for `query`.
+        Currently ignoring filter_metadata for the default similarity search.
 
         Returns:
-            A list of dicts with 'content', 'metadata', 'score'
+            A list of dicts with keys: 'content', 'metadata', 'score'
         """
         try:
-            # We won't do metadata-based filtering automatically here,
-            # since the built-in as_retriever doesn't handle a "filter" param by default.
-            docs: List[Document] = self.retriever.get_relevant_documents(query)
-
+            docs = self.retriever.get_relevant_documents(query)
             results = []
             for doc in docs:
                 metadata = dict(doc.metadata)
                 content = doc.page_content
-                score = metadata.get("score", 0.0)  # fallback
+                # Score is not guaranteed unless stored in metadata
+                score = metadata.get("score", 0.0)
                 results.append({
                     "content": content,
                     "metadata": metadata,
@@ -90,18 +87,23 @@ class RetrievalHandler:
             logger.error(f"Error retrieving context: {e}")
             return []
 
-    def get_contextual_summary(self, query: str, max_tokens: int = 1000) -> Optional[str]:
+    def get_contextual_summary(
+        self,
+        query: str,
+        max_tokens: int = 1000
+    ) -> Optional[str]:
         """
-        Generate a summary from the retrieved chunks for `query`.
-        (Placeholder for user-specified summarization approach.)
+        Generate a summary of relevant context for a query.
+        (This is a placeholder method without real summarization logic.)
         """
         try:
             contexts = self.get_relevant_context(query)
             if not contexts:
                 return None
+
             combined_text = "\n\n".join(c["content"] for c in contexts)
-            truncated = combined_text[: max_tokens * 4]
-            return truncated
+            # Just truncating for now
+            return combined_text[: max_tokens * 4]
 
         except Exception as e:
             logger.error(f"Error generating context summary: {e}")
