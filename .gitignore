@@ -9,4 +9,4 @@ anthropic_api_key.txt
 /live
 __pycache__/
 *.pyc
-claude_chat
+claude_chat.log

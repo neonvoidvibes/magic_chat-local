@@ -393,14 +393,14 @@
 
         @media (max-width: 600px) {
             .action-buttons {
-                left: 20px;
+                left: 22px;
                 gap: 8px;
-                bottom: 9px;
+                bottom: 12px;
             }
 
             #menu-trigger {
-                width: 36px;
-                height: 36px;
+                width: 31px;
+                height: 31px;
             }
 
             #send-button {
@@ -662,9 +662,21 @@
 
         // Initialize message input and event handlers
         const messageInput = document.getElementById('message-input');
-        const isMobile = window.innerWidth <= 600;
-        const initialHeight = isMobile ? '54px' : '62px';
+        let isMobile = window.innerWidth <= 600;
+        let initialHeight = isMobile ? '54px' : '62px';
         messageInput.style.height = initialHeight;
+
+        // Add resize handler
+        window.addEventListener('resize', function() {
+            const wasMobile = isMobile;
+            isMobile = window.innerWidth <= 600;
+            
+            // Only update if mobile state changed
+            if (wasMobile !== isMobile) {
+                initialHeight = isMobile ? '54px' : '62px';
+                messageInput.style.height = initialHeight;
+            }
+        });
 
         messageInput.addEventListener('input', function() {
             this.style.height = initialHeight;
