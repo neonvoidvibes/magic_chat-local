@@ -12,7 +12,7 @@ import json
 from models import InsightsOutput
 from dotenv import load_dotenv
 from typing import Optional
-from retrieval import RetrievalHandler
+from utils.retrieval_handler import RetrievalHandler
 from config import AppConfig
 from web.web_chat import WebChat
 import xml.etree.ElementTree as ET
