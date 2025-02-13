@@ -164,82 +164,88 @@ This manual approach:
 ## 5. Document Organization & Access Control
 
 ### A. Agent-Specific Document Organization
-Documents in Pinecone are organized using metadata to mirror the S3 structure:
+Documents in Pinecone are organized using:
+1. **Namespaces**: Hard partition per agent
+2. **Metadata**: For event filtering within agent's namespace
 
-```python
-metadata = {
-    'agent_path': f'organizations/river/agents/{agent_name}/docs/',
-    'agent_name': agent_name,
-    'file_name': file_name,
-    'source': 'manual_upload'
-}
-```
+### B. Namespace Structure
+- Each agent gets its own namespace (e.g., "river")
+- Complete isolation between agents
+- Queries limited to agent's namespace
 
-### B. Metadata Structure
+### C. Metadata Structure
 Each vector includes metadata that:
 - Maps to S3 paths for consistency
-- Identifies the owning agent
-- Tracks document source and file name
-- Enables filtering and access control
+- Tracks event IDs for filtering
+- Stores document source and file name
 
-### C. Access Control Implementation
+### D. Access Control Implementation
 ```python
 def get_agent_retriever(agent_name, vectorstore):
     """
-    Creates a filtered retriever for specific agent access
+    Creates a namespace-isolated retriever for specific agent access
     """
-    search_kwargs = {
-        "filter": {"agent_name": agent_name}
-    }
-    return vectorstore.as_retriever(search_kwargs=search_kwargs)
+    return vectorstore.as_retriever(
+        namespace=agent_name,
+        search_kwargs={
+            "filter": {"event_id": "20240101"}  # Optional event filtering
+        }
+    )
+
+# Example usage in chat context
+vectorstore = PineconeVectorStore(
+    index_name="chat-docs-index",
+    embedding=embeddings,
+    namespace=agent_name  # Namespace-based isolation
+)
 ```
 
 Key security features:
-- Each agent can only access its own documents
-- Enforced through metadata filtering during retrieval
-- No cross-agent access possible
-- Retrieval always requires agent_name filter
+- Each agent's documents isolated in separate namespace
+- Additional filtering via metadata possible
+- Hard partition between agents via namespaces
+- No cross-namespace queries allowed
 
-### D. CLI Usage with Agent Context
-
-The CLI tool requires an `--agent` flag to properly map documents to specific agents:
-
+### E. CLI Usage with Agent Context
 ```bash
 # Basic usage - embedding a file for a specific agent
 python utils/cli_embed.py path/to/file.txt --agent river
 
-# With optional parameters
-python utils/cli_embed.py path/to/file.txt --agent river --index my-index-name --namespace docs
+# With event metadata
+python utils/cli_embed.py path/to/file.txt --agent river --event 20240101
+
+# With custom index name
+python utils/cli_embed.py path/to/file.txt --agent river --index my-index-name
 ```
 
 This ensures:
-- Documents are tagged with the correct agent metadata
-- Agent path structure mirrors S3: `organizations/river/agents/{agent_name}/docs/`
-- Only the specified agent can access these documents
-- Metadata includes full agent path for verification
+- Documents are stored in agent-specific namespace
+- Event metadata enables filtering within namespace
+- Complete isolation between different agents
+- Simple verification and maintenance
 
-Example metadata structure:
+Example usage with embeddings:
 ```python
-metadata = {
-    'agent_path': f'organizations/river/agents/{agent_name}/docs/',
-    'agent_name': agent_name,
-    'file_name': file_name,
-    'source': 'manual_upload'
-}
+# Upserting to agent namespace
+index = pinecone.Index("chat-docs-index")
+index.upsert(
+    vectors=[(id, vector, metadata)],
+    namespace="river"  # Agent-specific namespace
+)
+
+# Querying from agent namespace
+results = index.query(
+    vector=query_vector,
+    namespace="river",
+    filter={"event_id": "20240101"}  # Optional filter
+)
 ```
 
-### Verifying Agent Access
-You can verify embedding access:
-```bash
-# Verify embeddings for an agent
-python utils/cli_embed.py --verify --agent river
-```
-
-### E. Security Best Practices
-- Always include agent_name in metadata
-- Always filter queries by agent_name
-- No default/fallback access - explicit agent required
-- Maintains isolation between agent document sets
+### F. Security Best Practices
+- Use namespaces for agent isolation
+- Add event metadata for filtering
+- Never query across namespaces
+- Maintain namespace-level access control
 
 ## Note on Architecture
 

@@ -147,7 +147,7 @@ class WebChat:
         self.system_prompt = None
         self.retriever = RetrievalHandler(
             index_name="chat-docs-index",
-            namespace=None
+            agent_name=config.agent_name  # Pass agent name for namespace
         )
         
         # Initialize chat filename with timestamp at session start
@@ -160,14 +160,16 @@ class WebChat:
         self.load_resources()
         
     def get_document_context(self, query: str):
-        """Get relevant document context for query, enforcing agent access"""
+        """Get relevant document context for query."""
         try:
+            # Prepare metadata filters (e.g., event_id)
+            filter_metadata = {}
+            if self.config.event_id:
+                filter_metadata['event_id'] = self.config.event_id
+
             contexts = self.retriever.get_relevant_context(
                 query=query,
-                agent_name=self.config.agent_name,
-                filter_metadata={
-                    'source': 'manual_upload'
-                }
+                filter_metadata=filter_metadata
             )
             return contexts
         except Exception as e:

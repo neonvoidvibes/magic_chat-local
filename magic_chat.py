@@ -639,24 +639,30 @@ def main():
         
             client = Anthropic(api_key=ANTHROPIC_API_KEY)
 
-            # Initialize retrieval handler for document context
+            # Initialize retrieval handler with agent namespace
             retriever = RetrievalHandler(
                 index_name="chat-docs-index",
-                namespace=None
+                agent_name=config.agent_name  # Pass agent name for namespace
             )
 
             def get_document_context(query: str) -> Optional[str]:
-                """Get relevant document context for query, enforcing agent access"""
-                contexts = retriever.get_relevant_context(
-                    query=query,
-                    agent_name=config.agent_name,  # Required: enforces agent-specific access
-                    filter_metadata={
-                        'source': 'manual_upload'
-                    }
-                )
-                if contexts:
-                    return "\n\n".join(c['content'] for c in contexts)
-                return None
+                """Get relevant document context for query."""
+                try:
+                    # Prepare metadata filters
+                    filter_metadata = {}
+                    if config.event_id:
+                        filter_metadata['event_id'] = config.event_id
+
+                    contexts = retriever.get_relevant_context(
+                        query=query,
+                        filter_metadata=filter_metadata
+                    )
+                    if contexts:
+                        return "\n\n".join(c['content'] for c in contexts)
+                    return None
+                except Exception as e:
+                    logging.error(f"Error retrieving context: {e}")
+                    return None
 
             # Initialize conversation with system messages
             conversation_history = []

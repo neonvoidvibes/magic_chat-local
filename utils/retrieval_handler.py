@@ -16,18 +16,18 @@ class RetrievalHandler:
     def __init__(
         self,
         index_name: str = "chat-docs-index",
-        namespace: Optional[str] = None,
+        agent_name: str = None,  # Added agent_name parameter
         top_k: int = 5
     ):
-        """Initialize retrieval handler.
+        """Initialize retrieval handler with agent namespace.
         
         Args:
             index_name: Name of Pinecone index to use
-            namespace: Optional namespace within index
+            agent_name: Name of agent to use as namespace
             top_k: Number of results to retrieve
         """
         self.index_name = index_name
-        self.namespace = namespace
+        self.namespace = agent_name  # Use agent name as namespace
         self.top_k = top_k
         
         # Initialize OpenAI embeddings
@@ -51,15 +51,13 @@ class RetrievalHandler:
     def get_relevant_context(
         self,
         query: str,
-        agent_name: str,
         filter_metadata: Optional[Dict[str, Any]] = None
     ) -> List[Dict[str, Any]]:
-        """Retrieve relevant document chunks for a query, filtered by agent.
+        """Retrieve relevant document chunks from agent's namespace.
         
         Args:
             query: Search query text
-            agent_name: Name of agent to filter documents
-            filter_metadata: Additional optional metadata filters
+            filter_metadata: Optional metadata filters
             
         Returns:
             List of relevant document chunks with metadata
@@ -68,17 +66,10 @@ class RetrievalHandler:
             # Generate query embedding
             vector = self.embeddings.embed_query(query)
             
-            # Combine agent filter with any additional filters
-            agent_filter = {
-                "agent_name": agent_name
-            }
-            if filter_metadata:
-                agent_filter.update(filter_metadata)
-            
-            # Query index with agent filter
+            # Query index within agent's namespace
             results = self.index.query(
                 vector=vector,
-                filter=agent_filter,
+                filter=filter_metadata,
                 namespace=self.namespace,
                 top_k=self.top_k,
                 include_metadata=True
