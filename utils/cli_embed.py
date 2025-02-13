@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 """CLI tool for manually embedding text into Pinecone."""
+from dotenv import load_dotenv
+load_dotenv()
 import argparse
 import logging
 from pathlib import Path
