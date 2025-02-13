@@ -2,7 +2,7 @@
 import logging
 from typing import List, Optional, Dict, Any
 from langchain_openai import OpenAIEmbeddings
-from langchain_community.vectorstores import Pinecone as PineconeVectorStore
+from langchain_pinecone import Pinecone as PineconeVectorStore
 from utils.pinecone_utils import init_pinecone
 
 # Configure logging
@@ -43,7 +43,7 @@ class RetrievalHandler:
         # Create the LangChain vector store
         self.vectorstore = PineconeVectorStore(
             index=self.index,
-            embedding_function=self.embeddings,
+            embedding=self.embeddings,
             text_key="content",
             namespace=self.namespace
         )
