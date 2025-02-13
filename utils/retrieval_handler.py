@@ -40,13 +40,14 @@ class RetrievalHandler:
         # Get index instance
         self.index = pinecone.Index(index_name)
         
-        # Initialize hybrid retriever
-        self.retriever = PineconeHybridSearchRetriever(
-            embeddings=self.embeddings,
-            index=self.index,
-            namespace=self.namespace,  # Fixed: Use self.namespace
-            top_k=top_k
-        )
+        # Initialize hybrid retriever if namespace exists
+        if self.namespace:
+            self.retriever = PineconeHybridSearchRetriever(
+                embeddings=self.embeddings,
+                index=self.index,
+                namespace=self.namespace,
+                top_k=top_k
+            )
         
     def get_relevant_context(
         self,
@@ -64,11 +65,11 @@ class RetrievalHandler:
         """
         try:
             # Generate query embedding
-            vector = self.embeddings.embed_query(query)
+            query_vector = self.embeddings.embed_query(query)
             
             # Query index within agent's namespace
-            results = self.index.query(
-                vector=vector,
+            query_response = self.index.query(
+                vector=query_vector,
                 filter=filter_metadata,
                 namespace=self.namespace,
                 top_k=self.top_k,
@@ -77,16 +78,19 @@ class RetrievalHandler:
             
             # Format results
             contexts = []
-            for match in results.matches:
-                contexts.append({
-                    'content': match.metadata['content'],
-                    'metadata': {
-                        k: v for k, v in match.metadata.items()
-                        if k != 'content'  # Exclude content from metadata
-                    },
-                    'score': match.score
-                })
-                
+            if hasattr(query_response, 'matches'):
+                for match in query_response.matches:
+                    # Ensure metadata exists and contains content
+                    if hasattr(match, 'metadata') and match.metadata and 'content' in match.metadata:
+                        contexts.append({
+                            'content': match.metadata['content'],
+                            'metadata': {
+                                k: v for k, v in match.metadata.items()
+                                if k != 'content'  # Exclude content from metadata
+                            },
+                            'score': match.score if hasattr(match, 'score') else 0.0
+                        })
+                    
             logger.info(f"Retrieved {len(contexts)} relevant contexts for query")
             return contexts
             

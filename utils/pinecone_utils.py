@@ -6,9 +6,6 @@ from typing import Optional
 import pinecone
 from dotenv import load_dotenv
 
-# Load environment variables
-load_dotenv()
-
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

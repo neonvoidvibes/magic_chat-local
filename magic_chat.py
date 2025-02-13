@@ -645,21 +645,52 @@ def main():
                 agent_name=config.agent_name  # Pass agent name for namespace
             )
 
-            def get_document_context(query: str) -> Optional[str]:
-                """Get relevant document context for query."""
+            def get_document_context(query: str, agent_name: str, event_id: Optional[str] = None) -> Optional[str]:
+                """Get relevant document context for query using Pinecone vector search.
+                
+                Args:
+                    query: The user's query to find relevant context for
+                    agent_name: The agent's name for namespace filtering
+                    event_id: Optional event ID for additional filtering
+                
+                Returns:
+                    String containing concatenated relevant context or None if no matches
+                """
                 try:
-                    # Prepare metadata filters
-                    filter_metadata = {}
-                    if config.event_id:
-                        filter_metadata['event_id'] = config.event_id
-
+                    # Build metadata filter dictionary
+                    filter_metadata = {
+                        "agent_name": agent_name
+                    }
+                    if event_id:
+                        filter_metadata["event_id"] = event_id
+                        
+                    logging.debug(f"Retrieving context for query: {query[:100]}...")
+                    logging.debug(f"Using metadata filters: {filter_metadata}")
+                    
+                    # Get contexts through retrieval handler
                     contexts = retriever.get_relevant_context(
                         query=query,
-                        filter_metadata=filter_metadata
+                        filter_metadata=filter_metadata,
+                        top_k=3  # Limit to top 3 most relevant matches
                     )
+                    
                     if contexts:
-                        return "\n\n".join(c['content'] for c in contexts)
+                        # Format and combine relevant context sections
+                        formatted_contexts = []
+                        for i, ctx in enumerate(contexts, 1):
+                            score = ctx.get('score', 0.0)
+                            source = ctx.get('metadata', {}).get('source', 'Unknown')
+                            formatted_contexts.append(
+                                f"[Context {i} from {source} (relevance: {score:.2f})]:\n{ctx['content']}"
+                            )
+                        
+                        combined = "\n\n".join(formatted_contexts)
+                        logging.debug(f"Found {len(contexts)} relevant context sections")
+                        return combined
+                        
+                    logging.debug("No relevant context found")
                     return None
+                    
                 except Exception as e:
                     logging.error(f"Error retrieving context: {e}")
                     return None

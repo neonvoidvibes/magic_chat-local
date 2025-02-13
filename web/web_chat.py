@@ -162,16 +162,30 @@ class WebChat:
     def get_document_context(self, query: str):
         """Get relevant document context for query."""
         try:
-            # Prepare metadata filters (e.g., event_id)
-            filter_metadata = {}
+            # Build metadata filters
+            filter_metadata = {
+                'agent_name': self.config.agent_name,  # Always filter by agent name
+            }
+            
+            # Add event_id filter if available
             if self.config.event_id:
                 filter_metadata['event_id'] = self.config.event_id
-
+                
+            # Get relevant contexts using RetrievalHandler
             contexts = self.retriever.get_relevant_context(
                 query=query,
-                filter_metadata=filter_metadata
+                filter_metadata=filter_metadata,
+                top_k=3  # Limit to top 3 most relevant matches
             )
+            
+            if not contexts:
+                logging.debug(f"No relevant context found for query: {query}")
+                return None
+                
+            # Log retrieval success
+            logging.debug(f"Retrieved {len(contexts)} relevant context chunks")
             return contexts
+            
         except Exception as e:
             logging.error(f"Error retrieving document context: {e}")
             return None
