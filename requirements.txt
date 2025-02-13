@@ -8,7 +8,7 @@ langsmith-0.0.87
 langchain-pinecone==0.2.3
 langchain-openai==0.3.5
 python-dotenv==1.0.0
-tiktoken>=0.7,<1
+tiktoken==0.7.0
 typing-extensions>=4.5.0
 tenacity>=8.2.0
 numpy>=1.24.0

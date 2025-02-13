@@ -21,6 +21,13 @@ try:
          lc_utils.secret_from_env = lambda key, default=None: default
 except Exception as e:
     pass
+# Pre-register gpt2 encoding to avoid duplicate registration errors in tiktoken
+import tiktoken
+try:
+    _ = tiktoken.encoding_for_model("gpt2")
+except Exception as e:
+    import logging
+    logging.warning(f"Pre-registration of gpt2 encoding failed: {e}")
 
 from langchain_openai import OpenAIEmbeddings
 from .document_handler import DocumentHandler
