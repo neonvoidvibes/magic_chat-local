@@ -1,7 +1,7 @@
 """Document handling utilities for splitting and processing text documents."""
 import logging
 from typing import List, Optional
-from langchain.text_splitters import CharacterTextSplitter
+from langchain.text_splitter import CharacterTextSplitter
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
