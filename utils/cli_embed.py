@@ -3,8 +3,8 @@
 import argparse
 import logging
 from pathlib import Path
-from document_handler import DocumentHandler
-from embedding_handler import EmbeddingHandler
+from .document_handler import DocumentHandler
+from .embedding_handler import EmbeddingHandler
 
 def setup_logging():
     logging.basicConfig(

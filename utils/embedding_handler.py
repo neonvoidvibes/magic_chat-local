@@ -4,8 +4,8 @@ import logging
 from typing import List, Optional, Dict, Any
 import pinecone
 from langchain_openai import OpenAIEmbeddings
-from utils.document_handler import DocumentHandler
-from utils.pinecone_utils import init_pinecone, create_or_verify_index
+from .document_handler import DocumentHandler
+from .pinecone_utils import init_pinecone, create_or_verify_index
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
