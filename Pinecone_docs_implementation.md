@@ -110,31 +110,70 @@ def embed_and_upsert(text, file_name, index_name, namespace=None):
 
 ---
 
-## 4. Document Uploading & Embedding Workflow
+## 4. Document Embedding Workflow (Manual)
 
-### A. File Upload & Detection (S3)
-- **Admin Action:**  
-  The admin uploads one or more Markdown (or other) files to a designated S3 bucket/folder.
-- **File Detection:**  
-  - Use an AWS Lambda function or scheduled task (via CloudWatch Events or similar) that monitors the S3 bucket for new/updated files.
-  - Trigger the processing pipeline when a new file is detected.
+### A. Using the CLI Tool
+The project includes a command-line tool for manually embedding text files into Pinecone:
 
-### B. Automated Processing Pipeline
-- **Step 1: Read File from S3**  
-  Use your existing `s3_utils.py` functions to download and read file content.
-- **Step 2: Embed & Upsert**  
-  Call the function from `pinecone_utils.py` to:
-  - Chunk the document if it is long.
-  - Generate embeddings for each chunk.
-  - Upsert the embeddings into the Pinecone index.
-- **Step 3: Status Logging**  
-  Log success or errors. Optionally update a status file/database indicating that the file is now available in Pinecone.
+```bash
+# Basic usage
+python utils/cli_embed.py path/to/file.txt
 
-### C. Integration Strategy
-- **Pinecone Precedence:**  
-  In your overall document storage strategy, treat S3 as the master copy and Pinecone as the fast-access, search-optimized version.  
-  - When the system detects that a document has been successfully embedded into Pinecone (for instance, by checking the index stats or metadata), future queries will prioritize Pinecone.
-  - Optionally, maintain a fallback where if a query returns insufficient context from Pinecone, you can fetch the full file from S3, reprocess, and re-embed if needed.
+# With optional parameters
+python utils/cli_embed.py path/to/file.txt --index my-index-name --namespace docs
+```
+
+### B. Text Chunking Strategy
+Documents are automatically chunked using these default settings:
+- Chunk size: 1000 characters
+- Chunk overlap: 200 characters
+- Split on paragraph breaks ("\n\n")
+
+This chunking is handled by the `DocumentHandler` class and can be customized via the API.
+
+### C. Verification Methods
+You can verify your embeddings using either:
+
+1. **Pinecone Console UI**
+   - Visit https://app.pinecone.io
+   - Navigate to your index
+   - Use the Query interface to test embeddings
+
+2. **Python API**
+   ```python
+   from utils.pinecone_utils import get_index_stats
+   
+   # Get statistics about your index
+   stats = get_index_stats("your-index-name")
+   print(stats)
+   ```
+
+### D. Core Components
+The embedding workflow uses these modules:
+
+1. `document_handler.py`: Text chunking and processing
+2. `embedding_handler.py`: Vector embedding and Pinecone storage
+3. `pinecone_utils.py`: Core Pinecone operations
+4. `cli_embed.py`: Command-line interface
+
+This manual approach:
+- Keeps S3 and Pinecone operations separate
+- Provides direct control over embedding process
+- Makes testing and verification straightforward
+
+## Note on Architecture
+
+This implementation intentionally separates document storage (S3) from vector embeddings (Pinecone):
+
+1. **S3 Storage**: Remains the source of truth for document content
+2. **Pinecone**: Handles only vector embeddings and similarity search
+3. **Manual Control**: Embedding process is explicit and controlled via CLI
+
+This separation allows for:
+- Independent scaling of storage and search
+- Easier testing and verification
+- Manual control over what gets embedded
+- Simplified maintenance and debugging
 
 ---
 
