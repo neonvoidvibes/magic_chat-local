@@ -1,0 +1,120 @@
+# Sammanfattning från WS TP jan 2024
+## Intro till Framsynsarbete
+
+### Diskussion om framsynsarbete
+- Vikten av att kommunicera ett tydligt budskap utåt för att bli en strategisk partner högre upp i värdekedjan.
+- Metoden som används är rekommenderad av Vinnova och tillämpas av företag som Ericsson och Scania för framtidssäkring.
+- Utmaningar med att hantera komplexiteten i företagens arbete och vikten av att balansera bredden i verksamheten.
+- Betoning på vikten av kommunikationsstrategi och att använda metoder för att skapa en sammanhållen berättelse.
+- Användning av spekulativ design och prototyper för att stimulera dialog och utmana antaganden om framtiden.
+- Diskussion om framtidens arbetsplatser och hur de kan utformas för att främja kloka beslut och innovation.
+- Värdet av att använda framtidsfrekvensen för att utmana dagens antaganden och föreställa sig alternativa framtider.
+- Vikten av att identifiera och agera på signaler, trender och megatrender för att påverka framtiden.
+- Exempel på hur kontorsutrymmen kan omdefinieras för att möta framtidens krav.
+- Avslutande diskussion om vikten av medvetna val och ansvar för att skapa en önskvärd framtid.
+
+## Antaganden om framtidens arbetsplats
+
+### Huvudsakliga antaganden
+- **Hybrid Arbetsmodell**: Blandning av arbete hemifrån och på kontoret, med flexibel fördelning av arbetsdagar.
+- **Digitalisering och Teknologi**: Ökad användning av digitala verktyg och plattformar för kommunikation och samarbete.
+- **Individualisering av Arbetsvillkor**: Anpassning av arbetsformer efter individens behov och livsstil.
+- **Organisation och Struktur**: Förändring av traditionella hierarkiska strukturer mot mer decentralisering och flexibilitet.
+- **Fysiska Arbetsplatser**: Kontorets roll kan förändras och bli mer inriktat på specifika aktiviteter.
+- **Hållbarhet och Resurshantering**: Framtidens arbetsplatser måste vara mer hållbara ur både miljömässigt och socialt perspektiv.
+- **Mänskliga Behov och Välmående**: Ökat fokus på mental hälsa och balans mellan arbete och privatliv.
+- **Framtidens Jobb**: Många framtida arbeten och roller är ännu inte kända idag, vilket kräver anpassningsbara arbetsplatser.
+
+## Signaler
+
+### Signaler kring framtidens arbetsliv
+- **Mångfald av framtider**: Framtiden bör betraktas i plural, där flera parallella framtider är möjliga.
+- **Individens roll**: Ökad betoning på personlig frihet och autonomi.
+- **Hybridarbete**: Arbetsplatser anpassas efter både fysiska och digitala behov.
+- **Framtidens kontor**: Kontorens funktion och behov omvärderas.
+- **Teknikens påverkan**: Digitalisering förändrar arbetslivet, men antaganden kring teknikanvändning utmanas.
+- **Empati och mänskliga värden**: Ökat fokus på mänskliga relationer och empati.
+- **Hållbarhet**: Växande betydelse av ekologisk och social hållbarhet.
+- **Utbildning och framtidens färdigheter**: Förändringar krävs i utbildningssystemet för att möta framtida arbetskraftsbehov.
+
+### Svaga signaler
+- **Kontorets framtid**: Möjlig förändring av kontorets traditionella roll.
+- **Digital nomadism och coworking**: Flexibla arbetsplatsmodeller växer.
+- **Individuell anpassning**: Arbetslivets ökande flexibilitet och personalisering.
+- **Anställningsformer**: Förändringar i anställningsmodeller och arbetsstrukturer.
+- **Mänskliga behov och empati**: Ökat fokus på välmående och socialt stöd i arbetslivet.
+- **Demokratisering av data**: Ökad delning av information mellan organisationer och individer.
+
+### Lista över signaler
+- **Globalt vs. Ultralokalt**: Balansen mellan globala och lokala perspektiv.
+- **Framtiden i Plural**: Olika framtidsscenarier existerar parallellt.
+- **Individuellt vs. Kollektivt Arbetsliv**: Rörelse mot mer individuellt anpassat arbetsliv.
+- **Hållbarhet och Digitalisering**: Växande fokus inom arbetslivet.
+- **Hybridarbete**: Fortsatt utveckling av flexibla arbetslösningar.
+- **Organisatoriska Strukturer**: Utmaning av traditionella hierarkier.
+- **Mänskliga Behov**: Ökad betoning på autonomi och tillhörighet.
+- **Empati och Ledarskap**: Växande betydelse av empati i ledarskap.
+- **Stress och Hälsa**: Medvetenhet om hälsa och välmående i arbetslivet.
+- **Utbildning och Lärande**: Nya färdigheter och utbildningsmodeller.
+- **Digitala Nomader och Resursslöseri**: Effektiv användning av kontorsresurser.
+- **Demokratisering av Data**: Delning av information för innovation.
+- **Algoritmer och Mångfald**: Teknikens påverkan på social mångfald.
+- **Tillväxt och Effektivitet**: Omvärdering av traditionella tillväxtmodeller.
+- **Anställningsformer**: Nya sätt att organisera arbete.
+
+## Utveckling av signaler
+- **Kontorets framtid**: Flexibla arbetsmiljöer och delade arbetsplatser.
+- **Hybridarbete**: Anpassade lösningar efter individuella behov.
+- **Mänskliga behov och välmående**: Arbetsgivare skapar bättre arbetsmiljöer för mental hälsa.
+- **Empati och ledarskap**: Empati blir en avgörande ledarkompetens.
+- **Digitalisering och AI**: Ökad integration av AI och hantering av dess etiska aspekter.
+- **Utbildning och barn**: Fokus på kreativitet, empati och kritiskt tänkande.
+- **Individuella kontra kollektiva behov**: Balansering av autonomi och gemensamma mål.
+
+Genom att utforska och utveckla dessa signaler kan vi skapa en bättre förståelse för framtidens arbetsliv och samhälle.
+
+
+
+## Antaganden om arbetsplatsen  
+Som framkommit från de workshops som vi gjort på T&P internt
+
+---
+
+### 1. Hybrid Arbetsmodell
+Det finns en utbredd tro på att framtiden kommer att innefatta en blandning av arbete hemifrån och på kontoret, med en flexibel fördelning av arbetsdagar mellan dessa platser.
+
+---
+
+### 2. Digitalisering och Teknologi
+Det finns ett antagande om att arbetet kommer att bli ännu mer digitalt, med teknik som stödjer olika arbetsprocesser. Detta inkluderar användning av digitala verktyg och plattformar för kommunikation och samarbete.
+
+---
+
+### 3. Individualisering av Arbetsvillkor
+Framtidens arbetsplats förväntas ge mer utrymme för individuella anpassningar, där medarbetare kan välja arbetsformer och arbetsmiljöer som passar deras personliga behov och livsstil.
+
+---
+
+### 4. Organisation och Struktur
+Det finns en diskussion om att traditionella hierarkiska strukturer kan komma att förändras, med mer fokus på decentralisering och flexibilitet i hur organisationer struktureras och leds.
+
+---
+
+### 5. Fysiska Arbetsplatser
+Det finns ett antagande om att kontorets roll kan förändras, där det fysiska kontoret inte längre är en självklarhet för alla företag. Istället kan det bli mer av en plats för specifika aktiviteter som kräver fysisk närvaro.
+
+---
+
+### 6. Hållbarhet och Resurshantering
+Det finns ett framväxande antagande om att framtidens arbetsplatser måste bli mer hållbara, både ur ett miljömässigt och socialt perspektiv, vilket kan påverka hur kontor utformas och används.
+
+---
+
+### 7. Mänskliga Behov och Välmående
+Det är ett växande fokus på att arbetsplatser måste stödja medarbetares välmående och mänskliga behov, där aspekter som mental hälsa och balans mellan arbete och privatliv blir centrala.
+
+---
+
+### 8. Framtidens Jobb
+Det finns en insikt om att många framtida arbeten och roller ännu inte är kända idag, vilket innebär att arbetsplatser måste vara anpassningsbara och öppna för nya typer av arbetsuppgifter och kompetenser.
+

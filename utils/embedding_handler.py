@@ -42,7 +42,7 @@ class EmbeddingHandler:
     
     def __init__(
         self,
-        index_name: str = "magicchat"
+        index_name: str = "magicchat",
         namespace: Optional[str] = None
     ):
         """Initialize embedding handler with Pinecone configuration.
