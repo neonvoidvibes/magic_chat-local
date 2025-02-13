@@ -1,5 +1,15 @@
 """Utilities for generating and managing document embeddings."""
 import os
+import sys
+try:
+    from langchain_core.language_models.chat_models import LangSmithParams
+except ImportError:
+    # Define a dummy LangSmithParams to bypass the import error.
+    class LangSmithParams:
+        pass
+    # Inject the dummy into the module namespace so that subsequent imports work.
+    import langchain_core.language_models.chat_models as chat_models
+    chat_models.LangSmithParams = LangSmithParams
 import logging
 from typing import List, Optional, Dict, Any
 import pinecone
