@@ -64,10 +64,7 @@ class RetrievalHandler:
     ) -> List[Dict[str, Any]]:
         """
         Retrieve the most relevant chunks for `query`.
-        Currently ignoring filter_metadata for the default similarity search.
-
-        Returns:
-            A list of dicts with keys: 'content', 'metadata', 'score'
+        Returns clear source attribution with each result.
         """
         try:
             if top_k is None:
@@ -84,9 +81,15 @@ class RetrievalHandler:
                 metadata = dict(doc.metadata)
                 content = doc.page_content
                 filename = metadata.get('file_name', 'unknown')
+                source_path = metadata.get('source_path', '')
                 
-                # Add clear source labeling with filename
-                labeled_content = f"[VECTOR DB] Source file: {filename}\n{content}"
+                # Format source information prominently
+                source_header = f"[VECTOR DB CONTENT]\nSource: {filename}"
+                if source_path:
+                    source_header += f"\nPath: {source_path}"
+                
+                # Add clear separation between source and content
+                labeled_content = f"{source_header}\n{'='*50}\n{content}\n{'='*50}"
                 
                 score = metadata.get("score", 0.0)
                 results.append({

@@ -199,7 +199,15 @@ class WebChat:
             return
             
         # Add source differentiation instructions
-        system_prompt += "\n\n## Data Source Guidelines\n"
+        system_prompt += "\n\n## Source Attribution Requirements\n"
+        system_prompt += "1. ALWAYS specify the exact source file when quoting or referencing information\n"
+        system_prompt += "2. Format source references as: 'From [source file]: [quote]'\n"
+        system_prompt += "3. If you cannot determine the exact source file, explicitly state: 'I cannot determine the specific source file for this information'\n"
+        system_prompt += "4. When multiple sources contain similar information, list all relevant sources\n"
+        system_prompt += "5. Differentiate between:\n"
+        system_prompt += "   - [VECTOR DB CONTENT] for historical/stored information\n"
+        system_prompt += "   - [LIVE TRANSCRIPT] for real-time updates\n\n"
+        system_prompt += "## Data Source Guidelines\n"
         system_prompt += "You have access to two types of information:\n"
         system_prompt += "1. Live Transcript Data: Real-time conversation updates marked with [LIVE TRANSCRIPT]\n"
         system_prompt += "2. Vector Database Knowledge: Historical information marked with [VECTOR DB]\n"
