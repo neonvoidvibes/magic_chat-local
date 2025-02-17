@@ -156,6 +156,14 @@ class WebChat:
         timestamp = datetime.now().strftime('%Y%m%d-T%H%M%S')
         self.config.session_id = timestamp  # Set session ID
         self.current_chat_file = f"chat_D{timestamp}_aID-{config.agent_name}_eID-{config.event_id}.txt"
+        
+        # Start rolling transcript scheduler
+        from scripts.transcript_scheduler import start_scheduler
+        self.scheduler_thread = start_scheduler(
+            agent_name=config.agent_name,
+            session_id=config.session_id,
+            event_id=config.event_id
+        )
         self.last_saved_index = 0     # Track messages saved via !save command
         self.last_archive_index = 0   # Track messages auto-archived
         logging.debug(f"Initialized chat filename: {self.current_chat_file}")
