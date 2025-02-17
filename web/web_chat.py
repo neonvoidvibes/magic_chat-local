@@ -340,7 +340,7 @@ class WebChat:
                 relevant_context = self.get_document_context(data['message'])
                 current_system_prompt = self.system_prompt
                 if relevant_context:
-                    context_text = "\n\n".join(c['content'] for c in relevant_context)
+                    context_text = "\n\n".join(c.page_content for c in relevant_context)
                     current_system_prompt += f"\n\nRelevant context:\n{context_text}"
 
                 # Build conversation history from previous messages
