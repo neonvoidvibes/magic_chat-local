@@ -10,7 +10,11 @@ class TranscriptState:
         self.last_modified = None
 
 def get_latest_transcript_file(agent_name=None, event_id=None, s3_client=None, bucket_name=None):
-    """Get the latest transcript file, first from agent's event folder"""
+    """Get the latest transcript file following priority order:
+    1. rolling-transcript_ (agent event folder)
+    2. transcript_ (agent event folder)
+    3. transcript_ (general folder)
+    """
     if s3_client is None:
         s3_client = boto3.client(
             's3',
@@ -29,25 +33,33 @@ def get_latest_transcript_file(agent_name=None, event_id=None, s3_client=None, b
             response = s3_client.list_objects_v2(Bucket=bucket_name, Prefix=prefix, Delimiter='/')
             
             if 'Contents' in response:
+                # First priority: rolling transcripts in agent folder
+                rolling_files = [
+                    obj['Key'] for obj in response['Contents']
+                    if obj['Key'].startswith(prefix) and obj['Key'] != prefix
+                    and not obj['Key'].replace(prefix, '').strip('/').count('/')
+                    and obj['Key'].endswith('.txt')
+                    and obj['Key'].replace(prefix, '').startswith('rolling-')
+                ]
+                if rolling_files:
+                    latest_file = max(rolling_files, key=lambda x: s3_client.head_object(Bucket=bucket_name, Key=x)['LastModified'])
+                    logging.debug(f"Selected latest rolling transcript in agent folder: {latest_file}")
+                    return latest_file
+                
+                # Second priority: regular transcripts in agent folder
                 transcript_files = [
                     obj['Key'] for obj in response['Contents']
                     if obj['Key'].startswith(prefix) and obj['Key'] != prefix
                     and not obj['Key'].replace(prefix, '').strip('/').count('/')
                     and obj['Key'].endswith('.txt')
-                    and not obj['Key'].replace(prefix, '').startswith('rolling-')  # Exclude rolling transcripts
+                    and not obj['Key'].replace(prefix, '').startswith('rolling-')
                 ]
                 if transcript_files:
-                    logging.debug(f"Found {len(transcript_files)} transcript files in agent folder:")
-                    for tf in transcript_files:
-                        obj = s3_client.head_object(Bucket=bucket_name, Key=tf)
-                        logging.debug(f"  - {tf} (Size: {obj['ContentLength']} bytes, Modified: {obj['LastModified']})")
-                    
                     latest_file = max(transcript_files, key=lambda x: s3_client.head_object(Bucket=bucket_name, Key=x)['LastModified'])
-                    obj = s3_client.head_object(Bucket=bucket_name, Key=latest_file)
                     logging.debug(f"Selected latest transcript in agent folder: {latest_file}")
                     return latest_file
-                    
-        # Fallback to default transcripts folder
+        
+        # Third priority: transcripts in general folder
         prefix = '_files/transcripts/'
         response = s3_client.list_objects_v2(Bucket=bucket_name, Prefix=prefix, Delimiter='/')
         
@@ -57,10 +69,10 @@ def get_latest_transcript_file(agent_name=None, event_id=None, s3_client=None, b
                 if obj['Key'].startswith(prefix) and obj['Key'] != prefix
                 and not obj['Key'].replace(prefix, '').strip('/').count('/')
                 and obj['Key'].endswith('.txt')
-                and not obj['Key'].replace(prefix, '').startswith('rolling-')  # Exclude rolling transcripts
             ]
             if transcript_files:
                 latest_file = max(transcript_files, key=lambda x: s3_client.head_object(Bucket=bucket_name, Key=x)['LastModified'])
+                logging.debug(f"Selected latest transcript in general folder: {latest_file}")
                 return latest_file
                 
         return None
@@ -72,8 +84,11 @@ def get_latest_transcript_file(agent_name=None, event_id=None, s3_client=None, b
 def read_new_transcript_content(state, agent_name, event_id, s3_client=None, bucket_name=None, read_all=False):
     """
     Read only new content from one or multiple transcripts, depending on read_all.
-    When read_all=True, we combine partial updates from all .txt transcripts in the agent's event folder.
-    Otherwise, we stick to single 'latest' transcript approach.
+    When read_all=True, we combine partial updates from all transcripts following priority order:
+    1. rolling-transcript_ (agent event folder)
+    2. transcript_ (agent event folder)
+    3. transcript_ (general folder)
+    Otherwise, we stick to single 'latest' transcript approach using same priority.
     """
     try:
         if s3_client is None:
@@ -124,51 +139,103 @@ def read_new_transcript_content(state, agent_name, event_id, s3_client=None, buc
             return None
         
         else:
-            # read_all == True => partial updates from all .txt transcripts in the folder
-            prefix = f'organizations/river/agents/{agent_name}/events/{event_id}/transcripts/'
-            response = s3_client.list_objects_v2(Bucket=bucket_name, Prefix=prefix)
-            if 'Contents' not in response:
-                logging.debug(f"No transcripts found in {prefix}")
-                return None
-
-            # gather all .txt transcripts
-            transcripts = []
-            for obj in response['Contents']:
-                k = obj['Key']
-                if k.endswith('.txt'):
-                    transcripts.append({
-                        'Key': k,
-                        'LastModified': obj['LastModified']
-                    })
-            if not transcripts:
-                logging.debug(f"No .txt transcripts found in {prefix}")
-                return None
-
-            # Sort them by LastModified ascending so we read them in chronological order
-            transcripts.sort(key=lambda x: x['LastModified'])
+            # read_all == True => partial updates from all transcripts following priority order
             combined_new = []
             
-            for t in transcripts:
-                k = t['Key']
-                # If we've never seen this file, init to 0
-                if k not in state.file_positions:
-                    state.file_positions[k] = 0
+            if agent_name and event_id:
+                prefix = f'organizations/river/agents/{agent_name}/events/{event_id}/transcripts/'
+                response = s3_client.list_objects_v2(Bucket=bucket_name, Prefix=prefix)
                 
-                # read entire file
-                obj = s3_client.get_object(Bucket=bucket_name, Key=k)
-                text = obj['Body'].read().decode('utf-8')
-                prev_pos = state.file_positions[k]
-                if prev_pos > len(text):
-                    # if file truncated or replaced, reset
-                    prev_pos = 0
+                if 'Contents' in response:
+                    # First priority: rolling transcripts
+                    rolling_transcripts = [
+                        {
+                            'Key': obj['Key'],
+                            'LastModified': obj['LastModified']
+                        }
+                        for obj in response['Contents']
+                        if obj['Key'].endswith('.txt') and 'rolling-' in obj['Key']
+                    ]
+                    
+                    # Second priority: regular transcripts in agent folder
+                    regular_transcripts = [
+                        {
+                            'Key': obj['Key'],
+                            'LastModified': obj['LastModified']
+                        }
+                        for obj in response['Contents']
+                        if obj['Key'].endswith('.txt') and 'rolling-' not in obj['Key']
+                    ]
+                    
+                    # Process rolling transcripts first
+                    for t in sorted(rolling_transcripts, key=lambda x: x['LastModified']):
+                        k = t['Key']
+                        if k not in state.file_positions:
+                            state.file_positions[k] = 0
+                        
+                        obj = s3_client.get_object(Bucket=bucket_name, Key=k)
+                        text = obj['Body'].read().decode('utf-8')
+                        prev_pos = state.file_positions[k]
+                        if prev_pos > len(text):
+                            prev_pos = 0
+                        
+                        new_text = text[prev_pos:]
+                        if new_text:
+                            combined_new.append(f"[Rolling File: {os.path.basename(k)}]\n{new_text}")
+                            logging.debug(f"Read {len(new_text)} new bytes from rolling transcript {k}")
+                        
+                        state.file_positions[k] = len(text)
+                    
+                    # Then process regular transcripts
+                    for t in sorted(regular_transcripts, key=lambda x: x['LastModified']):
+                        k = t['Key']
+                        if k not in state.file_positions:
+                            state.file_positions[k] = 0
+                        
+                        obj = s3_client.get_object(Bucket=bucket_name, Key=k)
+                        text = obj['Body'].read().decode('utf-8')
+                        prev_pos = state.file_positions[k]
+                        if prev_pos > len(text):
+                            prev_pos = 0
+                        
+                        new_text = text[prev_pos:]
+                        if new_text:
+                            combined_new.append(f"[File: {os.path.basename(k)}]\n{new_text}")
+                            logging.debug(f"Read {len(new_text)} new bytes from transcript {k}")
+                        
+                        state.file_positions[k] = len(text)
+            
+            # Third priority: general folder transcripts
+            prefix = '_files/transcripts/'
+            response = s3_client.list_objects_v2(Bucket=bucket_name, Prefix=prefix)
+            
+            if 'Contents' in response:
+                general_transcripts = [
+                    {
+                        'Key': obj['Key'],
+                        'LastModified': obj['LastModified']
+                    }
+                    for obj in response['Contents']
+                    if obj['Key'].endswith('.txt')
+                ]
                 
-                new_text = text[prev_pos:]
-                if new_text:
-                    combined_new.append(f"[File: {os.path.basename(k)}]\n{new_text}")
-                    logging.debug(f"Read {len(new_text)} new bytes from {k}")
-                
-                # update position
-                state.file_positions[k] = len(text)
+                for t in sorted(general_transcripts, key=lambda x: x['LastModified']):
+                    k = t['Key']
+                    if k not in state.file_positions:
+                        state.file_positions[k] = 0
+                    
+                    obj = s3_client.get_object(Bucket=bucket_name, Key=k)
+                    text = obj['Body'].read().decode('utf-8')
+                    prev_pos = state.file_positions[k]
+                    if prev_pos > len(text):
+                        prev_pos = 0
+                    
+                    new_text = text[prev_pos:]
+                    if new_text:
+                        combined_new.append(f"[General File: {os.path.basename(k)}]\n{new_text}")
+                        logging.debug(f"Read {len(new_text)} new bytes from general transcript {k}")
+                    
+                    state.file_positions[k] = len(text)
             
             if combined_new:
                 # combine with extra spacing
