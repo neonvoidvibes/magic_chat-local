@@ -147,7 +147,9 @@ class WebChat:
         self.system_prompt = None
         self.retriever = RetrievalHandler(
             index_name="magicchat",
-            agent_name=config.agent_name  # Pass agent name for namespace
+            agent_name=config.agent_name,  # Pass agent name for namespace
+            session_id=config.session_id,  # Current session
+            event_id=config.event_id      # Current event
         )
         
         # Initialize chat filename with timestamp at session start
@@ -534,14 +536,32 @@ class WebChat:
                 # keep rolling updates
             else:
                 
-                transcript_key = get_latest_transcript_file(self.config.agent_name, self.config.event_id)
-                if transcript_key:
-                    logging.debug(f"Found transcript file: {transcript_key}")
-                    s3 = boto3.client('s3')
-                    transcript_obj = s3.get_object(Bucket=self.config.aws_s3_bucket, Key=transcript_key)
+                # Get latest original transcript and derive rolling key
+                s3 = boto3.client('s3')
+                base_key = get_latest_transcript_file(self.config.agent_name, self.config.event_id)
+                base_path = os.path.dirname(base_key)
+                filename = os.path.basename(base_key)
+                rolling_key = f"{base_path}/transcript-rolling_{filename}"
+                
+                try:
+                    # Try to get rolling transcript
+                    transcript_obj = s3.get_object(Bucket=self.config.aws_s3_bucket, Key=rolling_key)
                     transcript = transcript_obj['Body'].read().decode('utf-8')
                     if transcript:
-                        logging.debug(f"Loaded transcript, length: {len(transcript)}")
+                        logging.debug(f"Loaded rolling transcript from {rolling_key}, length: {len(transcript)}")
+                        self.transcript = transcript
+                        self.system_prompt += f"\n\nTranscript update: {transcript}"
+                        return
+                except Exception as e:
+                    logging.warning(f"Rolling transcript not found, falling back to original: {e}")
+                
+                # Fallback to original transcript if rolling not found
+                if base_key:
+                    logging.debug(f"Using original transcript: {base_key}")
+                    transcript_obj = s3.get_object(Bucket=self.config.aws_s3_bucket, Key=base_key)
+                    transcript = transcript_obj['Body'].read().decode('utf-8')
+                    if transcript:
+                        logging.debug(f"Loaded original transcript, length: {len(transcript)}")
                         self.transcript = transcript
                         self.system_prompt += f"\n\nTranscript update: {transcript}"
                         logging.debug(f"Updated system prompt, new length: {len(self.system_prompt)}")

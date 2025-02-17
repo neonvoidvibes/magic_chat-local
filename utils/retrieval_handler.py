@@ -2,7 +2,7 @@
 import logging
 from typing import List, Optional, Dict, Any
 from langchain_openai import OpenAIEmbeddings
-from langchain.vectorstores import Pinecone as PineconeVectorStore
+from langchain_community.vectorstores import Pinecone as PineconeVectorStore
 from utils.pinecone_utils import init_pinecone
 from utils.document_handler import DocumentHandler
 
@@ -17,6 +17,8 @@ class RetrievalHandler:
         self,
         index_name: str = "magicchat",
         agent_name: str = None,  # We'll use this as the namespace
+        session_id: str = None,  # Current session ID
+        event_id: str = None,   # Current event ID
         top_k: int = 5
     ):
         """Initialize retrieval handler with agent namespace.
@@ -28,6 +30,8 @@ class RetrievalHandler:
         """
         self.index_name = index_name
         self.namespace = agent_name
+        self.session_id = session_id
+        self.event_id = event_id
         self.top_k = top_k
 
         # Initialize embeddings and document handler
@@ -67,14 +71,30 @@ class RetrievalHandler:
         Returns clear source attribution with each result.
         """
         try:
+            # Build metadata filter
+            base_filter = {}
+            if self.session_id:
+                base_filter['session_id'] = self.session_id
+            if self.event_id:
+                base_filter['event_id'] = self.event_id
+            
+            # Combine with any additional filters
+            if filter_metadata:
+                base_filter.update(filter_metadata)
+            
+            # Get documents with metadata filtering
             if top_k is None:
-                docs = self.retriever.get_relevant_documents(query)
-            else:
-                temp_retriever = self.vectorstore.as_retriever(
-                    search_type="similarity",
-                    search_kwargs={"k": top_k}
+                docs = self.vectorstore.similarity_search(
+                    query,
+                    k=self.top_k,
+                    filter=base_filter
                 )
-                docs = temp_retriever.get_relevant_documents(query)
+            else:
+                docs = self.vectorstore.similarity_search(
+                    query,
+                    k=top_k,
+                    filter=base_filter
+                )
 
             results = []
             for doc in docs:
