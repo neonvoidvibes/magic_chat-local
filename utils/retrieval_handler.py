@@ -3,6 +3,7 @@ import logging
 from typing import List, Optional, Dict, Any
 from langchain_openai import OpenAIEmbeddings
 from langchain_pinecone import Pinecone as PineconeVectorStore
+from langchain.schema import Document
 from utils.pinecone_utils import init_pinecone
 from utils.document_handler import DocumentHandler
 
