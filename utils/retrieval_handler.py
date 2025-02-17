@@ -115,12 +115,25 @@ class RetrievalHandler:
 
             # Search in the base namespace
             try:
-                docs = self.vectorstore.similarity_search(
-                    query,
-                    k=top_k or self.top_k,
-                    filter=base_filter,
-                    namespace=self.namespace
+                # Get raw matches first
+                raw_response = self.index.query(
+                    vector=query_embedding,
+                    top_k=top_k or self.top_k,
+                    namespace=self.namespace,
+                    include_metadata=True
                 )
+                logging.info(f"Raw matches: {len(raw_response.matches)}")
+                
+                # Convert to Documents
+                docs = []
+                for match in raw_response.matches:
+                    content = match.metadata.get('content', '')
+                    metadata = {
+                        'score': match.score,
+                        'file_name': match.metadata.get('file_name', 'unknown')
+                    }
+                    docs.append(Document(page_content=content, metadata=metadata))
+                    
                 logging.info(f"Found {len(docs)} documents in namespace {self.namespace}")
                 return docs
             except Exception as e:

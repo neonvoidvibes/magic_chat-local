@@ -209,7 +209,7 @@ class WebChat:
             # Log retrieval success
             logging.info(f"WebChat: Retrieved {len(contexts)} relevant context chunks")
             for i, context in enumerate(contexts):
-                logging.info(f"WebChat: Context {i+1} source: {context.get('source_path', 'unknown')}")
+                logging.info(f"WebChat: Context {i+1} content: {context.page_content[:100]}...")
             return contexts
             
         except Exception as e:
