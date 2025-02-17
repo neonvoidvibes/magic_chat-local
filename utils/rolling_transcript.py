@@ -70,23 +70,8 @@ class RollingTranscriptManager:
         else:
             self.transcript_folder = '_files/transcripts/'
             
-        # We'll create rolling versions for all transcripts in the folder
-        response = self.s3_client.list_objects_v2(
-            Bucket=self.s3_bucket,
-            Prefix=self.transcript_folder,
-            Delimiter='/'
-        )
-        
+        # Initialize empty transcript keys list - scheduler will populate this
         self.transcript_keys = []
-        if 'Contents' in response:
-            self.transcript_keys = [
-                obj['Key'] for obj in response['Contents']
-                if obj['Key'].startswith(self.transcript_folder)
-                and obj['Key'] != self.transcript_folder
-                and not obj['Key'].replace(self.transcript_folder, '').strip('/').count('/')
-                and obj['Key'].endswith('.txt')
-                and not obj['Key'].replace(self.transcript_folder, '').startswith('rolling-')  # Exclude rolling transcripts
-            ]
         
     def update_rolling_transcript(self) -> None:
         """Update rolling transcript files for all transcripts in the folder."""

@@ -43,9 +43,35 @@ def start_scheduler(agent_name: str, session_id: str, event_id: str) -> threadin
         """Update both rolling transcript and process embeddings."""
         try:
             logger.info("Starting scheduled update")
-            manager.update_rolling_transcript()
-            manager.process_embeddings()
-            logger.info("Completed scheduled update")
+            # Get current transcript files
+            response = manager.s3_client.list_objects_v2(
+                Bucket=manager.s3_bucket,
+                Prefix=manager.transcript_folder,
+                Delimiter='/'
+            )
+            
+            # Find original transcripts (excluding rolling ones)
+            if 'Contents' in response:
+                transcript_files = [
+                    obj['Key'] for obj in response['Contents']
+                    if obj['Key'].startswith(manager.transcript_folder)
+                    and obj['Key'] != manager.transcript_folder
+                    and not obj['Key'].replace(manager.transcript_folder, '').strip('/').count('/')
+                    and obj['Key'].endswith('.txt')
+                    and not obj['Key'].replace(manager.transcript_folder, '').startswith('rolling-')
+                ]
+                
+                if transcript_files:
+                    # Update transcript keys and process
+                    manager.transcript_keys = transcript_files
+                    manager.update_rolling_transcript()
+                    manager.process_embeddings()
+                    logger.info("Completed scheduled update")
+                else:
+                    logger.info("No original transcripts found yet, waiting...")
+            else:
+                logger.info("No files in transcript folder yet, waiting...")
+                
         except Exception as e:
             logger.error(f"Error in scheduled update: {e}")
     
