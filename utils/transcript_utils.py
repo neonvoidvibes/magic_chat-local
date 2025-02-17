@@ -2,6 +2,8 @@ import logging
 import boto3
 import os
 from datetime import datetime
+from typing import Optional, Dict, Any, List
+from .retrieval_handler import RetrievalHandler
 
 class TranscriptState:
     def __init__(self):
@@ -83,12 +85,24 @@ def get_latest_transcript_file(agent_name=None, event_id=None, s3_client=None, b
 
 def read_new_transcript_content(state, agent_name, event_id, s3_client=None, bucket_name=None, read_all=False):
     """
-    Read only new content from one or multiple transcripts, depending on read_all.
-    When read_all=True, we combine partial updates from all transcripts following priority order:
+    Read new content from both file-based transcripts and Pinecone vector DB in parallel.
+    When read_all=True, combines partial updates from all transcripts.
+    Otherwise, uses single 'latest' transcript approach.
+    
+    File-based transcripts are read in this order:
     1. rolling-transcript_ (agent event folder)
     2. transcript_ (agent event folder)
     3. transcript_ (general folder)
-    Otherwise, we stick to single 'latest' transcript approach using same priority.
+    
+    Pinecone vector DB is always queried in parallel for redundancy.
+    
+    Args:
+        state: TranscriptState object tracking file positions
+        agent_name: Name of the agent
+        event_id: Current event ID
+        s3_client: Optional pre-configured S3 client
+        bucket_name: Optional S3 bucket name
+        read_all: Whether to read from all available transcripts
     """
     try:
         if s3_client is None:
@@ -236,6 +250,33 @@ def read_new_transcript_content(state, agent_name, event_id, s3_client=None, buc
                         logging.debug(f"Read {len(new_text)} new bytes from general transcript {k}")
                     
                     state.file_positions[k] = len(text)
+            
+            # Always try to get content from Pinecone DB in parallel
+            try:
+                # Initialize retrieval handler
+                retriever = RetrievalHandler(
+                    agent_name=agent_name,
+                    event_id=event_id
+                )
+                
+                # Get recent content from vector DB
+                results = retriever.get_relevant_context(
+                    query="",  # Empty query to get recent content
+                    is_transcript=True,
+                    top_k=5  # Adjust this number as needed
+                )
+                
+                if results:
+                    # Format vector DB results
+                    for result in results:
+                        content = result.get('content', '')
+                        source = result.get('source', 'Unknown Source')
+                        if content:
+                            combined_new.append(f"[Vector DB: {source}]\n{content}")
+                            logging.debug(f"Retrieved content from vector DB source: {source}")
+                            
+            except Exception as e:
+                logging.error(f"Error retrieving from vector DB: {e}")
             
             if combined_new:
                 # combine with extra spacing

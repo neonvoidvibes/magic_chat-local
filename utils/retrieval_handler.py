@@ -114,29 +114,59 @@ class RetrievalHandler:
                 logging.error(f"Error generating embedding: {e}")
                 raise
 
-            # Search in the base namespace
+            # Always search in both namespaces
+            docs = []
             try:
-                # Get raw matches first
-                raw_response = self.index.query(
+                # Search in base namespace
+                base_response = self.index.query(
                     vector=query_embedding,
                     top_k=top_k or self.top_k,
                     namespace=self.namespace,
                     include_metadata=True
                 )
-                logging.info(f"Raw matches: {len(raw_response.matches)}")
+                logging.info(f"Raw matches in base namespace: {len(base_response.matches)}")
                 
-                # Convert to Documents
-                docs = []
-                for match in raw_response.matches:
+                # Convert base namespace matches to Documents
+                for match in base_response.matches:
                     content = match.metadata.get('content', '')
                     metadata = {
                         'score': match.score,
-                        'file_name': match.metadata.get('file_name', 'unknown')
+                        'file_name': match.metadata.get('file_name', 'unknown'),
+                        'namespace': self.namespace
                     }
                     docs.append(Document(page_content=content, metadata=metadata))
+                
+                # If we have an event ID, also search event namespace
+                if self.event_id:
+                    event_namespace = f"{self.namespace}-{self.event_id}"
+                    event_response = self.index.query(
+                        vector=query_embedding,
+                        top_k=top_k or self.top_k,
+                        namespace=event_namespace,
+                        include_metadata=True
+                    )
+                    logging.info(f"Raw matches in event namespace: {len(event_response.matches)}")
                     
-                logging.info(f"Found {len(docs)} documents in namespace {self.namespace}")
+                    # Convert event namespace matches to Documents
+                    for match in event_response.matches:
+                        content = match.metadata.get('content', '')
+                        metadata = {
+                            'score': match.score,
+                            'file_name': match.metadata.get('file_name', 'unknown'),
+                            'namespace': event_namespace
+                        }
+                        docs.append(Document(page_content=content, metadata=metadata))
+                
+                # Sort combined results by score
+                docs.sort(key=lambda x: x.metadata['score'], reverse=True)
+                
+                # Limit to top_k results if specified
+                if top_k:
+                    docs = docs[:top_k]
+                    
+                logging.info(f"Found {len(docs)} total documents across namespaces")
                 return docs
+                
             except Exception as e:
                 logging.error(f"Error querying Pinecone: {e}")
                 return []
