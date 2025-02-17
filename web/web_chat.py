@@ -197,6 +197,17 @@ class WebChat:
         if not system_prompt:
             logging.error("Failed to load system prompt")
             return
+            
+        # Add source differentiation instructions
+        system_prompt += "\n\n## Data Source Guidelines\n"
+        system_prompt += "You have access to two types of information:\n"
+        system_prompt += "1. Live Transcript Data: Real-time conversation updates marked with [LIVE TRANSCRIPT]\n"
+        system_prompt += "2. Vector Database Knowledge: Historical information marked with [VECTOR DB]\n"
+        system_prompt += "\nWhen providing information:\n"
+        system_prompt += "- Always specify which source you are drawing from\n"
+        system_prompt += "- Prioritize live transcript data for current context\n"
+        system_prompt += "- Use vector database knowledge for historical context and background\n"
+        system_prompt += "- If mixing sources, clearly indicate which parts come from where\n"
         
         # Add frameworks
         frameworks = get_latest_frameworks(self.config.agent_name)
@@ -303,6 +314,19 @@ class WebChat:
                         messages.append({"role": "user", "content": chat['user']})
                     if chat['assistant']:  # Only add if assistant message exists
                         messages.append({"role": "assistant", "content": chat['assistant']})
+                # Add source handling instructions
+                source_instructions = """
+                Important source handling instructions:
+                1. When referencing information, always specify the source:
+                   - Use "[LIVE TRANSCRIPT]" for real-time updates
+                   - Use "[VECTOR DB]" for historical knowledge
+                2. Prioritize live transcript data for current context
+                3. Cross-reference vector database knowledge for historical context
+                4. When mixing sources, clearly indicate which parts come from where
+                """
+                
+                enhanced_prompt = current_system_prompt + "\n\n" + source_instructions
+
                 def generate():
                     full_response = ""
                     with self.client.messages.stream(
@@ -310,7 +334,7 @@ class WebChat:
                         # model="claude-3-5-sonnet-20240620",
                         # model="claude-3-5-haiku-20241022",
                         max_tokens=1024,
-                        system=current_system_prompt,
+                        system=enhanced_prompt,
                         messages=messages
                     ) as stream:
                         for text in stream.text_stream:
@@ -535,8 +559,10 @@ class WebChat:
             )
             
             if new_content:
+                # Add clear source labeling to transcript updates
+                labeled_content = f"[LIVE TRANSCRIPT] {new_content}"
                 self.chat_history.append({
-                    'user': f"[Transcript update - DO NOT SUMMARIZE, just acknowledge receipt]: {new_content}",
+                    'user': f"[Transcript update]: {labeled_content}",
                     'assistant': None
                 })
                 return True

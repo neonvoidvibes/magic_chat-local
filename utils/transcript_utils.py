@@ -112,7 +112,13 @@ def read_new_transcript_content(state, agent_name, event_id, s3_client=None, buc
             state.current_key = latest_key
             # We won't store multiple positions for single-file mode
             state.file_positions[latest_key] = state.last_position
-            return new_content
+            
+            if new_content:
+                # Add timestamp and source labeling
+                timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                labeled_content = f"[LIVE TRANSCRIPT {timestamp}]\n{new_content}"
+                return labeled_content
+            return None
         
         else:
             # read_all == True => partial updates from all .txt transcripts in the folder
@@ -163,7 +169,11 @@ def read_new_transcript_content(state, agent_name, event_id, s3_client=None, buc
             
             if combined_new:
                 # combine with extra spacing
-                return "\n\n".join(combined_new)
+                combined_content = "\n\n".join(combined_new)
+                # Add timestamp and source labeling
+                timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                labeled_content = f"[LIVE TRANSCRIPT {timestamp}]\n{combined_content}"
+                return labeled_content
             else:
                 return None
 
