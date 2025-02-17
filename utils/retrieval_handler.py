@@ -82,6 +82,9 @@ class RetrievalHandler:
                          If False, search in both agent and event namespaces
         """
         try:
+            logging.info(f"Retrieving context for query: {query}")
+            logging.info(f"Is transcript query: {is_transcript}")
+            
             # Build metadata filter
             base_filter = {}
             if self.session_id:
@@ -93,31 +96,39 @@ class RetrievalHandler:
             if filter_metadata:
                 base_filter.update(filter_metadata)
             
+            logging.info(f"Using metadata filter: {base_filter}")
+            
             # For transcripts, only use event namespace
             if is_transcript:
                 event_namespace = f"{self.namespace}-{self.event_id or '0000'}"
+                logging.info(f"Searching in event namespace: {event_namespace}")
                 docs = self.vectorstore.similarity_search(
                     query,
                     k=top_k or self.top_k,
                     filter=base_filter,
                     namespace=event_namespace
                 )
+                logging.info(f"Found {len(docs)} documents in event namespace")
             else:
                 # For regular docs, search both namespaces
+                logging.info(f"Searching in agent namespace: {self.namespace}")
                 agent_docs = self.vectorstore.similarity_search(
                     query,
                     k=top_k or self.top_k,
                     filter=base_filter,
                     namespace=self.namespace  # Agent's base namespace
                 )
+                logging.info(f"Found {len(agent_docs)} documents in agent namespace")
                 
                 event_namespace = f"{self.namespace}-{self.event_id or '0000'}"
+                logging.info(f"Searching in event namespace: {event_namespace}")
                 event_docs = self.vectorstore.similarity_search(
                     query,
                     k=top_k or self.top_k,
                     filter=base_filter,
                     namespace=event_namespace
                 )
+                logging.info(f"Found {len(event_docs)} documents in event namespace")
                 
                 # Combine and sort by relevance score
                 docs = sorted(
@@ -125,6 +136,7 @@ class RetrievalHandler:
                     key=lambda x: x.metadata.get('score', 0),
                     reverse=True
                 )[:top_k or self.top_k]
+                logging.info(f"Combined and sorted {len(docs)} total documents")
 
             results = []
             for doc in docs:

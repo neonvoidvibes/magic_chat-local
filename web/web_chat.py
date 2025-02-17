@@ -173,22 +173,28 @@ class WebChat:
     def get_document_context(self, query: str):
         """Get relevant document context for query."""
         try:
+            logging.info(f"WebChat: Getting document context for query: {query}")
+            
             # Build metadata filters
             filter_metadata = {
                 'agent_name': self.config.agent_name,  # Always filter by agent name
             }
+            logging.info(f"WebChat: Using agent name filter: {self.config.agent_name}")
             
             # Add event_id filter if available
             if self.config.event_id:
                 filter_metadata['event_id'] = self.config.event_id
+                logging.info(f"WebChat: Added event ID filter: {self.config.event_id}")
                 
             # Determine if this is a transcript query
             is_transcript = any(
                 word in query.lower()
                 for word in ['transcript', 'conversation', 'meeting', 'session', 'said']
             )
+            logging.info(f"WebChat: Is transcript query: {is_transcript}")
             
             # Get relevant contexts using RetrievalHandler
+            logging.info(f"WebChat: Calling retriever with metadata filters: {filter_metadata}")
             contexts = self.retriever.get_relevant_context(
                 query=query,
                 filter_metadata=filter_metadata,
@@ -197,11 +203,13 @@ class WebChat:
             )
             
             if not contexts:
-                logging.debug(f"No relevant context found for query: {query}")
+                logging.info(f"WebChat: No relevant context found for query: {query}")
                 return None
                 
             # Log retrieval success
-            logging.debug(f"Retrieved {len(contexts)} relevant context chunks")
+            logging.info(f"WebChat: Retrieved {len(contexts)} relevant context chunks")
+            for i, context in enumerate(contexts):
+                logging.info(f"WebChat: Context {i+1} source: {context.get('source_path', 'unknown')}")
             return contexts
             
         except Exception as e:
