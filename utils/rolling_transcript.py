@@ -85,7 +85,7 @@ class RollingTranscriptManager:
                 and obj['Key'] != self.transcript_folder
                 and not obj['Key'].replace(self.transcript_folder, '').strip('/').count('/')
                 and obj['Key'].endswith('.txt')
-                and not 'transcript-rolling_' in obj['Key']  # Exclude existing rolling transcripts
+                and not obj['Key'].replace(self.transcript_folder, '').startswith('rolling-')  # Exclude rolling transcripts
             ]
         
     def update_rolling_transcript(self) -> None:
@@ -104,7 +104,8 @@ class RollingTranscriptManager:
                     # Create rolling transcript key
                     base_path = os.path.dirname(transcript_key)
                     filename = os.path.basename(transcript_key)
-                    rolling_key = f"{base_path}/transcript-rolling_{filename}"
+                    # Prepend rolling- to the filename
+                    rolling_key = f"{base_path}/rolling-{filename}"
                     
                     # Split transcript into lines and filter by timestamp
                     lines = transcript_data.splitlines()
@@ -244,7 +245,7 @@ class RollingTranscriptManager:
                 rolling_files = [
                     obj['Key'] for obj in response['Contents']
                     if obj['Key'].startswith(self.transcript_folder)
-                    and 'transcript-rolling_' in obj['Key']
+                    and obj['Key'].replace(self.transcript_folder, '').startswith('rolling-')
                     and obj['Key'].endswith('.txt')
                 ]
                 

@@ -550,7 +550,8 @@ class WebChat:
                 base_key = get_latest_transcript_file(self.config.agent_name, self.config.event_id)
                 base_path = os.path.dirname(base_key)
                 filename = os.path.basename(base_key)
-                rolling_key = f"{base_path}/transcript-rolling_{filename}"
+                # Prepend rolling- to the filename
+                rolling_key = f"{base_path}/rolling-{filename}"
                 
                 try:
                     # Try to get rolling transcript

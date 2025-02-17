@@ -34,6 +34,7 @@ def get_latest_transcript_file(agent_name=None, event_id=None, s3_client=None, b
                     if obj['Key'].startswith(prefix) and obj['Key'] != prefix
                     and not obj['Key'].replace(prefix, '').strip('/').count('/')
                     and obj['Key'].endswith('.txt')
+                    and not obj['Key'].replace(prefix, '').startswith('rolling-')  # Exclude rolling transcripts
                 ]
                 if transcript_files:
                     logging.debug(f"Found {len(transcript_files)} transcript files in agent folder:")
@@ -56,6 +57,7 @@ def get_latest_transcript_file(agent_name=None, event_id=None, s3_client=None, b
                 if obj['Key'].startswith(prefix) and obj['Key'] != prefix
                 and not obj['Key'].replace(prefix, '').strip('/').count('/')
                 and obj['Key'].endswith('.txt')
+                and not obj['Key'].replace(prefix, '').startswith('rolling-')  # Exclude rolling transcripts
             ]
             if transcript_files:
                 latest_file = max(transcript_files, key=lambda x: s3_client.head_object(Bucket=bucket_name, Key=x)['LastModified'])
