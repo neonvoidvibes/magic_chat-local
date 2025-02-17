@@ -87,12 +87,21 @@ class RetrievalHandler:
             
             # Build metadata filter - only use essential fields
             base_filter = {}
-            if filter_metadata and filter_metadata.get('agent_name'):
-                base_filter['agent_name'] = filter_metadata['agent_name']
-            if self.event_id:
-                base_filter['event_id'] = self.event_id
+            # First try without filters to see what's in the index
+            try:
+                stats = self.index.describe_index_stats()
+                logging.info(f"Index stats: {stats}")
+            except Exception as e:
+                logging.error(f"Error getting index stats: {e}")
                 
-            logging.info(f"Using essential metadata filters: {base_filter}")
+            # Try to match on file name or source if filters are provided
+            if filter_metadata:
+                if 'file_name' in filter_metadata:
+                    base_filter['file_name'] = filter_metadata['file_name']
+                if 'source' in filter_metadata:
+                    base_filter['source'] = filter_metadata['source']
+                    
+            logging.info(f"Using metadata filters: {base_filter}")
             
             logging.info(f"Using metadata filter: {base_filter}")
             
