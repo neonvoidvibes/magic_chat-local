@@ -119,11 +119,6 @@ class RetrievalHandler:
                 return []
             else:
                 return []
-                    agent_docs + event_docs,
-                    key=lambda x: x.metadata.get('score', 0),
-                    reverse=True
-                )[:top_k or self.top_k]
-                logging.info(f"Combined and sorted {len(docs)} total documents")
 
             results = []
             for doc in docs:
