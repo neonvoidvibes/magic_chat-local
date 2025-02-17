@@ -4,6 +4,7 @@ from typing import List, Optional, Dict, Any
 from langchain_openai import OpenAIEmbeddings
 from langchain.vectorstores import Pinecone as PineconeVectorStore
 from utils.pinecone_utils import init_pinecone
+from utils.document_handler import DocumentHandler
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -29,8 +30,9 @@ class RetrievalHandler:
         self.namespace = agent_name
         self.top_k = top_k
 
-        # Initialize embeddings
+        # Initialize embeddings and document handler
         self.embeddings = OpenAIEmbeddings()
+        self.doc_handler = DocumentHandler()
 
         # Use the new Pinecone class-based usage
         pc = init_pinecone()

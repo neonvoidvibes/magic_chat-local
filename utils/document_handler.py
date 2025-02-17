@@ -1,5 +1,9 @@
 """Document handling utilities for splitting and processing text documents."""
 import logging
+import json
+import yaml
+import xml.etree.ElementTree as ET
+from io import StringIO
 from typing import List, Optional
 from langchain.text_splitter import CharacterTextSplitter
 
@@ -55,10 +59,48 @@ class DocumentHandler:
             logger.error(f"Error splitting text: {e}")
             return []
             
+    def read_file_content(self, content: str, file_extension: str) -> str:
+        """Process content based on file type.
+        
+        Args:
+            content: Raw file content
+            file_extension: File extension (e.g. 'json', 'xml', etc)
+            
+        Returns:
+            Processed text content
+        """
+        try:
+            # Strip extension of any leading period
+            ext = file_extension.lstrip('.').lower()
+            
+            if ext == 'json':
+                # Try to parse as JSON and convert to formatted string
+                data = json.loads(content)
+                return json.dumps(data, indent=2)
+                
+            elif ext == 'xml':
+                # Try to parse as XML and convert to formatted string
+                tree = ET.parse(StringIO(content))
+                return ET.tostring(tree.getroot(), encoding='unicode', method='xml')
+                
+            elif ext in ['yml', 'yaml']:
+                # Try to parse as YAML and convert to formatted string
+                data = yaml.safe_load(content)
+                return yaml.dump(data, default_flow_style=False)
+                
+            # For all other types, return content as-is
+            return content
+            
+        except Exception as e:
+            logging.warning(f"Error parsing {file_extension} content: {e}")
+            # If parsing fails, return raw content
+            return content
+
     def process_document(
         self,
         content: str,
-        metadata: Optional[dict] = None
+        metadata: Optional[dict] = None,
+        file_extension: Optional[str] = None
     ) -> List[dict]:
         """Process a document and prepare chunks with metadata.
         
@@ -70,7 +112,10 @@ class DocumentHandler:
             List of dicts containing chunks and metadata
         """
         try:
-            chunks = self.split_text(content)
+            # Process content based on file type if extension provided
+            processed_content = self.read_file_content(content, file_extension) if file_extension else content
+            
+            chunks = self.split_text(processed_content)
             if not chunks:
                 return []
                 
