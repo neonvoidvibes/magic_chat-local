@@ -2,7 +2,7 @@
 import logging
 from typing import List, Optional, Dict, Any
 from langchain_openai import OpenAIEmbeddings
-from langchain_community.vectorstores import Pinecone as PineconeVectorStore
+from langchain_pinecone import Pinecone as PineconeVectorStore
 from utils.pinecone_utils import init_pinecone
 from utils.document_handler import DocumentHandler
 
