@@ -46,12 +46,15 @@ class RetrievalHandler:
         # Create or retrieve the actual index object
         self.index = pc.Index(self.index_name)
 
+        # Use {agent}-{event} as namespace
+        namespace = f"{self.namespace}-{event_id}" if event_id else f"{self.namespace}-0000"
+        
         # Create the LangChain vector store
         self.vectorstore = PineconeVectorStore(
             index=self.index,
             embedding=self.embeddings,
             text_key="content",
-            namespace=self.namespace
+            namespace=namespace
         )
 
         # We'll use a standard "similarity" search retriever

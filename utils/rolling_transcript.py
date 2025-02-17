@@ -59,9 +59,11 @@ class RollingTranscriptManager:
         
         # Initialize handlers
         self.doc_handler = DocumentHandler(chunk_size=500, chunk_overlap=100)
+        # Use {agent}-{event} as namespace
+        namespace = f"{agent_name}-{event_id}" if event_id else f"{agent_name}-0000"
         self.embed_handler = EmbeddingHandler(
             index_name="magicchat",
-            namespace=agent_name
+            namespace=namespace
         )
         
         # Get the folder path where transcripts are stored
@@ -92,12 +94,27 @@ class RollingTranscriptManager:
                     # Prepend rolling- to the filename
                     rolling_key = f"{base_path}/rolling-{filename}"
                     
-                    # Split transcript into lines and filter by timestamp
+                    # Split transcript into lines
                     lines = transcript_data.splitlines()
                     now = datetime.now(timezone.utc)
-                    rolling_lines = []
                     
+                    # Check for existing session header
+                    session_time = None
                     for line in lines:
+                        if line.startswith('# Transcript - Session '):
+                            session_time = line.split('Session ')[1]
+                            break
+                    
+                    # Create rolling header
+                    header = f"# Rolling Transcript - Session {session_time if session_time else datetime.now().strftime('%Y%m%d_%H%M%S')}"
+                    rolling_lines = [header]  # Start with header
+                    
+                    # Process each line
+                    for line in lines:
+                        # Skip original header
+                        if line.startswith('# Transcript - Session '):
+                            continue
+                            
                         try:
                             # Extract timestamp from line format "[HH:MM:SS - ...]"
                             start_idx = line.index('[') + 1
@@ -105,8 +122,9 @@ class RollingTranscriptManager:
                             timestamp_str = line[start_idx:end_idx].split(' - ')[0]
                             timestamp = parser.parse(timestamp_str).replace(tzinfo=timezone.utc)
                             
-                            # Keep lines within total window (6 minutes)
-                            if now - timestamp <= self.total_window:
+                            # Keep lines within live window (not total window)
+                            # This ensures we only keep recent content to preserve tokens
+                            if now - timestamp <= self.live_window:
                                 rolling_lines.append(line)
                         except Exception as e:
                             logger.warning(f"Error parsing line timestamp: {e}")
