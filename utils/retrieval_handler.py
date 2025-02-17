@@ -83,12 +83,14 @@ class RetrievalHandler:
             for doc in docs:
                 metadata = dict(doc.metadata)
                 content = doc.page_content
-                # Add clear source labeling
-                content = f"[VECTOR DB] Source: {metadata.get('file_name', 'unknown')}\n{content}"
-                # Score is not guaranteed unless stored in metadata
+                filename = metadata.get('file_name', 'unknown')
+                
+                # Add clear source labeling with filename
+                labeled_content = f"[VECTOR DB] Source file: {filename}\n{content}"
+                
                 score = metadata.get("score", 0.0)
                 results.append({
-                    "content": content,
+                    "content": labeled_content,
                     "metadata": metadata,
                     "score": score
                 })

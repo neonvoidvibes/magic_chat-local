@@ -114,9 +114,10 @@ def read_new_transcript_content(state, agent_name, event_id, s3_client=None, buc
             state.file_positions[latest_key] = state.last_position
             
             if new_content:
-                # Add timestamp and source labeling
+                # Add timestamp and source labeling with filename
                 timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                labeled_content = f"[LIVE TRANSCRIPT {timestamp}]\n{new_content}"
+                file_name = os.path.basename(latest_key)
+                labeled_content = f"[LIVE TRANSCRIPT {timestamp}] Source file: {file_name}\n{new_content}"
                 return labeled_content
             return None
         
@@ -172,7 +173,7 @@ def read_new_transcript_content(state, agent_name, event_id, s3_client=None, buc
                 combined_content = "\n\n".join(combined_new)
                 # Add timestamp and source labeling
                 timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                labeled_content = f"[LIVE TRANSCRIPT {timestamp}]\n{combined_content}"
+                labeled_content = f"[LIVE TRANSCRIPT {timestamp}] Multiple source files\n{combined_content}"
                 return labeled_content
             else:
                 return None
