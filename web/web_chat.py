@@ -152,8 +152,9 @@ class WebChat:
             event_id=config.event_id      # Current event
         )
         
-        # Initialize chat filename with timestamp at session start
+        # Initialize session ID and chat filename with timestamp
         timestamp = datetime.now().strftime('%Y%m%d-T%H%M%S')
+        self.config.session_id = timestamp  # Set session ID
         self.current_chat_file = f"chat_D{timestamp}_aID-{config.agent_name}_eID-{config.event_id}.txt"
         self.last_saved_index = 0     # Track messages saved via !save command
         self.last_archive_index = 0   # Track messages auto-archived

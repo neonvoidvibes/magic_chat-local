@@ -31,6 +31,7 @@ class AppConfig:
     anthropic_api_key: Optional[str] = None
     openai_api_key: Optional[str] = None
     event_id: str = '0000'  # Default event ID
+    session_id: str = None  # Will be set to timestamp on initialization
 
     @classmethod
     def from_env_and_args(cls) -> 'AppConfig':

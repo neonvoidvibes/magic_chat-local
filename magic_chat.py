@@ -606,8 +606,9 @@ def main():
         # Setup logging
         setup_logging(config.debug)
         
-        # Initialize chat filename with timestamp at session start
+        # Initialize session ID and chat filename with timestamp
         timestamp = datetime.now().strftime('%Y%m%d-T%H%M%S')
+        config.session_id = timestamp  # Set session ID
         event_id = config.event_id  # Updated from config.event to config.event_id
         current_chat_file = f"chat_D{timestamp}_aID-{config.agent_name}_eID-{event_id}.txt"
         logging.debug(f"Initialized chat filename: {current_chat_file}")
@@ -639,10 +640,12 @@ def main():
         
             client = Anthropic(api_key=ANTHROPIC_API_KEY)
 
-            # Initialize retrieval handler with agent namespace
+            # Initialize retrieval handler with agent namespace and session info
             retriever = RetrievalHandler(
                 index_name="magicchat",
-                agent_name=config.agent_name  # Pass agent name for namespace
+                agent_name=config.agent_name,  # Pass agent name for namespace
+                session_id=config.session_id,  # Current session
+                event_id=config.event_id      # Current event
             )
 
             def get_document_context(query: str, agent_name: str, event_id: Optional[str] = None) -> Optional[str]:
