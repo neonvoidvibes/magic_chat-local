@@ -182,11 +182,18 @@ class WebChat:
             if self.config.event_id:
                 filter_metadata['event_id'] = self.config.event_id
                 
+            # Determine if this is a transcript query
+            is_transcript = any(
+                word in query.lower()
+                for word in ['transcript', 'conversation', 'meeting', 'session', 'said']
+            )
+            
             # Get relevant contexts using RetrievalHandler
             contexts = self.retriever.get_relevant_context(
                 query=query,
                 filter_metadata=filter_metadata,
-                top_k=3  # Limit to top 3 most relevant matches
+                top_k=3,  # Limit to top 3 most relevant matches
+                is_transcript=is_transcript  # Only search transcript namespace if transcript-related
             )
             
             if not contexts:

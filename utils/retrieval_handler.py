@@ -67,11 +67,19 @@ class RetrievalHandler:
         self,
         query: str,
         filter_metadata: Optional[Dict[str, Any]] = None,
-        top_k: Optional[int] = None
+        top_k: Optional[int] = None,
+        is_transcript: bool = False
     ) -> List[Dict[str, Any]]:
         """
         Retrieve the most relevant chunks for `query`.
         Returns clear source attribution with each result.
+        
+        Args:
+            query: Search query
+            filter_metadata: Additional metadata filters
+            top_k: Number of results to return
+            is_transcript: If True, only search in event-specific namespace
+                         If False, search in both agent and event namespaces
         """
         try:
             # Build metadata filter
@@ -85,19 +93,38 @@ class RetrievalHandler:
             if filter_metadata:
                 base_filter.update(filter_metadata)
             
-            # Get documents with metadata filtering
-            if top_k is None:
+            # For transcripts, only use event namespace
+            if is_transcript:
+                event_namespace = f"{self.namespace}-{self.event_id or '0000'}"
                 docs = self.vectorstore.similarity_search(
                     query,
-                    k=self.top_k,
-                    filter=base_filter
+                    k=top_k or self.top_k,
+                    filter=base_filter,
+                    namespace=event_namespace
                 )
             else:
-                docs = self.vectorstore.similarity_search(
+                # For regular docs, search both namespaces
+                agent_docs = self.vectorstore.similarity_search(
                     query,
-                    k=top_k,
-                    filter=base_filter
+                    k=top_k or self.top_k,
+                    filter=base_filter,
+                    namespace=self.namespace  # Agent's base namespace
                 )
+                
+                event_namespace = f"{self.namespace}-{self.event_id or '0000'}"
+                event_docs = self.vectorstore.similarity_search(
+                    query,
+                    k=top_k or self.top_k,
+                    filter=base_filter,
+                    namespace=event_namespace
+                )
+                
+                # Combine and sort by relevance score
+                docs = sorted(
+                    agent_docs + event_docs,
+                    key=lambda x: x.metadata.get('score', 0),
+                    reverse=True
+                )[:top_k or self.top_k]
 
             results = []
             for doc in docs:
