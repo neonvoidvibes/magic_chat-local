@@ -85,53 +85,40 @@ class RetrievalHandler:
             logging.info(f"Retrieving context for query: {query}")
             logging.info(f"Is transcript query: {is_transcript}")
             
-            # Build metadata filter
+            # Build metadata filter - only use essential fields
             base_filter = {}
-            if self.session_id:
-                base_filter['session_id'] = self.session_id
+            if filter_metadata and filter_metadata.get('agent_name'):
+                base_filter['agent_name'] = filter_metadata['agent_name']
             if self.event_id:
                 base_filter['event_id'] = self.event_id
-            
-            # Combine with any additional filters
-            if filter_metadata:
-                base_filter.update(filter_metadata)
+                
+            logging.info(f"Using essential metadata filters: {base_filter}")
             
             logging.info(f"Using metadata filter: {base_filter}")
             
-            # For transcripts, only use event namespace
-            if is_transcript:
-                event_namespace = f"{self.namespace}-{self.event_id or '0000'}"
-                logging.info(f"Searching in event namespace: {event_namespace}")
+            # Get embedding for query
+            try:
+                query_embedding = self.embeddings.embed_query(query)
+                logging.info(f"Generated embedding vector of length: {len(query_embedding)}")
+            except Exception as e:
+                logging.error(f"Error generating embedding: {e}")
+                raise
+
+            # Search in the base namespace
+            try:
                 docs = self.vectorstore.similarity_search(
                     query,
                     k=top_k or self.top_k,
                     filter=base_filter,
-                    namespace=event_namespace
+                    namespace=self.namespace
                 )
-                logging.info(f"Found {len(docs)} documents in event namespace")
+                logging.info(f"Found {len(docs)} documents in namespace {self.namespace}")
+                return docs
+            except Exception as e:
+                logging.error(f"Error querying Pinecone: {e}")
+                return []
             else:
-                # For regular docs, search both namespaces
-                logging.info(f"Searching in agent namespace: {self.namespace}")
-                agent_docs = self.vectorstore.similarity_search(
-                    query,
-                    k=top_k or self.top_k,
-                    filter=base_filter,
-                    namespace=self.namespace  # Agent's base namespace
-                )
-                logging.info(f"Found {len(agent_docs)} documents in agent namespace")
-                
-                event_namespace = f"{self.namespace}-{self.event_id or '0000'}"
-                logging.info(f"Searching in event namespace: {event_namespace}")
-                event_docs = self.vectorstore.similarity_search(
-                    query,
-                    k=top_k or self.top_k,
-                    filter=base_filter,
-                    namespace=event_namespace
-                )
-                logging.info(f"Found {len(event_docs)} documents in event namespace")
-                
-                # Combine and sort by relevance score
-                docs = sorted(
+                return []
                     agent_docs + event_docs,
                     key=lambda x: x.metadata.get('score', 0),
                     reverse=True
