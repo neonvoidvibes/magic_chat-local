@@ -8,7 +8,7 @@ from dateutil import parser
 
 from .document_handler import DocumentHandler
 from .embedding_handler import EmbeddingHandler
-from .transcript_utils import get_latest_transcript_file
+from .transcript_utils import get_latest_transcript_file, get_transcript_mode
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -76,7 +76,14 @@ class RollingTranscriptManager:
         self.transcript_keys = []
         
     def update_rolling_transcript(self) -> None:
-        """Update rolling transcript files for all transcripts in the folder."""
+        """Update rolling transcript files for all transcripts in the folder.
+        Note: This operation is skipped if TRANSCRIPT_MODE is set to 'regular'.
+        """
+        # Skip if in regular transcript mode
+        if get_transcript_mode() == 'regular':
+            logger.info("Skipping rolling transcript update - regular transcript mode is active")
+            return
+            
         try:
             # Process each transcript file
             for transcript_key in self.transcript_keys:

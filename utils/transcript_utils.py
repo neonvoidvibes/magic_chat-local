@@ -5,6 +5,16 @@ from datetime import datetime
 from typing import Optional, Dict, Any, List
 from .retrieval_handler import RetrievalHandler
 
+# Toggle between 'rolling' and 'regular' transcript modes
+# TRANSCRIPT_MODE = 'rolling'  # Uses rolling-transcript_ files
+TRANSCRIPT_MODE = 'regular'  # Uses transcript_ files (non-rolling)
+
+def get_transcript_mode() -> str:
+    """Get the current transcript mode.
+    Returns 'rolling' or 'regular' based on the TRANSCRIPT_MODE setting.
+    """
+    return TRANSCRIPT_MODE
+
 class TranscriptState:
     def __init__(self):
         self.current_key = None
@@ -16,11 +26,7 @@ def get_latest_transcript_file(agent_name=None, event_id=None, s3_client=None, b
     1. rolling-transcript_ (agent event folder)
     2. transcript_ (agent event folder)
     3. transcript_ (general folder)
-    
-    To switch between rolling and regular transcripts, comment/uncomment the TRANSCRIPT_MODE below:
     """
-    # TRANSCRIPT_MODE = 'rolling'  # Uses rolling-transcript_ files
-    TRANSCRIPT_MODE = 'regular'  # Uses transcript_ files (non-rolling)
     if s3_client is None:
         s3_client = boto3.client(
             's3',
