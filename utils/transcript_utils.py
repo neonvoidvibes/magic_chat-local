@@ -16,7 +16,11 @@ def get_latest_transcript_file(agent_name=None, event_id=None, s3_client=None, b
     1. rolling-transcript_ (agent event folder)
     2. transcript_ (agent event folder)
     3. transcript_ (general folder)
+    
+    To switch between rolling and regular transcripts, comment/uncomment the TRANSCRIPT_MODE below:
     """
+    # TRANSCRIPT_MODE = 'rolling'  # Uses rolling-transcript_ files
+    TRANSCRIPT_MODE = 'regular'  # Uses transcript_ files (non-rolling)
     if s3_client is None:
         s3_client = boto3.client(
             's3',
@@ -35,30 +39,31 @@ def get_latest_transcript_file(agent_name=None, event_id=None, s3_client=None, b
             response = s3_client.list_objects_v2(Bucket=bucket_name, Prefix=prefix, Delimiter='/')
             
             if 'Contents' in response:
-                # First priority: rolling transcripts in agent folder
-                rolling_files = [
+                # Get all transcript files
+                all_files = [
                     obj['Key'] for obj in response['Contents']
                     if obj['Key'].startswith(prefix) and obj['Key'] != prefix
                     and not obj['Key'].replace(prefix, '').strip('/').count('/')
                     and obj['Key'].endswith('.txt')
-                    and obj['Key'].replace(prefix, '').startswith('rolling-')
                 ]
-                if rolling_files:
-                    latest_file = max(rolling_files, key=lambda x: s3_client.head_object(Bucket=bucket_name, Key=x)['LastModified'])
-                    logging.debug(f"Selected latest rolling transcript in agent folder: {latest_file}")
-                    return latest_file
                 
-                # Second priority: regular transcripts in agent folder
-                transcript_files = [
-                    obj['Key'] for obj in response['Contents']
-                    if obj['Key'].startswith(prefix) and obj['Key'] != prefix
-                    and not obj['Key'].replace(prefix, '').strip('/').count('/')
-                    and obj['Key'].endswith('.txt')
-                    and not obj['Key'].replace(prefix, '').startswith('rolling-')
-                ]
-                if transcript_files:
-                    latest_file = max(transcript_files, key=lambda x: s3_client.head_object(Bucket=bucket_name, Key=x)['LastModified'])
-                    logging.debug(f"Selected latest transcript in agent folder: {latest_file}")
+                # Filter based on TRANSCRIPT_MODE
+                if TRANSCRIPT_MODE == 'rolling':
+                    # Only use rolling transcripts
+                    filtered_files = [
+                        f for f in all_files
+                        if f.replace(prefix, '').startswith('rolling-')
+                    ]
+                else:  # regular mode
+                    # Only use regular transcripts
+                    filtered_files = [
+                        f for f in all_files
+                        if not f.replace(prefix, '').startswith('rolling-')
+                    ]
+                
+                if filtered_files:
+                    latest_file = max(filtered_files, key=lambda x: s3_client.head_object(Bucket=bucket_name, Key=x)['LastModified'])
+                    logging.debug(f"Selected latest {'rolling' if TRANSCRIPT_MODE == 'rolling' else 'regular'} transcript in agent folder: {latest_file}")
                     return latest_file
         
         # Third priority: transcripts in general folder
