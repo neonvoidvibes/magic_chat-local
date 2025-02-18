@@ -520,18 +520,26 @@ class WebChat:
             
         @self.app.route('/api/save', methods=['POST'])
         def save_chat():
-            """Copy current chat file from archive to saved folder"""
+            """Save chat history with only user and agent messages"""
             try:
                 if not self.current_chat_file:
                     return jsonify({'error': 'No chat file exists to save'}), 404
                 
+                # Generate clean chat content with only user and agent messages
+                chat_content = ""
+                for chat in self.chat_history:
+                    if chat.get('user'):
+                        chat_content += f"**User:**\n{chat['user']}\n\n"
+                    if chat.get('assistant'):
+                        chat_content += f"**Agent:**\n{chat['assistant']}\n\n"
+                
                 # Import the save function from magic_chat
                 from magic_chat import save_chat_to_s3
                 
-                # Copy the current chat file from archive to saved
+                # Save clean chat content directly to saved folder
                 success, filename = save_chat_to_s3(
                     agent_name=self.config.agent_name,
-                    chat_content="",  # Empty content since we're just copying
+                    chat_content=chat_content,
                     event_id=self.config.event_id,
                     is_saved=True,
                     filename=self.current_chat_file
