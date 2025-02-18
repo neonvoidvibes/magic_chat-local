@@ -156,7 +156,13 @@ class RollingTranscriptManager:
     def process_embeddings(self) -> None:
         """Process transcript data older than the live window into vector embeddings.
         Processes ALL transcripts in the folder to maintain complete meeting history.
+        Note: This operation is skipped if TRANSCRIPT_MODE is set to 'regular'.
         """
+        # Skip if in regular transcript mode
+        if get_transcript_mode() == 'regular':
+            logger.info("Skipping embedding processing - regular transcript mode is active")
+            return
+            
         try:
             # Process each original transcript file
             for transcript_key in self.transcript_keys:

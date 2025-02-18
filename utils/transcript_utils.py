@@ -262,32 +262,35 @@ def read_new_transcript_content(state, agent_name, event_id, s3_client=None, buc
                     
                     state.file_positions[k] = len(text)
             
-            # Always try to get content from Pinecone DB in parallel
-            try:
-                # Initialize retrieval handler
-                retriever = RetrievalHandler(
-                    agent_name=agent_name,
-                    event_id=event_id
-                )
-                
-                # Get recent content from vector DB
-                results = retriever.get_relevant_context(
-                    query="",  # Empty query to get recent content
-                    is_transcript=True,
-                    top_k=5  # Adjust this number as needed
-                )
-                
-                if results:
-                    # Format vector DB results
-                    for result in results:
-                        content = result.get('content', '')
-                        source = result.get('source', 'Unknown Source')
-                        if content:
-                            combined_new.append(f"[Vector DB: {source}]\n{content}")
-                            logging.debug(f"Retrieved content from vector DB source: {source}")
-                            
-            except Exception as e:
-                logging.error(f"Error retrieving from vector DB: {e}")
+            # Only query vector DB if not in regular mode
+            if get_transcript_mode() != 'regular':
+                try:
+                    # Initialize retrieval handler
+                    retriever = RetrievalHandler(
+                        agent_name=agent_name,
+                        event_id=event_id
+                    )
+                    
+                    # Get recent content from vector DB
+                    results = retriever.get_relevant_context(
+                        query="",  # Empty query to get recent content
+                        is_transcript=True,
+                        top_k=5  # Adjust this number as needed
+                    )
+                    
+                    if results:
+                        # Format vector DB results
+                        for result in results:
+                            content = result.get('content', '')
+                            source = result.get('source', 'Unknown Source')
+                            if content:
+                                combined_new.append(f"[Vector DB: {source}]\n{content}")
+                                logging.debug(f"Retrieved content from vector DB source: {source}")
+                                
+                except Exception as e:
+                    logging.error(f"Error retrieving from vector DB: {e}")
+            else:
+                logging.debug("Skipping vector DB query - regular transcript mode is active")
             
             if combined_new:
                 # combine with extra spacing
