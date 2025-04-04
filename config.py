@@ -33,6 +33,9 @@ class AppConfig:
     event_id: str = '0000'  # Default event ID
     session_id: str = None  # Will be set to timestamp on initialization
 
+    # New setting: Pinecone index name
+    index: str = "magicchat"
+
     @classmethod
     def from_env_and_args(cls) -> 'AppConfig':
         """Create configuration from environment variables and command line arguments"""
@@ -56,6 +59,8 @@ class AppConfig:
         parser.add_argument('--listen-all', action='store_true', help='Enable all listening at startup.')
         parser.add_argument('--all', action='store_true', help='Read all transcripts in the selected folder at launch, ignore further updates.')
         parser.add_argument('--event', type=str, default='0000', help='Event ID (default: 0000)')
+        # New argument for Pinecone index name:
+        parser.add_argument('--index', type=str, default='magicchat', help='Pinecone index name to fetch context from')
         
         args = parser.parse_args()
         
@@ -77,21 +82,22 @@ class AppConfig:
             agent_name=args.agent,
             interface_mode=interface_mode,
             web_port=args.web_port,
-            event_id=args.event,  # Add event_id from args
+            event_id=args.event,
             memory=args.memory,
             debug=args.debug,
             listen_summary=listen_summary,
-            listen_transcript=listen_transcript,  # Set from command line arg
+            listen_transcript=listen_transcript,
             listen_insights=listen_insights,
             listen_deep=args.listen_deep,
             listen_all=args.listen_all,
-            listen_transcript_enabled=False,  # Always start disabled, enable only when needed
+            listen_transcript_enabled=False,  # Start disabled; enable when needed
             read_all=args.all,
             # Environment variables
             aws_region=os.getenv('AWS_REGION'),
             aws_s3_bucket=os.getenv('AWS_S3_BUCKET'),
             anthropic_api_key=os.getenv('ANTHROPIC_API_KEY'),
-            openai_api_key=os.getenv('OPENAI_API_KEY')
+            openai_api_key=os.getenv('OPENAI_API_KEY'),
+            index=args.index  # Set the Pinecone index from CLI argument
         )
         
         # Validate configuration
@@ -101,7 +107,6 @@ class AppConfig:
     def validate(self) -> None:
         """Validate the configuration"""
         missing_vars = []
-        
         # Check required environment variables
         if not self.aws_region:
             missing_vars.append('AWS_REGION')

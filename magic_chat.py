@@ -91,6 +91,7 @@ def parse_arguments():
     parser.add_argument('--interface-mode', choices=['cli', 'web', 'web_only'], default='cli', help='Interface mode.')
     parser.add_argument('--event', type=str, default='0000', help='Event ID for transcript folder (e.g., "20250116")')
     parser.add_argument('--all', action='store_true', help='Read all transcripts from the folder once, then disable further transcript checks.')
+    parser.add_argument('--index', type=str, default='magicchat', help='Pinecone index name to fetch context from')
     return parser.parse_args()
 
 def setup_logging(debug):
