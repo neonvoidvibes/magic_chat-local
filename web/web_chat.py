@@ -405,7 +405,7 @@ class WebChat:
             except Exception as e:
                 logging.error(f"Error in chat endpoint: {e}")
                 return jsonify({'error': str(e)}), 500
-            
+                        
         @self.app.route('/api/status', methods=['GET'])
         def status():
             return jsonify({

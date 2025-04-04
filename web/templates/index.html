@@ -10,23 +10,23 @@
             --bg-color: #0a0a0a;
             --base-bg: #0a0a0a;  /* Dark mode/evening default */
             --chat-bg: rgba(0, 0, 0, 0);  /* Fully transparent */
-            --text-color: black;
+            --text-color: rgb(255, 255, 255); /* Default text color for body/other elements */
             --input-bg: transparent;
-            --input-field-bg: rgba(252, 252, 252, 0.5);
+            --input-field-bg: rgba(252, 252, 252, 0.9);
             --accent-color: transparent;
-            --accent-color-hover: #EEC2A7;
+            --accent-color-hover: rgba(73, 138, 86, 0.3);
             --action-color: rgb(137, 137, 137);  /* Dark icon color */
             --action-color-hover: rgb(20, 20, 20);  /* Even darker on hover */
-            --trigger-color: #c79375;
-            --trigger-color-hover: #c79375;
+            --trigger-color: #3f713f;
+            --trigger-color-hover: rgb(63, 113, 63);
             /* --message-user-bg: #292929; */
-            --message-user-bg: rgba(252, 252, 252, 0.5);
-            --message-assistant-bg: transparent;
+            --message-user-bg: rgba(63, 113, 63, 0.95);
+            --message-assistant-bg: rgba(255, 255, 255, 0.90);
             /* --message-system-bg: #4a4a4a; */
             --message-system-bg: #ffffff;
-            --status-bar: #b89581;
-            --send-button: #c79375;  /* New variable for send button arrow color */
-            --placeholder-color: #c9b69b;  /* New variable for input placeholder */
+            --status-bar: #222222;
+            --send-button: #3f713f;  /* New variable for send button arrow color */
+            --placeholder-color: #c7c7c7;  /* New variable for input placeholder */
         }
 
         @font-face {
@@ -290,20 +290,25 @@
             max-width: 60%;
             width: fit-content;
             align-self: flex-end;
+            color: #ffffff; /* Explicitly white text for user messages */
         }
 
         .assistant-message {
             background: var(--message-assistant-bg);
-            padding-left: 10px;
+            padding-left: 25px;
             border-bottom-left-radius: 5px;
-            width: 95%;
-            align-self: stretch;
+            /* width: 95%; /* REMOVED: Was making it always wide */
+            max-width: 95%; /* ADDED: Limit max width */
+            width: fit-content; /* ADDED: Make width adapt to content */
+            align-self: flex-start; /* CHANGED: Align to left instead of stretching */
+            color: #000000; /* ADDED: Explicitly black text for assistant messages */
         }
 
         .system-message {
             background: var(--message-system-bg);
             margin: 15px auto;
             text-align: center;
+            color: #000000; /* Explicitly black text for system messages */
         }
 
         #input-container {
@@ -373,16 +378,21 @@
             width: 37px;
             height: 37px;
             padding: 4px;
+            background-color: transparent; /* Ensure default background is transparent */
         }
+         #menu-trigger:hover {
+             /* background-color: rgba(100, 60, 150, 0.8); /* Optional: Slightly darker/more opaque on hover */
+             color: var(--trigger-color-hover); /* Uses the hover color variable */
+         }
 
         #menu-trigger svg {
             width: 100%;
             height: 100%;
         }
 
-        #menu-trigger:hover {
-            color: var(--trigger-color-hover);
-        }
+        /* #menu-trigger:hover { */
+            /* color: var(--trigger-color-hover); */
+        /* } */
 
         @media (min-width: 601px) {
             .action-buttons {
@@ -449,7 +459,8 @@
             border-radius: 35px;
             font-size: 20px;
             background: var(--input-field-bg);
-            color: var(--text-color);
+            /* color: var(--text-color); /* CHANGED: Was using default white */
+            color: #000000; /* CHANGED: Set input text color to black */
             outline: none;
             font-family: 'Avenir Next', 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             font-weight: 300;
@@ -550,7 +561,7 @@
             display: inline-block;
             width: 10px;
             height: 10px;
-            background-color: #2e2e2e;  /* Changed from #ffffff to match status bar color */
+            background-color: #3f713f;  /* Changed from #ffffff to match status bar color */
             border-radius: 50%;
             animation: breathe 2s ease-in-out infinite;
         }
@@ -771,26 +782,40 @@
             reader.then(reader => {
                 function readChunk() {
                     reader.read().then(({done, value}) => {
-                        if (done) return;
+                        if (done) {
+                            // Final scroll after streaming completes
+                            assistantElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                            return;
+                         }
                         
                         const chunk = decoder.decode(value);
                         const lines = chunk.split('\n');
                         
                         lines.forEach(line => {
                             if (line.startsWith('data: ')) {
-                                const data = JSON.parse(line.slice(6));
-                                if (data.delta) {
-                                    if (assistantMessage === '') {
-                                        assistantElement.innerHTML = ''; // Remove "Thinking..." message
-                                        messageInput.classList.add('thinking-end');
-                                        setTimeout(() => {
-                                            messageInput.classList.remove('thinking');
-                                            messageInput.classList.remove('thinking-end');
-                                        }, 500);
+                                try {
+                                    const data = JSON.parse(line.slice(6));
+                                    if (data.delta) {
+                                        if (assistantMessage === '' && assistantElement.querySelector('.waiting')) {
+                                            assistantElement.innerHTML = ''; // Remove "Thinking..." message (waiting span)
+                                            messageInput.classList.add('thinking-end');
+                                            setTimeout(() => {
+                                                messageInput.classList.remove('thinking');
+                                                messageInput.classList.remove('thinking-end');
+                                            }, 500);
+                                        }
+                                        assistantMessage += data.delta;
+                                        assistantElement.innerHTML += data.delta; // Append text directly
+                                        // Scroll the container, not just the element, for better control
+                                        const chatMessages = document.getElementById('chat-messages');
+                                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                                    } else if (data.done) {
+                                         // Final scroll when done message received
+                                         const chatMessages = document.getElementById('chat-messages');
+                                         chatMessages.scrollTop = chatMessages.scrollHeight;
                                     }
-                                    assistantMessage += data.delta;
-                                    assistantElement.innerHTML += data.delta;
-                                    assistantElement.scrollIntoView({ behavior: 'smooth' });
+                                } catch (e) {
+                                    console.error("Error parsing JSON from stream:", e, "Line:", line);
                                 }
                             }
                         });
@@ -799,6 +824,7 @@
                     }).catch(error => {
                         console.error('Stream error:', error);
                         assistantElement.textContent = 'Error: Failed to get response';
+                         messageInput.classList.remove('thinking'); // Ensure thinking state is removed on error
                     });
                 }
                 readChunk();
@@ -816,31 +842,29 @@
             if (isCommand) {
                 messageDiv.classList.add('command');
             }
+            // Use innerHTML for potentially formatted text (like the waiting span)
             messageDiv.innerHTML = text;
             const chatMessages = document.getElementById('chat-messages');
 
-            if (!lastMessage) {
-                if (sender.toLowerCase() === 'assistant') {
-                    const userMessage = chatMessages.firstChild;
-                    chatMessages.insertBefore(messageDiv, userMessage ? userMessage.nextSibling : chatMessages.firstChild);
-                } else {
-                    chatMessages.insertBefore(messageDiv, chatMessages.firstChild);
-                }
-            } else {
-                chatMessages.insertBefore(messageDiv, lastMessage.nextSibling);
-            }
-            
-            lastMessage = messageDiv;
-            // Scroll the message into view immediately after adding it
-            messageDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            // Append new message at the end
+            chatMessages.appendChild(messageDiv);
+
+            // Scroll the container to the bottom
+             setTimeout(() => { // Delay scroll slightly to allow rendering
+                 chatMessages.scrollTop = chatMessages.scrollHeight;
+             }, 0);
+
+            lastMessage = messageDiv; // Update last message reference if needed, though appending logic changed
             return messageDiv;
         }
+
 
         // Initialize the welcome text animation
         const welcomeText = "What is alive today?";
         const welcomeContainer = document.getElementById('welcome-text');
         
         function initializeWelcomeText() {
+            if (!welcomeContainer) return; // Guard against element not found
             welcomeContainer.innerHTML = '';
             [...welcomeText].forEach((char, index) => {
                 const span = document.createElement('span');
@@ -851,6 +875,7 @@
         }
 
         function animateWelcomeText() {
+             if (!welcomeContainer) return; // Guard against element not found
             const letters = welcomeContainer.querySelectorAll('.glow-text');
             letters.forEach((letter, index) => {
                 setTimeout(() => {
@@ -868,50 +893,65 @@
         // Update status every 5 seconds
         setInterval(updateStatus, 5000);
 
-        document.getElementById('save-button').addEventListener('click', async () => {
-            try {
-                const response = await fetch('/api/save', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-                
-                const data = await response.json();
-                if (response.ok) {
+        // Save button listener
+        const saveButton = document.getElementById('save-button');
+        if (saveButton) {
+            saveButton.addEventListener('click', async () => {
+                try {
+                    const response = await fetch('/api/save', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    const data = await response.json();
                     const messageDiv = document.createElement('div');
-                    messageDiv.className = 'system-message';
-                    messageDiv.textContent = data.message;
+                    const chatMessages = document.getElementById('chat-messages');
+
+                    if (response.ok) {
+                        messageDiv.className = 'message system-message'; // Use message and system-message classes
+                        messageDiv.textContent = data.message;
+                        chatMessages.appendChild(messageDiv);
+                        
+                        // Remove the message after 4 seconds
+                        setTimeout(() => {
+                            messageDiv.style.transition = 'opacity 0.5s ease-out';
+                            messageDiv.style.opacity = '0';
+                            setTimeout(() => messageDiv.remove(), 500);
+                        }, 4000);
+                    } else {
+                        throw new Error(data.error || 'Failed to save chat history');
+                    }
+                     // Scroll to bottom after adding system message
+                     setTimeout(() => {
+                         chatMessages.scrollTop = chatMessages.scrollHeight;
+                     }, 0);
+                } catch (error) {
+                    console.error('Error saving chat history:', error);
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = 'message system-message error'; // Use message and system-message classes + error
+                    messageDiv.textContent = `Error saving chat history: ${error.message}`;
                     const chatMessages = document.getElementById('chat-messages');
                     chatMessages.appendChild(messageDiv);
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                     // Scroll to bottom after adding system message
+                     setTimeout(() => {
+                         chatMessages.scrollTop = chatMessages.scrollHeight;
+                     }, 0);
                     
-                    // Remove the message after 4 seconds
+                    // Remove error message after 4 seconds
                     setTimeout(() => {
                         messageDiv.style.transition = 'opacity 0.5s ease-out';
                         messageDiv.style.opacity = '0';
                         setTimeout(() => messageDiv.remove(), 500);
                     }, 4000);
-                } else {
-                    throw new Error(data.error || 'Failed to save chat history');
                 }
-            } catch (error) {
-                console.error('Error saving chat history:', error);
-                const messageDiv = document.createElement('div');
-                messageDiv.className = 'system-message error';
-                messageDiv.textContent = `Error saving chat history: ${error.message}`;
-                const chatMessages = document.getElementById('chat-messages');
-                chatMessages.appendChild(messageDiv);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-                
-                // Remove error message after 4 seconds
-                setTimeout(() => {
-                    messageDiv.style.transition = 'opacity 0.5s ease-out';
-                    messageDiv.style.opacity = '0';
-                    setTimeout(() => messageDiv.remove(), 500);
-                }, 4000);
-            }
-        });
+            });
+        } else {
+            console.warn("Save button element not found");
+        }
+
     </script>
 </body>
 </html>
