@@ -2,358 +2,145 @@ import logging
 import boto3
 import os
 from datetime import datetime
-from typing import Optional, Dict, Any, List
-from .retrieval_handler import RetrievalHandler
+from typing import Optional, Dict, Any, List, Tuple
 
-# Toggle between 'rolling' and 'regular' transcript modes
-# TRANSCRIPT_MODE = 'rolling'  # Uses rolling-transcript_ files
-TRANSCRIPT_MODE = 'regular'  # Uses transcript_ files (non-rolling)
+from .s3_utils import get_s3_client
+
+logger = logging.getLogger(__name__)
+
+TRANSCRIPT_MODE = 'regular' # Set default mode
 
 def get_transcript_mode() -> str:
-    """Get the current transcript mode.
-    Returns 'rolling' or 'regular' based on the TRANSCRIPT_MODE setting.
-    """
+    """Get the current transcript mode."""
     return TRANSCRIPT_MODE
 
 class TranscriptState:
+    """Tracks position across multiple transcript files."""
     def __init__(self):
-        self.current_key = None
-        self.last_position = 0
-        self.last_modified = None
+        self.file_positions: Dict[str, int] = {}
+        self.last_modified: Dict[str, datetime] = {}
+        self.current_latest_key: Optional[str] = None
 
-def get_latest_transcript_file(agent_name=None, event_id=None, s3_client=None, bucket_name=None):
-    """Get the latest transcript file following priority order:
-    1. rolling-transcript_ (agent event folder)
-    2. transcript_ (agent event folder)
-    3. transcript_ (general folder)
-    """
-    if s3_client is None:
-        s3_client = boto3.client(
-            's3',
-            region_name=os.getenv('AWS_REGION'),
-            aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
-            aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY')
-        )
-    
-    if bucket_name is None:
-        bucket_name = os.getenv('AWS_S3_BUCKET')
-    
+def get_latest_transcript_file(agent_name: Optional[str] = None, event_id: Optional[str] = None, s3_client: Optional[boto3.client] = None) -> Optional[str]:
+    """Get the latest transcript file key based on TRANSCRIPT_MODE setting and priority."""
+    if s3_client is None: s3_client = get_s3_client()
+    if not s3_client: logger.error("get_latest_transcript_file: S3 client unavailable."); return None
+    aws_s3_bucket = os.getenv('AWS_S3_BUCKET')
+    if not aws_s3_bucket: logger.error("get_latest_transcript_file: AWS_S3_BUCKET not set."); return None
+
+    candidate_files = []
+    prefixes_to_check = []
+    if agent_name and event_id: prefixes_to_check.append(f'organizations/river/agents/{agent_name}/events/{event_id}/transcripts/')
+    # prefixes_to_check.append('_files/transcripts/') # Optional fallback
+
+    logger.debug(f"get_latest_transcript_file: Checking prefixes: {prefixes_to_check}")
+    for prefix in prefixes_to_check:
+        try:
+            paginator = s3_client.get_paginator('list_objects_v2')
+            logger.debug(f"Listing objects in s3://{aws_s3_bucket}/{prefix}")
+            for page in paginator.paginate(Bucket=aws_s3_bucket, Prefix=prefix):
+                 if 'Contents' in page:
+                     for obj in page['Contents']:
+                         key = obj['Key']
+                         if key.startswith(prefix) and key != prefix and key.endswith('.txt'):
+                              relative_path = key[len(prefix):]
+                              if '/' not in relative_path:
+                                   filename = os.path.basename(key); is_rolling = filename.startswith('rolling-')
+                                   if (TRANSCRIPT_MODE == 'rolling' and is_rolling) or (TRANSCRIPT_MODE == 'regular' and not is_rolling):
+                                        candidate_files.append(obj); logger.debug(f"Candidate file: {key}")
+        except Exception as e: logger.error(f"Error listing S3 {prefix}: {e}", exc_info=True)
+
+    if not candidate_files: logger.warning(f"No transcript files found (Mode: '{TRANSCRIPT_MODE}')"); return None
+    candidate_files.sort(key=lambda x: x['LastModified'], reverse=True)
+    latest_file = candidate_files[0]
+    logger.info(f"Latest transcript file ({TRANSCRIPT_MODE}): {latest_file['Key']} (Mod: {latest_file['LastModified']})")
+    return latest_file['Key']
+
+def read_new_transcript_content(state: TranscriptState, agent_name: str, event_id: str, read_all: bool = False) -> Optional[str]:
+    """Read new content from the latest transcript file."""
+    s3_client = get_s3_client()
+    if not s3_client: logger.error("read_new_transcript_content: S3 client unavailable."); return None
+    # Correct variable name here:
+    aws_s3_bucket = os.getenv('AWS_S3_BUCKET')
+    if not aws_s3_bucket: logger.error("read_new_transcript_content: AWS_S3_BUCKET not set."); return None
+
+    if read_all:
+        logger.warning("read_new_transcript_content: read_all=True mode not fully implemented.")
+        pass # Fall through
+
     try:
-        # First try agent's event folder
-        if agent_name and event_id:
-            prefix = f'organizations/river/agents/{agent_name}/events/{event_id}/transcripts/'
-            response = s3_client.list_objects_v2(Bucket=bucket_name, Prefix=prefix, Delimiter='/')
-            
-            if 'Contents' in response:
-                # Get all transcript files
-                all_files = [
-                    obj['Key'] for obj in response['Contents']
-                    if obj['Key'].startswith(prefix) and obj['Key'] != prefix
-                    and not obj['Key'].replace(prefix, '').strip('/').count('/')
-                    and obj['Key'].endswith('.txt')
-                ]
-                
-                # Filter based on TRANSCRIPT_MODE
-                if TRANSCRIPT_MODE == 'rolling':
-                    # Only use rolling transcripts
-                    filtered_files = [
-                        f for f in all_files
-                        if f.replace(prefix, '').startswith('rolling-')
-                    ]
-                else:  # regular mode
-                    # Only use regular transcripts
-                    filtered_files = [
-                        f for f in all_files
-                        if not f.replace(prefix, '').startswith('rolling-')
-                    ]
-                
-                if filtered_files:
-                    latest_file = max(filtered_files, key=lambda x: s3_client.head_object(Bucket=bucket_name, Key=x)['LastModified'])
-                    logging.debug(f"Selected latest {'rolling' if TRANSCRIPT_MODE == 'rolling' else 'regular'} transcript in agent folder: {latest_file}")
-                    return latest_file
-        
-        # Third priority: transcripts in general folder
-        prefix = '_files/transcripts/'
-        response = s3_client.list_objects_v2(Bucket=bucket_name, Prefix=prefix, Delimiter='/')
-        
-        if 'Contents' in response:
-            transcript_files = [
-                obj['Key'] for obj in response['Contents']
-                if obj['Key'].startswith(prefix) and obj['Key'] != prefix
-                and not obj['Key'].replace(prefix, '').strip('/').count('/')
-                and obj['Key'].endswith('.txt')
-            ]
-            if transcript_files:
-                latest_file = max(transcript_files, key=lambda x: s3_client.head_object(Bucket=bucket_name, Key=x)['LastModified'])
-                logging.debug(f"Selected latest transcript in general folder: {latest_file}")
-                return latest_file
-                
-        return None
-        
-    except Exception as e:
-        logging.error(f"Error finding transcript files in S3: {e}")
-        return None
+        latest_key = get_latest_transcript_file(agent_name, event_id, s3_client)
+        if not latest_key: logger.debug("No latest transcript file found."); return None
 
-def read_new_transcript_content(state, agent_name, event_id, s3_client=None, bucket_name=None, read_all=False):
-    """
-    Read new content from both file-based transcripts and Pinecone vector DB in parallel.
-    When read_all=True, combines partial updates from all transcripts.
-    Otherwise, uses single 'latest' transcript approach.
-    
-    File-based transcripts are read in this order:
-    1. rolling-transcript_ (agent event folder)
-    2. transcript_ (agent event folder)
-    3. transcript_ (general folder)
-    
-    Pinecone vector DB is always queried in parallel for redundancy.
-    
-    Args:
-        state: TranscriptState object tracking file positions
-        agent_name: Name of the agent
-        event_id: Current event ID
-        s3_client: Optional pre-configured S3 client
-        bucket_name: Optional S3 bucket name
-        read_all: Whether to read from all available transcripts
-    """
+        try:
+            metadata = s3_client.head_object(Bucket=aws_s3_bucket, Key=latest_key) # Use correct var name
+            current_size = metadata['ContentLength']; current_modified = metadata['LastModified']
+        except Exception as head_e: logger.error(f"Error getting metadata for {latest_key}: {head_e}"); return None
+
+        last_pos = state.file_positions.get(latest_key, 0)
+        last_mod = state.last_modified.get(latest_key)
+        is_new = (latest_key != state.current_latest_key)
+        is_mod = (last_mod is None or current_modified > last_mod)
+        has_new = (current_size > last_pos)
+
+        if not is_new and not is_mod: logger.debug(f"Transcript {latest_key} unchanged."); return None
+
+        start_read_pos = 0 # Default for new file or reset
+        if not is_new:
+            if not has_new_bytes and is_mod: logger.warning(f"Tx {latest_key} modified but no size increase. Reading from start."); start_read_pos = 0
+            elif has_new_bytes: logger.debug(f"Tx {latest_key} updated. Reading from pos {last_pos}."); start_read_pos = last_pos
+            else: logger.debug(f"No new bytes detected for {latest_key}."); return None
+        else: logger.info(f"New transcript file: {latest_key}. Reading full content.")
+
+        read_range = f"bytes={start_read_pos}-"
+        new_content = ""; new_content_bytes = b""
+        try:
+            response = s3_client.get_object(Bucket=aws_s3_bucket, Key=latest_key, Range=read_range) # Use correct var name
+            new_content_bytes = response['Body'].read(); new_content = new_content_bytes.decode('utf-8')
+        except s3_client.exceptions.InvalidRange: logger.debug(f"InvalidRange (likely no new content) for {latest_key}.")
+        except Exception as get_e: logger.error(f"Error reading {latest_key} (range {read_range}): {get_e}"); return None
+
+        state.current_latest_key = latest_key
+        state.last_modified[latest_key] = current_modified
+        state.file_positions[latest_key] = start_read_pos + len(new_content_bytes) # Update based on bytes read
+
+        if new_content:
+            logger.debug(f"Read {len(new_content)} new chars from {latest_key}.")
+            file_name = os.path.basename(latest_key); labeled_content = f"(Source File: {file_name})\n{new_content}"
+            return labeled_content
+        else: logger.debug(f"No new content read from {latest_key}."); return None
+
+    except Exception as e: logger.error(f"Error reading transcript content: {e}", exc_info=True); return None
+
+def read_all_transcripts_in_folder(agent_name: str, event_id: str) -> Optional[str]:
+    """Read and combine content of all relevant transcripts in the folder."""
+    s3_client = get_s3_client()
+    if not s3_client: logger.error("read_all_transcripts: S3 unavailable."); return None
+    aws_s3_bucket = os.getenv('AWS_S3_BUCKET')
+    if not aws_s3_bucket: logger.error("read_all_transcripts: Bucket missing."); return None
+
+    prefix = f'organizations/river/agents/{agent_name}/events/{event_id}/transcripts/'; logger.info(f"Reading all transcripts from: {prefix}")
+    all_content = []
     try:
-        if s3_client is None:
-            s3_client = boto3.client(
-                's3',
-                region_name=os.getenv('AWS_REGION'),
-                aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
-                aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY')
-            )
-        if bucket_name is None:
-            bucket_name = os.getenv('AWS_S3_BUCKET')
-
-        # Initialize multi-file tracking if not present
-        if not hasattr(state, 'file_positions'):
-            state.file_positions = {}  # dict: { key: last_position_int }
-        
-        if not read_all:
-            # Single-latest-file approach (original logic)
-            latest_key = get_latest_transcript_file(agent_name, event_id, s3_client, bucket_name)
-            if not latest_key:
-                logging.debug("No transcript file found")
-                return None
-            
-            response = s3_client.get_object(Bucket=bucket_name, Key=latest_key)
-            content = response['Body'].read().decode('utf-8')
-            
-            if latest_key != state.current_key:
-                # New file
-                new_content = content
-                state.last_position = len(content)
-                logging.debug(f"New transcript file detected, read {len(new_content)} bytes")
-            else:
-                # Existing file updated - read only appended
-                new_content = content[state.last_position:]
-                state.last_position = len(content)
-                logging.debug(f"Existing file updated, read {len(new_content)} new bytes")
-
-            state.current_key = latest_key
-            # We won't store multiple positions for single-file mode
-            state.file_positions[latest_key] = state.last_position
-            
-            if new_content:
-                # Add timestamp and source labeling with filename
-                timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                file_name = os.path.basename(latest_key)
-                labeled_content = f"[LIVE TRANSCRIPT {timestamp}] Source file: {file_name}\n{new_content}"
-                return labeled_content
-            return None
-        
-        else:
-            # read_all == True => partial updates from all transcripts following priority order
-            combined_new = []
-            
-            if agent_name and event_id:
-                prefix = f'organizations/river/agents/{agent_name}/events/{event_id}/transcripts/'
-                response = s3_client.list_objects_v2(Bucket=bucket_name, Prefix=prefix)
-                
-                if 'Contents' in response:
-                    # First priority: rolling transcripts
-                    rolling_transcripts = [
-                        {
-                            'Key': obj['Key'],
-                            'LastModified': obj['LastModified']
-                        }
-                        for obj in response['Contents']
-                        if obj['Key'].endswith('.txt') and 'rolling-' in obj['Key']
-                    ]
-                    
-                    # Second priority: regular transcripts in agent folder
-                    regular_transcripts = [
-                        {
-                            'Key': obj['Key'],
-                            'LastModified': obj['LastModified']
-                        }
-                        for obj in response['Contents']
-                        if obj['Key'].endswith('.txt') and 'rolling-' not in obj['Key']
-                    ]
-                    
-                    # Process rolling transcripts first
-                    for t in sorted(rolling_transcripts, key=lambda x: x['LastModified']):
-                        k = t['Key']
-                        if k not in state.file_positions:
-                            state.file_positions[k] = 0
-                        
-                        obj = s3_client.get_object(Bucket=bucket_name, Key=k)
-                        text = obj['Body'].read().decode('utf-8')
-                        prev_pos = state.file_positions[k]
-                        if prev_pos > len(text):
-                            prev_pos = 0
-                        
-                        new_text = text[prev_pos:]
-                        if new_text:
-                            combined_new.append(f"[Rolling File: {os.path.basename(k)}]\n{new_text}")
-                            logging.debug(f"Read {len(new_text)} new bytes from rolling transcript {k}")
-                        
-                        state.file_positions[k] = len(text)
-                    
-                    # Then process regular transcripts
-                    for t in sorted(regular_transcripts, key=lambda x: x['LastModified']):
-                        k = t['Key']
-                        if k not in state.file_positions:
-                            state.file_positions[k] = 0
-                        
-                        obj = s3_client.get_object(Bucket=bucket_name, Key=k)
-                        text = obj['Body'].read().decode('utf-8')
-                        prev_pos = state.file_positions[k]
-                        if prev_pos > len(text):
-                            prev_pos = 0
-                        
-                        new_text = text[prev_pos:]
-                        if new_text:
-                            combined_new.append(f"[File: {os.path.basename(k)}]\n{new_text}")
-                            logging.debug(f"Read {len(new_text)} new bytes from transcript {k}")
-                        
-                        state.file_positions[k] = len(text)
-            
-            # Third priority: general folder transcripts
-            prefix = '_files/transcripts/'
-            response = s3_client.list_objects_v2(Bucket=bucket_name, Prefix=prefix)
-            
-            if 'Contents' in response:
-                general_transcripts = [
-                    {
-                        'Key': obj['Key'],
-                        'LastModified': obj['LastModified']
-                    }
-                    for obj in response['Contents']
-                    if obj['Key'].endswith('.txt')
-                ]
-                
-                for t in sorted(general_transcripts, key=lambda x: x['LastModified']):
-                    k = t['Key']
-                    if k not in state.file_positions:
-                        state.file_positions[k] = 0
-                    
-                    obj = s3_client.get_object(Bucket=bucket_name, Key=k)
-                    text = obj['Body'].read().decode('utf-8')
-                    prev_pos = state.file_positions[k]
-                    if prev_pos > len(text):
-                        prev_pos = 0
-                    
-                    new_text = text[prev_pos:]
-                    if new_text:
-                        combined_new.append(f"[General File: {os.path.basename(k)}]\n{new_text}")
-                        logging.debug(f"Read {len(new_text)} new bytes from general transcript {k}")
-                    
-                    state.file_positions[k] = len(text)
-            
-            # Only query vector DB if not in regular mode
-            if get_transcript_mode() != 'regular':
-                try:
-                    # Initialize retrieval handler
-                    retriever = RetrievalHandler(
-                        agent_name=agent_name,
-                        event_id=event_id
-                    )
-                    
-                    # Get recent content from vector DB
-                    results = retriever.get_relevant_context(
-                        query="",  # Empty query to get recent content
-                        is_transcript=True,
-                        top_k=5  # Adjust this number as needed
-                    )
-                    
-                    if results:
-                        # Format vector DB results
-                        for result in results:
-                            content = result.get('content', '')
-                            source = result.get('source', 'Unknown Source')
-                            if content:
-                                combined_new.append(f"[Vector DB: {source}]\n{content}")
-                                logging.debug(f"Retrieved content from vector DB source: {source}")
-                                
-                except Exception as e:
-                    logging.error(f"Error retrieving from vector DB: {e}")
-            else:
-                logging.debug("Skipping vector DB query - regular transcript mode is active")
-            
-            if combined_new:
-                # combine with extra spacing
-                combined_content = "\n\n".join(combined_new)
-                # Add timestamp and source labeling
-                timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                labeled_content = f"[LIVE TRANSCRIPT {timestamp}] Multiple source files\n{combined_content}"
-                return labeled_content
-            else:
-                return None
-
-    except Exception as e:
-        logging.error(f"Error reading transcripts: {e}")
-        return None
-
-def read_all_transcripts_in_folder(agent_name, event_id, s3_client=None, bucket_name=None):
-    """
-    Read the entire content of all .txt transcripts in 
-    organizations/river/agents/{agent_name}/events/{event_id}/transcripts/
-    Combine them in chronological order, return as a single string.
-    """
-    if s3_client is None:
-        s3_client = boto3.client(
-            's3',
-            region_name=os.getenv('AWS_REGION'),
-            aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
-            aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY')
-        )
-    if bucket_name is None:
-        bucket_name = os.getenv('AWS_S3_BUCKET')
-
-    prefix = f'organizations/river/agents/{agent_name}/events/{event_id}/transcripts/'
-    try:
-        response = s3_client.list_objects_v2(Bucket=bucket_name, Prefix=prefix)
-        if 'Contents' not in response:
-            logging.debug(f"No transcripts found in {prefix}")
-            return None
-
-        # Collect all .txt files
-        transcripts = []
-        for obj in response['Contents']:
-            key = obj['Key']
-            if key.endswith('.txt'):
-                transcripts.append({
-                    'Key': key,
-                    'LastModified': obj['LastModified']
-                })
-        if not transcripts:
-            logging.debug(f"No .txt transcripts found in {prefix}")
-            return None
-
-        # Sort by LastModified ascending
-        transcripts.sort(key=lambda x: x['LastModified'])
-        combined_content = []
-        for t in transcripts:
-            obj = s3_client.get_object(Bucket=bucket_name, Key=t['Key'])
-            text = obj['Body'].read().decode('utf-8')
-            combined_content.append(text)
-
-        if combined_content:
-            return "\n\n".join(combined_content)
-        else:
-            return None
-    except Exception as e:
-        logging.error(f"Error reading all transcripts from S3: {e}")
-        return None
+        paginator = s3_client.get_paginator('list_objects_v2'); transcript_files = []
+        for page in paginator.paginate(Bucket=aws_s3_bucket, Prefix=prefix):
+            if 'Contents' in page:
+                for obj in page['Contents']:
+                    key = obj['Key']
+                    if key.startswith(prefix) and key != prefix and key.endswith('.txt'):
+                         relative = key[len(prefix):]
+                         if '/' not in relative: # Files directly in folder
+                            fname = os.path.basename(key); is_rolling = fname.startswith('rolling-')
+                            if (TRANSCRIPT_MODE=='rolling' and is_rolling) or (TRANSCRIPT_MODE=='regular' and not is_rolling):
+                                 transcript_files.append(obj)
+        if not transcript_files: logger.warning(f"No transcripts in {prefix}"); return None
+        transcript_files.sort(key=lambda x: x['LastModified']); logger.info(f"Found {len(transcript_files)} tx files.")
+        for t_obj in transcript_files:
+            key = t_obj['Key']; fname = os.path.basename(key)
+            try:
+                response = s3_client.get_object(Bucket=aws_s3_bucket, Key=key)
+                text = response['Body'].read().decode('utf-8'); all_content.append(f"--- Tx: {fname} ---\n{text}")
+            except Exception as read_e: logger.error(f"Error reading {key}: {read_e}")
+        if all_content: logger.info("Combined transcript content."); return "\n\n".join(all_content)
+        else: logger.warning("No content read from tx files."); return None
+    except Exception as e: logger.error(f"Error reading all tx: {e}", exc_info=True); return None
