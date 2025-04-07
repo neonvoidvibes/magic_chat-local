@@ -8,26 +8,16 @@ import json
 import time
 import traceback
 
-# Import shared utilities
 from config import AppConfig
 from utils.retrieval_handler import RetrievalHandler
 from utils.transcript_utils import TranscriptState, read_new_transcript_content, read_all_transcripts_in_folder
-from utils.s3_utils import ( # Import S3 functions from the utility file
-    get_latest_system_prompt,
-    get_latest_frameworks,
-    get_latest_context,
-    get_agent_docs,
-    load_existing_chats_from_s3,
-    save_chat_to_s3,
-    format_chat_history
+from utils.s3_utils import (
+    get_latest_system_prompt, get_latest_frameworks, get_latest_context,
+    get_agent_docs, load_existing_chats_from_s3, save_chat_to_s3, format_chat_history
 )
-
-# Import Anthropic client library
 from anthropic import Anthropic
 
-# Initialize logger for this module
 logger = logging.getLogger(__name__)
-
 
 class WebChat:
     def __init__(self, config: AppConfig):
@@ -35,301 +25,220 @@ class WebChat:
         self.app = Flask(__name__, template_folder='templates', static_folder='static')
         self.app.config['SECRET_KEY'] = os.urandom(24)
         self.setup_routes()
-        self.chat_history = [] # List of {'role': 'user'/'assistant', 'content': '...'}
+        self.chat_history = []
         self.client = None
         self.system_prompt = "Default system prompt."
         self.retriever = None
-        self.transcript_state = TranscriptState() # Each WebChat instance has its own state
-        self.scheduler_thread = None # Transcript scheduler thread (if managed internally)
-        self.last_saved_index = 0 # For manual !save command
-        self.last_archive_index = 0 # For auto-archiving per turn
+        self.transcript_state = TranscriptState()
+        self.scheduler_thread = None
+        self.last_saved_index = 0
+        self.last_archive_index = 0
         self.current_chat_file = None
 
         try:
-             # Ensure session_id exists from the start
              if not hasattr(config, 'session_id') or not config.session_id:
                  config.session_id = datetime.now().strftime('%Y%m%d-T%H%M%S')
              event_id = config.event_id or '0000'
              self.current_chat_file = f"chat_D{config.session_id}_aID-{config.agent_name}_eID-{event_id}.txt"
              logger.info(f"WebChat: Session {config.session_id}, Chat file: {self.current_chat_file}")
-
-             # Load prompts, context, etc., and initialize retriever
              self.load_resources()
-
-             # Initialize Anthropic client
              self.client = Anthropic(api_key=os.getenv('ANTHROPIC_API_KEY'))
              logger.info("WebChat: Anthropic client initialized.")
-
         except Exception as e:
-             logger.error(f"WebChat: Error during initialization: {e}", exc_info=True)
-             # Prevent Flask from starting if basic setup failed?
+             logger.error(f"WebChat: Init error: {e}", exc_info=True)
              raise RuntimeError("WebChat initialization failed") from e
-
 
     def get_document_context(self, query: str) -> Optional[List[Dict]]:
         """Get relevant document context using the RetrievalHandler."""
-        if not self.retriever:
-             logger.error("WebChat: Retriever not initialized.")
-             return None
+        if not self.retriever: logger.error("WebChat: Retriever missing."); return None
         try:
-            logger.debug(f"WebChat: Getting document context for query: {query[:100]}...")
+            logger.debug(f"WebChat: Getting context for query: {query[:100]}...")
             is_transcript = any(word in query.lower() for word in ['transcript', 'conversation', 'meeting', 'session', 'said'])
-            logger.debug(f"WebChat: Is transcript query hint: {is_transcript}")
-
-            # Use the handler instance to get context
-            # The handler uses its own config (agent_name, event_id) for filtering
-            contexts = self.retriever.get_relevant_context(
-                query=query, top_k=3, is_transcript=is_transcript
-            )
-
-            if not contexts:
-                logger.info(f"WebChat: No relevant context found by retriever.")
-                return None
-
-            logger.info(f"WebChat: Retrieved {len(contexts)} relevant context documents.")
-            # Return the list of Document objects provided by the handler
+            contexts = self.retriever.get_relevant_context(query=query, top_k=3, is_transcript=is_transcript)
+            if not contexts: logger.info("WebChat: No relevant context found."); return None
+            logger.info(f"WebChat: Retrieved {len(contexts)} relevant context docs.")
             return contexts
-
-        except Exception as e:
-            logger.error(f"WebChat: Error retrieving document context: {e}", exc_info=True)
-            return None
+        except Exception as e: logger.error(f"WebChat: Error getting context: {e}", exc_info=True); return None
 
     def load_resources(self):
         """Load prompts, context, docs, init retriever, handle memory."""
         try:
             logger.info("WebChat: Loading resources...")
-            # Use imported S3 functions
-            base_system_prompt = get_latest_system_prompt(self.config.agent_name)
-            if not base_system_prompt:
-                 logger.error("WebChat: Failed to load base system prompt! Using fallback.")
-                 base_system_prompt = "You are a helpful assistant."
-
-            source_instructions = "\n\n## Source Attribution Requirements\n..." # Keep existing instructions
-            self.system_prompt = base_system_prompt + source_instructions
+            base_prompt = get_latest_system_prompt(self.config.agent_name) or "Assistant."
+            logger.info(f"Base prompt loaded ({len(base_prompt)} chars).")
+            source_instr = "\n\n## Source Attribution Requirements\n..." # Keep short for brevity
+            self.system_prompt = base_prompt + source_instr
 
             frameworks = get_latest_frameworks(self.config.agent_name)
-            if frameworks: self.system_prompt += "\n\n## Frameworks\n" + frameworks; logger.info("WebChat: Loaded frameworks.")
+            if frameworks: self.system_prompt += "\n\n## Frameworks\n" + frameworks; logger.info("Frameworks loaded.")
             context = get_latest_context(self.config.agent_name, self.config.event_id)
-            if context: self.system_prompt += "\n\n## Context\n" + context; logger.info("WebChat: Loaded context.")
+            if context: self.system_prompt += "\n\n## Context\n" + context; logger.info("Context loaded.")
             docs = get_agent_docs(self.config.agent_name)
-            if docs: self.system_prompt += "\n\n## Agent Documentation\n" + docs; logger.info("WebChat: Loaded agent documentation.")
+            if docs: self.system_prompt += "\n\n## Agent Documentation\n" + docs; logger.info("Docs loaded.")
 
-            # Init Retriever
             self.retriever = RetrievalHandler(
                 index_name=self.config.index, agent_name=self.config.agent_name,
                 session_id=self.config.session_id, event_id=self.config.event_id
             )
-            logger.info(f"WebChat: RetrievalHandler initialized.")
+            logger.info("Retriever initialized.")
 
-            # Handle memory (appends to self.system_prompt)
-            if self.config.memory is not None:
-                self.reload_memory() # Calls internal method which calls imported function
-                logger.info("WebChat: Memory loaded/reloaded.")
-
+            if self.config.memory is not None: self.reload_memory(); logger.info("Memory loaded.")
             if self.config.listen_transcript: self.load_initial_transcript()
 
-            logger.info("WebChat: Resources loaded successfully.")
-            logger.debug(f"WebChat: Final system prompt length: {len(self.system_prompt)} chars.")
-
+            logger.info("WebChat: Resources loaded ok.")
+            logger.debug(f"Final system prompt len: {len(self.system_prompt)} chars.")
         except Exception as e:
             logger.error(f"WebChat: Error loading resources: {e}", exc_info=True)
-            if not self.system_prompt: self.system_prompt = "Error loading configuration."
-
+            if not self.system_prompt: self.system_prompt = "Error loading config."
 
     def reload_memory(self):
-        """Append memory summary to the system prompt using imported function."""
+        """Append memory summary using imported function."""
         logger.debug("WebChat: Reloading memory...")
-        # Use imported reload function (from s3_utils via magic_chat import for now)
-        # Need to ensure reload_memory logic is correctly placed in s3_utils
-        # Assuming load_existing_chats_from_s3 is available via import:
         try:
              agents_to_load = self.config.memory if self.config.memory else [self.config.agent_name]
              previous_chats = load_existing_chats_from_s3(self.config.agent_name, agents_to_load)
-             if not previous_chats: logger.debug("WebChat: No memory files found."); return
-
-             all_content_items = []
-             for chat in previous_chats:
-                  file_info = f"(Memory file: {os.path.basename(chat.get('file', 'unknown'))})"
-                  for msg in chat.get('messages', []):
-                       role = msg.get('role', 'unknown').capitalize()
-                       content = msg.get('content', '')
-                       if content: all_content_items.append(f"{role} {file_info}: {content}")
-
-             combined_content = "\n\n---\n\n".join(all_content_items)
-             max_mem_len = 10000 # Truncate if needed
-             summarized_content = combined_content[:max_mem_len] + ("..." if len(combined_content) > max_mem_len else "")
-
-             if summarized_content:
-                 memory_section = "\n\n## Previous Chat History (Memory)\n" + summarized_content
-                 if "## Previous Chat History (Memory)" not in self.system_prompt:
-                      self.system_prompt += memory_section
-                      logger.info(f"WebChat: Appended memory summary ({len(summarized_content)} chars).")
-                 else: logger.warning("WebChat: Memory section already in prompt, skipping append.")
-             else: logger.debug("WebChat: No content extracted for memory.")
-
-        except Exception as e:
-            logger.error(f"WebChat: Error during memory reload: {e}", exc_info=True)
-
+             if not previous_chats: logger.debug("No memory files found."); return
+             all_items = [f"{msg.get('role','?').capitalize()} (File:{os.path.basename(c.get('file','?'))}): {msg.get('content','')}" for c in previous_chats for msg in c.get('messages',[]) if msg.get('content')]
+             combined = "\n\n---\n\n".join(all_items); max_len = 10000
+             summary = combined[:max_len] + ("..." if len(combined) > max_len else "")
+             if summary:
+                 mem_section = "\n\n## Previous Chat History (Memory)\n" + summary
+                 if "## Previous Chat History" not in self.system_prompt: self.system_prompt += mem_section; logger.info(f"Appended memory ({len(summary)} chars).")
+                 else: logger.warning("Memory section exists, skipping.")
+             else: logger.debug("No content for memory.")
+        except Exception as e: logger.error(f"Memory reload error: {e}", exc_info=True)
 
     def setup_routes(self):
         @self.app.route('/')
         def index():
-            template_name = 'index_yggdrasil.html' if self.config.agent_name == 'yggdrasil' else 'index.html'
-            logger.debug(f"Rendering template: {template_name}")
-            return render_template(template_name, agent_name=self.config.agent_name)
+            tmpl = 'index_yggdrasil.html' if self.config.agent_name == 'yggdrasil' else 'index.html'
+            logger.debug(f"Rendering template: {tmpl}")
+            return render_template(tmpl, agent_name=self.config.agent_name)
 
         @self.app.route('/api/chat', methods=['POST'])
         def chat():
             try:
                 data = request.json
-                if not data or 'message' not in data: return jsonify({'error': 'No message provided'}), 400
+                if not data or 'message' not in data: return jsonify({'error': 'No message'}), 400
+                user_msg = data['message']
+                logger.info(f"WebChat: Received msg: {user_msg[:100]}...")
+                self.chat_history.append({'role': 'user', 'content': user_msg})
 
-                user_message_content = data['message']
-                logger.info(f"WebChat: Received message: {user_message_content[:100]}...")
-                self.chat_history.append({'role': 'user', 'content': user_message_content})
+                current_sys_prompt = self.system_prompt
+                llm_msgs = list(self.chat_history)
 
-                current_system_prompt = self.system_prompt
-                llm_messages = list(self.chat_history)
+                docs = self.get_document_context(user_msg)
+                if docs:
+                     items = [f"[Ctx {i+1} from {d.metadata.get('file_name','?')}({d.metadata.get('score',0):.2f})]:\n{d.page_content}" for i, d in enumerate(docs)]
+                     ctx_text = "\n\n---\nContext:\n" + "\n\n".join(items)
+                     logger.debug(f"Adding context ({len(ctx_text)} chars).")
+                     current_sys_prompt += ctx_text
+                else: logger.debug("No context retrieved.")
 
-                retrieved_docs = self.get_document_context(user_message_content)
-                context_text_for_prompt = ""
-                if retrieved_docs:
-                     context_items = []
-                     for i, doc in enumerate(retrieved_docs):
-                          source_file = doc.metadata.get('file_name', 'Unknown source'); score = doc.metadata.get('score', 0.0)
-                          context_items.append(f"[Context {i+1} from {source_file} (Score: {score:.2f})]:\n{doc.page_content}")
-                     context_text_for_prompt = "\n\n---\nRelevant Context Found:\n" + "\n\n".join(context_items)
-                     logger.debug(f"WebChat: Adding retrieved context ({len(context_text_for_prompt)} chars).")
-                     current_system_prompt += context_text_for_prompt
-                else: logger.debug("WebChat: No relevant context retrieved.")
+                tx_chunk = self.check_transcript_updates()
+                if tx_chunk: logger.debug(f"Adding tx chunk ({len(tx_chunk)} chars)."); llm_msgs.append({"role": "user", "content": f"[LIVE TX]\n{tx_chunk}"})
 
-                new_transcript_chunk = self.check_transcript_updates()
-                if new_transcript_chunk:
-                     logger.debug(f"WebChat: Adding transcript chunk ({len(new_transcript_chunk)} chars).")
-                     llm_messages.append({"role": "user", "content": f"[LIVE TRANSCRIPT UPDATE]\n{new_transcript_chunk}"})
+                if not self.client: return jsonify({'error': 'AI client missing'}), 500
 
-                if not self.client: return jsonify({'error': 'Chat client not available'}), 500
-
-                model_to_use = self.config.llm_model_name
-                logger.debug(f"WebChat: Using LLM model: {model_to_use}")
+                model = self.config.llm_model_name
+                max_tokens = self.config.llm_max_output_tokens # Use config value
+                logger.debug(f"WebChat: Using LLM: {model}, MaxTokens: {max_tokens}")
 
                 def generate():
-                    full_response = ""
+                    response = ""; stream_error = None
                     try:
-                        logger.debug(f"WebChat: Calling LLM. Msgs: {len(llm_messages)}, SysPromptLen: {len(current_system_prompt)}")
-                        with self.client.messages.stream(
-                            model=model_to_use, max_tokens=1024,
-                            system=current_system_prompt, messages=llm_messages
-                        ) as stream:
-                            for text in stream.text_stream:
-                                full_response += text
-                                yield f"data: {json.dumps({'delta': text})}\n\n"
-                        logger.info(f"WebChat: LLM response received ({len(full_response)} chars).")
-
-                        self.chat_history.append({'role': 'assistant', 'content': full_response})
-
-                        new_messages_to_archive = self.chat_history[self.last_archive_index:]
-                        if new_messages_to_archive:
-                            try: archive_content = format_chat_history(new_messages_to_archive)
-                            except Exception: archive_content = ""; logger.warning("Fallback used for format_chat_history")
-                            if archive_content:
-                                success, _ = save_chat_to_s3( # Use imported save
-                                    agent_name=self.config.agent_name, chat_content=archive_content.strip(),
-                                    event_id=self.config.event_id or '0000', is_saved=False,
-                                    filename=self.current_chat_file
-                                )
-                                if success: self.last_archive_index = len(self.chat_history); logger.debug("WebChat: Auto-archived turn.")
-                                else: logger.error("WebChat: Failed to auto-archive.")
-                    except Exception as stream_e:
-                        logger.error(f"WebChat: Error during LLM stream/archive: {stream_e}", exc_info=True)
-                        yield f"data: {json.dumps({'error': 'Error generating response.'})}\n\n"
-                    finally:
-                        yield f"data: {json.dumps({'done': True})}\n\n"
+                        logger.debug(f"LLM call. Msgs: {len(llm_msgs)}, SysPromptLen: {len(current_sys_prompt)}")
+                        with self.client.messages.stream(model=model, max_tokens=max_tokens, system=current_sys_prompt, messages=llm_msgs) as stream:
+                            for text in stream.text_stream: response += text; yield f"data: {json.dumps({'delta': text})}\n\n"
+                        logger.info(f"LLM response ok ({len(response)} chars).")
+                    except Exception as e: logger.error(f"LLM stream error: {e}", exc_info=True); stream_error = str(e)
+                    # Yield error after stream closes if one occurred
+                    if stream_error: yield f"data: {json.dumps({'error': f'Error: {stream_error}'})}\n\n"
+                    # Add assistant response to history only if no error during stream
+                    if not stream_error and response: self.chat_history.append({'role': 'assistant', 'content': response})
+                    # Archive logic after potential history update
+                    archive_msgs = self.chat_history[self.last_archive_index:]
+                    if archive_msgs:
+                        content = format_chat_history(archive_msgs)
+                        if content:
+                            success, _ = save_chat_to_s3(self.config.agent_name, content, self.config.event_id, False, self.current_chat_file)
+                            if success: self.last_archive_index = len(self.chat_history); logger.debug("Auto-archived.")
+                            else: logger.error("Failed auto-archive.")
+                    yield f"data: {json.dumps({'done': True})}\n\n" # Signal completion
 
                 return Response(generate(), mimetype='text/event-stream')
-
-            except Exception as e:
-                logger.error(f"WebChat: Error in /api/chat: {e}", exc_info=True)
-                return jsonify({'error': 'Internal server error'}), 500
+            except Exception as e: logger.error(f"/api/chat error: {e}", exc_info=True); return jsonify({'error': 'Server error'}), 500
 
         @self.app.route('/api/status', methods=['GET'])
         def status():
-             # Simplified status
-             memory_enabled = getattr(self.config, 'memory', None) is not None
-             listen_transcript = getattr(self.config, 'listen_transcript', False)
-             return jsonify({
-                 'agent_name': self.config.agent_name,
-                 'listen_transcript': listen_transcript,
-                 'memory_enabled': memory_enabled
-             })
+             mem = getattr(self.config, 'memory', None) is not None; tx = getattr(self.config, 'listen_transcript', False)
+             return jsonify({'agent_name': self.config.agent_name, 'listen_transcript': tx, 'memory_enabled': mem})
 
         @self.app.route('/api/command', methods=['POST'])
         def command():
             data = request.json
-            if not data or 'command' not in data: return jsonify({'error': 'No command provided'}), 400
-            cmd = data['command'].lower(); message = f"Executing command: !{cmd}"
-            logger.info(f"WebChat: Received command: !{cmd}")
-            status_code = 200; response_data = {}
-
+            if not data or 'command' not in data: return jsonify({'error': 'No command'}), 400
+            cmd = data['command'].lower(); msg = f"Cmd: !{cmd}"; code = 200; resp = {}
+            logger.info(f"WebChat: Cmd: !{cmd}")
             try:
-                if cmd == 'help': message = "Commands: !help, !clear, !save, !memory, !listen-transcript"
-                elif cmd == 'clear': self.chat_history = []; self.last_saved_index=0; self.last_archive_index=0; message = 'Chat history cleared.'
+                if cmd == 'help': msg = "Cmds: !help, !clear, !save, !memory, !listen-transcript"
+                elif cmd == 'clear': self.chat_history=[]; self.last_saved_index=0; self.last_archive_index=0; msg='History cleared.'
                 elif cmd == 'save':
-                    new_msgs = self.chat_history[self.last_saved_index:]
-                    if not new_msgs: message = 'No new messages to save.'
+                    msgs = self.chat_history[self.last_saved_index:];
+                    if not msgs: msg='Nothing new to save.'
                     else:
-                        content = format_chat_history(new_msgs)
-                        success, fname = save_chat_to_s3(self.config.agent_name, content, self.config.event_id, True, self.current_chat_file)
-                        if success: self.last_saved_index = len(self.chat_history); message = f'Chat saved as {fname}'
-                        else: message = 'Error saving chat.'; status_code = 500
+                         content = format_chat_history(msgs)
+                         success, fname = save_chat_to_s3(self.config.agent_name, content, self.config.event_id, True, self.current_chat_file)
+                         if success: self.last_saved_index = len(self.chat_history); msg = f'Saved as {fname}'
+                         else: msg = 'Error saving.'; code = 500
                 elif cmd == 'memory':
-                     if self.config.memory is None: self.config.memory = [self.config.agent_name]; self.reload_memory(); message = 'Memory ACTIVATED.'
-                     else: self.config.memory = None; self.load_resources(); message = 'Memory DEACTIVATED.' # Reload resources to remove memory prompt
+                     if self.config.memory is None: self.config.memory = [self.config.agent_name]; self.reload_memory(); msg='Memory ON.'
+                     else: self.config.memory = None; self.load_resources(); msg='Memory OFF.'
                 elif cmd == 'listen-transcript':
                      self.config.listen_transcript = not self.config.listen_transcript
-                     if self.config.listen_transcript: loaded = self.load_initial_transcript(); message = f"Transcript listening ENABLED." + (" Initial transcript loaded." if loaded else "")
-                     else: message = "Transcript listening DISABLED."
-                else: message = f"Unknown command: !{cmd}"; status_code = 400
+                     status = "ENABLED" if self.config.listen_transcript else "DISABLED"
+                     if self.config.listen_transcript: loaded = self.load_initial_transcript(); msg = f"Tx listening {status}." + (" Initial tx loaded." if loaded else "")
+                     else: msg = f"Tx listening {status}."
+                else: msg = f"Unknown command: !{cmd}"; code = 400
 
-                response_data['message'] = message
-                if status_code == 200: response_data['status'] = {'listen_transcript': self.config.listen_transcript, 'memory_enabled': self.config.memory is not None}
-                else: response_data['error'] = message
-                return jsonify(response_data), status_code
-            except Exception as e: logger.error(f"Command !{cmd} error: {e}", exc_info=True); return jsonify({'error': str(e)}), 500
+                resp['message'] = msg
+                if code == 200: resp['status'] = {'listen_transcript': self.config.listen_transcript, 'memory_enabled': self.config.memory is not None}
+                else: resp['error'] = msg
+                return jsonify(resp), code
+            except Exception as e: logger.error(f"Cmd !{cmd} error: {e}", exc_info=True); return jsonify({'error': str(e)}), 500
 
     def load_initial_transcript(self):
         """Load initial transcript content."""
         try:
-             all_content = read_all_transcripts_in_folder(self.config.agent_name, self.config.event_id)
-             if all_content:
-                 logger.info(f"WebChat: Loaded initial transcript ({len(all_content)} chars).")
-                 if "[INITIAL TRANSCRIPT]" not in self.system_prompt: self.system_prompt += f"\n\n[INITIAL TRANSCRIPT]\n{all_content[:3000]}..."
-                 self.transcript_state = TranscriptState()
-                 return True
-             else: logger.info("WebChat: No initial transcript found."); return False
-        except Exception as e: logger.error(f"WebChat: Error loading initial transcript: {e}", exc_info=True); return False
+             content = read_all_transcripts_in_folder(self.config.agent_name, self.config.event_id)
+             if content:
+                 logger.info(f"Loaded initial tx ({len(content)} chars).")
+                 if "[INITIAL TRANSCRIPT]" not in self.system_prompt: self.system_prompt += f"\n\n[TX Start]\n{content[:3000]}..."
+                 self.transcript_state = TranscriptState(); return True
+             else: logger.info("No initial tx found."); return False
+        except Exception as e: logger.error(f"Initial tx load error: {e}", exc_info=True); return False
 
     def check_transcript_updates(self) -> Optional[str]:
         """Check for new transcript content."""
         if not self.config.listen_transcript: return None
         try:
-            if not hasattr(self, 'transcript_state') or self.transcript_state is None: self.transcript_state = TranscriptState(); logger.warning("WebChat: TranscriptState re-init.")
-            new_content = read_new_transcript_content(self.transcript_state, self.config.agent_name, self.config.event_id, read_all=False)
-            if new_content: logger.debug(f"WebChat: New transcript found ({len(new_content)} chars)."); return new_content
+            if not hasattr(self, 'transcript_state') or self.transcript_state is None: self.transcript_state = TranscriptState(); logger.warning("TxState re-init.")
+            new = read_new_transcript_content(self.transcript_state, self.config.agent_name, self.config.event_id, False)
+            if new: logger.debug(f"New tx found ({len(new)} chars)."); return new
             else: return None
-        except Exception as e: logger.error(f"WebChat: Error checking transcript: {e}", exc_info=True); return None
+        except Exception as e: logger.error(f"Tx check error: {e}", exc_info=True); return None
 
     def run(self, host: str = '127.0.0.1', port: int = 5001, debug: bool = False):
         """Run the Flask web server."""
         def transcript_update_loop():
-             logger.info("WebChat: Starting internal transcript update loop.")
+             logger.info("Starting internal tx update loop.")
              while True:
                   time.sleep(5)
-                  if self.config.listen_transcript: self.check_transcript_updates() # Call check, but result handled by chat endpoint
+                  if self.config.listen_transcript: self.check_transcript_updates() # Result handled by chat endpoint
 
         if self.config.interface_mode != 'cli':
             update_thread = threading.Thread(target=transcript_update_loop, daemon=True); update_thread.start()
 
-        logger.info(f"WebChat: Starting Flask server on {host}:{port}, Debug: {debug}")
+        logger.info(f"Starting Flask server on {host}:{port}, Debug: {debug}")
         try: self.app.run(host=host, port=port, debug=debug, use_reloader=False)
-        except Exception as e: logger.critical(f"WebChat: Flask server failed: {e}", exc_info=True)
+        except Exception as e: logger.critical(f"Flask server failed: {e}", exc_info=True)
