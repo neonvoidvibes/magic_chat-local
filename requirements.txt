@@ -15,6 +15,12 @@ langchain-pinecone>=0.1.0,<0.2.0 # Allow compatible pinecone integration version
 # AWS
 boto3==1.34.141 # Specific boto3 version
 
+# Web Interface
+Flask>=3.0.0
+
+# HTTP Client (Pinning to resolve init conflict)
+httpx==0.25.2 # Older version often compatible with older anthropic/openai
+
 # Utilities
 python-dotenv==1.0.1
 argparse>=1.4.0
@@ -28,4 +34,3 @@ schedule>=1.2.0
 # Dependencies potentially pulled by others, let pip manage:
 # langchain-community
 # langsmith
-# httpx
