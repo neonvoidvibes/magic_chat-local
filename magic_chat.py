@@ -1,5 +1,13 @@
 import os
 import sys
+from dotenv import load_dotenv
+
+# Load environment variables FIRST, before other imports might need them
+load_dotenv()
+print(f"DEBUG: AWS_REGION after load_dotenv: {os.getenv('AWS_REGION')}") # Add debug print
+print(f"DEBUG: AWS_S3_BUCKET after load_dotenv: {os.getenv('AWS_S3_BUCKET')}") # Add debug print
+
+
 import logging
 import time
 import argparse
@@ -10,7 +18,6 @@ from datetime import datetime
 import boto3 # Keep boto3 for potential direct use if needed elsewhere
 import json
 from models import InsightsOutput
-from dotenv import load_dotenv
 from typing import Optional, List, Dict, Any
 
 # Import S3 and chat parsing utilities from the new location
@@ -22,7 +29,6 @@ from utils.s3_utils import (
     load_existing_chats_from_s3,
     save_chat_to_s3,
     format_chat_history,
-    # get_s3_client # Optional, if direct client needed
 )
 # Import other necessary utils
 from utils.retrieval_handler import RetrievalHandler
@@ -30,7 +36,6 @@ from utils.transcript_utils import TranscriptState, get_latest_transcript_file, 
 # Configuration and Web Interface (handle potential circular import)
 from config import AppConfig
 # Avoid direct import of WebChat here to prevent circular dependency
-# from web.web_chat import WebChat
 
 SESSION_START_TAG = '<session>'
 SESSION_END_TAG = '</session>'
@@ -76,7 +81,6 @@ def setup_logging(debug: bool):
     console_handler = logging.StreamHandler(sys.stdout)
     console_log_level = logging.DEBUG if debug else logging.INFO
     console_handler.setLevel(console_log_level)
-    # Use different formatters if desired
     console_formatter = logging.Formatter('[%(levelname)-8s] %(message)s') # Example with level name aligned
     console_handler.setFormatter(console_formatter)
     root_logger.addHandler(console_handler)
@@ -89,24 +93,9 @@ def setup_logging(debug: bool):
     logging.getLogger('urllib3').setLevel(logging.WARNING)
     logging.getLogger('s3transfer').setLevel(logging.WARNING)
     logging.getLogger('pinecone').setLevel(logging.INFO)
-    # Also set level for our own utils if needed
     logging.getLogger('utils').setLevel(log_level) # Match app debug level for utils
 
     logger.info(f"Logging setup complete. Level: {logging.getLevelName(log_level)}")
-
-
-# S3 interaction functions are now imported from utils.s3_utils
-# Definitions removed from here:
-# - find_file_any_extension
-# - get_latest_system_prompt
-# - get_latest_frameworks
-# - get_latest_context
-# - get_agent_docs
-# - load_existing_chats_from_s3
-# - parse_text_chat (moved to s3_utils as helper for load_existing_chats)
-# - read_file_content
-# - save_chat_to_s3
-# - format_chat_history
 
 
 # analyze_with_claude needs the model_name parameter
@@ -154,7 +143,6 @@ def analyze_with_claude(client: Anthropic, messages: List[Dict[str, Any]], syste
 
 def reload_memory(agent_name: str, memory_agents: List[str], initial_system_prompt: str) -> str:
     """Reload memory from saved chat history files and append to system prompt."""
-    # This function now primarily calls the implementation in s3_utils
     try:
         logger.debug("Reloading memory...")
         previous_chats = load_existing_chats_from_s3(agent_name, memory_agents) # Uses imported function
@@ -214,21 +202,19 @@ def display_help():
     print("--web-port PORT - Port for web interface (default: 5001).")
     print("--debug        - Enable debug logging.")
 
-# format_chat_history is now imported from utils.s3_utils
-
 
 # Main execution block
 def main():
     global abort_requested
     try:
+        # Config now loads .env internally via AppConfig.from_env_and_args
         config = AppConfig.from_env_and_args()
-        setup_logging(config.debug)
+        setup_logging(config.debug) # Setup logging AFTER config is loaded
         logger.info(f"Starting agent '{config.agent_name}' with config: {config}")
 
-        if not config.session_id:
-             timestamp = datetime.now().strftime('%Y%m%d-T%H%M%S')
-             config.session_id = timestamp # Set session ID on config object
-        event_id_str = config.event_id or '0000' # Ensure event_id is a string
+        # Session ID and chat file setup
+        if not config.session_id: config.session_id = datetime.now().strftime('%Y%m%d-T%H%M%S')
+        event_id_str = config.event_id or '0000'
         current_chat_file = f"chat_D{config.session_id}_aID-{config.agent_name}_eID-{event_id_str}.txt"
         logger.info(f"Chat session ID: {config.session_id}")
         logger.info(f"Chat filename: {current_chat_file}")
@@ -240,9 +226,8 @@ def main():
         # Start web interface if requested
         if config.interface_mode in ['web', 'web_only']:
             try:
-                 # Import WebChat here locally to avoid top-level circular dependency issues
-                 from web.web_chat import WebChat
-                 web_interface = WebChat(config) # Pass the fully initialized config
+                 from web.web_chat import WebChat # Import locally
+                 web_interface = WebChat(config)
                  web_thread = web_interface.run(port=config.web_port, debug=config.debug)
                  logger.info(f"Web interface starting on http://127.0.0.1:{config.web_port}")
             except ImportError as e:
@@ -257,9 +242,9 @@ def main():
             if config.interface_mode == 'web_only':
                 print("\nRunning in web-only mode. Press Ctrl+C in the console running Flask to exit.")
                 try:
-                     while True: time.sleep(1) # Keep main thread alive
+                     while True: time.sleep(1)
                 except KeyboardInterrupt: print("\nShutting down web-only mode...")
-                return # Exit main function for web-only
+                return
 
         # --- CLI Mode ---
         if config.interface_mode != 'web_only':
@@ -280,6 +265,7 @@ def main():
             except Exception as e: logger.error(f"CLI: Failed to initialize RetrievalHandler: {e}", exc_info=True); print("Warning: Document retrieval unavailable.", file=sys.stderr)
 
             conversation_history = []
+            # Load prompts/context AFTER potential S3 client init (implicitly via utils)
             system_prompt = get_latest_system_prompt(config.agent_name) or "You are a helpful assistant."
             initial_context_messages = []
             frameworks = get_latest_frameworks(config.agent_name); context = get_latest_context(config.agent_name, config.event_id); docs = get_agent_docs(config.agent_name)
