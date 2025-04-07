@@ -643,7 +643,7 @@ def main():
 
             # Initialize retrieval handler with agent namespace and session info
             retriever = RetrievalHandler(
-                index_name="magicchat",
+                index_name=config.index, # Use the config value
                 agent_name=config.agent_name,  # Pass agent name for namespace
                 session_id=config.session_id,  # Current session
                 event_id=config.event_id      # Current event
@@ -679,22 +679,26 @@ def main():
                     )
                     
                     if contexts:
+                        logging.debug(f"Retrieved {len(contexts)} context documents from Pinecone.")
                         # Format and combine relevant context sections
                         formatted_contexts = []
-                        for i, ctx in enumerate(contexts, 1):
-                            score = ctx.get('score', 0.0)
-                            source = ctx.get('metadata', {}).get('source', 'Unknown')
+                        for i, doc in enumerate(contexts, 1):
+                            score = doc.metadata.get('score', 0.0)
+                            source = doc.metadata.get('file_name', 'Unknown source')
+                            namespace = doc.metadata.get('namespace', 'Unknown namespace')
+                            content_preview = doc.page_content[:100].replace('\n', ' ') + "..."
+                            logging.debug(f"  Context {i}: Score={score:.3f}, Source='{source}', Namespace='{namespace}', Preview='{content_preview}'")
                             formatted_contexts.append(
-                                f"[Context {i} from {source} (relevance: {score:.2f})]:\n{ctx['content']}"
+                                f"[Context {i} from {source} in {namespace} (relevance: {score:.2f})]:\n{doc.page_content}"
                             )
-                        
+
                         combined = "\n\n".join(formatted_contexts)
-                        logging.debug(f"Found {len(contexts)} relevant context sections")
+                        logging.debug(f"Combined context length: {len(combined)} chars.")
                         return combined
-                        
-                    logging.debug("No relevant context found")
+
+                    logging.debug("No relevant context found in Pinecone for the query.")
                     return None
-                    
+
                 except Exception as e:
                     logging.error(f"Error retrieving context: {e}")
                     return None
@@ -901,10 +905,13 @@ def main():
                                 temp_system_prompt = system_prompt + conversation_context
                             else:
                                 temp_system_prompt = system_prompt
+                                logging.debug("No Pinecone context added to system prompt for this turn.")
 
+                            logging.debug(f"Using system prompt length for Claude call: {len(temp_system_prompt)} chars.")
                             # Use temp_system_prompt when calling Claude
                             response = analyze_with_claude(client, conversation_history, temp_system_prompt)
                             if response is None:
+                                logging.warning("Received None response from analyze_with_claude.")
                                 print("\nUser: ", end='', flush=True)
                                 continue
                             conversation_history.append({"role": "assistant", "content": response})

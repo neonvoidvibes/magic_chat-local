@@ -146,7 +146,7 @@ class WebChat:
         self.transcript = None
         self.system_prompt = None
         self.retriever = RetrievalHandler(
-            index_name="magicchat",
+            index_name=config.index, # Use the config value
             agent_name=config.agent_name,  # Pass agent name for namespace
             session_id=config.session_id,  # Current session
             event_id=config.event_id      # Current event
