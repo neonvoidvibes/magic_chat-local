@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import List, Dict, Optional
 import os
 import argparse
@@ -11,11 +11,11 @@ class AppConfig:
     agent_name: str
     interface_mode: str  # 'cli', 'web', or 'web_only'
     web_port: int = 5001  # Default web port
-    
+
     # Optional settings with defaults
-    memory: List[str] = None
+    memory: List[str] = field(default_factory=list) # Use field for mutable default
     debug: bool = False
-    
+
     # Listener settings
     listen_summary: bool = False
     listen_transcript: bool = False
@@ -33,15 +33,18 @@ class AppConfig:
     event_id: str = '0000'  # Default event ID
     session_id: str = None  # Will be set to timestamp on initialization
 
-    # New setting: Pinecone index name
+    # Pinecone index name
     index: str = "magicchat"
+
+    # LLM Model Name (Centralized Definition)
+    llm_model_name: str = "claude-3-7-sonnet-20250219" # Default model
 
     @classmethod
     def from_env_and_args(cls) -> 'AppConfig':
         """Create configuration from environment variables and command line arguments"""
         # Load environment variables
         load_dotenv()
-        
+
         # Parse command line arguments
         parser = argparse.ArgumentParser(description="Run a Claude agent instance.")
         parser.add_argument('--agent', required=True, help='Unique name for the agent.')
@@ -50,7 +53,7 @@ class AppConfig:
         parser.add_argument('--web', action='store_true', help='Run with web interface.')
         parser.add_argument('--web-only', action='store_true', help='Run with web interface only (no CLI fallback).')
         parser.add_argument('--web-port', type=int, default=5001, help='Port for web interface (default: 5001)')
-        
+
         # Listener arguments
         parser.add_argument('--listen', action='store_true', help='Enable summary listening at startup.')
         parser.add_argument('--listen-transcript', action='store_true', help='Enable transcript listening at startup.')
@@ -59,11 +62,13 @@ class AppConfig:
         parser.add_argument('--listen-all', action='store_true', help='Enable all listening at startup.')
         parser.add_argument('--all', action='store_true', help='Read all transcripts in the selected folder at launch, ignore further updates.')
         parser.add_argument('--event', type=str, default='0000', help='Event ID (default: 0000)')
-        # New argument for Pinecone index name:
+        # Pinecone index name argument
         parser.add_argument('--index', type=str, default='magicchat', help='Pinecone index name to fetch context from')
-        
+        # Optional LLM model override (future-proofing, but not strictly needed now)
+        # parser.add_argument('--llm-model', type=str, help='Override the default LLM model name')
+
         args = parser.parse_args()
-        
+
         # Determine interface mode
         if args.web_only:
             interface_mode = 'web_only'
@@ -76,20 +81,23 @@ class AppConfig:
         listen_summary = args.listen or args.listen_deep or args.listen_all
         listen_transcript = args.listen_transcript or args.listen_all
         listen_insights = args.listen_insights or args.listen_deep or args.listen_all
-        
+
+        # Determine memory agents
+        memory_agents = args.memory if args.memory is not None else [] # Ensure it's a list
+
         # Create config instance
         config = cls(
             agent_name=args.agent,
             interface_mode=interface_mode,
             web_port=args.web_port,
             event_id=args.event,
-            memory=args.memory,
+            memory=memory_agents,
             debug=args.debug,
             listen_summary=listen_summary,
             listen_transcript=listen_transcript,
             listen_insights=listen_insights,
-            listen_deep=args.listen_deep,
-            listen_all=args.listen_all,
+            listen_deep=args.listen_deep, # Keep original args for potential specific logic
+            listen_all=args.listen_all, # Keep original args
             listen_transcript_enabled=False,  # Start disabled; enable when needed
             read_all=args.all,
             # Environment variables
@@ -97,13 +105,17 @@ class AppConfig:
             aws_s3_bucket=os.getenv('AWS_S3_BUCKET'),
             anthropic_api_key=os.getenv('ANTHROPIC_API_KEY'),
             openai_api_key=os.getenv('OPENAI_API_KEY'),
-            index=args.index  # Set the Pinecone index from CLI argument
+            index=args.index,  # Set the Pinecone index from CLI argument
+            # LLM Model Name - Use default unless overridden (e.g., by future CLI arg or env var)
+            # llm_model_name=args.llm_model or os.getenv('LLM_MODEL_NAME', "claude-3-7-sonnet-20250219")
+            # For now, just use the default defined in the class:
+            llm_model_name="claude-3-7-sonnet-20250219"
         )
-        
+
         # Validate configuration
         config.validate()
         return config
-    
+
     def validate(self) -> None:
         """Validate the configuration"""
         missing_vars = []
@@ -114,13 +126,18 @@ class AppConfig:
             missing_vars.append('AWS_S3_BUCKET')
         if not self.anthropic_api_key:
             missing_vars.append('ANTHROPIC_API_KEY')
+        # OPENAI_API_KEY is only needed for embeddings currently
         if not self.openai_api_key:
-            missing_vars.append('OPENAI_API_KEY')
-            
+             missing_vars.append('OPENAI_API_KEY')
+
         if missing_vars:
             raise ValueError(f"Missing environment variables: {', '.join(missing_vars)}")
-        
+
         # Validate interface mode
         valid_modes = {'cli', 'web', 'web_only'}
         if self.interface_mode not in valid_modes:
             raise ValueError(f"Invalid interface mode: {self.interface_mode}")
+
+        # Validate LLM model name (basic check)
+        if not self.llm_model_name or not isinstance(self.llm_model_name, str):
+             raise ValueError("LLM model name must be a non-empty string")
