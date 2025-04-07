@@ -1,14 +1,27 @@
 """Utilities for retrieving relevant document context for chat."""
 import logging
+import traceback
 from typing import List, Optional, Dict, Any
+
+# Attempt to pre-import tiktoken early
+try:
+    import tiktoken
+    logger = logging.getLogger(__name__)
+    logger.debug("Successfully imported tiktoken early in retrieval_handler.")
+except ImportError:
+    logging.getLogger(__name__).warning("tiktoken could not be imported.")
+except Exception as e:
+    logging.getLogger(__name__).warning(f"An error occurred during early tiktoken import: {e}")
+
+
 from langchain_openai import OpenAIEmbeddings
 from langchain_core.documents import Document # Use Document class from langchain core
 from pinecone import Pinecone
 from utils.pinecone_utils import init_pinecone
-import traceback
+
 
 # Configure logging
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__) # Get logger for this module
 
 class RetrievalHandler:
     """Handles document retrieval for chat context using direct Pinecone queries."""
@@ -21,26 +34,17 @@ class RetrievalHandler:
         event_id: Optional[str] = None,    # Current event ID (optional usage for namespace/filtering)
         top_k: int = 5
     ):
-        """Initialize retrieval handler with agent namespace.
-
-        Args:
-            index_name: Name of the Pinecone index
-            agent_name: Namespace for the agent (mandatory for retrieval)
-            session_id: Optional session ID for potential future filtering
-            event_id: Optional event ID for potential future filtering or namespace construction
-            top_k: Default number of results to retrieve
-        """
+        """Initialize retrieval handler with agent namespace."""
         if not agent_name:
             raise ValueError("agent_name is required for RetrievalHandler")
 
         self.index_name = index_name
-        self.namespace = agent_name # Use agent_name directly as the primary namespace
+        self.namespace = agent_name
         self.session_id = session_id
         self.event_id = event_id if event_id and event_id != '0000' else None
         self.top_k = top_k
-        self.embedding_model_name = "text-embedding-ada-002" # Define model name
+        self.embedding_model_name = "text-embedding-ada-002"
 
-        # Initialize embeddings, explicitly specifying the model
         try:
             self.embeddings = OpenAIEmbeddings(model=self.embedding_model_name)
             logger.info(f"RetrievalHandler: Initialized OpenAIEmbeddings with model '{self.embedding_model_name}'.")
@@ -48,12 +52,10 @@ class RetrievalHandler:
             logger.error(f"RetrievalHandler: Failed to initialize OpenAIEmbeddings: {e}", exc_info=True)
             raise RuntimeError("Failed to initialize OpenAIEmbeddings") from e
 
-        # Use the new Pinecone class-based usage
         pc = init_pinecone()
         if not pc:
             raise RuntimeError("Failed to initialize Pinecone")
 
-        # Get the actual index object
         try:
             self.index = pc.Index(self.index_name)
             logger.info(f"RetrievalHandler: Successfully connected to Pinecone index '{self.index_name}'")
@@ -79,14 +81,17 @@ class RetrievalHandler:
         try:
             # Generate embedding for the user query
             try:
-                # Check if embeddings object exists
                 if not hasattr(self, 'embeddings') or self.embeddings is None:
                      logger.error("RetrievalHandler: OpenAIEmbeddings object not initialized.")
                      return []
+                # The call below is where the tiktoken error might occur internally within langchain
                 query_embedding = self.embeddings.embed_query(query)
                 logger.debug(f"RetrievalHandler: Generated query embedding vector (first 5 dims): {query_embedding[:5]}...")
             except Exception as e:
                 logger.error(f"RetrievalHandler: Error generating query embedding: {e}", exc_info=True)
+                # Re-check if it's the specific ValueError from tiktoken
+                if isinstance(e, ValueError) and "Duplicate encoding name" in str(e):
+                    logger.error(">>>>> Tiktoken duplicate encoding error detected during query embedding generation.")
                 return []
 
             # --- Define namespaces to search ---
