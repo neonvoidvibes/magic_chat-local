@@ -3,170 +3,115 @@ import logging
 import traceback
 from typing import List, Optional, Dict, Any
 
-# Attempt to pre-import tiktoken early
-try:
-    import tiktoken
-    logger = logging.getLogger(__name__)
-    logger.debug("Successfully imported tiktoken early in retrieval_handler.")
-except ImportError:
-    logging.getLogger(__name__).warning("tiktoken could not be imported.")
-except Exception as e:
-    logging.getLogger(__name__).warning(f"An error occurred during early tiktoken import: {e}")
-
+# Attempt early tiktoken import
+try: import tiktoken; logging.getLogger(__name__).debug("Imported tiktoken early.")
+except Exception as e: logging.getLogger(__name__).warning(f"Early tiktoken import failed: {e}")
 
 from langchain_openai import OpenAIEmbeddings
-from langchain_core.documents import Document # Use Document class from langchain core
+from langchain_core.documents import Document
 from pinecone import Pinecone
 from utils.pinecone_utils import init_pinecone
 
-
-# Configure logging
-logger = logging.getLogger(__name__) # Get logger for this module
+logger = logging.getLogger(__name__)
 
 class RetrievalHandler:
-    """Handles document retrieval for chat context using direct Pinecone queries."""
+    """Handles document retrieval using direct Pinecone queries."""
 
     def __init__(
         self,
         index_name: str = "magicchat",
-        agent_name: Optional[str] = None,  # Namespace corresponds to agent name
-        session_id: Optional[str] = None,  # Current session ID (optional usage)
-        event_id: Optional[str] = None,    # Current event ID (optional usage for namespace/filtering)
-        top_k: int = 5
+        agent_name: Optional[str] = None,
+        session_id: Optional[str] = None,
+        event_id: Optional[str] = None,
+        top_k: int = 10 # Increased default top_k
     ):
-        """Initialize retrieval handler with agent namespace."""
-        if not agent_name:
-            raise ValueError("agent_name is required for RetrievalHandler")
+        """Initialize retrieval handler."""
+        if not agent_name: raise ValueError("agent_name required")
 
         self.index_name = index_name
         self.namespace = agent_name
         self.session_id = session_id
         self.event_id = event_id if event_id and event_id != '0000' else None
-        self.top_k = top_k
+        self.top_k = top_k # Use the provided or default value
         self.embedding_model_name = "text-embedding-ada-002"
 
         try:
             self.embeddings = OpenAIEmbeddings(model=self.embedding_model_name)
-            logger.info(f"RetrievalHandler: Initialized OpenAIEmbeddings with model '{self.embedding_model_name}'.")
+            logger.info(f"Retriever: Initialized Embeddings model '{self.embedding_model_name}'.")
         except Exception as e:
-            logger.error(f"RetrievalHandler: Failed to initialize OpenAIEmbeddings: {e}", exc_info=True)
-            raise RuntimeError("Failed to initialize OpenAIEmbeddings") from e
+            logger.error(f"Retriever: Failed Embeddings init: {e}", exc_info=True)
+            raise RuntimeError("Failed Embeddings init") from e
 
         pc = init_pinecone()
-        if not pc:
-            raise RuntimeError("Failed to initialize Pinecone")
+        if not pc: raise RuntimeError("Failed Pinecone init")
 
         try:
             self.index = pc.Index(self.index_name)
-            logger.info(f"RetrievalHandler: Successfully connected to Pinecone index '{self.index_name}'")
+            logger.info(f"Retriever: Connected to Pinecone index '{self.index_name}'. Default top_k={self.top_k}")
         except Exception as e:
-            logger.error(f"RetrievalHandler: Failed to connect to Pinecone index '{self.index_name}': {e}")
-            raise RuntimeError(f"Failed to connect to Pinecone index '{self.index_name}'") from e
+            logger.error(f"Retriever: Failed connection to index '{self.index_name}': {e}")
+            raise RuntimeError(f"Failed connection to index '{self.index_name}'") from e
 
     def get_relevant_context(
         self,
         query: str,
-        top_k: Optional[int] = None,
+        top_k: Optional[int] = None, # Allow overriding default k per query
         is_transcript: bool = False
     ) -> List[Document]:
-        """
-        Retrieve the most relevant document chunks for `query` using direct Pinecone query
-        with appropriate namespace and metadata filters based on handler's agent_name and event_id.
-        """
-        k = top_k or self.top_k
-        logger.debug(f"RetrievalHandler: Attempting to retrieve top {k} contexts.")
-        logger.debug(f"RetrievalHandler: Query: '{query[:100]}...' (is_transcript={is_transcript})")
-        logger.debug(f"RetrievalHandler: Base namespace: {self.namespace}, Specific Event ID for filtering: {self.event_id}")
+        """Retrieve relevant document chunks."""
+        k = top_k or self.top_k # Use per-query k or instance default
+        logger.debug(f"Retriever: Attempting retrieve top {k}. Query: '{query[:100]}...' (is_tx={is_transcript})")
+        logger.debug(f"Retriever: Base ns: {self.namespace}, Event ID for filter: {self.event_id}")
 
         try:
-            # Generate embedding for the user query
+            # Generate embedding
             try:
-                if not hasattr(self, 'embeddings') or self.embeddings is None:
-                     logger.error("RetrievalHandler: OpenAIEmbeddings object not initialized.")
-                     return []
-                # The call below is where the tiktoken error might occur internally within langchain
+                if not hasattr(self, 'embeddings') or self.embeddings is None: raise RuntimeError("Embeddings missing")
                 query_embedding = self.embeddings.embed_query(query)
-                logger.debug(f"RetrievalHandler: Generated query embedding vector (first 5 dims): {query_embedding[:5]}...")
-            except Exception as e:
-                logger.error(f"RetrievalHandler: Error generating query embedding: {e}", exc_info=True)
-                # Re-check if it's the specific ValueError from tiktoken
-                if isinstance(e, ValueError) and "Duplicate encoding name" in str(e):
-                    logger.error(">>>>> Tiktoken duplicate encoding error detected during query embedding generation.")
-                return []
+                logger.debug(f"Retriever: Query embedding generated (first 5): {query_embedding[:5]}...")
+            except Exception as e: logger.error(f"Retriever: Embedding error: {e}", exc_info=True); return []
 
-            # --- Define namespaces to search ---
-            namespaces_to_search = [self.namespace]
-            logger.debug(f"RetrievalHandler: Primary namespace to search: {self.namespace}")
-            event_namespace = f"{self.namespace}-{self.event_id}" if self.event_id else None
-            if event_namespace and event_namespace != self.namespace:
-                 logger.debug(f"RetrievalHandler: Adding event-specific namespace to search: {event_namespace}")
-                 namespaces_to_search.append(event_namespace)
+            # Define namespaces & filters
+            namespaces = [self.namespace]
+            event_ns = f"{self.namespace}-{self.event_id}" if self.event_id else None
+            if event_ns and event_ns != self.namespace: namespaces.append(event_ns); logger.debug(f"Adding event ns: {event_ns}")
 
-            # --- Perform queries with filters ---
+            # Perform queries
             all_matches = []
-            for ns in namespaces_to_search:
-                query_filter = {"agent_name": self.namespace}
-                if self.event_id:
-                     query_filter["event_id"] = self.event_id
-                     logger.debug(f"RetrievalHandler: Added specific event_id='{self.event_id}' to filter.")
-                else:
-                     logger.debug("RetrievalHandler: No specific event_id set, not adding event_id to filter.")
+            for ns in namespaces:
+                query_filter = {"agent_name": self.namespace} # Always filter by agent
+                if self.event_id: query_filter["event_id"] = self.event_id; logger.debug(f"Adding event_id filter: {self.event_id}")
+                else: logger.debug("No specific event_id filter applied.")
 
-                logger.debug(f"RetrievalHandler: Querying namespace='{ns}' with filter={query_filter}, top_k={k}")
-
+                logger.debug(f"Querying ns='{ns}', filter={query_filter}, top_k={k}")
                 try:
-                    response = self.index.query(
-                        vector=query_embedding,
-                        top_k=k,
-                        namespace=ns,
-                        filter=query_filter,
-                        include_metadata=True
-                    )
-                    logger.debug(f"RetrievalHandler: Raw response from Pinecone namespace '{ns}': {response}")
-                    if response.matches:
-                         logger.info(f"RetrievalHandler: Found {len(response.matches)} raw matches in namespace '{ns}'.")
-                         for i, match in enumerate(response.matches[:3]):
-                              logger.debug(f"  Match {i+1}: ID={match.id}, Score={match.score:.4f}, Metadata={match.metadata}")
-                         all_matches.extend(response.matches)
-                    else:
-                         logger.info(f"RetrievalHandler: No matches found in namespace '{ns}'.")
-                except Exception as query_e:
-                    logger.error(f"RetrievalHandler: Error querying Pinecone namespace '{ns}': {query_e}")
-                    logger.error(traceback.format_exc())
+                    response = self.index.query(vector=query_embedding, top_k=k, namespace=ns, filter=query_filter, include_metadata=True)
+                    logger.debug(f"Raw response ns '{ns}': {response}")
+                    if response.matches: logger.info(f"Found {len(response.matches)} matches in ns '{ns}'."); all_matches.extend(response.matches)
+                    else: logger.info(f"No matches in ns '{ns}'.")
+                except Exception as query_e: logger.error(f"Pinecone query error ns '{ns}': {query_e}", exc_info=True)
 
-            if not all_matches:
-                logger.warning("RetrievalHandler: No relevant context matches found across all searched namespaces.")
-                return []
+            if not all_matches: logger.warning("No matches found across namespaces."); return []
 
-            # --- Process and Rank Results ---
-            logger.debug(f"RetrievalHandler: Total raw matches found: {len(all_matches)}")
+            # Process & Rank
+            logger.debug(f"Total raw matches: {len(all_matches)}")
             all_matches.sort(key=lambda x: x.score, reverse=True)
-            top_matches = all_matches[:k]
-            logger.debug(f"RetrievalHandler: Top {len(top_matches)} matches after sorting:")
-            for i, match in enumerate(top_matches):
-                 logger.debug(f"  Rank {i+1}: ID={match.id}, Score={match.score:.4f}")
+            top_matches = all_matches[:k] # Limit to overall k
+            logger.debug(f"Top {len(top_matches)} matches after sort:")
+            for i, match in enumerate(top_matches): logger.debug(f"  Rank {i+1}: ID={match.id}, Score={match.score:.4f}")
 
-            # Convert top Pinecone matches to Langchain Documents
+            # Convert to Documents
             docs = []
             for match in top_matches:
-                if not match.metadata:
-                     logger.warning(f"RetrievalHandler: Match (ID: {match.id}, Score: {match.score:.4f}) has no metadata. Skipping.")
-                     continue
+                if not match.metadata: logger.warning(f"Match {match.id} lacks metadata."); continue
                 content = match.metadata.get('content')
-                if not content:
-                    logger.warning(f"RetrievalHandler: Match (ID: {match.id}, Score: {match.score:.4f}) metadata lacks 'content' key or value is empty. Metadata: {match.metadata}. Skipping.")
-                    continue
+                if not content: logger.warning(f"Match {match.id} metadata lacks 'content'."); continue
                 doc_metadata = {k: v for k, v in match.metadata.items() if k != 'content'}
-                doc_metadata['score'] = match.score
-                doc_metadata['vector_id'] = match.id
+                doc_metadata['score'] = match.score; doc_metadata['vector_id'] = match.id
                 docs.append(Document(page_content=content, metadata=doc_metadata))
 
-            logger.info(f"RetrievalHandler: Returning {len(docs)} processed document contexts.")
-            if docs:
-                 logger.debug(f"RetrievalHandler: First returned document metadata: {docs[0].metadata}")
+            logger.info(f"Retriever: Returning {len(docs)} processed contexts.")
+            if docs: logger.debug(f"First doc metadata: {docs[0].metadata}")
             return docs
 
-        except Exception as e:
-            logger.error(f"RetrievalHandler: Unhandled error during context retrieval: {e}")
-            logger.error(traceback.format_exc())
-            return []
+        except Exception as e: logger.error(f"Context retrieval error: {e}", exc_info=True); return []
