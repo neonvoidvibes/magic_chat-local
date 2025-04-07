@@ -2,15 +2,12 @@
 import logging
 from typing import List, Optional, Dict, Any
 from langchain_openai import OpenAIEmbeddings
-# We use the Pinecone client directly, so Langchain PineconeVectorStore is not strictly needed here
-# from langchain_pinecone import Pinecone as PineconeVectorStore
 from langchain_core.documents import Document # Use Document class from langchain core
 from pinecone import Pinecone
 from utils.pinecone_utils import init_pinecone
-# from utils.document_handler import DocumentHandler # Not needed here
+import traceback
 
 # Configure logging
-# Ensure logger level is set appropriately elsewhere (e.g., main script with --debug)
 logger = logging.getLogger(__name__)
 
 class RetrievalHandler:
@@ -39,7 +36,8 @@ class RetrievalHandler:
         self.index_name = index_name
         self.namespace = agent_name # Use agent_name directly as the primary namespace
         self.session_id = session_id
-        self.event_id = event_id
+        # Store event_id, handle None or '0000' as 'no specific event'
+        self.event_id = event_id if event_id and event_id != '0000' else None
         self.top_k = top_k
 
         # Initialize embeddings
@@ -61,17 +59,16 @@ class RetrievalHandler:
     def get_relevant_context(
         self,
         query: str,
-        filter_metadata: Optional[Dict[str, Any]] = None, # Allow passing extra filters
+        # filter_metadata: Optional[Dict[str, Any]] = None, # Removing this - filtering based on handler's state now
         top_k: Optional[int] = None,
-        is_transcript: bool = False # Flag might influence which namespace/filters are prioritized
-    ) -> List[Document]: # Return Langchain Document objects
+        is_transcript: bool = False
+    ) -> List[Document]:
         """
         Retrieve the most relevant document chunks for `query` using direct Pinecone query
-        with appropriate namespace and metadata filters.
+        with appropriate namespace and metadata filters based on handler's agent_name and event_id.
 
         Args:
             query: Search query
-            filter_metadata: Optional dictionary of additional metadata key-value pairs to filter on.
             top_k: Number of results to return (overrides default if provided)
             is_transcript: Hint that query relates to transcript (might influence strategy in future)
 
@@ -81,7 +78,7 @@ class RetrievalHandler:
         k = top_k or self.top_k
         logger.debug(f"RetrievalHandler: Attempting to retrieve top {k} contexts.")
         logger.debug(f"RetrievalHandler: Query: '{query[:100]}...' (is_transcript={is_transcript})")
-        logger.debug(f"RetrievalHandler: Base namespace: {self.namespace}, Event ID: {self.event_id}")
+        logger.debug(f"RetrievalHandler: Base namespace: {self.namespace}, Specific Event ID for filtering: {self.event_id}") # Log the specific event_id being used
 
         try:
             # Generate embedding for the user query
@@ -90,41 +87,33 @@ class RetrievalHandler:
                 logger.debug(f"RetrievalHandler: Generated query embedding vector (first 5 dims): {query_embedding[:5]}...")
             except Exception as e:
                 logger.error(f"RetrievalHandler: Error generating query embedding: {e}")
-                return [] # Cannot proceed without embedding
+                return []
 
             # --- Define namespaces to search ---
-            namespaces_to_search = [self.namespace] # Always search the base agent namespace
-            logger.debug(f"RetrievalHandler: Initially searching namespace: {self.namespace}")
-            event_namespace = f"{self.namespace}-{self.event_id}" if self.event_id and self.event_id != '0000' else None # Avoid using default '0000' as event ID here
+            # Primarily search the main agent namespace
+            namespaces_to_search = [self.namespace]
+            logger.debug(f"RetrievalHandler: Primary namespace to search: {self.namespace}")
+            # Add event namespace ONLY if a specific event_id is set
+            event_namespace = f"{self.namespace}-{self.event_id}" if self.event_id else None
             if event_namespace and event_namespace != self.namespace:
-                 # If event_id exists and is specific, also search the event-specific namespace
                  logger.debug(f"RetrievalHandler: Adding event-specific namespace to search: {event_namespace}")
                  namespaces_to_search.append(event_namespace)
-            else:
-                 logger.debug(f"RetrievalHandler: No specific event namespace to search (event_id: {self.event_id})")
-
 
             # --- Perform queries with filters ---
             all_matches = []
             for ns in namespaces_to_search:
                 # Build the metadata filter for this namespace query
-                query_filter = {"agent_name": self.namespace} # Always filter based on agent_name stored in metadata
+                # Always filter by agent_name
+                query_filter = {"agent_name": self.namespace}
 
-                # Add event_id filter *only if* event_id is present and specific
-                # And only if we are querying the event-specific namespace? Or always if event_id exists? Let's try always.
-                if self.event_id and self.event_id != '0000':
+                # Add event_id filter ONLY if a specific event_id is set for the handler
+                if self.event_id:
                      query_filter["event_id"] = self.event_id
-                     logger.debug(f"RetrievalHandler: Added event_id='{self.event_id}' to filter.")
+                     logger.debug(f"RetrievalHandler: Added specific event_id='{self.event_id}' to filter.")
                 else:
-                     # Optionally, explicitly filter out things *with* an event_id if we *don't* have one?
-                     # query_filter["event_id"] = {"$exists": False} # Or handle based on requirements
-                     logger.debug("RetrievalHandler: No specific event_id provided or it's default '0000', not adding event_id to filter.")
+                     logger.debug("RetrievalHandler: No specific event_id set, not adding event_id to filter.")
 
-
-                # Merge any additional filters passed externally
-                if filter_metadata:
-                    logger.debug(f"RetrievalHandler: Merging external filters: {filter_metadata}")
-                    query_filter.update(filter_metadata)
+                # Removed merging external filter_metadata here
 
                 logger.debug(f"RetrievalHandler: Querying namespace='{ns}' with filter={query_filter}, top_k={k}")
 
@@ -136,11 +125,10 @@ class RetrievalHandler:
                         filter=query_filter, # Apply the constructed filter
                         include_metadata=True
                     )
-                    logger.debug(f"RetrievalHandler: Raw response from Pinecone namespace '{ns}': {response}") # Log the whole response object
+                    logger.debug(f"RetrievalHandler: Raw response from Pinecone namespace '{ns}': {response}")
                     if response.matches:
                          logger.info(f"RetrievalHandler: Found {len(response.matches)} raw matches in namespace '{ns}'.")
-                         # Log details of top N matches for inspection
-                         for i, match in enumerate(response.matches[:3]): # Log top 3
+                         for i, match in enumerate(response.matches[:3]):
                               logger.debug(f"  Match {i+1}: ID={match.id}, Score={match.score:.4f}, Metadata={match.metadata}")
                          all_matches.extend(response.matches)
                     else:
@@ -148,8 +136,7 @@ class RetrievalHandler:
 
                 except Exception as query_e:
                     logger.error(f"RetrievalHandler: Error querying Pinecone namespace '{ns}': {query_e}")
-                    import traceback
-                    logger.error(traceback.format_exc()) # Log full traceback for query errors
+                    logger.error(traceback.format_exc())
                     # Continue to next namespace if one fails
 
             if not all_matches:
@@ -164,39 +151,27 @@ class RetrievalHandler:
             for i, match in enumerate(top_matches):
                  logger.debug(f"  Rank {i+1}: ID={match.id}, Score={match.score:.4f}")
 
-
             # Convert top Pinecone matches to Langchain Documents
             docs = []
             for match in top_matches:
                 if not match.metadata:
                      logger.warning(f"RetrievalHandler: Match (ID: {match.id}, Score: {match.score:.4f}) has no metadata. Skipping.")
                      continue
-
                 content = match.metadata.get('content')
                 if not content:
                     logger.warning(f"RetrievalHandler: Match (ID: {match.id}, Score: {match.score:.4f}) metadata lacks 'content' key or value is empty. Metadata: {match.metadata}. Skipping.")
                     continue
-
-                # Prepare metadata for Langchain Document
-                doc_metadata = {k: v for k, v in match.metadata.items() if k != 'content'} # Exclude content
+                doc_metadata = {k: v for k, v in match.metadata.items() if k != 'content'}
                 doc_metadata['score'] = match.score
                 doc_metadata['vector_id'] = match.id
-                # Add namespace if available (Pinecone SDK might not always include it in match object directly?)
-                # Let's assume it was added during query or is derivable if needed.
-
                 docs.append(Document(page_content=content, metadata=doc_metadata))
 
             logger.info(f"RetrievalHandler: Returning {len(docs)} processed document contexts.")
             if docs:
                  logger.debug(f"RetrievalHandler: First returned document metadata: {docs[0].metadata}")
-
             return docs
 
         except Exception as e:
             logger.error(f"RetrievalHandler: Unhandled error during context retrieval: {e}")
-            import traceback
             logger.error(traceback.format_exc())
             return []
-
-    # get_contextual_summary method might be removed if not used, or updated to use the retrieved docs.
-    # def get_contextual_summary(...) -> Optional[str]: ...
