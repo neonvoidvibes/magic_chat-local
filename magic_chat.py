@@ -60,15 +60,16 @@ def setup_logging(debug: bool):
 def analyze_with_claude(client: Anthropic, messages: List[Dict[str, Any]], system_prompt: str, model_name: str, max_tokens: int) -> Optional[str]:
     """Process messages with Claude API."""
     logger.debug(f"\n=== Claude API Request === Model: {model_name}, MaxTokens: {max_tokens}")
-    logger.debug(f"System prompt length: {len(system_prompt)} chars")
+    logger.debug(f"System prompt length: {len(system_prompt)} chars") # Base + Memory + Retrieved Context
     formatted_messages = []
-    for msg in messages:
+    for msg in messages: # Should contain User/Assistant turns + Transcript Updates (as User)
          role = msg.get("role"); content = msg.get("content", "")
-         if not content or role == "system": continue
+         if not content or role == "system": continue # Skip any accidental system messages here
          api_role = "assistant" if role == "assistant" else "user"
          formatted_messages.append({"role": api_role, "content": content})
-    realtime_instruction = "\n\nIMPORTANT: When asked about what is happening 'now' or for live updates, prioritize information marked with [REAL-TIME Meeting Transcript Update] over historical context from the vector database."
-    final_system_prompt = system_prompt + realtime_instruction
+    realtime_instruction = "\n\nIMPORTANT: Prioritize [REAL-TIME Meeting Transcript Update]s for 'now' queries."
+    final_system_prompt = system_prompt
+    if realtime_instruction not in system_prompt: final_system_prompt += realtime_instruction # Add if missing
     logger.debug(f"Final system prompt length (with instructions): {len(final_system_prompt)} chars")
     logger.debug(f"Number of messages for API: {len(formatted_messages)}")
     if logger.isEnabledFor(logging.DEBUG):
@@ -116,9 +117,7 @@ def main():
 
         if config.interface_mode in ['web', 'web_only']:
             try:
-                 from web.web_chat import WebChat # Import locally
-                 web_interface = WebChat(config)
-                 web_thread = web_interface.run(port=config.web_port, debug=config.debug)
+                 from web.web_chat import WebChat; web_interface=WebChat(config); web_thread=web_interface.run(port=config.web_port, debug=config.debug)
                  logger.info(f"Web interface starting: http://127.0.0.1:{config.web_port}")
             except Exception as e:
                  logger.error(f"Web start failed: {e}", exc_info=True)
@@ -128,7 +127,7 @@ def main():
             if config.interface_mode == 'web_only':
                 print("\nWeb-only mode. Ctrl+C in Flask console to exit.")
                 try:
-                     # Correct indentation fixed again
+                     # Correct indentation fixed again and again
                      while True:
                           time.sleep(1)
                 except KeyboardInterrupt:
@@ -145,28 +144,33 @@ def main():
             try: retriever = RetrievalHandler(index_name=config.index, agent_name=config.agent_name, session_id=config.session_id, event_id=config.event_id); logger.info(f"CLI: Retriever ok.")
             except Exception as e: logger.error(f"CLI: Retriever failed: {e}", exc_info=True); print("Warning: Doc retrieval unavailable.", file=sys.stderr)
 
+            # Store history including initial system context messages
             conversation_history = []
             system_prompt = get_latest_system_prompt(config.agent_name) or "Assistant."
             logger.info(f"Base system prompt loaded ({len(system_prompt)} chars).")
-            initial_context_messages = []
+            # Load initial context/docs/frameworks and store them if needed, but don't pass role='system' to Claude messages
+            initial_context_for_reference = [] # Keep track if needed for !clear
             frameworks=get_latest_frameworks(config.agent_name); context=get_latest_context(config.agent_name, config.event_id); docs=get_agent_docs(config.agent_name)
-            if frameworks: initial_context_messages.append({"role": "system", "content": f"## Frameworks\n{frameworks}"}); logger.info("CLI: Frameworks loaded.")
-            if context: initial_context_messages.append({"role": "system", "content": f"## Context\n{context}"}); logger.info("CLI: Context loaded.")
-            if docs: initial_context_messages.append({"role": "system", "content": f"## Agent Docs\n{docs}"}); logger.info("CLI: Docs loaded.")
-            conversation_history = initial_context_messages # Start history with system context blocks
+            if frameworks: initial_context_for_reference.append({"role": "system", "content": f"## Frameworks\n{frameworks}"}); logger.info("CLI: Frameworks loaded.")
+            if context: initial_context_for_reference.append({"role": "system", "content": f"## Context\n{context}"}); logger.info("CLI: Context loaded.")
+            if docs: initial_context_for_reference.append({"role": "system", "content": f"## Agent Docs\n{docs}"}); logger.info("CLI: Docs loaded.")
+            # These initial blocks are typically appended to the system_prompt, not sent as messages
+            # If needed for reference (e.g. !clear), keep them separate.
+            # conversation_history = initial_context_for_reference # Start history empty for user/assistant turns
 
-            if config.memory: system_prompt = reload_memory(config.agent_name, config.memory, system_prompt); logger.info("CLI: Memory loaded.")
+            if config.memory: system_prompt = reload_memory(config.agent_name, config.memory, system_prompt); logger.info("CLI: Memory loaded (appended to system prompt).")
 
-            logger.debug("\n=== CLI: Final System Prompt & Initial Context ===")
-            logger.debug(f"Core Sys Prompt Len: {len(system_prompt)}")
-            for i, msg in enumerate(initial_context_messages): logger.debug(f"Init Ctx Msg {i+1}: Role={msg['role']}, Len={len(msg['content'])}, Content='{msg['content'][:100]}...'")
-            if "## Previous Chat History" in system_prompt: logger.debug("Memory section appended.")
+            logger.debug("\n=== CLI: System Prompt & Initial Setup ===")
+            logger.debug(f"Core Sys Prompt Len (incl. memory): {len(system_prompt)}")
+            # Log initial system messages maybe? Or log final system prompt only.
+
 
             transcript_state = TranscriptState()
             last_transcript_check = time.time(); TRANSCRIPT_CHECK_INTERVAL = 5
             if config.listen_transcript:
                 config.listen_transcript_enabled = True; logger.info("CLI: Tx listening enabled.")
                 print("Checking initial transcript...");
+                # check_transcript_updates adds to conversation_history if found
                 if check_transcript_updates(transcript_state, conversation_history, config.agent_name, config.event_id, True): print("Initial tx loaded.")
                 else: print("No initial tx found.")
                 last_transcript_check = time.time()
@@ -177,7 +181,7 @@ def main():
                 try:
                     current_time = time.time()
                     if config.listen_transcript_enabled and (current_time - last_transcript_check > TRANSCRIPT_CHECK_INTERVAL):
-                        if check_transcript_updates(transcript_state, conversation_history, config.agent_name, config.event_id, False): logger.debug("New tx added.")
+                        if check_transcript_updates(transcript_state, conversation_history, config.agent_name, config.event_id, False): logger.debug("New tx added to history.")
                         last_transcript_check = current_time
 
                     if sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
@@ -185,21 +189,20 @@ def main():
                         if not user_input: print("User: ", end='', flush=True); continue
 
                         if user_input.startswith('!'):
-                            # Command handling logic... (kept concise)
                             command = user_input[1:].lower(); print(f"Cmd: !{command}")
                             if command == 'exit': break
                             elif command == 'help': display_help()
-                            elif command == 'clear': conversation_history = list(initial_context_messages); last_saved_idx=0; last_archive_idx=len(conversation_history); print("Session history cleared.")
-                            elif command == 'save':
+                            elif command == 'clear': conversation_history = []; last_saved_idx=0; last_archive_idx=0; print("Session history cleared.") # Clear completely for CLI
+                            elif command == 'save': # Unchanged save logic
                                 msgs = conversation_history[last_saved_idx:];
                                 if not msgs: print("No new messages.")
                                 else: content=format_chat_history(msgs); success, fname=save_chat_to_s3(config.agent_name, content, config.event_id, True, current_chat_file);
                                 if success: last_saved_idx = len(conversation_history); print(f"Saved as {fname}")
                                 else: print("Error saving.")
-                            elif command == 'memory':
+                            elif command == 'memory': # Unchanged memory logic
                                 if not config.memory: config.memory = [config.agent_name]; system_prompt = reload_memory(config.agent_name, config.memory, system_prompt); print("Memory ON.")
                                 else: config.memory = []; system_prompt = get_latest_system_prompt(config.agent_name) or "Assistant."; print("Memory OFF.")
-                            elif command == 'listen-transcript':
+                            elif command == 'listen-transcript': # Unchanged listen logic
                                  config.listen_transcript_enabled = not config.listen_transcript_enabled; status = "ENABLED" if config.listen_transcript_enabled else "DISABLED"
                                  print(f"Tx listening {status}.")
                                  if config.listen_transcript_enabled:
@@ -209,31 +212,35 @@ def main():
                             print("\nUser: ", end='', flush=True); continue
 
                         # --- Prepare for LLM ---
-                        current_turn_history = list(conversation_history) # Copy history
-                        # Add context block *before* user message if retrieved
+                        # Add user message to persistent history
+                        conversation_history.append({"role": "user", "content": user_input})
+
+                        # Get retrieved context
                         retrieved_docs = retriever.get_relevant_context(user_input) if retriever else []
+                        context_for_prompt = ""
                         if retrieved_docs:
                              items = [f"[Ctx {i+1} from {d.metadata.get('file_name','?')}({d.metadata.get('score',0):.2f})]:\n{d.page_content}" for i, d in enumerate(retrieved_docs)]
-                             context_block = "\n\n---\nRetrieved Context:\n" + "\n\n".join(items)
-                             logger.debug(f"CLI: Adding context ({len(context_block)} chars).")
-                             current_turn_history.append({"role": "system", "content": context_block})
+                             context_for_prompt = "\n\n---\nRetrieved Context:\n" + "\n\n".join(items)
+                             logger.debug(f"CLI: Adding context ({len(context_for_prompt)} chars) to system prompt.")
                         else: logger.debug("CLI: No context found.")
-                        # Add actual user message
-                        current_turn_history.append({"role": "user", "content": user_input})
-                        # Transcript updates are added automatically by check_transcript_updates if enabled
+
+                        # Prepare system prompt for this turn (Base + Memory + Retrieved Context)
+                        current_turn_system_prompt = system_prompt + context_for_prompt
+
+                        # Prepare messages for API call (User/Assistant turns + Transcript updates from history)
+                        messages_for_api = [msg for msg in conversation_history if msg.get("role") != "system"]
 
                         # Call LLM
                         print("Agent: ", end='', flush=True)
                         response_text = analyze_with_claude(
-                             client, current_turn_history, system_prompt, # Pass base system prompt
+                             client, messages_for_api, current_turn_system_prompt,
                              config.llm_model_name, config.llm_max_output_tokens
                         )
 
                         # Process response
                         if response_text:
                             print(response_text)
-                            # Add user message and assistant response to persistent history
-                            conversation_history.append({"role": "user", "content": user_input}) # Add the user input that led to this
+                            # Add assistant response to persistent history
                             conversation_history.append({"role": "assistant", "content": response_text})
                             # Archive logic...
                             msgs_archive = conversation_history[last_archive_idx:]

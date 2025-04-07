@@ -45,7 +45,7 @@ class WebChat:
              logger.info("WebChat: Anthropic client initialized.")
         except Exception as e: logger.error(f"WebChat: Init error: {e}", exc_info=True); raise RuntimeError("WebChat initialization failed") from e
 
-    def get_document_context(self, query: str) -> Optional[List[Any]]: # Return type from retriever is List[Document] now
+    def get_document_context(self, query: str) -> Optional[List[Any]]:
         """Get relevant document context using the RetrievalHandler."""
         if not self.retriever: logger.error("WebChat: Retriever missing."); return None
         try:
@@ -63,9 +63,8 @@ class WebChat:
             logger.info("WebChat: Loading resources...")
             base_prompt = get_latest_system_prompt(self.config.agent_name) or "Assistant."
             logger.info(f"Base prompt loaded ({len(base_prompt)} chars).")
-            # Added realtime instruction to base prompt load
-            source_instr = "\n\n## Source Attribution Requirements\n..." # Keep existing instructions short for log
-            realtime_instr = "\n\nIMPORTANT: When asked about what is happening 'now' or for live updates, prioritize information marked with [REAL-TIME Meeting Transcript Update] over historical context from the vector database."
+            source_instr = "\n\n## Source Attribution Requirements\n1. ALWAYS specify the exact source file when quoting...\n...(omitted for brevity)..." # Keep existing instructions short for log
+            realtime_instr = "\n\nIMPORTANT: Prioritize [REAL-TIME Meeting Transcript Update]s for 'now' queries." # Keep short
             self.system_prompt = base_prompt + source_instr + realtime_instr
 
             frameworks = get_latest_frameworks(self.config.agent_name)
@@ -120,25 +119,25 @@ class WebChat:
                 user_msg = data['message']
                 logger.info(f"WebChat: Received msg: {user_msg[:100]}...")
 
-                # Prepare messages for LLM
-                # Start with a copy of persistent history *excluding* last assistant response if any
-                llm_messages = [m for m in self.chat_history if m.get('role') != 'assistant']
+                # --- Prepare for LLM ---
+                # Start with base system prompt (includes static context, frameworks, memory)
+                current_sys_prompt = self.system_prompt
+                # History contains only user/assistant turns
+                llm_messages = [m for m in self.chat_history if m.get('role') in ['user', 'assistant']]
 
-                # Get retrieved context
+                # Get retrieved context and ADD it to the system prompt string
                 retrieved_docs = self.get_document_context(user_msg)
-                context_block = ""
                 if retrieved_docs:
                      items = [f"[Ctx {i+1} from {d.metadata.get('file_name','?')}({d.metadata.get('score',0):.2f})]:\n{d.page_content}" for i, d in enumerate(retrieved_docs)]
                      context_block = "\n\n---\nRetrieved Context:\n" + "\n\n".join(items)
-                     logger.debug(f"Adding context block ({len(context_block)} chars).")
-                     # Add context as a system message before the user query
-                     llm_messages.append({"role": "system", "content": context_block}) # Use system role for context block
+                     logger.debug(f"Adding context block ({len(context_block)} chars) to system prompt.")
+                     current_sys_prompt += context_block # Append to system prompt string
                 else: logger.debug("No context retrieved.")
 
-                # Add current user message
+                # Add current user message to the messages list
                 llm_messages.append({'role': 'user', 'content': user_msg})
 
-                # Check for and add transcript update *after* user message
+                # Check for and add transcript update as the last USER message
                 tx_chunk = self.check_transcript_updates()
                 if tx_chunk:
                      label = "[REAL-TIME Meeting Transcript Update]"
@@ -154,18 +153,16 @@ class WebChat:
                 def generate():
                     response = ""; stream_error = None
                     try:
-                        # Correct variable name here for logging
-                        logger.debug(f"LLM call. Msgs: {len(llm_messages)}, SysPromptLen: {len(self.system_prompt)}")
-                        with self.client.messages.stream(model=model, max_tokens=max_tokens, system=self.system_prompt, messages=llm_messages) as stream:
+                        # Pass the final system prompt string and the filtered messages list
+                        logger.debug(f"LLM call. Msgs: {len(llm_messages)}, Final SysPromptLen: {len(current_sys_prompt)}")
+                        with self.client.messages.stream(model=model, max_tokens=max_tokens, system=current_sys_prompt, messages=llm_messages) as stream:
                             for text in stream.text_stream: response += text; yield f"data: {json.dumps({'delta': text})}\n\n"
                         logger.info(f"LLM response ok ({len(response)} chars).")
                     except Exception as e: logger.error(f"LLM stream error: {e}", exc_info=True); stream_error = str(e)
                     if stream_error: yield f"data: {json.dumps({'error': f'Error: {stream_error}'})}\n\n"
 
-                    # Add actual user message and assistant response to persistent history
-                    # Ensure user message isn't added twice if it was already part of llm_messages preparation
-                    if not any(m['role'] == 'user' and m['content'] == user_msg for m in self.chat_history[-2:]): # Basic check to avoid double add
-                         self.chat_history.append({'role': 'user', 'content': user_msg})
+                    # Add user message and assistant response to persistent history
+                    self.chat_history.append({'role': 'user', 'content': user_msg})
                     if not stream_error and response: self.chat_history.append({'role': 'assistant', 'content': response})
 
                     # Archive logic
@@ -181,6 +178,7 @@ class WebChat:
                 return Response(generate(), mimetype='text/event-stream')
             except Exception as e: logger.error(f"/api/chat error: {e}", exc_info=True); return jsonify({'error': 'Server error'}), 500
 
+        # Other routes remain the same...
         @self.app.route('/api/status', methods=['GET'])
         def status():
              mem = getattr(self.config, 'memory', None) is not None; tx = getattr(self.config, 'listen_transcript', False)
