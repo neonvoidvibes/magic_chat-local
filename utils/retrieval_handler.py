@@ -36,12 +36,17 @@ class RetrievalHandler:
         self.index_name = index_name
         self.namespace = agent_name # Use agent_name directly as the primary namespace
         self.session_id = session_id
-        # Store event_id, handle None or '0000' as 'no specific event'
         self.event_id = event_id if event_id and event_id != '0000' else None
         self.top_k = top_k
+        self.embedding_model_name = "text-embedding-ada-002" # Define model name
 
-        # Initialize embeddings
-        self.embeddings = OpenAIEmbeddings()
+        # Initialize embeddings, explicitly specifying the model
+        try:
+            self.embeddings = OpenAIEmbeddings(model=self.embedding_model_name)
+            logger.info(f"RetrievalHandler: Initialized OpenAIEmbeddings with model '{self.embedding_model_name}'.")
+        except Exception as e:
+            logger.error(f"RetrievalHandler: Failed to initialize OpenAIEmbeddings: {e}", exc_info=True)
+            raise RuntimeError("Failed to initialize OpenAIEmbeddings") from e
 
         # Use the new Pinecone class-based usage
         pc = init_pinecone()
@@ -59,41 +64,34 @@ class RetrievalHandler:
     def get_relevant_context(
         self,
         query: str,
-        # filter_metadata: Optional[Dict[str, Any]] = None, # Removing this - filtering based on handler's state now
         top_k: Optional[int] = None,
         is_transcript: bool = False
     ) -> List[Document]:
         """
         Retrieve the most relevant document chunks for `query` using direct Pinecone query
         with appropriate namespace and metadata filters based on handler's agent_name and event_id.
-
-        Args:
-            query: Search query
-            top_k: Number of results to return (overrides default if provided)
-            is_transcript: Hint that query relates to transcript (might influence strategy in future)
-
-        Returns:
-            List of Langchain Document objects containing relevant context and metadata.
         """
         k = top_k or self.top_k
         logger.debug(f"RetrievalHandler: Attempting to retrieve top {k} contexts.")
         logger.debug(f"RetrievalHandler: Query: '{query[:100]}...' (is_transcript={is_transcript})")
-        logger.debug(f"RetrievalHandler: Base namespace: {self.namespace}, Specific Event ID for filtering: {self.event_id}") # Log the specific event_id being used
+        logger.debug(f"RetrievalHandler: Base namespace: {self.namespace}, Specific Event ID for filtering: {self.event_id}")
 
         try:
             # Generate embedding for the user query
             try:
+                # Check if embeddings object exists
+                if not hasattr(self, 'embeddings') or self.embeddings is None:
+                     logger.error("RetrievalHandler: OpenAIEmbeddings object not initialized.")
+                     return []
                 query_embedding = self.embeddings.embed_query(query)
                 logger.debug(f"RetrievalHandler: Generated query embedding vector (first 5 dims): {query_embedding[:5]}...")
             except Exception as e:
-                logger.error(f"RetrievalHandler: Error generating query embedding: {e}")
+                logger.error(f"RetrievalHandler: Error generating query embedding: {e}", exc_info=True)
                 return []
 
             # --- Define namespaces to search ---
-            # Primarily search the main agent namespace
             namespaces_to_search = [self.namespace]
             logger.debug(f"RetrievalHandler: Primary namespace to search: {self.namespace}")
-            # Add event namespace ONLY if a specific event_id is set
             event_namespace = f"{self.namespace}-{self.event_id}" if self.event_id else None
             if event_namespace and event_namespace != self.namespace:
                  logger.debug(f"RetrievalHandler: Adding event-specific namespace to search: {event_namespace}")
@@ -102,18 +100,12 @@ class RetrievalHandler:
             # --- Perform queries with filters ---
             all_matches = []
             for ns in namespaces_to_search:
-                # Build the metadata filter for this namespace query
-                # Always filter by agent_name
                 query_filter = {"agent_name": self.namespace}
-
-                # Add event_id filter ONLY if a specific event_id is set for the handler
                 if self.event_id:
                      query_filter["event_id"] = self.event_id
                      logger.debug(f"RetrievalHandler: Added specific event_id='{self.event_id}' to filter.")
                 else:
                      logger.debug("RetrievalHandler: No specific event_id set, not adding event_id to filter.")
-
-                # Removed merging external filter_metadata here
 
                 logger.debug(f"RetrievalHandler: Querying namespace='{ns}' with filter={query_filter}, top_k={k}")
 
@@ -122,7 +114,7 @@ class RetrievalHandler:
                         vector=query_embedding,
                         top_k=k,
                         namespace=ns,
-                        filter=query_filter, # Apply the constructed filter
+                        filter=query_filter,
                         include_metadata=True
                     )
                     logger.debug(f"RetrievalHandler: Raw response from Pinecone namespace '{ns}': {response}")
@@ -133,11 +125,9 @@ class RetrievalHandler:
                          all_matches.extend(response.matches)
                     else:
                          logger.info(f"RetrievalHandler: No matches found in namespace '{ns}'.")
-
                 except Exception as query_e:
                     logger.error(f"RetrievalHandler: Error querying Pinecone namespace '{ns}': {query_e}")
                     logger.error(traceback.format_exc())
-                    # Continue to next namespace if one fails
 
             if not all_matches:
                 logger.warning("RetrievalHandler: No relevant context matches found across all searched namespaces.")
