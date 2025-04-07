@@ -2,210 +2,176 @@
 import logging
 from typing import List, Optional, Dict, Any
 from langchain_openai import OpenAIEmbeddings
-from langchain_pinecone import Pinecone as PineconeVectorStore
-from langchain.schema import Document
+# We use the Pinecone client directly, so Langchain PineconeVectorStore is not strictly needed here
+# from langchain_pinecone import Pinecone as PineconeVectorStore
+from langchain_core.documents import Document # Use Document class from langchain core
+from pinecone import Pinecone
 from utils.pinecone_utils import init_pinecone
-from utils.document_handler import DocumentHandler
+from utils.document_handler import DocumentHandler # DocumentHandler might not be needed here if not re-chunking
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class RetrievalHandler:
-    """Handles document retrieval for chat context."""
+    """Handles document retrieval for chat context using direct Pinecone queries."""
 
     def __init__(
         self,
         index_name: str = "magicchat",
-        agent_name: str = None,  # We'll use this as the namespace
-        session_id: str = None,  # Current session ID
-        event_id: str = None,   # Current event ID
+        agent_name: Optional[str] = None,  # Namespace corresponds to agent name
+        session_id: Optional[str] = None,  # Current session ID (optional usage)
+        event_id: Optional[str] = None,    # Current event ID (optional usage for namespace/filtering)
         top_k: int = 5
     ):
         """Initialize retrieval handler with agent namespace.
 
         Args:
             index_name: Name of the Pinecone index
-            agent_name: Namespace for the agent
-            top_k: Number of results to retrieve
+            agent_name: Namespace for the agent (mandatory for retrieval)
+            session_id: Optional session ID for potential future filtering
+            event_id: Optional event ID for potential future filtering or namespace construction
+            top_k: Default number of results to retrieve
         """
+        if not agent_name:
+            raise ValueError("agent_name is required for RetrievalHandler")
+
         self.index_name = index_name
-        self.namespace = agent_name # Use agent_name directly as the namespace
+        self.namespace = agent_name # Use agent_name directly as the primary namespace
         self.session_id = session_id
         self.event_id = event_id
         self.top_k = top_k
 
-        # Initialize embeddings and document handler
+        # Initialize embeddings
         self.embeddings = OpenAIEmbeddings()
-        self.doc_handler = DocumentHandler()
+        # self.doc_handler = DocumentHandler() # Not needed for retrieval only
 
         # Use the new Pinecone class-based usage
         pc = init_pinecone()
         if not pc:
             raise RuntimeError("Failed to initialize Pinecone")
 
-        # Create or retrieve the actual index object
-        self.index = pc.Index(self.index_name)
+        # Get the actual index object - assume it exists after create_or_verify elsewhere
+        try:
+            self.index = pc.Index(self.index_name)
+            logger.info(f"Successfully connected to Pinecone index '{self.index_name}'")
+        except Exception as e:
+            logger.error(f"Failed to connect to Pinecone index '{self.index_name}': {e}")
+            raise RuntimeError(f"Failed to connect to Pinecone index '{self.index_name}'") from e
 
-        # Use agent_name directly as the namespace (matches cli_embed.py)
-        namespace = self.namespace # Use agent_name passed as self.namespace directly
-
-        # Create the LangChain vector store
-        self.vectorstore = PineconeVectorStore(
-            index=self.index,
-            embedding=self.embeddings,
-            text_key="content",
-            namespace=namespace # Use the simplified namespace
-        )
-
-        # We'll use a standard "similarity" search retriever
-        # Note: We use the raw index.query below for more control over logging/filtering
-        # self.retriever = self.vectorstore.as_retriever(
-        #     search_type="similarity",
-        #     search_kwargs={"k": self.top_k}
-        # )
+        # We are using direct queries, so Langchain retriever setup is commented out
+        # self.vectorstore = PineconeVectorStore(...)
+        # self.retriever = self.vectorstore.as_retriever(...)
 
     def get_relevant_context(
         self,
         query: str,
-        filter_metadata: Optional[Dict[str, Any]] = None,
+        filter_metadata: Optional[Dict[str, Any]] = None, # Allow passing extra filters
         top_k: Optional[int] = None,
-        is_transcript: bool = False # This argument seems less relevant now we query single namespace
-    ) -> List[Document]: # Return Langchain Document objects directly
+        is_transcript: bool = False # Flag might influence which namespace/filters are prioritized
+    ) -> List[Document]: # Return Langchain Document objects
         """
-        Retrieve the most relevant chunks for `query` from the agent's namespace.
-        Returns clear source attribution with each result.
+        Retrieve the most relevant document chunks for `query` using direct Pinecone query
+        with appropriate namespace and metadata filters.
 
         Args:
             query: Search query
-            filter_metadata: Additional metadata filters
-            top_k: Number of results to return
+            filter_metadata: Optional dictionary of additional metadata key-value pairs to filter on.
+            top_k: Number of results to return (overrides default if provided)
+            is_transcript: Hint that query relates to transcript (might influence strategy in future)
 
         Returns:
-            List of Langchain Document objects containing relevant context.
+            List of Langchain Document objects containing relevant context and metadata.
         """
         try:
-            logging.info(f"Retrieving context for query: {query}")
-            # logging.info(f"Is transcript query: {is_transcript}") # Less relevant now
+            k = top_k or self.top_k
+            logger.info(f"Retrieving top {k} contexts for query (transcript hint: {is_transcript}): {query[:100]}...")
 
-            # Build metadata filter - only use essential fields
-            base_filter = {}
-            # First try without filters to see what's in the index
+            # Generate embedding for the user query
             try:
-                stats = self.index.describe_index_stats(namespace=self.namespace) # Check specific namespace
-                logging.debug(f"Index stats for namespace '{self.namespace}': {stats}")
-            except Exception as e:
-                logging.warning(f"Could not get index stats for namespace '{self.namespace}': {e}")
-
-            # Try to match on file name or source if filters are provided
-            if filter_metadata:
-                if 'file_name' in filter_metadata:
-                     # Make sure to filter on the *original* filename stored in metadata
-                    base_filter['filename'] = filter_metadata['file_name']
-                if 'source' in filter_metadata:
-                    base_filter['source'] = filter_metadata['source']
-                # Add other potential filters from metadata if needed
-                if 'agent_name' in filter_metadata:
-                     # This might be redundant if using namespace, but potentially useful
-                    base_filter['agent_name'] = filter_metadata['agent_name']
-                if 'event_id' in filter_metadata:
-                    base_filter['event_id'] = filter_metadata['event_id']
-
-
-            logging.debug(f"Using combined metadata filter: {base_filter}") # Changed from info to debug
-
-            # Get embedding for query
-            try:
-                logging.debug(f"Generating embedding for query: '{query[:100]}...'")
                 query_embedding = self.embeddings.embed_query(query)
-                logging.debug(f"Generated query embedding vector, length: {len(query_embedding)}")
+                logger.debug(f"Generated query embedding vector of length: {len(query_embedding)}")
             except Exception as e:
-                logging.error(f"Error generating query embedding: {e}")
-                raise
+                logger.error(f"Error generating query embedding: {e}")
+                return [] # Cannot proceed without embedding
 
-            # Search in the agent's namespace
+            # --- Define namespaces to search ---
+            namespaces_to_search = [self.namespace] # Always search the base agent namespace
+            event_namespace = f"{self.namespace}-{self.event_id}" if self.event_id else None
+            if event_namespace and event_namespace not in namespaces_to_search:
+                 # If event_id exists, also search the event-specific namespace
+                 # Useful if transcripts/event docs go into a separate namespace
+                 # Note: cli_embed currently only uploads to the base agent namespace
+                 logger.info(f"Also searching event-specific namespace: {event_namespace}")
+                 namespaces_to_search.append(event_namespace)
+
+            # --- Perform queries with filters ---
+            all_matches = []
+            for ns in namespaces_to_search:
+                # Build the metadata filter for this namespace query
+                # Start with the mandatory agent_name filter
+                query_filter = {"agent_name": self.namespace} # Filter based on agent_name stored in metadata
+
+                # Add event_id filter if searching the event namespace *and* event_id is known
+                if ns == event_namespace and self.event_id:
+                    query_filter["event_id"] = self.event_id
+                    logger.debug(f"Adding event_id filter for namespace {ns}")
+
+                # Merge any additional filters passed externally
+                if filter_metadata:
+                    query_filter.update(filter_metadata)
+
+                logger.info(f"Querying namespace '{ns}' with filter: {query_filter}")
+
+                try:
+                    response = self.index.query(
+                        vector=query_embedding,
+                        top_k=k, # Query for k results from each relevant namespace
+                        namespace=ns,
+                        filter=query_filter, # Apply the constructed filter
+                        include_metadata=True # Essential to get content and other details
+                    )
+                    logger.info(f"Found {len(response.matches)} raw matches in namespace '{ns}'.")
+                    all_matches.extend(response.matches)
+                except Exception as query_e:
+                    logger.error(f"Error querying Pinecone namespace '{ns}': {query_e}")
+                    # Continue to next namespace if one fails
+
+            if not all_matches:
+                logger.warning("No relevant context matches found across all searched namespaces.")
+                return []
+
+            # --- Process and Rank Results ---
+            # Combine results from all namespaces and re-rank by score
+            all_matches.sort(key=lambda x: x.score, reverse=True)
+
+            # Limit to the overall top_k results
+            top_matches = all_matches[:k]
+
+            # Convert top Pinecone matches to Langchain Documents
             docs = []
-            current_namespace = self.namespace # The direct agent name namespace
-            logging.debug(f"Querying Pinecone index '{self.index_name}' in namespace '{current_namespace}' with top_k={top_k or self.top_k}")
-            logging.debug(f"Applying metadata filter: {base_filter if base_filter else 'None'}")
+            for match in top_matches:
+                content = match.metadata.get('content', '') if match.metadata else ''
+                if not content:
+                    logger.warning(f"Match found (ID: {match.id}, Score: {match.score:.4f}) but 'content' key missing or empty in metadata.")
+                    continue
 
-            try:
-                # Search in the agent's namespace
-                response = self.index.query(
-                    vector=query_embedding,
-                    top_k=top_k or self.top_k,
-                    namespace=current_namespace, # self.namespace now holds the direct agent name
-                    filter=base_filter if base_filter else None, # Apply filters here
-                    include_metadata=True
-                )
-                logging.debug(f"Pinecone query successful. Raw matches found in namespace '{current_namespace}': {len(response.matches)}")
+                # Clean up metadata for Langchain Document - remove content to avoid duplication
+                doc_metadata = {k: v for k, v in match.metadata.items() if k != 'content'}
+                doc_metadata['score'] = match.score # Add score to metadata
+                doc_metadata['vector_id'] = match.id # Add vector ID for reference
+                doc_metadata['namespace'] = match.namespace if hasattr(match, 'namespace') else 'unknown' # Store namespace if available
 
-                # Convert matches to Documents
-                for match in response.matches:
-                    # Ensure metadata is fetched correctly
-                    match_metadata = match.metadata if hasattr(match, 'metadata') else {}
-                    if match_metadata is None: # Handle case where metadata might explicitly be None
-                        match_metadata = {}
+                docs.append(Document(page_content=content, metadata=doc_metadata))
 
-                    content = match_metadata.get('content', '') # Get content from metadata as stored by embed_handler
-                    if not content and hasattr(match, 'page_content'): # Fallback if content wasn't in metadata
-                         content = match.page_content
+            logger.info(f"Retrieved and processed {len(docs)} relevant document contexts.")
+            return docs
 
-                    metadata = {
-                        'score': match.score,
-                        'file_name': match_metadata.get('filename', match_metadata.get('file_name', 'unknown')), # Check both keys
-                        'source': match_metadata.get('source', 'unknown'),
-                        'chunk_index': match_metadata.get('chunk_index', -1),
-                        'event_id': match_metadata.get('event_id', None),
-                        # Add any other relevant metadata fields you stored
-                        'namespace': current_namespace # Use the queried namespace
-                    }
-                    # Prepare content snippet outside the f-string to avoid backslash issue
-                    content_snippet = content[:60].replace('\n', ' ') + "..."
-                    logging.debug(f"  Match: ID='{match.id}', Score={match.score:.3f}, Filename='{metadata.get('file_name')}', Content Snippet='{content_snippet}'")
-                    docs.append(Document(page_content=content, metadata=metadata))
-
-                # Sort results by score
-                docs.sort(key=lambda x: x.metadata['score'], reverse=True)
-
-                # Limit to top_k results if specified
-                if top_k:
-                    docs = docs[:top_k]
-
-                logging.info(f"Found {len(docs)} documents in namespace '{current_namespace}'")
-                return docs # Return the directly queried docs
-
-            # This block should now be correctly indented relative to the try block above
-            except Exception as e:
-                logging.error(f"Error querying Pinecone namespace '{current_namespace}': {e}")
-                return [] # Return empty list on query error
-
-
-        # This block should be correctly indented relative to the main try block
         except Exception as e:
-            logger.error(f"Error retrieving context: {e}")
+            logger.error(f"Error during context retrieval: {e}")
+            import traceback
+            logger.error(traceback.format_exc())
             return []
 
-    # get_contextual_summary might need adjustments if used, as it expects a different format now
-    def get_contextual_summary(
-        self,
-        query: str,
-        max_tokens: int = 1000
-    ) -> Optional[str]:
-        """
-        Generate a summary of relevant context for a query.
-        (This is a placeholder method without real summarization logic.)
-        """
-        try:
-            docs = self.get_relevant_context(query) # Now returns Document objects
-            if not docs:
-                return None
-
-            # Extract page_content from Document objects
-            combined_text = "\n\n".join(doc.page_content for doc in docs)
-            # Just truncating for now
-            return combined_text[: max_tokens * 4]
-
-        except Exception as e:
-            logger.error(f"Error generating context summary: {e}")
-            return None
+    # get_contextual_summary method might be removed if not used, or updated to use the retrieved docs.
+    # def get_contextual_summary(...) -> Optional[str]: ...
