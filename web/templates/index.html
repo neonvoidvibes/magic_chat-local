@@ -27,7 +27,6 @@
             --status-bar: #222222;
             --send-button: #1e1e1e;  /* New variable for send button arrow color */
             --placeholder-color: #c7c7c7;  /* New variable for input placeholder */
-            /* Removed copy icon color variables, setting directly */
         }
 
         @font-face {
@@ -103,10 +102,10 @@
             overflow-y: auto;
             overflow-x: hidden;
             margin-bottom: 5px;
-            padding: 20px 10px 20px 75px; /* Adjusted left padding for absolute buttons */
+            padding: 20px 10px 20px 10px; /* Restored standard padding */
             /* border-radius: 25px; */ /* Removed rounded corners from message area */
             background: var(--input-bg);
-            width: calc(100% - 85px); /* Adjusted width based on padding */
+            width: calc(100% - 20px); /* Adjusted width based on padding */
             display: flex;
             flex-direction: column;
             position: relative; /* Needed for scrollbar */
@@ -283,38 +282,35 @@
         }
 
         .message-wrapper {
-            position: relative; /* For absolute positioning of copy button */
+            position: relative; /* For user button positioning */
             display: flex;
             margin-bottom: 15px;
             width: fit-content;
-            max-width: 100%; /* Ensure wrapper doesn't exceed chat message width */
+            max-width: 100%;
         }
 
-        /* Align user messages to the right */
+        /* User wrapper: align right, add space for absolute button */
         .message-wrapper.user {
             align-self: flex-end;
-            /* No flex-direction needed with absolute positioning */
-            /* padding-left needed to make space for absolute button */
-            padding-left: 75px; /* Space for 60px button + 15px margin */
-            margin-left: auto; /* Push to right */
+            padding-left: 40px; /* Space for 30px button + 10px gap */
+            margin-left: auto;
         }
-         /* Align assistant messages to the left */
+         /* Assistant wrapper: align left, stack bubble and button */
         .message-wrapper.assistant {
             align-self: flex-start;
-             /* padding-left needed to make space for absolute button */
-            padding-left: 75px; /* Space for 60px button + 15px margin */
+            flex-direction: column; /* Stack bubble and button */
+            align-items: flex-start; /* Align items left */
+             /* No extra padding needed, button is in flow */
         }
 
 
         .message {
-             /* Remove margin-bottom from individual message */
              margin-bottom: 0;
             padding: 18px 22px;
             border-radius: 35px;
             font-size: 20px;
             animation: fadeIn 0.5s ease-out;
             white-space: pre-wrap;
-            /* Removed max-width, now handled by wrapper/container */
             word-wrap: break-word;
         }
 
@@ -329,23 +325,21 @@
 
         .user-message {
             background: var(--message-user-bg);
-            padding-left: 25px; /* Keep original bubble padding */
+            padding-left: 25px;
             border-bottom-right-radius: 5px;
             text-align: left;
             color: #ffffff;
-             /* Max width for the bubble itself within the wrapper */
              max-width: 60%;
-             margin-left: auto; /* Align bubble right within its space */
+             margin-left: auto;
         }
 
         .assistant-message {
             background: var(--message-assistant-bg);
-            padding-left: 25px; /* Keep original bubble padding */
+            padding-left: 25px;
             border-bottom-left-radius: 5px;
             color: #000000;
-             /* Max width for the bubble itself within the wrapper */
              max-width: 95%;
-             margin-right: auto; /* Align bubble left within its space */
+             margin-right: auto;
         }
 
         .system-message {
@@ -353,24 +347,21 @@
             margin: 15px auto;
             text-align: center;
             color: #000000;
-             /* System messages don't need wrappers or copy buttons */
         }
 
-        /* Copy Button Styles */
+        /* Copy Button General Styles */
         .copy-button {
-            position: absolute; /* Position relative to wrapper */
             background: none;
             border: none;
             cursor: pointer;
-            padding: 10px; /* Increased padding */
+            padding: 5px; /* Padding inside the button */
             opacity: 0; /* Hidden by default */
-            transition: opacity 0.2s ease-in-out;
-            width: 60px; /* Increased size */
-            height: 60px; /* Increased size */
+            width: 30px; /* Halved size */
+            height: 30px; /* Halved size */
             display: flex;
             align-items: center;
             justify-content: center;
-             /* Remove margin, positioning is absolute */
+            /* Transitions moved to specific types */
         }
 
         .copy-button svg {
@@ -379,34 +370,50 @@
              display: block;
         }
 
+        /* User Copy Button Specifics */
+        .message-wrapper.user .copy-button {
+            position: absolute;
+            left: 5px; /* Closer to bubble */
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--message-user-bg); /* Use bubble bg color */
+            transition: opacity 0.2s ease-in-out; /* Only opacity transition */
+        }
 
-        /* Show copy button on wrapper hover (desktop) */
+         /* Assistant Copy Button Specifics */
+         .message-wrapper.assistant .copy-button {
+             /* Not absolute */
+             color: var(--message-assistant-bg); /* Use bubble bg color */
+             align-self: flex-start; /* Align left under the bubble */
+             margin-top: 0; /* Default margin */
+             max-height: 0; /* Default height */
+             overflow: hidden; /* Hide when max-height is 0 */
+             transition: opacity 0.2s ease-in-out, max-height 0.3s ease-in-out, margin-top 0.3s ease-in-out; /* Smooth transitions */
+         }
+
+        /* Hover/Focus states to show buttons */
         @media (hover: hover) {
             .message-wrapper:hover .copy-button {
-                opacity: 0.7; /* Slightly transparent */
+                opacity: 0.7;
+            }
+            /* Assistant hover animation */
+            .message-wrapper.assistant:hover .copy-button {
+                max-height: 50px; /* Animate height */
+                margin-top: 8px; /* Add space */
             }
             .message-wrapper .copy-button:hover {
-                 opacity: 1; /* Fully opaque on icon hover */
+                 opacity: 1;
             }
         }
-         /* Simplified mobile handling: rely on tap triggering click */
+        /* Show on focus-within for accessibility/mobile tap */
+         .message-wrapper:focus-within .copy-button {
+              opacity: 0.7;
+         }
+         .message-wrapper.assistant:focus-within .copy-button {
+              max-height: 50px;
+              margin-top: 8px;
+         }
 
-
-        /* User message copy button positioning and color */
-        .message-wrapper.user .copy-button {
-            color: var(--message-user-bg); /* Use bubble bg color */
-            left: 0px; /* Position left edge (adjust if needed) */
-            top: 50%; /* Center vertically */
-            transform: translateY(-50%); /* Fine-tune vertical centering */
-        }
-
-        /* Assistant message copy button positioning and color */
-        .message-wrapper.assistant .copy-button {
-            color: var(--message-assistant-bg); /* Use bubble bg color */
-            left: 0px; /* Position left edge (adjust if needed) */
-            bottom: 8px; /* Position near bottom */
-             /* No transform needed for bottom alignment */
-        }
 
         #input-container {
             display: flex;
@@ -500,27 +507,27 @@
 
         @media (max-width: 600px) {
              #chat-messages {
-                 padding-left: 55px; /* Adjust mobile padding for smaller button */
-                 width: calc(100% - 65px); /* Adjust width */
+                 padding-left: 10px; /* Mobile chat padding */
+                 padding-right: 10px;
+                 width: calc(100% - 20px); /* Adjust width */
             }
             /* Mobile copy button adjustments */
              .copy-button {
-                 width: 40px; /* Smaller on mobile */
-                 height: 40px;
-                 padding: 8px;
+                 width: 24px; /* Smaller on mobile */
+                 height: 24px;
+                 padding: 4px;
             }
             .message-wrapper.user {
-                 padding-left: 55px; /* Match chat message padding */
+                 padding-left: 34px; /* Space for 24px button + 10px gap */
             }
             .message-wrapper.user .copy-button {
-                 left: 0px;
+                 left: 5px; /* Adjust mobile position */
             }
-             .message-wrapper.assistant {
-                 padding-left: 55px; /* Match chat message padding */
-            }
-             .message-wrapper.assistant .copy-button {
-                 left: 0px;
-                 bottom: 4px; /* Adjust bottom */
+             /* Assistant button animation height/margin */
+             .message-wrapper.assistant:hover .copy-button,
+             .message-wrapper.assistant:focus-within .copy-button {
+                 max-height: 40px; /* Smaller max height */
+                 margin-top: 6px; /* Smaller margin */
             }
 
             .action-buttons {
@@ -711,7 +718,7 @@
                 flex: 1;
                 width: 100%;
                 margin: 0;
-                padding: 0 10px 0 55px; /* Mobile messages padding */
+                padding: 0 10px 0 10px; /* Adjusted mobile messages padding */
             }
 
             h2 {
@@ -861,7 +868,7 @@
 
         function handleInput() {
             // Don't resize if streaming, as it can cause layout shifts
-            if (sendButton.classList.contains('streaming')) return;
+            // if (sendButton.classList.contains('streaming')) return; // Keep this? Or allow resize? Allowing resize for now.
 
             messageInput.style.height = initialHeight; // Reset first
             const lineHeight = isMobile ? 20 : 24;
@@ -922,7 +929,10 @@
                  currentAbortController = null; // Ensure controller is cleared
                  messageInput.classList.remove('thinking', 'thinking-end'); // Clear thinking styles
                  messageInput.disabled = false; // Re-enable input
-                 messageInput.focus(); // Focus input after sending/stopping
+                 // Only refocus if not mobile, to avoid keyboard annoyance
+                 if (!isMobile) {
+                      messageInput.focus();
+                 }
                  handleInput(); // Recalculate input height
             }
         }
@@ -950,7 +960,7 @@
             messageInput.disabled = true;
             messageInput.value = '';
             messageInput.style.height = initialHeight;
-            // messageInput.blur(); // Keep focus
+            // messageInput.blur(); // Keep focus or blur? Keeping focus for now.
 
             // Handle commands first
             if (message.startsWith('!')) {
@@ -1140,10 +1150,10 @@
             // Scroll logic
              const threshold = 50;
              const isNearBottom = chatMessages.scrollHeight - chatMessages.scrollTop - chatMessages.clientHeight < threshold;
-             if (sender === 'user' || isNearBottom || chatMessages.scrollTop === 0 ) {
+             if (sender === 'user' || isNearBottom || chatMessages.scrollTop === 0 ) { // Scroll if user msg, near bottom, or at top
                  // Smooth scroll into view
                  wrapperDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
-                 userHasScrolled = false; // Assume user wants to follow
+                 userHasScrolled = false; // Assume user wants to follow if they send a message while near bottom
              }
 
             // Return the wrapper element now (contains the bubble and potentially the button)
@@ -1175,7 +1185,7 @@
                  copyToClipboard(textToCopy, copyButton);
              };
 
-             // Append the button to the wrapper. CSS handles positioning.
+             // Append the button to the wrapper. CSS handles positioning/flow.
              wrapperDiv.appendChild(copyButton);
          }
 
