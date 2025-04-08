@@ -8,6 +8,9 @@ import json
 import time
 import traceback
 
+# Import tenacity for retries
+from tenacity import retry, stop_after_attempt, wait_exponential, RetryError
+
 from config import AppConfig
 from utils.retrieval_handler import RetrievalHandler
 from utils.transcript_utils import TranscriptState, read_new_transcript_content, read_all_transcripts_in_folder, get_latest_transcript_file
@@ -16,9 +19,25 @@ from utils.s3_utils import (
     get_agent_docs, load_existing_chats_from_s3, save_chat_to_s3, format_chat_history,
     get_s3_client
 )
-from anthropic import Anthropic
+from anthropic import Anthropic, APIStatusError # Import specific error type
 
 logger = logging.getLogger(__name__)
+
+# --- Tenacity Retry Configuration ---
+def log_retry_error(retry_state):
+    """Log retry attempts."""
+    logger.warning(f"Retrying Anthropic API call (attempt {retry_state.attempt_number}): {retry_state.outcome.exception()}")
+
+# Define retry strategy: Retry on APIStatusError (like Overloaded), wait exponentially, max 3 attempts
+# Wait 2^x * 1 seconds between each retry, starting with x=1 (2s), then 4s. Max wait 10s. Stop after 3 attempts.
+retry_strategy = retry(
+    stop=stop_after_attempt(3),
+    wait=wait_exponential(multiplier=1, min=2, max=10),
+    retry_error_callback=log_retry_error,
+    retry=(retry_if_exception_type(APIStatusError)) # Only retry on specific API status errors
+)
+# --- End Tenacity Config ---
+
 
 class WebChat:
     def __init__(self, config: AppConfig):
@@ -115,6 +134,18 @@ class WebChat:
              else: logger.debug("No content for memory.")
         except Exception as e: logger.error(f"Memory reload error: {e}", exc_info=True)
 
+    # --- Helper for API call with Retries ---
+    @retry_strategy
+    def _call_anthropic_stream_with_retry(self, model, max_tokens, system, messages):
+        """Calls Anthropic stream API with configured retry logic."""
+        # The actual API call is now wrapped by the tenacity decorator
+        return self.client.messages.stream(
+            model=model,
+            max_tokens=max_tokens,
+            system=system,
+            messages=messages
+        )
+    # --- End Helper ---
 
     def setup_routes(self):
         @self.app.route('/')
@@ -131,19 +162,14 @@ class WebChat:
                 user_msg_content = data['message']
                 logger.info(f"WebChat: Received msg: {user_msg_content[:100]}...")
 
-                # Start with the base loaded system prompt
                 turn_system_prompt = self.system_prompt
-
-                # --- Build message list for API, ensuring only role/content ---
                 llm_messages = [
-                    {"role": m["role"], "content": m["content"]} # Select only needed keys
+                    {"role": m["role"], "content": m["content"]}
                     for m in self.chat_history
-                    if m.get("role") in ["user", "assistant"] # Filter for valid roles
+                    if m.get("role") in ["user", "assistant"]
                 ]
                 logger.debug(f"Building context from history ({len(llm_messages)} msgs).")
-                # --- End Message List Build ---
 
-                # Add retrieved context if available
                 retrieved_docs = self.get_document_context(user_msg_content)
                 if retrieved_docs:
                      items = [f"[Ctx {i+1} from {d.metadata.get('file_name','?')}({d.metadata.get('score',0):.2f})]:\n{d.page_content}" for i, d in enumerate(retrieved_docs)]
@@ -152,31 +178,24 @@ class WebChat:
                      turn_system_prompt += context_block
                 else: logger.debug("No context retrieved.")
 
-                # --- Add Transcript Updates to History (if enabled) ---
                 transcript_content_to_add = "";
                 if self.config.listen_transcript:
                     if not self.initial_transcript_sent:
                         if self.initial_transcript_content:
                             label = "[FULL INITIAL TRANSCRIPT]"; transcript_content_to_add = f"{label}\n{self.initial_transcript_content}"
                             self.initial_transcript_sent = True; logger.info(f"Adding FULL initial tx ({len(self.initial_transcript_content)} chars).")
-                        else: logger.warning("Tx listening on, but no initial tx."); self.initial_transcript_sent = True # Mark as sent even if empty
+                        else: logger.warning("Tx listening on, but no initial tx."); self.initial_transcript_sent = True
                     else:
                         with self.transcript_lock:
                             if self.pending_transcript_update:
                                 label = "[REAL-TIME Meeting Transcript Update]"; transcript_content_to_add = f"{label}\n{self.pending_transcript_update}"
                                 logger.info(f"Adding PENDING real-time tx ({len(self.pending_transcript_update)} chars).")
-                                self.pending_transcript_update = None # Clear pending update
+                                self.pending_transcript_update = None
                 if transcript_content_to_add:
-                     # Add transcript update as a user message FOR THE CURRENT LLM CALL ONLY
-                     # Ensure it only has role/content for the API
                      llm_messages.append({'role': 'user', 'content': transcript_content_to_add})
-                     # Add to persistent history WITH the extra type field (safe now)
                      self.chat_history.append({'role': 'user', 'content': transcript_content_to_add, 'type': 'transcript_update'})
 
-                # --- Append Actual User Message ---
-                # Add to LLM messages for this turn (already has only role/content)
                 llm_messages.append({'role': 'user', 'content': user_msg_content})
-                # Add to persistent history (without type field)
                 self.chat_history.append({'role': 'user', 'content': user_msg_content})
                 logger.debug(f"Appended user message(s). History size: {len(self.chat_history)}")
 
@@ -184,41 +203,56 @@ class WebChat:
                 model=self.config.llm_model_name; max_tokens=self.config.llm_max_output_tokens
                 logger.debug(f"WebChat: Using LLM: {model}, MaxTokens: {max_tokens}")
 
-                # --- Inject Current Time into System Prompt for this turn ---
                 now_utc = datetime.now(timezone.utc)
                 time_str = now_utc.strftime('%A, %Y-%m-%d %H:%M:%S %Z')
                 time_context = f"Current Time Context: {time_str}\n"
                 final_system_prompt_for_turn = time_context + "\n" + turn_system_prompt
                 logger.debug(f"Final sys prompt for turn includes time. Len: {len(final_system_prompt_for_turn)}")
-                # --- End Time Injection ---
 
                 def generate():
                     response_content = ""; stream_error = None
                     try:
-                        logger.debug(f"LLM call. Msgs: {len(llm_messages)}, Final SysPromptLen: {len(final_system_prompt_for_turn)}")
+                        logger.debug(f"LLM call (with retry). Msgs: {len(llm_messages)}, Final SysPromptLen: {len(final_system_prompt_for_turn)}")
                         if logger.isEnabledFor(logging.DEBUG): last_msg=llm_messages[-1]; logger.debug(f" -> Last Msg: Role={last_msg['role']}, Len={len(last_msg['content'])}, Starts='{last_msg['content'][:150]}...'")
 
-                        # Use the final system prompt with time context
-                        with self.client.messages.stream(model=model, max_tokens=max_tokens, system=final_system_prompt_for_turn, messages=llm_messages) as stream:
-                            for text in stream.text_stream: response_content += text; yield f"data: {json.dumps({'delta': text})}\n\n"
+                        # Use the retry-enabled helper method
+                        with self._call_anthropic_stream_with_retry(
+                            model=model,
+                            max_tokens=max_tokens,
+                            system=final_system_prompt_for_turn,
+                            messages=llm_messages
+                        ) as stream:
+                            for text in stream.text_stream:
+                                response_content += text
+                                yield f"data: {json.dumps({'delta': text})}\n\n"
                         logger.info(f"LLM response ok ({len(response_content)} chars).")
-                    except Exception as e:
+
+                    except RetryError as e: # Catch error if all retries fail
+                         logger.error(f"Anthropic API call failed after multiple retries: {e}", exc_info=True)
+                         stream_error = "Assistant is currently unavailable after multiple retries. Please try again later."
+                    except APIStatusError as e: # Catch specific API status errors not retried
+                        logger.error(f"Anthropic API Status Error (non-retryable or final attempt): {e}", exc_info=True)
+                        # Check if it's overload specifically for a better message
+                        if 'overloaded_error' in str(e).lower():
+                            stream_error = "Assistant is busy, please try again shortly."
+                        else:
+                            stream_error = f"API Error: {e.message}" if hasattr(e, 'message') else str(e)
+                    except Exception as e: # Catch other potential errors
                          if "aborted" in str(e).lower() or "cancel" in str(e).lower():
                               logger.warning(f"LLM stream aborted or cancelled: {e}")
                               stream_error="Stream stopped."
-                         else: logger.error(f"LLM stream error: {e}", exc_info=True); stream_error = str(e)
+                         else:
+                              logger.error(f"LLM stream error: {e}", exc_info=True)
+                              stream_error = str(e)
+
                     if stream_error: yield f"data: {json.dumps({'error': f'Error: {stream_error}'})}\n\n"
 
                     if not stream_error and response_content:
-                        # Add assistant response to persistent history (without type field)
                         self.chat_history.append({'role': 'assistant', 'content': response_content})
                         logger.debug(f"Appended assistant response. History size: {len(self.chat_history)}")
 
-                    # --- Auto-Archive Logic ---
                     archive_msgs = self.chat_history[self.last_archive_index:]
                     if archive_msgs:
-                        # Note: format_chat_history should ideally only format user/assistant
-                        # If it formats based on role only, transcript updates might still appear here
                         content_to_save = format_chat_history(archive_msgs)
                         if content_to_save:
                              success, _ = save_chat_to_s3(self.config.agent_name, content_to_save, self.config.event_id, False, self.current_chat_file)
@@ -242,8 +276,6 @@ class WebChat:
         def save_chat_api():
             logger.info("Received request to /api/save")
             try:
-                # Filter messages for saving (user and assistant only)
-                # Use self.last_saved_index to track what's already been saved
                 raw_msgs_to_save = self.chat_history[self.last_saved_index:]
                 filtered_msgs_to_save = [
                     m for m in raw_msgs_to_save
@@ -263,7 +295,7 @@ class WebChat:
                 s3_client = get_s3_client()
                 aws_s3_bucket = os.getenv('AWS_S3_BUCKET')
                 save_success = False
-                saved_key = None # Initialize saved_key
+                saved_key = None
 
                 if s3_client and aws_s3_bucket:
                      try:
@@ -277,7 +309,6 @@ class WebChat:
                          save_success = False
 
                 if save_success:
-                    # Update last_saved_index to the end of the full history slice checked
                     self.last_saved_index = self.last_saved_index + len(raw_msgs_to_save)
                     return jsonify({'message': f'Saved chat as {clean_save_filename}'}), 200
                 else:
@@ -302,7 +333,7 @@ class WebChat:
                     if self.config.listen_transcript: self.load_initial_transcript(); msg='History/Tx state cleared. Initial tx reloaded.'
                     else: msg='History/Tx state cleared.'
                 elif cmd == 'save':
-                    # --- This block now just calls the same logic as the API route ---
+                    # Replicate the logic from /api/save for consistency
                     raw_msgs_to_save = self.chat_history[self.last_saved_index:]
                     filtered_msgs_to_save = [
                         m for m in raw_msgs_to_save
@@ -340,7 +371,6 @@ class WebChat:
                             msg = f'Saved chat as {clean_save_filename}'
                         else:
                             msg = 'Error saving chat.'; code = 500
-                    # --- End Duplicated Save Logic ---
                 elif cmd == 'memory':
                      if self.config.memory is None: self.config.memory = [self.config.agent_name]; self.reload_memory(); msg='Memory ON.'
                      else: self.config.memory = None; self.load_resources(); msg='Memory OFF.' # Reload resources to remove memory section
