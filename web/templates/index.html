@@ -957,13 +957,7 @@
                  currentAssistantMessageWrapper = null; // Clear reference to message wrapper
                  messageInput.classList.remove('thinking', 'thinking-end'); // Clear thinking styles
                  // messageInput.disabled = false; // Input is never disabled now
-                 // Only refocus if not mobile, to avoid keyboard annoyance
-                 if (!isMobile) {
-                      // Don't refocus if user explicitly clicked away while waiting
-                      if (document.activeElement !== messageInput) {
-                          // messageInput.focus(); // Removed auto-focus after completion
-                      }
-                 }
+                 // Focus management removed from here, handled after message send instead
                  handleInput(); // Recalculate input height
             }
         }
@@ -996,15 +990,15 @@
             const welcomeElem = document.getElementById('welcome-container');
             if (welcomeElem) welcomeElem.remove(); // Remove welcome text on first message
 
-            // Clear input, reset height, keep it enabled
-            // messageInput.disabled = true; // REMOVED THIS LINE
+            // Clear input, reset height, keep it enabled, and unfocus
             messageInput.value = '';
             messageInput.style.height = initialHeight;
+            messageInput.blur(); // <<<<------ ADDED THIS LINE TO UNFOCUS
 
             // Handle commands first
             if (message.startsWith('!')) {
                 handleCommand(message);
-                // messageInput.disabled = false; // Input is never disabled
+                // Input is never disabled
                 return;
             }
 
