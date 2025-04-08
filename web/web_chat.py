@@ -8,8 +8,8 @@ import json
 import time
 import traceback
 
-# Import tenacity for retries
-from tenacity import retry, stop_after_attempt, wait_exponential, RetryError
+# Import tenacity for retries - ADDED retry_if_exception_type
+from tenacity import retry, stop_after_attempt, wait_exponential, RetryError, retry_if_exception_type
 
 from config import AppConfig
 from utils.retrieval_handler import RetrievalHandler
@@ -232,7 +232,6 @@ class WebChat:
                          stream_error = "Assistant is currently unavailable after multiple retries. Please try again later."
                     except APIStatusError as e: # Catch specific API status errors not retried
                         logger.error(f"Anthropic API Status Error (non-retryable or final attempt): {e}", exc_info=True)
-                        # Check if it's overload specifically for a better message
                         if 'overloaded_error' in str(e).lower():
                             stream_error = "Assistant is busy, please try again shortly."
                         else:
