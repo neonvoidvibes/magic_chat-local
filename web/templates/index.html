@@ -14,18 +14,18 @@
             --input-bg: transparent;
             --input-field-bg: rgba(252, 252, 252, 0.9);
             --accent-color: transparent;
-            --accent-color-hover: rgba(73, 138, 86, 0.3);
+            --accent-color-hover: rgba(31, 31, 31, 0.3);
             --action-color: rgb(137, 137, 137);  /* Dark icon color */
             --action-color-hover: rgb(20, 20, 20);  /* Even darker on hover */
-            --trigger-color: #3f713f;
-            --trigger-color-hover: rgb(63, 113, 63);
+            --trigger-color: rgb(31, 31, 31);
+            --trigger-color-hover: rgb(131, 131, 131);
             /* --message-user-bg: #292929; */
-            --message-user-bg: rgba(63, 113, 63, 0.95);
+            --message-user-bg: rgba(24, 24, 24, 0.95);
             --message-assistant-bg: rgba(255, 255, 255, 0.90);
             /* --message-system-bg: #4a4a4a; */
             --message-system-bg: #ffffff;
             --status-bar: #222222;
-            --send-button: #3f713f;  /* New variable for send button arrow color */
+            --send-button: #1e1e1e;  /* New variable for send button arrow color */
             --placeholder-color: #c7c7c7;  /* New variable for input placeholder */
         }
 
@@ -103,14 +103,34 @@
             overflow-x: hidden;
             margin-bottom: 5px;
             padding: 20px 10px 20px 10px;
-            /* border-radius: 25px; */ /* Removed rounded corners */
+            /* border-radius: 25px; */ /* Removed rounded corners from message area */
             background: var(--input-bg);
             width: calc(100% - 20px);
             display: flex;
             flex-direction: column;
             position: relative;
-            padding-right: 10px;
+            padding-right: 10px; /* Keep right padding */
+            padding-left: 35px; /* Add left padding for potential copy buttons */
+            scrollbar-width: thin; /* For Firefox */
+            scrollbar-color: rgba(100, 100, 100, 0.5) transparent; /* For Firefox */
         }
+        /* Webkit scrollbar styling */
+        #chat-messages::-webkit-scrollbar {
+            width: 8px;
+        }
+        #chat-messages::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        #chat-messages::-webkit-scrollbar-thumb {
+            background-color: rgba(100, 100, 100, 0.5);
+            border-radius: 4px;
+            border: 2px solid transparent; /* Optional: adds padding around thumb */
+            background-clip: content-box; /* Optional: makes border act as padding */
+        }
+        #chat-messages::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(130, 130, 130, 0.7);
+        }
+
 
         #chat-messages.thinking {
             display: none;
@@ -263,13 +283,36 @@
             letter-spacing: -0.15em;  
         }
 
+        .message-wrapper {
+            position: relative;
+            display: flex; /* Use flexbox for alignment */
+            margin-bottom: 15px; /* Keep original message margin */
+            width: fit-content; /* Wrapper fits content */
+            max-width: 100%; /* Prevent overflow */
+        }
+
+        /* Align user messages to the right */
+        .message-wrapper.user {
+            align-self: flex-end;
+            flex-direction: row-reverse; /* Icon first, then message */
+        }
+         /* Align assistant messages to the left */
+        .message-wrapper.assistant {
+            align-self: flex-start;
+             align-items: flex-end; /* Align items (icon, message) to bottom */
+        }
+
+
         .message {
-            margin-bottom: 15px;
+             /* Remove margin-bottom from individual message */
+             margin-bottom: 0;
             padding: 18px 22px;
             border-radius: 35px;
             font-size: 20px;
             animation: fadeIn 0.5s ease-out;
             white-space: pre-wrap;
+            max-width: 100%; /* Ensure message itself doesn't overflow wrapper */
+            word-wrap: break-word; /* Allow long words to break */
         }
 
         .message.command {
@@ -283,25 +326,34 @@
 
         .user-message {
             background: var(--message-user-bg);
-            margin-left: auto;
+            /* margin-left: auto; /* Handled by wrapper */
             padding-left: 25px;
             border-bottom-right-radius: 5px;
             text-align: left;
-            max-width: 60%;
-            width: fit-content;
-            align-self: flex-end;
+            /* max-width: 60%; /* Max width now on wrapper */
+            /* width: fit-content; /* Handled by wrapper */
+            /* align-self: flex-end; /* Handled by wrapper */
             color: #ffffff; /* Explicitly white text for user messages */
         }
+         /* Max width specifically for user message *content* */
+        .message-wrapper.user .user-message {
+             max-width: 60%; /* Original max-width */
+        }
+
 
         .assistant-message {
             background: var(--message-assistant-bg);
             padding-left: 25px;
             border-bottom-left-radius: 5px;
             /* width: 95%; /* REMOVED: Was making it always wide */
-            max-width: 95%; /* ADDED: Limit max width */
-            width: fit-content; /* ADDED: Make width adapt to content */
-            align-self: flex-start; /* CHANGED: Align to left instead of stretching */
+            /* max-width: 95%; /* Max width now on wrapper */
+            /* width: fit-content; /* Handled by wrapper */
+            /* align-self: flex-start; /* Handled by wrapper */
             color: #000000; /* ADDED: Explicitly black text for assistant messages */
+        }
+         /* Max width specifically for assistant message *content* */
+        .message-wrapper.assistant .assistant-message {
+             max-width: 95%; /* Original max-width */
         }
 
         .system-message {
@@ -309,6 +361,59 @@
             margin: 15px auto;
             text-align: center;
             color: #000000; /* Explicitly black text for system messages */
+             /* System messages don't need wrappers or copy buttons */
+        }
+
+        /* Copy Button Styles */
+        .copy-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px; /* Add padding around icon */
+            margin: 0 8px; /* Add space between icon and message */
+            opacity: 0; /* Hidden by default */
+            transition: opacity 0.2s ease-in-out;
+            width: 20px; /* Icon size */
+            height: 20px; /* Icon size */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .copy-button svg {
+             width: 100%;
+             height: 100%;
+             display: block;
+        }
+
+
+        /* Show copy button on wrapper hover (desktop) */
+        @media (hover: hover) {
+            .message-wrapper:hover .copy-button {
+                opacity: 0.7; /* Slightly transparent */
+            }
+            .message-wrapper .copy-button:hover {
+                 opacity: 1; /* Fully opaque on icon hover */
+            }
+        }
+         /* Always show copy button on touch devices after interaction (handled by JS if needed) */
+         /* For simplicity, let's rely on hover for now, tap implicitly triggers click */
+         /* Alternatively, could add a class via JS on tap to force show */
+
+
+        /* User message copy button positioning */
+        .message-wrapper.user .copy-button {
+            color: var(--copy-icon-user-color); /* Light icon for dark bubble */
+            order: 1; /* Place before message due to row-reverse */
+             align-self: center; /* Vertically center */
+        }
+
+        /* Assistant message copy button positioning */
+        .message-wrapper.assistant .copy-button {
+            color: var(--copy-icon-assistant-color); /* Dark icon for light bubble */
+            order: -1; /* Place before message */
+             align-self: flex-end; /* Align to bottom */
+             margin-bottom: 8px; /* Add some bottom margin */
         }
 
         #input-container {
@@ -402,6 +507,25 @@
         }
 
         @media (max-width: 600px) {
+             #chat-messages {
+                 padding-left: 10px; /* Reduce padding on mobile */
+            }
+             .message-wrapper.user {
+                 flex-direction: row; /* User: Message first, then icon on mobile */
+            }
+             .message-wrapper.user .copy-button {
+                 order: 1; /* Move icon after message */
+                 align-self: center;
+            }
+             .message-wrapper.assistant {
+                 flex-direction: row; /* Assistant: Message first, then icon */
+                 align-items: flex-end;
+            }
+             .message-wrapper.assistant .copy-button {
+                 order: 1; /* Move icon after message */
+                 align-self: flex-end;
+            }
+
             .action-buttons {
                 left: 22px;
                 gap: 8px;
@@ -519,7 +643,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: background 0.3s ease;
+            transition: background 0.3s ease, color 0.2s ease; /* Added color transition */
         }
 
         @media (max-width: 600px) {
@@ -538,7 +662,13 @@
         #send-button svg {
             width: 26px;
             height: 26px;
+            transition: transform 0.2s ease; /* Smooth transition for icon change */
         }
+
+        #send-button.streaming svg {
+             /* Optional: slightly different style for stop icon if needed */
+        }
+
 
         @media (max-width: 600px) {
             #send-button svg {
@@ -618,7 +748,7 @@
     -->
     <div id="bg-wrapper" class="bg-wrapper bg-image"></div>
     <div id="chat-container">
-        <h2>Yggdrasil AI</h2>
+        <h2>River AI</h2>
         <div id="chat-messages">
             <div id="welcome-container">
                 <span id="welcome-text"></span>
@@ -658,52 +788,109 @@
                 </button>
             </div>
             <textarea id="message-input" placeholder="Message AI" rows="1"></textarea>
-            <button id="send-button" onclick="sendMessage()">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="12" y1="19" x2="12" y2="5"></line>
-                    <polyline points="5 12 12 5 19 12"></polyline>
-                </svg>
+            <!-- Send button's onclick is now managed dynamically -->
+            <button id="send-button">
+                <!-- Initial icon is set in script -->
             </button>
         </div>
         <div id="status-bar"></div>
     </div>
 
     <script>
-        let lastMessage = null;  // Track last message globally
-
-        // Initialize message input and event handlers
         const messageInput = document.getElementById('message-input');
+        const sendButton = document.getElementById('send-button');
+        const chatMessages = document.getElementById('chat-messages');
+        const welcomeContainer = document.getElementById('welcome-text');
+
+        let lastMessage = null;  // Track last message globally (less relevant now?)
         let isMobile = window.innerWidth <= 600;
         let initialHeight = isMobile ? '54px' : '62px';
-        messageInput.style.height = initialHeight;
+        let currentAbortController = null; // Controller for stopping fetch stream
+        let userHasScrolled = false; // Flag for scroll behavior
 
-        // Add resize handler
-        window.addEventListener('resize', function() {
+        // --- Icon SVGs ---
+        const sendIconSVG = `
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="19" x2="12" y2="5"></line>
+                <polyline points="5 12 12 5 19 12"></polyline>
+            </svg>`;
+        const stopIconSVG = `
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            </svg>`;
+        const copyIconSVG = `
+             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                 <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>`;
+        const checkIconSVG = `
+             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                 <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>`;
+
+        // --- Initialization ---
+        function initializeChat() {
+            messageInput.style.height = initialHeight;
+            sendButton.innerHTML = sendIconSVG; // Set initial icon
+            sendButton.onclick = sendMessage; // Set initial action
+
+            // Event Listeners
+            window.addEventListener('resize', handleResize);
+            messageInput.addEventListener('input', handleInput);
+            messageInput.addEventListener('keypress', handleKeyPress);
+            chatMessages.addEventListener('scroll', handleScroll);
+
+            initializeWelcomeText();
+            animateWelcomeText();
+            updateStatus();
+            setInterval(updateStatus, 5000);
+            setupSaveButton(); // Setup save button listener
+        }
+
+        // --- Event Handlers ---
+        function handleResize() {
             const wasMobile = isMobile;
             isMobile = window.innerWidth <= 600;
-            
-            // Only update if mobile state changed
             if (wasMobile !== isMobile) {
                 initialHeight = isMobile ? '54px' : '62px';
-                messageInput.style.height = initialHeight;
+                // Adjust height only if input is currently at initial height
+                if (messageInput.style.height === (wasMobile ? '54px' : '62px')) {
+                     messageInput.style.height = initialHeight;
+                }
+                 // Re-evaluate scroll height based on new initial height if needed
+                 handleInput();
             }
-        });
+        }
 
-        messageInput.addEventListener('input', function() {
-            this.style.height = initialHeight;
+        function handleInput() {
+            messageInput.style.height = initialHeight; // Reset first
             const lineHeight = isMobile ? 20 : 24;
             const maxHeight = parseInt(initialHeight) + (lineHeight * 4);
-            this.style.height = Math.min(this.scrollHeight, maxHeight) + 'px';
-        });
+            const newHeight = Math.min(messageInput.scrollHeight, maxHeight);
+            messageInput.style.height = newHeight + 'px';
+        }
 
-        // Handle Enter key and Shift+Enter
-        messageInput.addEventListener('keypress', function(e) {
+        function handleKeyPress(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
-                sendMessage();
+                // Check button's current action
+                if (sendButton.onclick === sendMessage) {
+                    sendMessage();
+                } else if (sendButton.onclick === stopStreaming) {
+                    // Optionally decide if Enter should also stop streaming
+                    // stopStreaming();
+                }
             }
-        });
+        }
 
+        function handleScroll() {
+            const threshold = 50; // Pixels from bottom to consider "at bottom"
+            const isNearBottom = chatMessages.scrollHeight - chatMessages.scrollTop - chatMessages.clientHeight < threshold;
+            userHasScrolled = !isNearBottom;
+            // console.log("User scrolled:", userHasScrolled); // For debugging
+        }
+
+        // --- Core Functions ---
         function updateStatus() {
             fetch('/api/status')
                 .then(response => response.json())
@@ -712,161 +899,298 @@
                     if (data.listen_summary) status.push('summary');
                     if (data.listen_transcript) status.push('transcript');
                     if (data.listen_insights) status.push('insights');
-                    
+
                     const statusBar = document.getElementById('status-bar');
+                    if (!statusBar) return; // Exit if status bar not found
                     const statusText = status.length ? 'Listening to: ' + status.join(', ') : 'Not listening';
                     const memoryText = data.memory_enabled ? 'Memory: yes' : 'Memory: no';
                     statusBar.textContent = 'Agent: ' + '{{ agent_name }}' + ' \u00A0 | \u00A0 ' + statusText + ' \u00A0 | \u00A0 ' + memoryText;
-                });
+                }).catch(error => console.error("Error fetching status:", error));
         }
 
-        function sendMessage() {
+        function setSendButtonState(state) {
+             if (state === 'sending') {
+                 sendButton.innerHTML = stopIconSVG;
+                 sendButton.classList.add('streaming');
+                 sendButton.onclick = stopStreaming; // Change action to stop
+             } else { // 'idle' state
+                 sendButton.innerHTML = sendIconSVG;
+                 sendButton.classList.remove('streaming');
+                 sendButton.onclick = sendMessage; // Change action to send
+                 currentAbortController = null; // Ensure controller is cleared
+                 messageInput.classList.remove('thinking', 'thinking-end'); // Clear thinking styles
+            }
+        }
+
+        function stopStreaming() {
+            console.log("Attempting to stop stream...");
+            if (currentAbortController) {
+                currentAbortController.abort();
+                // No need to reset controller or icon here, it's handled in the fetch catch/done blocks
+                console.log("Abort signal sent.");
+            } else {
+                 console.log("No active stream to stop.");
+                 // If somehow the state is inconsistent, reset the button
+                 setSendButtonState('idle');
+            }
+        }
+
+        async function sendMessage() {
+            // If already streaming, the button's onclick is stopStreaming, so this won't be called.
             const message = messageInput.value.trim();
             if (!message) return;
-            
-            const welcomeText = document.getElementById('welcome-text');
-            if (welcomeText) welcomeText.remove();
 
-            // Just clear the input and reset height
+            if (welcomeContainer) welcomeContainer.remove(); // Remove welcome text on first message
+
+            // Clear input and reset height
             messageInput.value = '';
             messageInput.style.height = initialHeight;
-            messageInput.blur();  // Remove focus
-            setTimeout(() => messageInput.focus(), 0);  // Re-focus after a tick
-            
+            messageInput.blur();
+            // setTimeout(() => messageInput.focus(), 0); // Re-focus might be annoying, consider removing
+
             // Handle commands
             if (message.startsWith('!')) {
-                const command = message.substring(1).toLowerCase();
-                appendMessage('user', message, true);
-                
-                fetch('/api/command', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ command: command })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.message) {
-                        appendMessage('assistant', data.message, true);
-                    }
-                    if (data.error) {
-                        appendMessage('assistant', 'Error: ' + data.error, true);
-                    }
-                    updateStatus();
-                })
-                .catch(error => {
-                    appendMessage('assistant', 'Error executing command: ' + error, true);
-                });
+                handleCommand(message);
                 return;
             }
 
             // Regular message handling
             appendMessage('user', message);
-            
-            // Create a new EventSource for streaming response
-            const response = fetch('/api/chat', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message })
-            });
-            
-            let assistantMessage = '';
-            messageInput.classList.add('thinking');
-            const assistantElement = appendMessage('assistant', '<span class="waiting"></span>');
-            
-            // Set up event stream from response
-            const reader = response.then(res => res.body.getReader());
-            const decoder = new TextDecoder();
-            
-            reader.then(reader => {
-                function readChunk() {
-                    reader.read().then(({done, value}) => {
-                        if (done) {
-                            // Final scroll after streaming completes
-                            assistantElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
-                            return;
-                         }
-                        
-                        const chunk = decoder.decode(value);
-                        const lines = chunk.split('\n');
-                        
-                        lines.forEach(line => {
-                            if (line.startsWith('data: ')) {
-                                try {
-                                    const data = JSON.parse(line.slice(6));
-                                    if (data.delta) {
-                                        if (assistantMessage === '' && assistantElement.querySelector('.waiting')) {
-                                            assistantElement.innerHTML = ''; // Remove "Thinking..." message (waiting span)
-                                            messageInput.classList.add('thinking-end');
-                                            setTimeout(() => {
-                                                messageInput.classList.remove('thinking');
-                                                messageInput.classList.remove('thinking-end');
-                                            }, 500);
-                                        }
-                                        assistantMessage += data.delta;
-                                        assistantElement.innerHTML += data.delta; // Append text directly
-                                        // Scroll the container, not just the element, for better control
-                                        const chatMessages = document.getElementById('chat-messages');
-                                        chatMessages.scrollTop = chatMessages.scrollHeight;
-                                    } else if (data.done) {
-                                         // Final scroll when done message received
-                                         const chatMessages = document.getElementById('chat-messages');
-                                         chatMessages.scrollTop = chatMessages.scrollHeight;
+            messageInput.classList.add('thinking'); // Indicate processing start
+
+            // Setup AbortController
+            const controller = new AbortController();
+            currentAbortController = controller; // Store the controller globally
+
+            setSendButtonState('sending'); // Change button to Stop icon and action
+
+            let assistantMessageContent = ''; // Accumulate message text
+            const assistantElement = appendMessage('assistant', '<span class="waiting"></span>'); // Add placeholder
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message }),
+                    signal: controller.signal // Pass the abort signal
+                });
+
+                if (!response.ok) {
+                     // Handle HTTP errors (e.g., 4xx, 5xx) before trying to read stream
+                     const errorText = await response.text();
+                     throw new Error(`HTTP error ${response.status}: ${errorText || response.statusText}`);
+                 }
+
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+
+                while (true) {
+                    const { done, value } = await reader.read();
+
+                    if (done) {
+                        console.log("Stream finished.");
+                         // Optional: Remove waiting span if it's still there (e.g., empty response)
+                         const waitingSpan = assistantElement.querySelector('.waiting');
+                         if (waitingSpan) assistantElement.innerHTML = ''; // Clear if only waiting span exists
+                        break; // Exit loop
+                    }
+
+                    const chunk = decoder.decode(value);
+                    const lines = chunk.split('\n');
+
+                    lines.forEach(line => {
+                        if (line.startsWith('data: ')) {
+                            try {
+                                const data = JSON.parse(line.slice(6));
+                                if (data.delta) {
+                                    const waitingSpan = assistantElement.querySelector('.waiting');
+                                    if (waitingSpan) {
+                                        assistantElement.innerHTML = ''; // Remove "Thinking..." message
+                                        messageInput.classList.add('thinking-end'); // Start fade out
+                                        setTimeout(() => {
+                                            messageInput.classList.remove('thinking', 'thinking-end');
+                                        }, 500); // Remove thinking styles after fade
                                     }
-                                } catch (e) {
-                                    console.error("Error parsing JSON from stream:", e, "Line:", line);
-                                }
+                                    assistantMessageContent += data.delta; // Accumulate text
+                                    assistantElement.innerHTML += data.delta; // Append text directly
+
+                                    // Auto-scroll only if user hasn't scrolled up
+                                    if (!userHasScrolled) {
+                                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                                    }
+                                } else if (data.done) {
+                                     // Stream signaled completion from server side (redundant with reader.read done?)
+                                     console.log("Stream signaled done via data.");
+                                     // We already break the loop when reader.read() is done.
+                                } else if (data.error) {
+                                     console.error("Stream reported error:", data.error);
+                                     assistantElement.textContent = `Error: ${data.error}`;
+                                     // Potentially stop the stream? Server might close it.
+                                 }
+                            } catch (e) {
+                                console.error("Error parsing JSON from stream:", e, "Line:", line);
+                                // Don't break the loop, just log the error for this line
                             }
-                        });
-                        
-                        readChunk();
-                    }).catch(error => {
-                        console.error('Stream error:', error);
-                        assistantElement.textContent = 'Error: Failed to get response';
-                         messageInput.classList.remove('thinking'); // Ensure thinking state is removed on error
+                        }
                     });
                 }
-                readChunk();
-            });
+                 // Final actions after stream completes successfully
+                 addCopyButton(assistantElement.parentNode, assistantMessageContent, 'assistant'); // Add copy button after content is final
+                 if (!userHasScrolled) { // Perform final scroll if user wasn't scrolled up
+                     chatMessages.scrollTop = chatMessages.scrollHeight;
+                 }
+
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    console.log('Stream stopped by user.');
+                     // Remove waiting span if it exists
+                     const waitingSpan = assistantElement.querySelector('.waiting');
+                     if (waitingSpan) assistantElement.innerHTML = ''; // Clear placeholder if stopped early
+                     // Add copy button with the content received so far
+                     addCopyButton(assistantElement.parentNode, assistantMessageContent, 'assistant');
+                } else {
+                    console.error('Stream or fetch error:', error);
+                    const waitingSpan = assistantElement.querySelector('.waiting');
+                    if (waitingSpan) assistantElement.innerHTML = ''; // Clear placeholder
+                    assistantElement.textContent = `Error: ${error.message || 'Failed to get response'}`;
+                }
+            } finally {
+                // Always reset button state and controller when stream ends (naturally, aborted, or error)
+                setSendButtonState('idle');
+            }
         }
 
+        function handleCommand(message) {
+             const command = message.substring(1).toLowerCase();
+             appendMessage('user', message, true); // Display command visually
+
+             fetch('/api/command', {
+                 method: 'POST',
+                 headers: { 'Content-Type': 'application/json' },
+                 body: JSON.stringify({ command: command })
+             })
+             .then(async response => { // Make async to await json()
+                 const data = await response.json(); // Always try to parse JSON
+                 if (!response.ok) {
+                     // Throw an error if response status is not 2xx
+                     throw new Error(data.error || `Command failed with status ${response.status}`);
+                 }
+                 return data; // Return parsed data for success case
+             })
+             .then(data => {
+                 if (data.message) {
+                     appendMessage('assistant', data.message, true); // Show command response
+                 }
+                 updateStatus(); // Update status bar after command execution
+             })
+             .catch(error => {
+                 console.error(`Error executing command !${command}:`, error);
+                 appendMessage('assistant', `Error: ${error.message}`, true); // Show error message
+             });
+        }
+
+
         function appendMessage(sender, text, isCommand = false) {
-            const initialMessage = document.getElementById('initial-message');
-            if (initialMessage) {
-                initialMessage.remove();
-            }
-            
+             const welcomeElem = document.getElementById('welcome-container'); // Check welcome text again
+             if (welcomeElem) welcomeElem.remove();
+
+            // Create wrapper
+            const wrapperDiv = document.createElement('div');
+            wrapperDiv.className = `message-wrapper ${sender.toLowerCase()}`; // Add sender class to wrapper
+
+            // Create message bubble
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${sender.toLowerCase()}-message`;
             if (isCommand) {
                 messageDiv.classList.add('command');
             }
-            // Use innerHTML for potentially formatted text (like the waiting span)
-            messageDiv.innerHTML = text;
-            const chatMessages = document.getElementById('chat-messages');
+            messageDiv.innerHTML = text; // Use innerHTML for initial placeholder/waiting span
 
-            // Append new message at the end
-            chatMessages.appendChild(messageDiv);
+            // Append message to wrapper
+            wrapperDiv.appendChild(messageDiv);
 
-            // Scroll the container to the bottom
-             setTimeout(() => { // Delay scroll slightly to allow rendering
-                 chatMessages.scrollTop = chatMessages.scrollHeight;
-             }, 0);
+             // Append wrapper to chat container
+            chatMessages.appendChild(wrapperDiv);
 
-            lastMessage = messageDiv; // Update last message reference if needed, though appending logic changed
+             // Add copy button *after* initial append for non-streaming messages or completed streams
+             // For user messages and command responses, add immediately.
+             // For assistant messages, it's added in the `sendMessage` finally/done block.
+            if (sender === 'user' || isCommand) {
+                // Need the actual text content, not innerHTML (which might be "<span class='waiting'></span>")
+                // For commands, the input `text` is fine. For user, it's also the input `text`.
+                const contentToCopy = messageDiv.textContent || ""; // Get text content
+                addCopyButton(wrapperDiv, contentToCopy, sender);
+             }
+
+            // Scroll logic (initial scroll) - stream scroll is handled in sendMessage
+            // Only scroll if user is near bottom OR it's a user message (always scroll for your own message)
+            const threshold = 50;
+            const isNearBottom = chatMessages.scrollHeight - chatMessages.scrollTop - chatMessages.clientHeight < threshold;
+             if (sender === 'user' || isNearBottom) {
+                setTimeout(() => { // Delay scroll slightly
+                     chatMessages.scrollTop = chatMessages.scrollHeight;
+                 }, 50); // Increased delay slightly
+             }
+
+            // Return the message bubble itself for stream updates
             return messageDiv;
         }
 
+         // Helper function to add the copy button dynamically
+         function addCopyButton(wrapperDiv, textContent, sender) {
+             if (!wrapperDiv || wrapperDiv.querySelector('.copy-button')) {
+                 return; // Don't add if wrapper invalid or button already exists
+             }
 
-        // Initialize the welcome text animation
-        const welcomeText = "What is alive today?";
-        const welcomeContainer = document.getElementById('welcome-text');
-        
+             const copyButton = document.createElement('button');
+             copyButton.className = 'copy-button';
+             copyButton.innerHTML = copyIconSVG;
+             copyButton.title = 'Copy message'; // Tooltip
+
+             // Set color based on sender
+             copyButton.style.color = (sender === 'user') ? 'var(--copy-icon-user-color)' : 'var(--copy-icon-assistant-color)';
+
+             copyButton.onclick = () => copyToClipboard(textContent, copyButton);
+
+             // Append based on sender (determines order via CSS flex order)
+             wrapperDiv.appendChild(copyButton);
+         }
+
+
+        async function copyToClipboard(text, buttonElement) {
+            if (!navigator.clipboard) {
+                console.warn('Clipboard API not available');
+                // Fallback or notification?
+                return;
+            }
+            try {
+                await navigator.clipboard.writeText(text);
+                console.log('Text copied to clipboard');
+
+                // Visual feedback
+                const originalIcon = buttonElement.innerHTML;
+                buttonElement.innerHTML = checkIconSVG; // Show checkmark
+                buttonElement.disabled = true; // Briefly disable
+
+                setTimeout(() => {
+                    buttonElement.innerHTML = originalIcon; // Restore icon
+                    buttonElement.disabled = false;
+                }, 1500); // Restore after 1.5 seconds
+
+            } catch (err) {
+                console.error('Failed to copy text: ', err);
+                // Optional: Show error feedback to user
+            }
+        }
+
+
+        // --- Welcome Text Animation ---
         function initializeWelcomeText() {
-            if (!welcomeContainer) return; // Guard against element not found
-            welcomeContainer.innerHTML = '';
-            [...welcomeText].forEach((char, index) => {
+            if (!welcomeContainer) return;
+            const welcomeTextContent = "What is alive today?";
+            welcomeContainer.innerHTML = ''; // Clear first
+            [...welcomeTextContent].forEach(char => {
                 const span = document.createElement('span');
                 span.textContent = char;
                 span.className = 'glow-text';
@@ -875,82 +1199,68 @@
         }
 
         function animateWelcomeText() {
-             if (!welcomeContainer) return; // Guard against element not found
+             if (!welcomeContainer) return;
             const letters = welcomeContainer.querySelectorAll('.glow-text');
+            if (letters.length === 0) return; // Don't run if no letters found
             letters.forEach((letter, index) => {
                 setTimeout(() => {
                     letter.classList.add('first-reveal');
-                }, index * 100);
+                }, index * 100); // Stagger animation
             });
         }
 
-        // Initial setup
-        initializeWelcomeText();
-        animateWelcomeText();
+        // --- Save Button Setup ---
+        function setupSaveButton() {
+            const saveButton = document.getElementById('save-button');
+            if (saveButton) {
+                saveButton.addEventListener('click', async () => {
+                    let messageDiv; // To display feedback
+                    try {
+                        const response = await fetch('/api/save', { // Assuming /api/save exists
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' }
+                            // No body needed if it just saves the current state
+                        });
 
-        // Initial status update
-        updateStatus();
-        // Update status every 5 seconds
-        setInterval(updateStatus, 5000);
+                        const data = await response.json();
+                        messageDiv = document.createElement('div'); // Create feedback div
+                         chatMessages.appendChild(messageDiv); // Append first
 
-        // Save button listener
-        const saveButton = document.getElementById('save-button');
-        if (saveButton) {
-            saveButton.addEventListener('click', async () => {
-                try {
-                    const response = await fetch('/api/save', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
+                        if (response.ok) {
+                            messageDiv.className = 'message system-message';
+                            messageDiv.textContent = data.message || 'Chat saved successfully.';
+                        } else {
+                            throw new Error(data.error || 'Failed to save chat history');
                         }
-                    });
-                    
-                    const data = await response.json();
-                    const messageDiv = document.createElement('div');
-                    const chatMessages = document.getElementById('chat-messages');
-
-                    if (response.ok) {
-                        messageDiv.className = 'message system-message'; // Use message and system-message classes
-                        messageDiv.textContent = data.message;
-                        chatMessages.appendChild(messageDiv);
-                        
-                        // Remove the message after 4 seconds
-                        setTimeout(() => {
-                            messageDiv.style.transition = 'opacity 0.5s ease-out';
-                            messageDiv.style.opacity = '0';
-                            setTimeout(() => messageDiv.remove(), 500);
-                        }, 4000);
-                    } else {
-                        throw new Error(data.error || 'Failed to save chat history');
+                    } catch (error) {
+                        console.error('Error saving chat history:', error);
+                         if (!messageDiv) { // Ensure messageDiv exists for error
+                             messageDiv = document.createElement('div');
+                             chatMessages.appendChild(messageDiv);
+                         }
+                        messageDiv.className = 'message system-message error'; // Add error class
+                        messageDiv.textContent = `Error saving: ${error.message}`;
+                    } finally {
+                         // Auto-remove feedback message after a delay
+                         if (messageDiv) {
+                             // Scroll to show feedback
+                             setTimeout(() => { chatMessages.scrollTop = chatMessages.scrollHeight; }, 50);
+                             // Remove after delay
+                             setTimeout(() => {
+                                 messageDiv.style.transition = 'opacity 0.5s ease-out';
+                                 messageDiv.style.opacity = '0';
+                                 setTimeout(() => messageDiv.remove(), 500);
+                             }, 4000);
+                         }
                     }
-                     // Scroll to bottom after adding system message
-                     setTimeout(() => {
-                         chatMessages.scrollTop = chatMessages.scrollHeight;
-                     }, 0);
-                } catch (error) {
-                    console.error('Error saving chat history:', error);
-                    const messageDiv = document.createElement('div');
-                    messageDiv.className = 'message system-message error'; // Use message and system-message classes + error
-                    messageDiv.textContent = `Error saving chat history: ${error.message}`;
-                    const chatMessages = document.getElementById('chat-messages');
-                    chatMessages.appendChild(messageDiv);
-
-                     // Scroll to bottom after adding system message
-                     setTimeout(() => {
-                         chatMessages.scrollTop = chatMessages.scrollHeight;
-                     }, 0);
-                    
-                    // Remove error message after 4 seconds
-                    setTimeout(() => {
-                        messageDiv.style.transition = 'opacity 0.5s ease-out';
-                        messageDiv.style.opacity = '0';
-                        setTimeout(() => messageDiv.remove(), 500);
-                    }, 4000);
-                }
-            });
-        } else {
-            console.warn("Save button element not found");
+                });
+            } else {
+                console.warn("Save button element not found");
+            }
         }
+
+        // --- Run Initialization ---
+        document.addEventListener('DOMContentLoaded', initializeChat);
 
     </script>
 </body>
