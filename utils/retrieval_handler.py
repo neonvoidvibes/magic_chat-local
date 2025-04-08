@@ -11,8 +11,17 @@ from langchain_openai import OpenAIEmbeddings
 from langchain_core.documents import Document
 from pinecone import Pinecone
 from utils.pinecone_utils import init_pinecone
+from anthropic import Anthropic # Import Anthropic client
 
 logger = logging.getLogger(__name__)
+
+# Define a default transform prompt
+DEFAULT_QUERY_TRANSFORM_PROMPT = """Rewrite the following user query to be more effective for searching a vector database containing document chunks. Focus on extracting key entities (people, projects, organizations), topics, dates, and the core question intent. Output only the rewritten query, no preamble.
+
+User Query: '{user_query}'
+
+Rewritten Query:"""
+
 
 class RetrievalHandler:
     """Handles document retrieval using direct Pinecone queries."""
@@ -23,66 +32,101 @@ class RetrievalHandler:
         agent_name: Optional[str] = None,
         session_id: Optional[str] = None,
         event_id: Optional[str] = None,
-        top_k: int = 10 # Increased default top_k
+        top_k: int = 10, # Keep moderate top_k for now
+        anthropic_client: Optional[Anthropic] = None # Expect client instance
     ):
         """Initialize retrieval handler."""
         if not agent_name: raise ValueError("agent_name required")
+        if not anthropic_client: raise ValueError("anthropic_client required for query transformation")
 
         self.index_name = index_name
         self.namespace = agent_name
         self.session_id = session_id
         self.event_id = event_id if event_id and event_id != '0000' else None
-        self.top_k = top_k # Use the provided or default value
+        self.top_k = top_k
         self.embedding_model_name = "text-embedding-ada-002"
+        self.anthropic_client = anthropic_client # Store client instance
 
         try:
             self.embeddings = OpenAIEmbeddings(model=self.embedding_model_name)
             logger.info(f"Retriever: Initialized Embeddings model '{self.embedding_model_name}'.")
-        except Exception as e:
-            logger.error(f"Retriever: Failed Embeddings init: {e}", exc_info=True)
-            raise RuntimeError("Failed Embeddings init") from e
+        except Exception as e: raise RuntimeError("Failed Embeddings init") from e
 
-        pc = init_pinecone()
+        pc = init_pinecone();
         if not pc: raise RuntimeError("Failed Pinecone init")
-
         try:
             self.index = pc.Index(self.index_name)
-            logger.info(f"Retriever: Connected to Pinecone index '{self.index_name}'. Default top_k={self.top_k}")
+            logger.info(f"Retriever: Connected to index '{self.index_name}'. Default top_k={self.top_k}")
+        except Exception as e: raise RuntimeError(f"Failed connection to index '{self.index_name}'") from e
+
+    def _transform_query(self, query: str) -> str:
+        """Uses LLM to rewrite the query for better vector search."""
+        logger.debug(f"Transforming query: '{query}'")
+        try:
+            # Use a smaller/faster model for transformation if available and cost-effective
+            # model_for_transform = "claude-3-haiku-20240307"
+            # For now, use the main client's default or passed model if needed
+            # Note: This adds an extra LLM call.
+
+            prompt = DEFAULT_QUERY_TRANSFORM_PROMPT.format(user_query=query)
+
+            # Using non-streaming call for simplicity here
+            message = self.anthropic_client.messages.create(
+                 # Consider using a faster/cheaper model if possible for this task
+                 model="claude-3-haiku-20240307",
+                 max_tokens=100, # Should be short
+                 messages=[{"role": "user", "content": prompt}]
+            )
+            transformed_query = message.content[0].text.strip()
+            logger.debug(f"Transformed query: '{transformed_query}'")
+            # Basic validation: if empty or just punctuation, return original
+            if not transformed_query or transformed_query in ['.', '?', '!']:
+                 logger.warning("Query transformation resulted in empty/trivial output. Using original.")
+                 return query
+            return transformed_query
         except Exception as e:
-            logger.error(f"Retriever: Failed connection to index '{self.index_name}': {e}")
-            raise RuntimeError(f"Failed connection to index '{self.index_name}'") from e
+            logger.error(f"Error transforming query: {e}. Using original query.")
+            return query # Fallback to original query on error
 
     def get_relevant_context(
         self,
         query: str,
-        top_k: Optional[int] = None, # Allow overriding default k per query
+        top_k: Optional[int] = None,
         is_transcript: bool = False
     ) -> List[Document]:
-        """Retrieve relevant document chunks."""
-        k = top_k or self.top_k # Use per-query k or instance default
-        logger.debug(f"Retriever: Attempting retrieve top {k}. Query: '{query[:100]}...' (is_tx={is_transcript})")
-        logger.debug(f"Retriever: Base ns: {self.namespace}, Event ID for filter: {self.event_id}")
+        """Retrieve relevant document chunks, applying query transformation."""
+        k = top_k or self.top_k
+        logger.debug(f"Retriever: Original query: '{query[:100]}...' (is_tx={is_transcript})")
+
+        # 1. Transform the query
+        transformed_query = self._transform_query(query)
+        if transformed_query != query:
+            logger.info(f"Retriever: Using transformed query: '{transformed_query[:100]}...'")
+        else:
+            logger.info("Retriever: Using original query (transformation failed or unchanged).")
+
+        logger.debug(f"Retriever: Attempting retrieve top {k}. Base ns: {self.namespace}, Event ID filter: {self.event_id}")
 
         try:
-            # Generate embedding
+            # 2. Generate embedding for the (potentially transformed) query
             try:
-                if not hasattr(self, 'embeddings') or self.embeddings is None: raise RuntimeError("Embeddings missing")
-                query_embedding = self.embeddings.embed_query(query)
+                if not hasattr(self, 'embeddings'): raise RuntimeError("Embeddings missing")
+                # Embed the transformed query
+                query_embedding = self.embeddings.embed_query(transformed_query)
                 logger.debug(f"Retriever: Query embedding generated (first 5): {query_embedding[:5]}...")
             except Exception as e: logger.error(f"Retriever: Embedding error: {e}", exc_info=True); return []
 
-            # Define namespaces & filters
+            # 3. Define namespaces & filters (no change here)
             namespaces = [self.namespace]
             event_ns = f"{self.namespace}-{self.event_id}" if self.event_id else None
             if event_ns and event_ns != self.namespace: namespaces.append(event_ns); logger.debug(f"Adding event ns: {event_ns}")
 
-            # Perform queries
+            # 4. Perform queries (no change here)
             all_matches = []
             for ns in namespaces:
-                query_filter = {"agent_name": self.namespace} # Always filter by agent
+                query_filter = {"agent_name": self.namespace}
                 if self.event_id: query_filter["event_id"] = self.event_id; logger.debug(f"Adding event_id filter: {self.event_id}")
                 else: logger.debug("No specific event_id filter applied.")
-
                 logger.debug(f"Querying ns='{ns}', filter={query_filter}, top_k={k}")
                 try:
                     response = self.index.query(vector=query_embedding, top_k=k, namespace=ns, filter=query_filter, include_metadata=True)
@@ -93,14 +137,14 @@ class RetrievalHandler:
 
             if not all_matches: logger.warning("No matches found across namespaces."); return []
 
-            # Process & Rank
+            # 5. Process & Rank (no change here)
             logger.debug(f"Total raw matches: {len(all_matches)}")
             all_matches.sort(key=lambda x: x.score, reverse=True)
-            top_matches = all_matches[:k] # Limit to overall k
+            top_matches = all_matches[:k]
             logger.debug(f"Top {len(top_matches)} matches after sort:")
             for i, match in enumerate(top_matches): logger.debug(f"  Rank {i+1}: ID={match.id}, Score={match.score:.4f}")
 
-            # Convert to Documents
+            # 6. Convert to Documents (no change here)
             docs = []
             for match in top_matches:
                 if not match.metadata: logger.warning(f"Match {match.id} lacks metadata."); continue
