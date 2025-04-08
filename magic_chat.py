@@ -108,23 +108,14 @@ def main():
         event_id_str = config.event_id or '0000'
         current_chat_file = f"chat_D{config.session_id}_aID-{config.agent_name}_eID-{event_id_str}.txt"
         logger.info(f"Session: {config.session_id}, File: {current_chat_file}")
-        last_saved_idx=0; last_archive_idx=0; web_thread=None; client=None # Init client
+        last_saved_idx=0; last_archive_idx=0; web_thread=None; client=None
 
-        # Initialize Anthropic client (needed for both CLI and passing to WebChat/Retriever)
-        try:
-            client = Anthropic(api_key=config.anthropic_api_key)
-            logger.info("Anthropic client initialized successfully.")
-        except Exception as e:
-            logger.error(f"Fatal: Failed to initialize Anthropic client: {e}", exc_info=True)
-            print("Error: AI client failed initialization. Check API key. Exiting.", file=sys.stderr)
-            sys.exit(1)
+        try: client = Anthropic(api_key=config.anthropic_api_key); logger.info("Anthropic client initialized successfully.")
+        except Exception as e: logger.error(f"Fatal: Failed Anthropic client init: {e}", exc_info=True); print("Error: AI client failed. Exiting.", file=sys.stderr); sys.exit(1)
 
         if config.interface_mode in ['web', 'web_only']:
             try:
-                 from web.web_chat import WebChat;
-                 # Pass the initialized client to WebChat if needed, or let WebChat init its own
-                 web_interface=WebChat(config) # WebChat inits its own client now
-                 web_thread=web_interface.run(port=config.web_port, debug=config.debug)
+                 from web.web_chat import WebChat; web_interface=WebChat(config); web_thread=web_interface.run(port=config.web_port, debug=config.debug)
                  logger.info(f"Web interface starting: http://127.0.0.1:{config.web_port}")
             except Exception as e:
                  logger.error(f"Web start failed: {e}", exc_info=True)
@@ -132,29 +123,26 @@ def main():
                  else: print("Warning: Web failed, CLI only.", file=sys.stderr); config.interface_mode = 'cli'
             if config.interface_mode == 'web_only':
                 print("\nWeb-only mode. Ctrl+C in Flask console to exit.")
-                try: while True: time.sleep(1)
-                except KeyboardInterrupt: print("\nExiting web-only...")
-                return
+                try:
+                     while True:
+                          time.sleep(1)
+                except KeyboardInterrupt:
+                     print("\nExiting web-only...")
+                return # Exit main for web_only
 
         if config.interface_mode != 'web_only':
             print(f"\nAgent '{config.agent_name}' running (CLI).")
             if config.interface_mode == 'web': print(f"Web UI: http://127.0.0.1:{config.web_port}")
             print("Enter message or type !help")
 
-            # Client already initialized above
-            if not client: # Double check in case web-only failed and fell back
-                logger.critical("CLI mode cannot run without Anthropic client.")
-                sys.exit(1)
+            if not client: logger.critical("CLI mode needs Anthropic client."); sys.exit(1)
 
             retriever = None
             try:
-                 # Pass the initialized Anthropic client to the Retriever
                  retriever = RetrievalHandler(
-                     index_name=config.index,
-                     agent_name=config.agent_name,
-                     session_id=config.session_id,
-                     event_id=config.event_id,
-                     anthropic_client=client # Pass client instance
+                     index_name=config.index, agent_name=config.agent_name,
+                     session_id=config.session_id, event_id=config.event_id,
+                     anthropic_client=client
                  )
                  logger.info(f"CLI: Retriever initialized.")
             except Exception as e: logger.error(f"CLI: Retriever failed init: {e}", exc_info=True); print("Warning: Doc retrieval unavailable.", file=sys.stderr)
@@ -197,52 +185,60 @@ def main():
 
                         if user_input.startswith('!'):
                             command = user_input[1:].lower(); print(f"Cmd: !{command}")
-                            # Command handling... (assuming unchanged)
-                            if command == 'exit': break
-                            elif command == 'help': display_help()
-                            elif command == 'clear': conversation_history = []; last_saved_idx=0; last_archive_idx=0; print("Session history cleared.")
+                            # Restore command logic
+                            if command == 'exit':
+                                break
+                            elif command == 'help':
+                                display_help()
+                            elif command == 'clear':
+                                conversation_history = [] # Clear everything for CLI simple case
+                                last_saved_idx=0; last_archive_idx=0
+                                print("Session history cleared.")
                             elif command == 'save':
-                                msgs=conversation_history[last_saved_idx:];
-                                if not msgs: print("No new.")
-                                else: content=format_chat_history(msgs); success, fname=save_chat_to_s3(config.agent_name, content, config.event_id, True, current_chat_file);
-                                if success: last_saved_idx=len(conversation_history); print(f"Saved: {fname}")
-                                else: print("Save failed.")
+                                msgs = conversation_history[last_saved_idx:]
+                                if not msgs: print("No new messages.")
+                                else:
+                                     content=format_chat_history(msgs)
+                                     success, fname=save_chat_to_s3(config.agent_name, content, config.event_id, True, current_chat_file)
+                                     if success: last_saved_idx = len(conversation_history); print(f"Saved as {fname}")
+                                     else: print("Error saving.")
                             elif command == 'memory':
-                                if not config.memory: config.memory=[config.agent_name]; system_prompt=reload_memory(config.agent_name, config.memory, system_prompt); print("Mem ON.")
-                                else: config.memory=[]; system_prompt=get_latest_system_prompt(config.agent_name) or "Assistant."; print("Mem OFF.")
+                                if not config.memory:
+                                     config.memory=[config.agent_name]
+                                     system_prompt = reload_memory(config.agent_name, config.memory, system_prompt)
+                                     print("Memory ON.")
+                                else:
+                                     config.memory=[]
+                                     system_prompt = get_latest_system_prompt(config.agent_name) or "Assistant."
+                                     print("Memory OFF.")
                             elif command == 'listen-transcript':
-                                config.listen_transcript_enabled = not config.listen_transcript_enabled; status = "ON" if config.listen_transcript_enabled else "OFF"
-                                print(f"Tx listening {status}.")
-                                if config.listen_transcript_enabled:
-                                    if check_transcript_updates(transcript_state, conversation_history, config.agent_name, config.event_id, True): print("Tx loaded.")
-                                    else: print("No new tx."); last_transcript_check = time.time()
-                            else: print(f"Unknown: !{command}")
-                            print("\nUser: ", end='', flush=True); continue
+                                 config.listen_transcript_enabled = not config.listen_transcript_enabled
+                                 status = "ENABLED" if config.listen_transcript_enabled else "DISABLED"
+                                 print(f"Tx listening {status}.")
+                                 if config.listen_transcript_enabled:
+                                      if check_transcript_updates(transcript_state, conversation_history, config.agent_name, config.event_id, True): print("Tx loaded/updated.")
+                                      else: print("No new tx found."); last_transcript_check = time.time()
+                            else:
+                                print(f"Unknown command: !{command}")
+                            # Re-prompt after handling command
+                            print("\nUser: ", end='', flush=True)
+                            continue # Go back to waiting for input
 
-                        # --- Prepare for LLM ---
-                        # Add user message to persistent history first
+                        # --- Process User Message ---
                         conversation_history.append({"role": "user", "content": user_input})
-
-                        # Get retrieved context (using query transformation)
                         retrieved_docs = retriever.get_relevant_context(user_input) if retriever else []
                         context_for_prompt = ""
                         if retrieved_docs:
                              items = [f"[Ctx {i+1} from {d.metadata.get('file_name','?')}({d.metadata.get('score',0):.2f})]:\n{d.page_content}" for i, d in enumerate(retrieved_docs)]
                              context_for_prompt = "\n\n---\nRetrieved Context:\n" + "\n\n".join(items)
-                             logger.debug(f"CLI: Adding context ({len(context_for_prompt)} chars) to sys prompt.")
-                        else: logger.debug("CLI: No context found.")
-
-                        # Prepare system prompt for *this turn*
+                             logger.debug(f"CLI: Adding context ({len(context_for_prompt)} chars).")
+                        else: logger.debug("CLI: No context.")
                         current_turn_system_prompt = system_prompt + context_for_prompt
-
-                        # Prepare messages list (no system messages, includes user input + transcript updates)
                         messages_for_api = [msg for msg in conversation_history if msg.get("role") != "system"]
 
-                        # Call LLM
                         print("Agent: ", end='', flush=True)
                         response_text = analyze_with_claude(client, messages_for_api, current_turn_system_prompt, config.llm_model_name, config.llm_max_output_tokens)
 
-                        # Process response
                         if response_text:
                             print(response_text)
                             conversation_history.append({"role": "assistant", "content": response_text})
