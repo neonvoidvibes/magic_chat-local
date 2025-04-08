@@ -1,0 +1,132 @@
+/* Uodated on 2025-04-08 */
+
+/* Base gradient theme variables */
+:root {
+    --gradient-color-1: rgba(105, 219, 234, 0.0);
+    --gradient-color-2: rgba(52, 224, 204, 0.0);
+    --gradient-color-3: rgba(47, 255, 147, 0.0);
+    --gradient-color-4: rgba(13, 210, 82, 0.0);
+    --base-bg: #0a0a0a;
+    --bg-image: url('../static/images/neonvoidvibes_bg07.jpg');
+}
+
+/* Unified background system */
+.bg-wrapper {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    transition: background 0.3s ease;
+}
+
+/* Background Types */
+.bg-solid {
+    background-color: var(--base-bg);
+}
+
+.bg-image {
+    background-image: var(--bg-image);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.bg-gradient {
+    background-color: var(--base-bg);
+    background-image: linear-gradient(
+        135deg,
+        var(--gradient-color-1),
+        var(--gradient-color-2),
+        var(--gradient-color-3),
+        var(--gradient-color-4)
+    );
+}
+
+.bg-gradient::before,
+.bg-gradient::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    opacity: 0.15;
+    filter: blur(150px);
+    background-size: 400% 400%;
+}
+
+.bg-gradient::before {
+    background: radial-gradient(
+        circle at center,
+        var(--gradient-color-1) 0%,
+        transparent 80%
+    ), radial-gradient(
+        circle at 60% 40%,
+        var(--gradient-color-2) 0%,
+        transparent 80%
+    );
+    animation: flow1 20s ease-in-out infinite;
+    mix-blend-mode: plus-lighter;
+}
+
+.bg-gradient::after {
+    background: radial-gradient(
+        circle at 40% 60%,
+        var(--gradient-color-3) 0%,
+        transparent 80%
+    ), radial-gradient(
+        circle at 50% 50%,
+        var(--gradient-color-4) 0%,
+        transparent 80%
+    );
+    animation: flow2 25s ease-in-out infinite;
+    mix-blend-mode: plus-lighter;
+}
+
+/* Preset themes that can be triggered by keywords */
+.theme-calm {
+    --gradient-color-1: rgba(44, 62, 80, 0.5);
+    --gradient-color-2: rgba(52, 152, 219, 0.5);
+    --gradient-color-3: rgba(41, 128, 185, 0.5);
+    --gradient-color-4: rgba(52, 73, 94, 0.5);
+}
+
+.theme-energetic {
+    --gradient-color-1: rgba(192, 57, 43, 0.5);
+    --gradient-color-2: rgba(231, 76, 60, 0.5);
+    --gradient-color-3: rgba(211, 84, 0, 0.5);
+    --gradient-color-4: rgba(230, 126, 34, 0.5);
+}
+
+.theme-peaceful {
+    --gradient-color-1: rgba(39, 174, 96, 0.5);
+    --gradient-color-2: rgba(46, 204, 113, 0.5);
+    --gradient-color-3: rgba(22, 160, 133, 0.5);
+    --gradient-color-4: rgba(26, 188, 156, 0.5);
+}
+
+.theme-mysterious {
+    --gradient-color-1: rgba(142, 68, 173, 0.5);
+    --gradient-color-2: rgba(155, 89, 182, 0.5);
+    --gradient-color-3: rgba(108, 52, 131, 0.5);
+    --gradient-color-4: rgba(155, 89, 182, 0.5);
+}
+
+/* Animation keyframes for multiple flows */
+@keyframes flow1 {
+    0% { transform: translate(0, 0); }
+    50% { transform: translate(-25%, 20%); }
+    100% { transform: translate(0, 0); }
+}
+
+@keyframes flow2 {
+    0% { transform: translate(0, 0); }
+    50% { transform: translate(25%, -20%); }
+    100% { transform: translate(0, 0); }
+}
+
+@keyframes flow3 {
+    0% { transform: translate(0, 0); }
+    50% { transform: translate(-15%, -25%); }
+    100% { transform: translate(0, 0); }
+}

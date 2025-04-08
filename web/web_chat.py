@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, render_template, current_app, Response
 from typing import Optional, List, Dict, Any
-import threading # Re-add threading
+import threading
 import os
 import logging
 from datetime import datetime, time as dt_time
@@ -11,7 +11,6 @@ import math
 
 from config import AppConfig
 from utils.retrieval_handler import RetrievalHandler
-# Re-add TranscriptState, read_new_transcript_content
 from utils.transcript_utils import TranscriptState, read_new_transcript_content, read_all_transcripts_in_folder, get_latest_transcript_file
 from utils.s3_utils import get_s3_client
 from utils.s3_utils import (
@@ -34,7 +33,6 @@ class WebChat:
         self.system_prompt = "Default system prompt."
         self.retriever = None
         self.transcript_state = TranscriptState() # State for S3 reads (used by background thread)
-        # self.scheduler_thread = None # Not used, can remove if desired
         self.last_saved_index = 0
         self.last_archive_index = 0
         self.current_chat_file = None
@@ -42,9 +40,9 @@ class WebChat:
         # State for transcript processing
         self.initial_transcript_content: Optional[str] = None
         self.initial_transcript_total_bytes: int = 0
-        self.initial_transcript_sent: bool = False # Use flag instead of processed_bytes
+        self.initial_transcript_sent: bool = False
 
-        # State for decoupling background updates from request handling (Re-added)
+        # State for decoupling background updates from request handling
         self.pending_transcript_update: Optional[str] = None
         self.transcript_lock = threading.Lock()
 
@@ -77,7 +75,6 @@ class WebChat:
             base_prompt = get_latest_system_prompt(self.config.agent_name) or "Assistant."
             logger.info(f"Base prompt loaded ({len(base_prompt)} chars).")
             source_instr = "\n\n## Source Attribution Requirements\n1. ALWAYS specify the exact source file when quoting...\n...(omitted for brevity)..."
-            # Keep prompt mentioning FULL and REAL-TIME updates
             realtime_instr = "\n\nIMPORTANT: Prioritize transcript content from `[REAL-TIME Meeting Transcript Update]` and `[FULL INITIAL TRANSCRIPT]` labels found within the user messages in the conversation history for 'now' or 'current state' queries."
             self.system_prompt = base_prompt + source_instr + realtime_instr
 
@@ -96,7 +93,7 @@ class WebChat:
             if self.config.memory is not None: self.reload_memory(); logger.info("Memory loaded.")
 
             if self.config.listen_transcript:
-                self.load_initial_transcript() # Initializes self.transcript_state
+                self.load_initial_transcript()
 
             logger.info("WebChat: Resources loaded ok.")
             logger.debug(f"Final system prompt len: {len(self.system_prompt)} chars (excluding transcript).")
@@ -136,7 +133,7 @@ class WebChat:
     def setup_routes(self):
         @self.app.route('/')
         def index():
-            tmpl = 'index_yggdrasil.html' if self.config.agent_name == 'yggdrasil' else 'index.html'
+            tmpl = 'index.html'
             logger.debug(f"Rendering template: {tmpl}")
             return render_template(tmpl, agent_name=self.config.agent_name)
 
@@ -161,7 +158,7 @@ class WebChat:
                      current_sys_prompt += context_block
                 else: logger.debug("No retrieved context.")
 
-                # --- Transcript Handling (Consume Pending Update) ---
+                # --- Transcript Handling (Consume Accumulated Pending Update) ---
                 transcript_content_to_add = ""
                 logger.debug(f"Transcript state before processing request: initial_sent={self.initial_transcript_sent}, listening={self.config.listen_transcript}")
 
@@ -174,16 +171,17 @@ class WebChat:
                         logger.info(f"Adding FULL initial transcript ({len(self.initial_transcript_content)} chars). Marked as sent.")
                     else:
                         logger.warning("Listening enabled, but no initial transcript content loaded.")
-                        self.initial_transcript_sent = True # Mark as sent anyway to prevent re-checking
+                        self.initial_transcript_sent = True
 
                 # 2. If initial is sent, check for PENDING real-time updates
                 elif self.config.listen_transcript:
                     with self.transcript_lock: # Acquire lock
                         if self.pending_transcript_update:
                              label = "[REAL-TIME Meeting Transcript Update]"
+                             # Consume the *entire accumulated* pending update
                              transcript_content_to_add = f"{label}\n{self.pending_transcript_update}"
-                             logger.info(f"Adding PENDING real-time transcript update ({len(self.pending_transcript_update)} chars).")
-                             self.pending_transcript_update = None # Consume the update
+                             logger.info(f"Adding ACCUMULATED pending real-time transcript update ({len(self.pending_transcript_update)} chars).")
+                             self.pending_transcript_update = None # Clear after consuming
                         else:
                              logger.info("Initial transcript sent, but no pending real-time update found.")
 
@@ -278,7 +276,7 @@ class WebChat:
                     with self.transcript_lock: # Clear pending update too
                         self.pending_transcript_update = None
                     if self.config.listen_transcript:
-                         self.load_initial_transcript() # Reloads content and resets state vars
+                         self.load_initial_transcript()
                          msg='History and transcript state cleared. Initial transcript reloaded.'
                     else:
                          msg='History and transcript state cleared.'
@@ -297,10 +295,9 @@ class WebChat:
                      self.config.listen_transcript = not self.config.listen_transcript
                      status = "ENABLED" if self.config.listen_transcript else "DISABLED"
                      if self.config.listen_transcript:
-                          loaded = self.load_initial_transcript() # Reloads content and resets state vars
+                          loaded = self.load_initial_transcript()
                           msg = f"Transcript listening {status}." + (" Initial transcript loaded/reloaded." if loaded else " Failed to load initial transcript.")
                      else:
-                          # Clear transcript state when turning off
                           self.initial_transcript_content = None
                           self.initial_transcript_sent = False
                           self.transcript_state = TranscriptState()
@@ -325,13 +322,13 @@ class WebChat:
                 return jsonify(resp), code
             except Exception as e: logger.error(f"Cmd !{cmd} error: {e}", exc_info=True); return jsonify({'error': str(e)}), 500
 
-    # Use the version that initializes TranscriptState correctly
+    # load_initial_transcript remains the same (correctly initializes state)
     def load_initial_transcript(self):
         """Load initial transcript, store locally, AND initialize TranscriptState based on S3 state *before* reading."""
         self.initial_transcript_content = None
-        self.initial_transcript_sent = False # Reset sent flag
-        self.transcript_state = TranscriptState() # Reset S3 read state too
-        with self.transcript_lock: # Reset pending update
+        self.initial_transcript_sent = False
+        self.transcript_state = TranscriptState()
+        with self.transcript_lock:
              self.pending_transcript_update = None
         logger.info("Attempting to load initial transcript and initialize S3 state...")
 
@@ -346,7 +343,6 @@ class WebChat:
         initial_s3_mod_time = None
 
         try:
-            # Step 1: Find latest file and get its metadata *before* reading
             latest_key = get_latest_transcript_file(self.config.agent_name, self.config.event_id, s3_client)
             if latest_key:
                 try:
@@ -360,15 +356,13 @@ class WebChat:
             else:
                 logger.warning("Could not find latest S3 transcript key.")
 
-            # Step 2: Read the content
             full_content = read_all_transcripts_in_folder(self.config.agent_name, self.config.event_id)
 
             if full_content and isinstance(full_content, str):
                 self.initial_transcript_content = full_content
-                self.initial_transcript_total_bytes = len(full_content.encode('utf-8')) # Store byte count for info
+                self.initial_transcript_total_bytes = len(full_content.encode('utf-8'))
                 logger.info(f"Stored initial transcript ({len(full_content)} chars / {self.initial_transcript_total_bytes} bytes).")
 
-                # Step 3: Initialize TranscriptState using pre-read metadata
                 if latest_key and initial_s3_mod_time:
                     self.transcript_state.file_positions[latest_key] = initial_s3_size
                     self.transcript_state.last_modified[latest_key] = initial_s3_mod_time
@@ -388,21 +382,24 @@ class WebChat:
             logger.error(f"Error in load_initial_transcript: {e}", exc_info=True)
             return False
 
-    # check_transcript_updates (for background thread) remains the same
+    # MODIFIED: check_transcript_updates appends to pending_update
     def check_transcript_updates(self):
-        """Check for new transcript content and store it in pending_transcript_update."""
+        """Check for new transcript content and APPEND it to pending_transcript_update."""
         if not self.config.listen_transcript: return
-        # Check if initial load has been sent (not just loaded)
         if not self.initial_transcript_sent:
-            return # Don't check S3 if initial load hasn't been sent yet
+            return # Don't check S3 if initial load hasn't been sent
 
         try:
-            # Uses TranscriptState which should now be initialized correctly
             new_content = read_new_transcript_content(self.transcript_state, self.config.agent_name, self.config.event_id, False)
             if new_content:
                  with self.transcript_lock: # Safely update the pending content
-                      self.pending_transcript_update = new_content
-                      logger.info(f"Background check stored pending transcript update ({len(new_content)} chars).")
+                      if self.pending_transcript_update is None:
+                          self.pending_transcript_update = new_content
+                          logger.info(f"Background check INITIALIZED pending transcript update ({len(new_content)} chars).")
+                      else:
+                          # Append new content with a newline separator
+                          self.pending_transcript_update += "\n" + new_content
+                          logger.info(f"Background check APPENDED to pending transcript update ({len(new_content)} chars). Total pending: {len(self.pending_transcript_update)} chars.")
         except Exception as e:
             logger.error(f"Background transcript check error: {e}", exc_info=True)
 
@@ -416,11 +413,10 @@ class WebChat:
                   time.sleep(5) # Check frequency
                   try:
                       if self.config.listen_transcript:
-                          self.check_transcript_updates()
+                          self.check_transcript_updates() # Now appends to pending_update
                   except Exception as loop_e:
                       logger.error(f"Error in background transcript loop: {loop_e}", exc_info=True)
 
-        # Re-add background thread start
         if self.config.interface_mode != 'cli':
             update_thread = threading.Thread(target=transcript_update_loop, daemon=True)
             update_thread.start()
