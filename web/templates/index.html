@@ -27,6 +27,7 @@
             --status-bar: #222222;
             --send-button: #1e1e1e;  /* New variable for send button arrow color */
             --placeholder-color: #c7c7c7;  /* New variable for input placeholder */
+            /* Removed copy icon color variables, setting directly */
         }
 
         @font-face {
@@ -70,7 +71,7 @@
         .use-image-bg ~ #chat-container {
             background: rgba(0, 0, 0, 0);  /* Fully transparent */
         }
-        
+
         .gradient-background ~ #chat-container {
             background: rgba(0, 0, 0, 0);  /* Fully transparent */
         }
@@ -102,15 +103,13 @@
             overflow-y: auto;
             overflow-x: hidden;
             margin-bottom: 5px;
-            padding: 20px 10px 20px 10px;
+            padding: 20px 10px 20px 75px; /* Adjusted left padding for absolute buttons */
             /* border-radius: 25px; */ /* Removed rounded corners from message area */
             background: var(--input-bg);
-            width: calc(100% - 20px);
+            width: calc(100% - 85px); /* Adjusted width based on padding */
             display: flex;
             flex-direction: column;
-            position: relative;
-            padding-right: 10px; /* Keep right padding */
-            padding-left: 35px; /* Add left padding for potential copy buttons */
+            position: relative; /* Needed for scrollbar */
             scrollbar-width: thin; /* For Firefox */
             scrollbar-color: rgba(100, 100, 100, 0.5) transparent; /* For Firefox */
         }
@@ -284,22 +283,26 @@
         }
 
         .message-wrapper {
-            position: relative;
-            display: flex; /* Use flexbox for alignment */
-            margin-bottom: 15px; /* Keep original message margin */
-            width: fit-content; /* Wrapper fits content */
-            max-width: 100%; /* Prevent overflow */
+            position: relative; /* For absolute positioning of copy button */
+            display: flex;
+            margin-bottom: 15px;
+            width: fit-content;
+            max-width: 100%; /* Ensure wrapper doesn't exceed chat message width */
         }
 
         /* Align user messages to the right */
         .message-wrapper.user {
             align-self: flex-end;
-            flex-direction: row-reverse; /* Icon first, then message */
+            /* No flex-direction needed with absolute positioning */
+            /* padding-left needed to make space for absolute button */
+            padding-left: 75px; /* Space for 60px button + 15px margin */
+            margin-left: auto; /* Push to right */
         }
          /* Align assistant messages to the left */
         .message-wrapper.assistant {
             align-self: flex-start;
-             align-items: flex-end; /* Align items (icon, message) to bottom */
+             /* padding-left needed to make space for absolute button */
+            padding-left: 75px; /* Space for 60px button + 15px margin */
         }
 
 
@@ -311,8 +314,8 @@
             font-size: 20px;
             animation: fadeIn 0.5s ease-out;
             white-space: pre-wrap;
-            max-width: 100%; /* Ensure message itself doesn't overflow wrapper */
-            word-wrap: break-word; /* Allow long words to break */
+            /* Removed max-width, now handled by wrapper/container */
+            word-wrap: break-word;
         }
 
         .message.command {
@@ -326,58 +329,48 @@
 
         .user-message {
             background: var(--message-user-bg);
-            /* margin-left: auto; /* Handled by wrapper */
-            padding-left: 25px;
+            padding-left: 25px; /* Keep original bubble padding */
             border-bottom-right-radius: 5px;
             text-align: left;
-            /* max-width: 60%; /* Max width now on wrapper */
-            /* width: fit-content; /* Handled by wrapper */
-            /* align-self: flex-end; /* Handled by wrapper */
-            color: #ffffff; /* Explicitly white text for user messages */
+            color: #ffffff;
+             /* Max width for the bubble itself within the wrapper */
+             max-width: 60%;
+             margin-left: auto; /* Align bubble right within its space */
         }
-         /* Max width specifically for user message *content* */
-        .message-wrapper.user .user-message {
-             max-width: 60%; /* Original max-width */
-        }
-
 
         .assistant-message {
             background: var(--message-assistant-bg);
-            padding-left: 25px;
+            padding-left: 25px; /* Keep original bubble padding */
             border-bottom-left-radius: 5px;
-            /* width: 95%; /* REMOVED: Was making it always wide */
-            /* max-width: 95%; /* Max width now on wrapper */
-            /* width: fit-content; /* Handled by wrapper */
-            /* align-self: flex-start; /* Handled by wrapper */
-            color: #000000; /* ADDED: Explicitly black text for assistant messages */
-        }
-         /* Max width specifically for assistant message *content* */
-        .message-wrapper.assistant .assistant-message {
-             max-width: 95%; /* Original max-width */
+            color: #000000;
+             /* Max width for the bubble itself within the wrapper */
+             max-width: 95%;
+             margin-right: auto; /* Align bubble left within its space */
         }
 
         .system-message {
             background: var(--message-system-bg);
             margin: 15px auto;
             text-align: center;
-            color: #000000; /* Explicitly black text for system messages */
+            color: #000000;
              /* System messages don't need wrappers or copy buttons */
         }
 
         /* Copy Button Styles */
         .copy-button {
+            position: absolute; /* Position relative to wrapper */
             background: none;
             border: none;
             cursor: pointer;
-            padding: 5px; /* Add padding around icon */
-            margin: 0 8px; /* Add space between icon and message */
+            padding: 10px; /* Increased padding */
             opacity: 0; /* Hidden by default */
             transition: opacity 0.2s ease-in-out;
-            width: 20px; /* Icon size */
-            height: 20px; /* Icon size */
+            width: 60px; /* Increased size */
+            height: 60px; /* Increased size */
             display: flex;
             align-items: center;
             justify-content: center;
+             /* Remove margin, positioning is absolute */
         }
 
         .copy-button svg {
@@ -396,24 +389,23 @@
                  opacity: 1; /* Fully opaque on icon hover */
             }
         }
-         /* Always show copy button on touch devices after interaction (handled by JS if needed) */
-         /* For simplicity, let's rely on hover for now, tap implicitly triggers click */
-         /* Alternatively, could add a class via JS on tap to force show */
+         /* Simplified mobile handling: rely on tap triggering click */
 
 
-        /* User message copy button positioning */
+        /* User message copy button positioning and color */
         .message-wrapper.user .copy-button {
-            color: var(--copy-icon-user-color); /* Light icon for dark bubble */
-            order: 1; /* Place before message due to row-reverse */
-             align-self: center; /* Vertically center */
+            color: var(--message-user-bg); /* Use bubble bg color */
+            left: 0px; /* Position left edge (adjust if needed) */
+            top: 50%; /* Center vertically */
+            transform: translateY(-50%); /* Fine-tune vertical centering */
         }
 
-        /* Assistant message copy button positioning */
+        /* Assistant message copy button positioning and color */
         .message-wrapper.assistant .copy-button {
-            color: var(--copy-icon-assistant-color); /* Dark icon for light bubble */
-            order: -1; /* Place before message */
-             align-self: flex-end; /* Align to bottom */
-             margin-bottom: 8px; /* Add some bottom margin */
+            color: var(--message-assistant-bg); /* Use bubble bg color */
+            left: 0px; /* Position left edge (adjust if needed) */
+            bottom: 8px; /* Position near bottom */
+             /* No transform needed for bottom alignment */
         }
 
         #input-container {
@@ -508,22 +500,27 @@
 
         @media (max-width: 600px) {
              #chat-messages {
-                 padding-left: 10px; /* Reduce padding on mobile */
+                 padding-left: 55px; /* Adjust mobile padding for smaller button */
+                 width: calc(100% - 65px); /* Adjust width */
             }
-             .message-wrapper.user {
-                 flex-direction: row; /* User: Message first, then icon on mobile */
+            /* Mobile copy button adjustments */
+             .copy-button {
+                 width: 40px; /* Smaller on mobile */
+                 height: 40px;
+                 padding: 8px;
             }
-             .message-wrapper.user .copy-button {
-                 order: 1; /* Move icon after message */
-                 align-self: center;
+            .message-wrapper.user {
+                 padding-left: 55px; /* Match chat message padding */
+            }
+            .message-wrapper.user .copy-button {
+                 left: 0px;
             }
              .message-wrapper.assistant {
-                 flex-direction: row; /* Assistant: Message first, then icon */
-                 align-items: flex-end;
+                 padding-left: 55px; /* Match chat message padding */
             }
              .message-wrapper.assistant .copy-button {
-                 order: 1; /* Move icon after message */
-                 align-self: flex-end;
+                 left: 0px;
+                 bottom: 4px; /* Adjust bottom */
             }
 
             .action-buttons {
@@ -714,7 +711,7 @@
                 flex: 1;
                 width: 100%;
                 margin: 0;
-                padding: 0;
+                padding: 0 10px 0 55px; /* Mobile messages padding */
             }
 
             h2 {
@@ -863,6 +860,9 @@
         }
 
         function handleInput() {
+            // Don't resize if streaming, as it can cause layout shifts
+            if (sendButton.classList.contains('streaming')) return;
+
             messageInput.style.height = initialHeight; // Reset first
             const lineHeight = isMobile ? 20 : 24;
             const maxHeight = parseInt(initialHeight) + (lineHeight * 4);
@@ -873,21 +873,22 @@
         function handleKeyPress(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
-                // Check button's current action
+                // Check button's current action by checking the assigned function
                 if (sendButton.onclick === sendMessage) {
                     sendMessage();
                 } else if (sendButton.onclick === stopStreaming) {
-                    // Optionally decide if Enter should also stop streaming
-                    // stopStreaming();
+                     // Stop streaming if user presses Enter while streaming
+                     stopStreaming();
                 }
             }
         }
 
         function handleScroll() {
-            const threshold = 50; // Pixels from bottom to consider "at bottom"
+            // Consider user scrolled if not within ~10px of the bottom
+            const threshold = 10;
             const isNearBottom = chatMessages.scrollHeight - chatMessages.scrollTop - chatMessages.clientHeight < threshold;
             userHasScrolled = !isNearBottom;
-            // console.log("User scrolled:", userHasScrolled); // For debugging
+            // console.log("User scrolled:", userHasScrolled, " Near Bottom:", isNearBottom); // For debugging
         }
 
         // --- Core Functions ---
@@ -896,6 +897,7 @@
                 .then(response => response.json())
                 .then(data => {
                     const status = [];
+                    // Assuming status endpoint provides these flags:
                     if (data.listen_summary) status.push('summary');
                     if (data.listen_transcript) status.push('transcript');
                     if (data.listen_insights) status.push('insights');
@@ -919,6 +921,9 @@
                  sendButton.onclick = sendMessage; // Change action to send
                  currentAbortController = null; // Ensure controller is cleared
                  messageInput.classList.remove('thinking', 'thinking-end'); // Clear thinking styles
+                 messageInput.disabled = false; // Re-enable input
+                 messageInput.focus(); // Focus input after sending/stopping
+                 handleInput(); // Recalculate input height
             }
         }
 
@@ -926,37 +931,37 @@
             console.log("Attempting to stop stream...");
             if (currentAbortController) {
                 currentAbortController.abort();
-                // No need to reset controller or icon here, it's handled in the fetch catch/done blocks
+                // State reset (icon, controller) is handled in the fetch catch/finally block
                 console.log("Abort signal sent.");
             } else {
                  console.log("No active stream to stop.");
-                 // If somehow the state is inconsistent, reset the button
-                 setSendButtonState('idle');
+                 setSendButtonState('idle'); // Reset if state is inconsistent
             }
         }
 
         async function sendMessage() {
-            // If already streaming, the button's onclick is stopStreaming, so this won't be called.
             const message = messageInput.value.trim();
             if (!message) return;
 
-            if (welcomeContainer) welcomeContainer.remove(); // Remove welcome text on first message
+            const welcomeElem = document.getElementById('welcome-container');
+            if (welcomeElem) welcomeElem.remove(); // Remove welcome text on first message
 
-            // Clear input and reset height
+            // Disable input, clear, reset height
+            messageInput.disabled = true;
             messageInput.value = '';
             messageInput.style.height = initialHeight;
-            messageInput.blur();
-            // setTimeout(() => messageInput.focus(), 0); // Re-focus might be annoying, consider removing
+            // messageInput.blur(); // Keep focus
 
-            // Handle commands
+            // Handle commands first
             if (message.startsWith('!')) {
                 handleCommand(message);
+                 messageInput.disabled = false; // Re-enable input after command
                 return;
             }
 
-            // Regular message handling
-            appendMessage('user', message);
-            messageInput.classList.add('thinking'); // Indicate processing start
+            // --- Regular Message ---
+            const userMessageWrapper = appendMessage('user', message); // Get wrapper
+            messageInput.classList.add('thinking'); // Indicate processing start visually
 
             // Setup AbortController
             const controller = new AbortController();
@@ -965,7 +970,15 @@
             setSendButtonState('sending'); // Change button to Stop icon and action
 
             let assistantMessageContent = ''; // Accumulate message text
-            const assistantElement = appendMessage('assistant', '<span class="waiting"></span>'); // Add placeholder
+            const assistantElementWrapper = appendMessage('assistant', '<span class="waiting"></span>'); // Add placeholder, get wrapper
+            const assistantElementBubble = assistantElementWrapper.querySelector('.message'); // Get the bubble inside
+
+            userHasScrolled = false; // Reset scroll lock for new message
+            // Ensure initial scroll to show waiting bubble if needed
+            setTimeout(() => {
+                if (!userHasScrolled) chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 50);
+
 
             try {
                 const response = await fetch('/api/chat', {
@@ -975,28 +988,31 @@
                     signal: controller.signal // Pass the abort signal
                 });
 
-                if (!response.ok) {
-                     // Handle HTTP errors (e.g., 4xx, 5xx) before trying to read stream
-                     const errorText = await response.text();
-                     throw new Error(`HTTP error ${response.status}: ${errorText || response.statusText}`);
+                if (!response.ok || !response.body) {
+                     const errorText = response.body ? await response.text() : response.statusText;
+                     throw new Error(`HTTP error ${response.status}: ${errorText || 'Failed to initiate stream'}`);
                  }
-
 
                 const reader = response.body.getReader();
                 const decoder = new TextDecoder();
 
                 while (true) {
-                    const { done, value } = await reader.read();
+                     let chunkValue;
+                     try {
+                         const { done, value } = await reader.read();
+                         if (done) {
+                             console.log("Stream finished.");
+                             break; // Exit loop
+                         }
+                         chunkValue = value;
+                     } catch (readError) {
+                         // Handle potential errors during read (e.g., network issues)
+                         console.error("Error reading from stream:", readError);
+                         throw readError; // Re-throw to be caught by outer try/catch
+                     }
 
-                    if (done) {
-                        console.log("Stream finished.");
-                         // Optional: Remove waiting span if it's still there (e.g., empty response)
-                         const waitingSpan = assistantElement.querySelector('.waiting');
-                         if (waitingSpan) assistantElement.innerHTML = ''; // Clear if only waiting span exists
-                        break; // Exit loop
-                    }
 
-                    const chunk = decoder.decode(value);
+                    const chunk = decoder.decode(chunkValue, { stream: true }); // Use stream: true for better multi-byte char handling
                     const lines = chunk.split('\n');
 
                     lines.forEach(line => {
@@ -1004,59 +1020,63 @@
                             try {
                                 const data = JSON.parse(line.slice(6));
                                 if (data.delta) {
-                                    const waitingSpan = assistantElement.querySelector('.waiting');
+                                    const waitingSpan = assistantElementBubble.querySelector('.waiting');
                                     if (waitingSpan) {
-                                        assistantElement.innerHTML = ''; // Remove "Thinking..." message
+                                        assistantElementBubble.innerHTML = ''; // Remove "Thinking..." message
                                         messageInput.classList.add('thinking-end'); // Start fade out
                                         setTimeout(() => {
                                             messageInput.classList.remove('thinking', 'thinking-end');
                                         }, 500); // Remove thinking styles after fade
                                     }
                                     assistantMessageContent += data.delta; // Accumulate text
-                                    assistantElement.innerHTML += data.delta; // Append text directly
+                                    // Sanitize slightly before adding to innerHTML if needed, or use textContent if formatting isn't expected
+                                    assistantElementBubble.innerHTML += data.delta; // Append text directly (assuming safe HTML or plain text)
 
                                     // Auto-scroll only if user hasn't scrolled up
                                     if (!userHasScrolled) {
-                                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                                         // Use requestAnimationFrame for smoother scrolling
+                                         requestAnimationFrame(() => {
+                                             chatMessages.scrollTop = chatMessages.scrollHeight;
+                                         });
                                     }
                                 } else if (data.done) {
-                                     // Stream signaled completion from server side (redundant with reader.read done?)
                                      console.log("Stream signaled done via data.");
-                                     // We already break the loop when reader.read() is done.
                                 } else if (data.error) {
                                      console.error("Stream reported error:", data.error);
-                                     assistantElement.textContent = `Error: ${data.error}`;
-                                     // Potentially stop the stream? Server might close it.
+                                     assistantElementBubble.textContent = `Error: ${data.error}`;
                                  }
                             } catch (e) {
                                 console.error("Error parsing JSON from stream:", e, "Line:", line);
-                                // Don't break the loop, just log the error for this line
                             }
                         }
                     });
                 }
                  // Final actions after stream completes successfully
-                 addCopyButton(assistantElement.parentNode, assistantMessageContent, 'assistant'); // Add copy button after content is final
+                 const waitingSpan = assistantElementBubble.querySelector('.waiting');
+                 if (waitingSpan) assistantElementBubble.innerHTML = ''; // Clear placeholder if stream ended with no content
+                 assistantElementWrapper.dataset.rawText = assistantMessageContent; // Store final text on wrapper
+                 addCopyButton(assistantElementWrapper, assistantMessageContent, 'assistant'); // Add copy button after content is final
+
                  if (!userHasScrolled) { // Perform final scroll if user wasn't scrolled up
-                     chatMessages.scrollTop = chatMessages.scrollHeight;
+                      requestAnimationFrame(() => {
+                          chatMessages.scrollTop = chatMessages.scrollHeight;
+                     });
                  }
 
             } catch (error) {
+                 const waitingSpan = assistantElementBubble.querySelector('.waiting');
+                 if (waitingSpan) assistantElementBubble.innerHTML = ''; // Clear placeholder on error too
+
                 if (error.name === 'AbortError') {
                     console.log('Stream stopped by user.');
-                     // Remove waiting span if it exists
-                     const waitingSpan = assistantElement.querySelector('.waiting');
-                     if (waitingSpan) assistantElement.innerHTML = ''; // Clear placeholder if stopped early
-                     // Add copy button with the content received so far
-                     addCopyButton(assistantElement.parentNode, assistantMessageContent, 'assistant');
+                     assistantElementWrapper.dataset.rawText = assistantMessageContent; // Store partial text
+                     addCopyButton(assistantElementWrapper, assistantMessageContent, 'assistant'); // Add copy button with partial content
                 } else {
                     console.error('Stream or fetch error:', error);
-                    const waitingSpan = assistantElement.querySelector('.waiting');
-                    if (waitingSpan) assistantElement.innerHTML = ''; // Clear placeholder
-                    assistantElement.textContent = `Error: ${error.message || 'Failed to get response'}`;
+                    assistantElementBubble.textContent = `Error: ${error.message || 'Failed to get response'}`;
                 }
             } finally {
-                // Always reset button state and controller when stream ends (naturally, aborted, or error)
+                // Always reset button state and controller when stream ends
                 setSendButtonState('idle');
             }
         }
@@ -1070,13 +1090,12 @@
                  headers: { 'Content-Type': 'application/json' },
                  body: JSON.stringify({ command: command })
              })
-             .then(async response => { // Make async to await json()
-                 const data = await response.json(); // Always try to parse JSON
+             .then(async response => {
+                 const data = await response.json();
                  if (!response.ok) {
-                     // Throw an error if response status is not 2xx
                      throw new Error(data.error || `Command failed with status ${response.status}`);
                  }
-                 return data; // Return parsed data for success case
+                 return data;
              })
              .then(data => {
                  if (data.message) {
@@ -1092,12 +1111,12 @@
 
 
         function appendMessage(sender, text, isCommand = false) {
-             const welcomeElem = document.getElementById('welcome-container'); // Check welcome text again
+             const welcomeElem = document.getElementById('welcome-container');
              if (welcomeElem) welcomeElem.remove();
 
             // Create wrapper
             const wrapperDiv = document.createElement('div');
-            wrapperDiv.className = `message-wrapper ${sender.toLowerCase()}`; // Add sender class to wrapper
+            wrapperDiv.className = `message-wrapper ${sender.toLowerCase()}`;
 
             // Create message bubble
             const messageDiv = document.createElement('div');
@@ -1105,55 +1124,58 @@
             if (isCommand) {
                 messageDiv.classList.add('command');
             }
-            messageDiv.innerHTML = text; // Use innerHTML for initial placeholder/waiting span
+            // Store raw text for copy, use innerHTML for display (handles waiting span)
+            const rawTextContent = (typeof text === 'string' && !text.includes('<span class="waiting"></span>')) ? text : '';
+            messageDiv.innerHTML = text;
+            wrapperDiv.dataset.rawText = rawTextContent; // Store raw text on wrapper
 
-            // Append message to wrapper
             wrapperDiv.appendChild(messageDiv);
-
-             // Append wrapper to chat container
             chatMessages.appendChild(wrapperDiv);
 
-             // Add copy button *after* initial append for non-streaming messages or completed streams
-             // For user messages and command responses, add immediately.
-             // For assistant messages, it's added in the `sendMessage` finally/done block.
-            if (sender === 'user' || isCommand) {
-                // Need the actual text content, not innerHTML (which might be "<span class='waiting'></span>")
-                // For commands, the input `text` is fine. For user, it's also the input `text`.
-                const contentToCopy = messageDiv.textContent || ""; // Get text content
-                addCopyButton(wrapperDiv, contentToCopy, sender);
+            // Add copy button immediately for user/command messages if text exists
+            if ((sender === 'user' || isCommand) && rawTextContent) {
+                addCopyButton(wrapperDiv, rawTextContent, sender);
+            }
+
+            // Scroll logic
+             const threshold = 50;
+             const isNearBottom = chatMessages.scrollHeight - chatMessages.scrollTop - chatMessages.clientHeight < threshold;
+             if (sender === 'user' || isNearBottom || chatMessages.scrollTop === 0 ) {
+                 // Smooth scroll into view
+                 wrapperDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                 userHasScrolled = false; // Assume user wants to follow
              }
 
-            // Scroll logic (initial scroll) - stream scroll is handled in sendMessage
-            // Only scroll if user is near bottom OR it's a user message (always scroll for your own message)
-            const threshold = 50;
-            const isNearBottom = chatMessages.scrollHeight - chatMessages.scrollTop - chatMessages.clientHeight < threshold;
-             if (sender === 'user' || isNearBottom) {
-                setTimeout(() => { // Delay scroll slightly
-                     chatMessages.scrollTop = chatMessages.scrollHeight;
-                 }, 50); // Increased delay slightly
-             }
-
-            // Return the message bubble itself for stream updates
-            return messageDiv;
+            // Return the wrapper element now (contains the bubble and potentially the button)
+            return wrapperDiv;
         }
 
          // Helper function to add the copy button dynamically
          function addCopyButton(wrapperDiv, textContent, sender) {
-             if (!wrapperDiv || wrapperDiv.querySelector('.copy-button')) {
-                 return; // Don't add if wrapper invalid or button already exists
+             // Ensure textContent is a non-empty string before adding button
+             if (!wrapperDiv || wrapperDiv.querySelector('.copy-button') || typeof textContent !== 'string' || !textContent.trim()) {
+                 // console.log("Skipping copy button add:", { hasWrapper: !!wrapperDiv, hasButton: !!wrapperDiv?.querySelector('.copy-button'), textContent });
+                 return;
              }
 
              const copyButton = document.createElement('button');
              copyButton.className = 'copy-button';
              copyButton.innerHTML = copyIconSVG;
-             copyButton.title = 'Copy message'; // Tooltip
+             copyButton.title = 'Copy message';
 
-             // Set color based on sender
-             copyButton.style.color = (sender === 'user') ? 'var(--copy-icon-user-color)' : 'var(--copy-icon-assistant-color)';
+             // Set color via CSS variables defined in the style block
+             // This is handled by the CSS rules:
+             // .message-wrapper.user .copy-button
+             // .message-wrapper.assistant .copy-button
 
-             copyButton.onclick = () => copyToClipboard(textContent, copyButton);
+             copyButton.onclick = (event) => {
+                 event.stopPropagation(); // Prevent potential wrapper events
+                 // Retrieve raw text from wrapper dataset if available, otherwise use provided textContent
+                 const textToCopy = wrapperDiv.dataset.rawText || textContent;
+                 copyToClipboard(textToCopy, copyButton);
+             };
 
-             // Append based on sender (determines order via CSS flex order)
+             // Append the button to the wrapper. CSS handles positioning.
              wrapperDiv.appendChild(copyButton);
          }
 
@@ -1161,26 +1183,36 @@
         async function copyToClipboard(text, buttonElement) {
             if (!navigator.clipboard) {
                 console.warn('Clipboard API not available');
-                // Fallback or notification?
+                 buttonElement.innerHTML = 'Error'; // Simple text feedback
+                 setTimeout(() => { buttonElement.innerHTML = copyIconSVG; }, 2000);
                 return;
             }
             try {
+                 // Use the text passed to the function, ensuring it's the raw content
                 await navigator.clipboard.writeText(text);
                 console.log('Text copied to clipboard');
 
                 // Visual feedback
-                const originalIcon = buttonElement.innerHTML;
-                buttonElement.innerHTML = checkIconSVG; // Show checkmark
-                buttonElement.disabled = true; // Briefly disable
+                const originalIcon = copyIconSVG; // Reference the constant SVG
+                buttonElement.innerHTML = checkIconSVG;
+                buttonElement.disabled = true;
 
                 setTimeout(() => {
-                    buttonElement.innerHTML = originalIcon; // Restore icon
-                    buttonElement.disabled = false;
-                }, 1500); // Restore after 1.5 seconds
+                    // Check if the button still exists before restoring
+                    if (document.body.contains(buttonElement)) {
+                         buttonElement.innerHTML = originalIcon;
+                         buttonElement.disabled = false;
+                    }
+                }, 1500);
 
             } catch (err) {
                 console.error('Failed to copy text: ', err);
-                // Optional: Show error feedback to user
+                 buttonElement.innerHTML = 'Error'; // Simple text feedback
+                 setTimeout(() => {
+                     if (document.body.contains(buttonElement)) {
+                          buttonElement.innerHTML = copyIconSVG;
+                     }
+                 }, 2000);
             }
         }
 
@@ -1216,15 +1248,22 @@
                 saveButton.addEventListener('click', async () => {
                     let messageDiv; // To display feedback
                     try {
-                        const response = await fetch('/api/save', { // Assuming /api/save exists
+                        // Assuming /api/save endpoint exists and works as before
+                        const response = await fetch('/api/save', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' }
-                            // No body needed if it just saves the current state
                         });
 
                         const data = await response.json();
-                        messageDiv = document.createElement('div'); // Create feedback div
-                         chatMessages.appendChild(messageDiv); // Append first
+                        messageDiv = document.createElement('div');
+                        // Ensure chatMessages exists before appending
+                        if (chatMessages) {
+                             chatMessages.appendChild(messageDiv);
+                        } else {
+                             console.error("Cannot find chatMessages element to append feedback.");
+                             return; // Exit if container not found
+                         }
+
 
                         if (response.ok) {
                             messageDiv.className = 'message system-message';
@@ -1234,15 +1273,17 @@
                         }
                     } catch (error) {
                         console.error('Error saving chat history:', error);
-                         if (!messageDiv) { // Ensure messageDiv exists for error
+                         if (!messageDiv && chatMessages) { // Ensure messageDiv exists for error
                              messageDiv = document.createElement('div');
                              chatMessages.appendChild(messageDiv);
                          }
-                        messageDiv.className = 'message system-message error'; // Add error class
-                        messageDiv.textContent = `Error saving: ${error.message}`;
+                         if (messageDiv) { // Check if messageDiv was created
+                            messageDiv.className = 'message system-message error'; // Add error class
+                            messageDiv.textContent = `Error saving: ${error.message}`;
+                         }
                     } finally {
                          // Auto-remove feedback message after a delay
-                         if (messageDiv) {
+                         if (messageDiv && chatMessages) {
                              // Scroll to show feedback
                              setTimeout(() => { chatMessages.scrollTop = chatMessages.scrollHeight; }, 50);
                              // Remove after delay
