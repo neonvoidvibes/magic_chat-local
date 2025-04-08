@@ -31,13 +31,10 @@ def get_latest_transcript_file(agent_name: Optional[str] = None, event_id: Optio
     candidate_files = []
     prefixes_to_check = []
     if agent_name and event_id: prefixes_to_check.append(f'organizations/river/agents/{agent_name}/events/{event_id}/transcripts/')
-    # prefixes_to_check.append('_files/transcripts/') # Optional fallback
 
-    logger.debug(f"get_latest_transcript_file: Checking prefixes: {prefixes_to_check}")
     for prefix in prefixes_to_check:
         try:
             paginator = s3_client.get_paginator('list_objects_v2')
-            logger.debug(f"Listing objects in s3://{aws_s3_bucket}/{prefix}")
             for page in paginator.paginate(Bucket=aws_s3_bucket, Prefix=prefix):
                  if 'Contents' in page:
                      for obj in page['Contents']:
@@ -47,71 +44,132 @@ def get_latest_transcript_file(agent_name: Optional[str] = None, event_id: Optio
                               if '/' not in relative_path:
                                    filename = os.path.basename(key); is_rolling = filename.startswith('rolling-')
                                    if (TRANSCRIPT_MODE == 'rolling' and is_rolling) or (TRANSCRIPT_MODE == 'regular' and not is_rolling):
-                                        candidate_files.append(obj); logger.debug(f"Candidate file: {key}")
+                                        candidate_files.append(obj)
         except Exception as e: logger.error(f"Error listing S3 {prefix}: {e}", exc_info=True)
 
-    if not candidate_files: logger.warning(f"No transcript files found (Mode: '{TRANSCRIPT_MODE}')"); return None
+    if not candidate_files: logger.warning(f"No transcript files found (Mode: '{TRANSCRIPT_MODE}') in {prefixes_to_check}"); return None
     candidate_files.sort(key=lambda x: x['LastModified'], reverse=True)
     latest_file = candidate_files[0]
-    logger.info(f"Latest transcript file ({TRANSCRIPT_MODE}): {latest_file['Key']} (Mod: {latest_file['LastModified']})")
+    # Reduce logging verbosity
+    # logger.info(f"Latest transcript file ({TRANSCRIPT_MODE}): {latest_file['Key']} (Mod: {latest_file['LastModified']})")
     return latest_file['Key']
 
 def read_new_transcript_content(state: TranscriptState, agent_name: str, event_id: str, read_all: bool = False) -> Optional[str]:
-    """Read new content from the latest transcript file."""
+    """Read new content from the latest transcript file, robustly updating position."""
     s3_client = get_s3_client()
     if not s3_client: logger.error("read_new_transcript_content: S3 client unavailable."); return None
-    # Correct variable name here:
     aws_s3_bucket = os.getenv('AWS_S3_BUCKET')
     if not aws_s3_bucket: logger.error("read_new_transcript_content: AWS_S3_BUCKET not set."); return None
 
     if read_all:
-        logger.warning("read_new_transcript_content: read_all=True mode not fully implemented.")
-        pass # Fall through
+        logger.warning("read_new_transcript_content: read_all=True mode not implemented.")
+        pass
+
+    latest_key = get_latest_transcript_file(agent_name, event_id, s3_client)
+    if not latest_key:
+        return None
 
     try:
-        latest_key = get_latest_transcript_file(agent_name, event_id, s3_client)
-        if not latest_key: logger.debug("No latest transcript file found."); return None
+        # --- Get current S3 state ---
+        metadata = s3_client.head_object(Bucket=aws_s3_bucket, Key=latest_key)
+        current_size = metadata['ContentLength']
+        current_modified = metadata['LastModified']
 
-        try:
-            metadata = s3_client.head_object(Bucket=aws_s3_bucket, Key=latest_key) # Use correct var name
-            current_size = metadata['ContentLength']; current_modified = metadata['LastModified']
-        except Exception as head_e: logger.error(f"Error getting metadata for {latest_key}: {head_e}"); return None
-
+        # --- Get last known state from our state tracker ---
         last_pos = state.file_positions.get(latest_key, 0)
         last_mod = state.last_modified.get(latest_key)
-        is_new = (latest_key != state.current_latest_key)
-        is_mod = (last_mod is None or current_modified > last_mod)
-        has_new = (current_size > last_pos) # Use this variable
 
-        if not is_new and not is_mod: logger.debug(f"Transcript {latest_key} unchanged."); return None
+        # --- Determine if changes occurred ---
+        is_new_file = (latest_key != state.current_latest_key)
+        is_modified = (last_mod is None or current_modified > last_mod) or (current_size > last_pos)
+        has_new_bytes_on_s3 = (current_size > last_pos)
 
-        start_read_pos = 0 # Default for new file or reset
-        if not is_new:
-            # Replace 'has_new_bytes' with 'has_new' here
-            if not has_new and is_mod: logger.warning(f"Tx {latest_key} modified but no size increase. Reading from start."); start_read_pos = 0
-            elif has_new: logger.debug(f"Tx {latest_key} updated. Reading from pos {last_pos}."); start_read_pos = last_pos
-            else: logger.debug(f"No new bytes detected for {latest_key}."); return None
-        else: logger.info(f"New transcript file: {latest_key}. Reading full content.")
+        logger.debug(f"Checking Tx: Key='{os.path.basename(latest_key)}', "
+                     f"S3_Size={current_size}, S3_Mod={current_modified}, "
+                     f"State_Pos={last_pos}, State_Mod={last_mod}, "
+                     f"IsNewFile={is_new_file}, IsMod={is_modified}, HasNewBytes={has_new_bytes_on_s3}")
 
+        # --- Decide whether to read ---
+        if not is_new_file and not is_modified:
+            return None # No change detected
+
+        start_read_pos = 0
+        if is_new_file:
+            logger.info(f"New transcript file detected: {latest_key}. Resetting read position to 0.")
+            start_read_pos = 0
+        elif not has_new_bytes_on_s3 and is_modified:
+            logger.warning(f"Tx {latest_key} modified but no size increase detected (State_Pos={last_pos}, S3_Size={current_size}). Assuming potential replacement, reading from start.")
+            start_read_pos = 0
+        elif has_new_bytes_on_s3:
+            logger.info(f"Tx {latest_key} updated. Planning to read from position {last_pos} (S3 size: {current_size}).")
+            start_read_pos = last_pos
+        else:
+            logger.debug(f"Tx {latest_key} modified flag was set, but no action condition met. No read needed.")
+            if is_modified: # Update mod time if only mod time changed
+                 state.current_latest_key = latest_key
+                 state.last_modified[latest_key] = current_modified
+                 logger.debug(f"State updated for {latest_key}: Only Mod Time to {current_modified}")
+            return None
+
+        # --- Add Pre-Read Check ---
+        if start_read_pos >= current_size:
+             logger.warning(f"Calculated start read position ({start_read_pos}) is >= current S3 size ({current_size}) for {latest_key}. Skipping read. State position might be ahead.")
+             # Update mod time anyway, but don't update position based on this check
+             state.current_latest_key = latest_key
+             state.last_modified[latest_key] = current_modified
+             return None
+
+        # --- Attempt to read new content ---
         read_range = f"bytes={start_read_pos}-"
         new_content = ""; new_content_bytes = b""
+        bytes_read = 0
         try:
-            response = s3_client.get_object(Bucket=aws_s3_bucket, Key=latest_key, Range=read_range) # Use correct var name
-            new_content_bytes = response['Body'].read(); new_content = new_content_bytes.decode('utf-8')
-        except s3_client.exceptions.InvalidRange: logger.debug(f"InvalidRange (likely no new content) for {latest_key}.")
-        except Exception as get_e: logger.error(f"Error reading {latest_key} (range {read_range}): {get_e}"); return None
+            logger.debug(f"Attempting S3 get_object: Key={latest_key}, Range={read_range}")
+            response = s3_client.get_object(Bucket=aws_s3_bucket, Key=latest_key, Range=read_range)
+            new_content_bytes = response['Body'].read()
+            bytes_read = len(new_content_bytes)
+            logger.info(f"S3 get_object successful. Read {bytes_read} bytes.")
+            if bytes_read > 0:
+                new_content = new_content_bytes.decode('utf-8', errors='ignore')
+                logger.info(f"Decoded {len(new_content)} characters.")
+            else:
+                # This case might happen if start_read_pos == current_size exactly
+                logger.info("Read 0 bytes.")
 
+        except s3_client.exceptions.InvalidRange:
+            # This should be less likely with the pre-read check, but handle anyway
+            logger.warning(f"S3 InvalidRange error for {latest_key} at position {start_read_pos}. File size {current_size}. Resetting position for next check.")
+            state.file_positions[latest_key] = 0 # Reset position for this file
+            state.last_modified[latest_key] = current_modified
+            state.current_latest_key = latest_key
+            return None
+        except Exception as get_e:
+            logger.error(f"Error reading {latest_key} (range {read_range}): {get_e}", exc_info=True)
+            return None
+
+        # --- Update state ---
         state.current_latest_key = latest_key
-        state.last_modified[latest_key] = current_modified
-        state.file_positions[latest_key] = start_read_pos + len(new_content_bytes) # Update based on bytes read
+        state.last_modified[latest_key] = current_modified # Always update mod time if read was attempted
+
+        # **MODIFIED (BACK):** Update position to the current S3 size *after* a successful read attempt.
+        # This assumes the read captured everything up to that point.
+        new_pos = current_size
+        state.file_positions[latest_key] = new_pos
+        logger.info(f"State updated for {latest_key}: Position set to {new_pos} (current S3 size).")
+
 
         if new_content:
-            logger.debug(f"Read {len(new_content)} new chars from {latest_key}.")
-            file_name = os.path.basename(latest_key); labeled_content = f"(Source File: {file_name})\n{new_content}"
+            file_name = os.path.basename(latest_key)
+            labeled_content = f"(Source File: {file_name})\n{new_content}"
             return labeled_content
-        else: logger.debug(f"No new content read from {latest_key}."); return None
+        else:
+            # Return None if no actual characters were decoded or read
+            return None
 
-    except Exception as e: logger.error(f"Error reading transcript content: {e}", exc_info=True); return None
+    except Exception as e:
+        logger.error(f"Unhandled error in read_new_transcript_content for {latest_key}: {e}", exc_info=True)
+        return None
+
 
 def read_all_transcripts_in_folder(agent_name: str, event_id: str) -> Optional[str]:
     """Read and combine content of all relevant transcripts in the folder."""

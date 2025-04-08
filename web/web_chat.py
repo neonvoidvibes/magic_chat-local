@@ -1,9 +1,9 @@
 from flask import Flask, request, jsonify, render_template, current_app, Response
 from typing import Optional, List, Dict, Any
-import threading
+# Removed threading import as background thread is removed
 import os
 import logging
-from datetime import datetime
+from datetime import datetime, time as dt_time # Import time separately
 import json
 import time
 import traceback
@@ -11,8 +11,8 @@ import math
 
 from config import AppConfig
 from utils.retrieval_handler import RetrievalHandler
-# Import get_latest_transcript_file directly
-from utils.transcript_utils import TranscriptState, read_new_transcript_content, read_all_transcripts_in_folder, get_latest_transcript_file
+# Keep imports for reading transcripts
+from utils.transcript_utils import read_all_transcripts_in_folder, get_latest_transcript_file
 # Import S3 client getter
 from utils.s3_utils import get_s3_client
 from utils.s3_utils import (
@@ -23,7 +23,46 @@ from anthropic import Anthropic
 
 logger = logging.getLogger(__name__)
 
-# Constants removed
+# Helper function to parse timestamps within WebChat or move to utils
+def _parse_timestamp_from_line(line: str) -> Optional[dt_time]:
+    """Extracts HH:MM:SS time object from a transcript line like '[HH:MM:SS - ...] ...'"""
+    try:
+        # Handle potential variations in spacing or content before timestamp
+        ts_start_bracket = line.find('[')
+        if ts_start_bracket == -1: return None
+
+        # Find the first space or ' - ' after the opening bracket
+        ts_end_space = line.find(' ', ts_start_bracket + 1)
+        ts_end_dash = line.find(' - ', ts_start_bracket + 1)
+
+        ts_end = -1
+        if ts_end_space != -1 and ts_end_dash != -1:
+            ts_end = min(ts_end_space, ts_end_dash)
+        elif ts_end_space != -1:
+            ts_end = ts_end_space
+        elif ts_end_dash != -1:
+            ts_end = ts_end_dash
+        else: # No clear separator found after timestamp part
+             # Maybe timestamp is at the very end of brackets like [HH:MM:SS]?
+             ts_end_bracket = line.find(']', ts_start_bracket + 1)
+             if ts_end_bracket != -1:
+                 ts_end = ts_end_bracket # Use closing bracket as end
+
+        if ts_end == -1: return None # Couldn't determine end of timestamp
+
+        time_str = line[ts_start_bracket + 1 : ts_end].strip()
+
+        # Try parsing HH:MM:SS
+        if len(time_str) == 8 and time_str[2] == ':' and time_str[5] == ':':
+            return datetime.strptime(time_str, '%H:%M:%S').time()
+        # Optional: Add parsing for HH:MM if needed
+        # elif len(time_str) == 5 and time_str[2] == ':':
+        #     return datetime.strptime(time_str, '%H:%M').time()
+
+    except (ValueError, IndexError):
+        pass # Ignore lines without valid timestamps or parsing errors
+    return None
+
 
 class WebChat:
     def __init__(self, config: AppConfig):
@@ -35,16 +74,15 @@ class WebChat:
         self.client = None
         self.system_prompt = "Default system prompt."
         self.retriever = None
-        self.transcript_state = TranscriptState() # State for read_new_transcript_content
-        self.scheduler_thread = None
+        # Removed transcript_state, pending_update, lock
         self.last_saved_index = 0
         self.last_archive_index = 0
         self.current_chat_file = None
 
-        # State for transcript processing
-        self.initial_transcript_content: Optional[str] = None
-        self.initial_transcript_total_bytes: int = 0
-        self.initial_transcript_processed_bytes: int = 0 # 0 = not sent, >0 = sent
+        # State for transcript processing based on timestamps
+        self.initial_transcript_content: Optional[str] = None # Stores the initially loaded content
+        self.initial_transcript_sent: bool = False           # Flag if the initial content was sent
+        self.last_sent_timestamp: Optional[dt_time] = None # Max timestamp from the last sent batch
 
         try:
              if not hasattr(config, 'session_id') or not config.session_id: config.session_id = datetime.now().strftime('%Y%m%d-T%H%M%S')
@@ -75,7 +113,7 @@ class WebChat:
             base_prompt = get_latest_system_prompt(self.config.agent_name) or "Assistant."
             logger.info(f"Base prompt loaded ({len(base_prompt)} chars).")
             source_instr = "\n\n## Source Attribution Requirements\n1. ALWAYS specify the exact source file when quoting...\n...(omitted for brevity)..."
-            realtime_instr = "\n\nIMPORTANT: Prioritize transcript content from `[REAL-TIME Meeting Transcript Update]` and `[FULL INITIAL TRANSCRIPT]` labels found within the user messages in the conversation history for 'now' or 'current state' queries."
+            realtime_instr = "\n\nIMPORTANT: Prioritize transcript content from `[TRANSCRIPT UPDATE]` and `[FULL INITIAL TRANSCRIPT]` labels found within the user messages in the conversation history for 'now' or 'current state' queries."
             self.system_prompt = base_prompt + source_instr + realtime_instr
 
             frameworks = get_latest_frameworks(self.config.agent_name)
@@ -93,7 +131,7 @@ class WebChat:
             if self.config.memory is not None: self.reload_memory(); logger.info("Memory loaded.")
 
             if self.config.listen_transcript:
-                self.load_initial_transcript() # This initializes self.transcript_state
+                self.load_initial_transcript()
 
             logger.info("WebChat: Resources loaded ok.")
             logger.debug(f"Final system prompt len: {len(self.system_prompt)} chars (excluding transcript).")
@@ -142,7 +180,7 @@ class WebChat:
             try:
                 data = request.json
                 if not data or 'message' not in data: return jsonify({'error': 'No message'}), 400
-                user_msg_content = data['message'] # The original user query
+                user_msg_content = data['message']
                 logger.info(f"WebChat: Received msg: {user_msg_content[:100]}...")
 
                 # --- Prepare for LLM ---
@@ -158,25 +196,58 @@ class WebChat:
                      current_sys_prompt += context_block
                 else: logger.debug("No retrieved context.")
 
-                # --- Transcript Handling ---
+                # --- Transcript Handling (Timestamp-based Deltas) ---
                 transcript_content_to_add = ""
-                logger.debug(f"Transcript state before processing request: processed_bytes={self.initial_transcript_processed_bytes}, total_bytes={self.initial_transcript_total_bytes}, listening={self.config.listen_transcript}")
+                logger.debug(f"Transcript state before processing: initial_sent={self.initial_transcript_sent}, last_ts={self.last_sent_timestamp}")
 
-                # 1. Check if initial transcript needs to be sent (only happens once)
-                if self.config.listen_transcript and self.initial_transcript_content and self.initial_transcript_processed_bytes == 0:
-                    label = "[FULL INITIAL TRANSCRIPT]"
-                    transcript_content_to_add = f"{label}\n{self.initial_transcript_content}"
-                    # Mark as processed immediately by setting processed = total
-                    self.initial_transcript_processed_bytes = self.initial_transcript_total_bytes
-                    logger.info(f"Adding FULL initial transcript ({len(self.initial_transcript_content)} chars / {self.initial_transcript_total_bytes} bytes). Marked as processed.")
+                # 1. Check if initial transcript needs to be sent
+                if self.config.listen_transcript and not self.initial_transcript_sent:
+                    if self.initial_transcript_content:
+                        label = "[FULL INITIAL TRANSCRIPT]"
+                        transcript_content_to_add = f"{label}\n{self.initial_transcript_content}"
+                        # Find max timestamp in the initial content
+                        max_ts: Optional[dt_time] = None
+                        for line in self.initial_transcript_content.splitlines():
+                            ts = _parse_timestamp_from_line(line)
+                            if ts:
+                                if max_ts is None or ts > max_ts:
+                                    max_ts = ts
+                        self.last_sent_timestamp = max_ts
+                        self.initial_transcript_sent = True
+                        logger.info(f"Adding FULL initial transcript ({len(self.initial_transcript_content)} chars). Max TS found: {self.last_sent_timestamp}. Marked as sent.")
+                    else:
+                        logger.warning("Listening enabled, but no initial transcript content loaded.")
+                        self.initial_transcript_sent = True # Mark as sent to prevent re-checking
 
-                # 2. If initial transcript is already sent, check for real-time updates
+                # 2. If initial is sent, check for new lines based on timestamp
                 elif self.config.listen_transcript:
-                     tx_update = self.check_transcript_updates() # Uses read_new_transcript_content with state
-                     if tx_update:
-                         label = "[REAL-TIME Meeting Transcript Update]"
-                         transcript_content_to_add = f"{label}\n{tx_update}"
-                         logger.info(f"Adding real-time transcript update ({len(tx_update)} chars).")
+                    logger.debug("Initial transcript sent. Checking for updates since {self.last_sent_timestamp}...")
+                    # Read the *latest* full content from S3
+                    current_full_content = read_all_transcripts_in_folder(self.config.agent_name, self.config.event_id)
+                    new_lines_content = []
+                    current_max_ts = self.last_sent_timestamp # Start with the last known max
+
+                    if current_full_content:
+                        for line in current_full_content.splitlines():
+                            ts = _parse_timestamp_from_line(line)
+                            if ts:
+                                # Check if this line's timestamp is strictly after the last sent one
+                                if self.last_sent_timestamp is None or ts > self.last_sent_timestamp:
+                                    new_lines_content.append(line)
+                                    # Track the max timestamp *within the new lines*
+                                    if current_max_ts is None or ts > current_max_ts:
+                                        current_max_ts = ts
+                        # If new lines were found
+                        if new_lines_content:
+                            label = "[TRANSCRIPT UPDATE]"
+                            transcript_content_to_add = f"{label}\n" + "\n".join(new_lines_content)
+                            # Update the last sent timestamp to the max found in this new batch
+                            self.last_sent_timestamp = current_max_ts
+                            logger.info(f"Adding transcript update with {len(new_lines_content)} new lines. New last_sent_timestamp: {self.last_sent_timestamp}.")
+                        else:
+                            logger.info("No new transcript lines found after {self.last_sent_timestamp}.")
+                    else:
+                        logger.warning("Could not read current transcript content from S3 to check for updates.")
 
                 # Combine original user message with the transcript content for THIS turn's input
                 final_user_content_for_llm = user_msg_content
@@ -239,15 +310,17 @@ class WebChat:
         def status():
              mem = getattr(self.config, 'memory', None) is not None
              tx = getattr(self.config, 'listen_transcript', False)
-             init_tx_processed_flag = bool(self.initial_transcript_content and self.initial_transcript_processed_bytes >= self.initial_transcript_total_bytes and self.initial_transcript_total_bytes > 0)
-             processed_percent = 100 if init_tx_processed_flag else 0
+             # Initial transcript is considered "processed" once it's been sent
+             init_tx_processed_flag = self.initial_transcript_sent
+             processed_percent = 100 if self.initial_transcript_sent else 0
 
              return jsonify({
                  'agent_name': self.config.agent_name,
                  'listen_transcript': tx,
                  'memory_enabled': mem,
                  'initial_transcript_processed': init_tx_processed_flag,
-                 'initial_transcript_progress_percent': processed_percent
+                 'initial_transcript_progress_percent': processed_percent,
+                 # 'has_pending_transcript_update' removed
              })
 
         # Command endpoint
@@ -261,11 +334,11 @@ class WebChat:
                 elif cmd == 'clear':
                     self.chat_history=[]; self.last_saved_index=0; self.last_archive_index=0
                     self.initial_transcript_content = None
-                    self.initial_transcript_total_bytes = 0
-                    self.initial_transcript_processed_bytes = 0
-                    self.transcript_state = TranscriptState()
+                    # Reset transcript state based on timestamp tracking
+                    self.initial_transcript_sent = False
+                    self.last_sent_timestamp = None
                     if self.config.listen_transcript:
-                         self.load_initial_transcript() # Reloads and resets state
+                         self.load_initial_transcript() # Reloads content and resets state vars
                          msg='History and transcript state cleared. Initial transcript reloaded.'
                     else:
                          msg='History and transcript state cleared.'
@@ -284,127 +357,59 @@ class WebChat:
                      self.config.listen_transcript = not self.config.listen_transcript
                      status = "ENABLED" if self.config.listen_transcript else "DISABLED"
                      if self.config.listen_transcript:
-                          loaded = self.load_initial_transcript() # Loads/reloads and resets state
+                          loaded = self.load_initial_transcript() # Reloads content and resets state vars
                           msg = f"Transcript listening {status}." + (" Initial transcript loaded/reloaded." if loaded else " Failed to load initial transcript.")
                      else:
+                          # Clear transcript state when turning off
                           self.initial_transcript_content = None
-                          self.initial_transcript_total_bytes = 0
-                          self.initial_transcript_processed_bytes = 0
-                          self.transcript_state = TranscriptState()
+                          self.initial_transcript_sent = False
+                          self.last_sent_timestamp = None
                           msg = f"Transcript listening {status}. State cleared."
                 else: msg = f"Unknown cmd: !{cmd}"; code = 400
                 resp['message'] = msg
                 if code == 200:
-                    # Recalculate status flags after command execution
-                    init_tx_processed_flag = bool(self.initial_transcript_content and self.initial_transcript_processed_bytes >= self.initial_transcript_total_bytes and self.initial_transcript_total_bytes > 0)
-                    processed_percent = 100 if init_tx_processed_flag else 0
+                    init_tx_processed_flag = self.initial_transcript_sent
+                    processed_percent = 100 if self.initial_transcript_sent else 0
                     resp['status'] = {
                         'listen_transcript': self.config.listen_transcript,
                         'memory_enabled': self.config.memory is not None,
                         'initial_transcript_processed': init_tx_processed_flag,
-                        'initial_transcript_progress_percent': processed_percent
+                        'initial_transcript_progress_percent': processed_percent,
                      }
                 else: resp['error'] = msg
                 return jsonify(resp), code
             except Exception as e: logger.error(f"Cmd !{cmd} error: {e}", exc_info=True); return jsonify({'error': str(e)}), 500
 
     def load_initial_transcript(self):
-        """Load initial transcript, store locally, AND initialize TranscriptState."""
+        """Load initial transcript content, reset timestamp tracking state."""
         self.initial_transcript_content = None
-        self.initial_transcript_total_bytes = 0
-        self.initial_transcript_processed_bytes = 0 # Reset processed flag
-        self.transcript_state = TranscriptState() # Reset S3 read state too
-        logger.info("Attempting to load initial transcript and initialize S3 state...")
-
-        s3_client = get_s3_client()
-        aws_s3_bucket = os.getenv('AWS_S3_BUCKET')
-        if not s3_client or not aws_s3_bucket:
-            logger.error("S3 client or bucket not available for initializing transcript state.")
-            return False
+        # Reset timestamp tracking state
+        self.initial_transcript_sent = False
+        self.last_sent_timestamp = None
+        logger.info("Attempting to load initial transcript...")
 
         try:
-            # Load the full content first
             full_content = read_all_transcripts_in_folder(self.config.agent_name, self.config.event_id)
             if full_content and isinstance(full_content, str):
                 self.initial_transcript_content = full_content
-                self.initial_transcript_total_bytes = len(full_content.encode('utf-8'))
-                logger.info(f"Stored initial transcript ({len(full_content)} chars / {self.initial_transcript_total_bytes} bytes).")
-
-                # NOW, find the latest actual S3 file to initialize TranscriptState
-                latest_key = get_latest_transcript_file(self.config.agent_name, self.config.event_id, s3_client)
-                if latest_key:
-                    try:
-                        metadata = s3_client.head_object(Bucket=aws_s3_bucket, Key=latest_key)
-                        current_s3_size = metadata['ContentLength']
-                        current_s3_modified = metadata['LastModified']
-
-                        # Initialize the state to match the end of the file we just loaded
-                        self.transcript_state.file_positions[latest_key] = current_s3_size
-                        self.transcript_state.last_modified[latest_key] = current_s3_modified
-                        self.transcript_state.current_latest_key = latest_key
-                        logger.info(f"Initialized TranscriptState for S3 key '{latest_key}' (Size: {current_s3_size}, Mod: {current_s3_modified}).")
-                        return True # Successful load and state initialization
-
-                    except Exception as head_e:
-                        logger.error(f"Failed to get S3 metadata for key '{latest_key}' to initialize state: {head_e}")
-                        # Proceeding without state initialization, real-time updates might be incorrect
-                        return True # Content was loaded, but state init failed
-                else:
-                    logger.warning("Could not find latest S3 transcript key to initialize state after loading content.")
-                    # Proceeding without state initialization
-                    return True # Content was loaded, but state init failed
+                logger.info(f"Stored initial transcript ({len(full_content)} chars). Ready to be sent.")
+                return True
             elif not full_content:
                 logger.warning("No initial transcript content found or read.")
                 return False
-            else: # Not a string
+            else:
                 logger.error("Loaded transcript content is not a string.")
-                self.initial_transcript_content = None
                 return False
-
         except Exception as e:
-            logger.error(f"Error loading all transcripts or initializing state: {e}", exc_info=True)
+            logger.error(f"Error loading all transcripts: {e}", exc_info=True)
             return False
 
+    # Removed check_transcript_updates as logic is now inline in /api/chat
 
-    # check_transcript_updates checks S3 for new bytes AFTER initial load is sent
-    def check_transcript_updates(self) -> Optional[str]:
-        """Check for new transcript content *after* initial load is processed/sent."""
-        if not self.config.listen_transcript: return None
-        # Check if initial load exists AND has been marked as processed/sent
-        initial_load_sent = bool(self.initial_transcript_content and self.initial_transcript_processed_bytes >= self.initial_transcript_total_bytes)
-        if not initial_load_sent:
-            return None
-
-        try:
-            # Uses TranscriptState which should now be initialized correctly
-            new_content = read_new_transcript_content(self.transcript_state, self.config.agent_name, self.config.event_id, False)
-            if new_content:
-                # Log when new content IS detected by this check
-                logger.info(f"Real-time check found new transcript content via S3 state ({len(new_content)} chars).")
-                return new_content
-            # No need to log every time no new content is found, reduces noise
-            # else:
-            #     logger.debug("Real-time check: No new content detected via S3 state.")
-            return None
-        except Exception as e:
-            logger.error(f"Real-time transcript check error: {e}", exc_info=True)
-            return None
-
-    # run method remains the same
+    # Removed background thread start from run method
     def run(self, host: str = '127.0.0.1', port: int = 5001, debug: bool = False):
         """Run the Flask web server."""
-        def transcript_update_loop():
-             logger.info("Starting background transcript state update loop.")
-             while True:
-                  time.sleep(5)
-                  if self.config.listen_transcript:
-                      # This call primarily updates self.transcript_state for read_new_transcript_content
-                      self.check_transcript_updates()
-
-        if self.config.interface_mode != 'cli':
-            update_thread = threading.Thread(target=transcript_update_loop, daemon=True)
-            update_thread.start()
-
+        # Background thread removed
         logger.info(f"Starting Flask server on {host}:{port}, Debug: {debug}")
         try:
             if not debug:
