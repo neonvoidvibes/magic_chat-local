@@ -172,11 +172,11 @@
         }
 
         @keyframes letterGlow {
-            0% { 
+            0% {
                 opacity: 0;
                 color: rgba(146, 53, 189, 1);
             }
-            15% { 
+            15% {
                 opacity: 1;
                 color: rgba(254, 68, 154, 1);
             }
@@ -184,21 +184,21 @@
             45% { color: rgba(236, 194, 24, 1); }
             60% { color: rgba(140, 255, 118, 1); }
             75% { color: rgba(0, 131, 226, 1); }
-            90% { 
+            90% {
                 color: rgba(74, 86, 255, 1);
             }
-            100% { 
+            100% {
                 opacity: 1;
                 color: rgba(255, 255, 255, 0.7);
             }
         }
 
         @keyframes firstRevealGlow {
-            0% { 
+            0% {
                 opacity: 0;
                 color: rgba(146, 53, 189, 1);
             }
-            15% { 
+            15% {
                 opacity: 1;
                 color: rgba(254, 68, 154, 1);
             }
@@ -206,33 +206,33 @@
             45% { color: rgba(236, 194, 24, 1); }
             60% { color: rgba(140, 255, 118, 1); }
             75% { color: rgba(0, 131, 226, 1); }
-            90% { 
+            90% {
                 color: rgba(74, 86, 255, 1);
                 opacity: 1;
             }
-            95% { 
+            95% {
                 color: rgba(74, 86, 255, 1);
                 opacity: 1;
             }
-            100% { 
+            100% {
                 color: rgba(255, 255, 255, 0.7);
                 opacity: 1;
             }
         }
 
         @keyframes typeAndGlow {
-            0% { 
+            0% {
                 opacity: 0;
                 transform: translateY(10px);
             }
-            100% { 
+            100% {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
 
         .glow-text {
-            white-space: pre;  
+            white-space: pre;
             font-weight: 700;
             color: rgba(255, 255, 255, 0.7);
             font-size: 40px;
@@ -278,12 +278,12 @@
             align-items: center;
             color: rgba(255, 255, 255, 0.7);
             font-weight: 700;
-            letter-spacing: -0.15em;  
+            letter-spacing: -0.15em;
         }
 
         .message-wrapper {
+            /* position: relative; /* No longer needed for user button */
             display: flex;
-            margin-top: 0; /* Ensure consistent spacing */
             margin-bottom: 15px; /* Consistent spacing below each message group */
             width: fit-content;
             max-width: 100%;
@@ -295,6 +295,7 @@
             flex-direction: row-reverse; /* Button visually first (left) */
             align-items: center; /* Vertically align button and bubble */
             margin-left: auto;
+             /* Removed padding-left, spacing handled by button margin */
         }
          /* Assistant wrapper: align left, stack bubble and button */
         .message-wrapper.assistant {
@@ -305,7 +306,7 @@
 
 
         .message {
-             margin-bottom: 0;
+            margin-bottom: 0;
             padding: 18px 22px;
             border-radius: 35px;
             font-size: 20px;
@@ -358,7 +359,7 @@
 
         .system-message {
             background: var(--message-system-bg);
-            margin: 15px auto; /* Standard margin */
+            margin: 15px auto;
             text-align: center;
             color: #000000;
         }
@@ -370,8 +371,8 @@
             cursor: pointer;
             padding: 5px; /* Padding inside the button */
             opacity: 0; /* Hidden by default */
-            width: 32px; /* Adjusted size (-10% from 36px -> 32.4 -> 32px) */
-            height: 32px; /* Adjusted size (-10% from 36px -> 32.4 -> 32px) */
+            width: 32px; /* Adjusted size (-10% from 36px) */
+            height: 32px; /* Adjusted size (-10% from 36px) */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -387,7 +388,10 @@
 
         /* User Copy Button Specifics */
         .message-wrapper.user .copy-button {
-             /* Position in flow */
+             /* position: absolute; */ /* Removed */
+             /* left: 3px; */ /* Removed */
+             /* top: 50%; */ /* Removed */
+             /* transform: translateY(-50%); */ /* Removed */
              color: var(--message-user-bg);
              margin-right: 8px; /* Add space between icon and bubble */
              order: 1; /* Ensure it comes before message due to row-reverse */
@@ -395,7 +399,7 @@
 
          /* Assistant Copy Button Specifics */
          .message-wrapper.assistant .copy-button {
-             /* Position in flow */
+             /* position: relative; */ /* Not needed */
              color: var(--message-assistant-bg);
              align-self: flex-start;
              margin-top: 8px; /* Static margin below bubble */
@@ -424,7 +428,7 @@
             gap: 10px;
             position: relative;
             padding: 0 10px;
-            margin-bottom: 8px;  
+            margin-bottom: 8px;
             transform: translateY(0);
         }
 
@@ -517,7 +521,7 @@
             }
             /* Mobile copy button adjustments */
              .copy-button {
-                 width: 26px; /* Adjusted size (-10% from 29px -> 26.1 -> 26) */
+                 width: 26px; /* Adjusted size (-10% from 29px) */
                  height: 26px;
                  padding: 4px;
             }
@@ -612,6 +616,8 @@
             border-width: 1px;
             border-style: solid;
             border-color: transparent;
+            /* Allow input even when assistant is processing */
+            /* disabled property is no longer set in JS */
         }
 
         @media (max-width: 600px) {
@@ -655,6 +661,13 @@
             align-items: center;
             transition: background 0.3s ease, color 0.2s ease; /* Added color transition */
         }
+        /* Style the button differently when it's in the 'stop' state */
+        #send-button.streaming {
+             cursor: pointer; /* Keep pointer cursor */
+             /* Optional: add visual cue like subtle background change */
+             /* background: rgba(255, 0, 0, 0.1); */
+        }
+
 
         @media (max-width: 600px) {
             #send-button {
@@ -706,18 +719,19 @@
 
         .waiting {
             display: inline-block;
-            width: 10px;
-            height: 10px;
+            width: 12px;
+            height: 12px;
             /* Use assistant bubble background color */
             background-color: var(--message-assistant-bg);
             border-radius: 50%;
             animation: breathe 2s ease-in-out infinite;
+            margin-left: 16px;
         }
 
         @keyframes breathe {
-            0% { transform: scale(1); opacity: 0.7; }
-            50% { transform: scale(1.5); opacity: 1; }
-            100% { transform: scale(1); opacity: 0.7;}
+            0% { transform: scale(1.5); opacity: 0.7; }
+            50% { transform: scale(2); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0.7;}
         }
 
         @media (max-width: 600px) {
@@ -797,16 +811,10 @@
                         <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a2 2 0 0 1 2.83 2.83l-8.49 8.48"></path>
                     </svg>
                 </button>
-                <!-- Save button restored for UI, functionality connected via JS -->
-                <button class="action-button" id="save-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                        <polyline points="7 10 12 15 17 10"></polyline>
-                        <line x1="12" y1="15" x2="12" y2="3"></line>
-                    </svg>
-                </button>
+                <!-- Removed Save button from here as it's not functional -->
+                <!-- <button class="action-button" id="save-button"> ... </button> -->
             </div>
-            <textarea id="message-input" placeholder="Message AI" rows="1"></textarea>
+            <textarea id="message-input" placeholder="Ask anything" rows="1"></textarea>
             <!-- Send button's onclick is now managed dynamically -->
             <button id="send-button">
                 <!-- Initial icon is set in script -->
@@ -864,7 +872,7 @@
             animateWelcomeText();
             updateStatus();
             setInterval(updateStatus, 5000);
-            setupSaveButton(); // Restore call to setup save button listener
+            // setupSaveButton(); // Removed call to non-functional save button setup
         }
 
         // --- Event Handlers ---
@@ -895,14 +903,18 @@
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 // Check button's current action by checking the assigned function
+                // Only send if the onclick is currently sendMessage (i.e., not streaming)
                 if (sendButton.onclick === sendMessage) {
                     sendMessage();
                 } else if (sendButton.onclick === stopStreaming) {
-                     // Stop streaming if user presses Enter while streaming
-                     stopStreaming();
+                     // Optionally, we could make Enter stop the stream too, but
+                     // the request was just to *prevent sending* while streaming.
+                     console.log("Enter pressed while streaming, ignoring send.");
+                     // stopStreaming(); // Uncomment this line if Enter should also stop the stream
                 }
             }
         }
+
 
         function handleScroll() {
             // Consider user scrolled if not within ~10px of the bottom
@@ -936,6 +948,7 @@
                  sendButton.innerHTML = stopIconSVG;
                  sendButton.classList.add('streaming');
                  sendButton.onclick = stopStreaming; // Change action to stop
+                 // Input field is NOT disabled here anymore
              } else { // 'idle' state
                  sendButton.innerHTML = sendIconSVG;
                  sendButton.classList.remove('streaming');
@@ -943,14 +956,18 @@
                  currentAbortController = null; // Ensure controller is cleared
                  currentAssistantMessageWrapper = null; // Clear reference to message wrapper
                  messageInput.classList.remove('thinking', 'thinking-end'); // Clear thinking styles
-                 messageInput.disabled = false; // Re-enable input
+                 // messageInput.disabled = false; // Input is never disabled now
                  // Only refocus if not mobile, to avoid keyboard annoyance
                  if (!isMobile) {
-                      messageInput.focus();
+                      // Don't refocus if user explicitly clicked away while waiting
+                      if (document.activeElement !== messageInput) {
+                          // messageInput.focus(); // Removed auto-focus after completion
+                      }
                  }
                  handleInput(); // Recalculate input height
             }
         }
+
 
         function stopStreaming() {
             console.log("Attempting to stop stream...");
@@ -959,7 +976,7 @@
                 // Backend termination depends on server/library implementation supporting the signal.
                 currentAbortController.abort();
                 console.log("Abort signal sent.");
-                // Bubble removal logic moved to AbortError catch block in sendMessage
+                // Bubble removal logic moved to AbortError catch block
             } else {
                  console.log("No active stream to stop.");
                  setSendButtonState('idle'); // Reset if state is inconsistent
@@ -967,21 +984,27 @@
         }
 
         async function sendMessage() {
+            // Check if currently streaming - prevent sending new message
+            if (sendButton.onclick === stopStreaming) {
+                 console.log("Already streaming, cannot send new message.");
+                 return;
+             }
+
             const message = messageInput.value.trim();
             if (!message) return;
 
             const welcomeElem = document.getElementById('welcome-container');
             if (welcomeElem) welcomeElem.remove(); // Remove welcome text on first message
 
-            // Disable input, clear, reset height
-            messageInput.disabled = true;
+            // Clear input, reset height, keep it enabled
+            // messageInput.disabled = true; // REMOVED THIS LINE
             messageInput.value = '';
             messageInput.style.height = initialHeight;
 
             // Handle commands first
             if (message.startsWith('!')) {
                 handleCommand(message);
-                 messageInput.disabled = false; // Re-enable input after command
+                // messageInput.disabled = false; // Input is never disabled
                 return;
             }
 
@@ -1006,7 +1029,7 @@
             assistantElementBubble.classList.add('is-waiting'); // Add class for styling
 
             userHasScrolled = false; // Reset scroll lock for new message
-            // Ensure initial scroll includes the new waiting bubble
+            // Ensure initial scroll to show waiting bubble if needed
             requestAnimationFrame(() => {
                 if (!userHasScrolled) chatMessages.scrollTop = chatMessages.scrollHeight;
             });
@@ -1094,6 +1117,7 @@
                      // If no content AND no waiting span, remove the bubble wrapper
                      console.log("Removing empty bubble after successful stream.");
                      currentAssistantMessageWrapper.remove();
+                     currentAssistantMessageWrapper = null; // Clear reference
                  }
 
 
@@ -1193,7 +1217,7 @@
                 addCopyButton(wrapperDiv, rawTextContent, sender);
             }
 
-            // Scroll logic handled after append in calling function (sendMessage)
+            // Scroll logic moved to sendMessage after user msg append and during stream
 
             // Return the wrapper element now (contains the bubble and potentially the button)
             return wrapperDiv;
@@ -1284,61 +1308,7 @@
         }
 
         // --- Save Button Setup ---
-        // Re-added setupSaveButton function
-        function setupSaveButton() {
-            const saveButton = document.getElementById('save-button');
-            if (saveButton) {
-                saveButton.addEventListener('click', async () => {
-                    let messageDiv; // To display feedback
-                    try {
-                        // Call the new dedicated /api/save endpoint
-                        const response = await fetch('/api/save', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' }
-                        });
-
-                        const data = await response.json();
-                        messageDiv = document.createElement('div');
-                        if (chatMessages) {
-                             chatMessages.appendChild(messageDiv);
-                        } else {
-                             console.error("Cannot find chatMessages element to append feedback.");
-                             return;
-                         }
-
-                        if (response.ok) {
-                            messageDiv.className = 'message system-message';
-                            messageDiv.textContent = data.message || 'Chat saved successfully.';
-                        } else {
-                            // Use error message from backend response if available
-                            throw new Error(data.error || `Failed to save chat (Status: ${response.status})`);
-                        }
-                    } catch (error) {
-                        console.error('Error saving chat history:', error);
-                         if (!messageDiv && chatMessages) {
-                             messageDiv = document.createElement('div');
-                             chatMessages.appendChild(messageDiv);
-                         }
-                         if (messageDiv) {
-                            messageDiv.className = 'message system-message error'; // Add error class
-                            messageDiv.textContent = `Error saving: ${error.message}`;
-                         }
-                    } finally {
-                         // Auto-remove feedback message after a delay
-                         if (messageDiv && chatMessages) {
-                             setTimeout(() => { chatMessages.scrollTop = chatMessages.scrollHeight; }, 50);
-                             setTimeout(() => {
-                                 messageDiv.style.transition = 'opacity 0.5s ease-out';
-                                 messageDiv.style.opacity = '0';
-                                 setTimeout(() => messageDiv.remove(), 500);
-                             }, 4000);
-                         }
-                    }
-                });
-            } else {
-                console.warn("Save button element not found");
-            }
-        }
+        // Removed setupSaveButton function as the save icon is not implemented in backend
 
         // --- Run Initialization ---
         document.addEventListener('DOMContentLoaded', initializeChat);
