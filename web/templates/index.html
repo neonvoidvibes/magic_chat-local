@@ -282,8 +282,8 @@
         }
 
         .message-wrapper {
-            /* position: relative; /* No longer needed for user button */
             display: flex;
+            margin-top: 0; /* Ensure consistent spacing */
             margin-bottom: 15px; /* Consistent spacing below each message group */
             width: fit-content;
             max-width: 100%;
@@ -295,7 +295,6 @@
             flex-direction: row-reverse; /* Button visually first (left) */
             align-items: center; /* Vertically align button and bubble */
             margin-left: auto;
-             /* Removed padding-left, spacing handled by button margin */
         }
          /* Assistant wrapper: align left, stack bubble and button */
         .message-wrapper.assistant {
@@ -359,7 +358,7 @@
 
         .system-message {
             background: var(--message-system-bg);
-            margin: 15px auto;
+            margin: 15px auto; /* Standard margin */
             text-align: center;
             color: #000000;
         }
@@ -371,8 +370,8 @@
             cursor: pointer;
             padding: 5px; /* Padding inside the button */
             opacity: 0; /* Hidden by default */
-            width: 32px; /* Adjusted size (-10% from 36px) */
-            height: 32px; /* Adjusted size (-10% from 36px) */
+            width: 32px; /* Adjusted size (-10% from 36px -> 32.4 -> 32px) */
+            height: 32px; /* Adjusted size (-10% from 36px -> 32.4 -> 32px) */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -388,10 +387,7 @@
 
         /* User Copy Button Specifics */
         .message-wrapper.user .copy-button {
-             /* position: absolute; */ /* Removed */
-             /* left: 3px; */ /* Removed */
-             /* top: 50%; */ /* Removed */
-             /* transform: translateY(-50%); */ /* Removed */
+             /* Position in flow */
              color: var(--message-user-bg);
              margin-right: 8px; /* Add space between icon and bubble */
              order: 1; /* Ensure it comes before message due to row-reverse */
@@ -399,7 +395,7 @@
 
          /* Assistant Copy Button Specifics */
          .message-wrapper.assistant .copy-button {
-             /* position: relative; */ /* Not needed */
+             /* Position in flow */
              color: var(--message-assistant-bg);
              align-self: flex-start;
              margin-top: 8px; /* Static margin below bubble */
@@ -521,12 +517,9 @@
             }
             /* Mobile copy button adjustments */
              .copy-button {
-                 width: 26px; /* Adjusted size (-10% from 29px) */
+                 width: 26px; /* Adjusted size (-10% from 29px -> 26.1 -> 26) */
                  height: 26px;
                  padding: 4px;
-            }
-            .message-wrapper.user {
-                 /* No padding-left needed */
             }
             .message-wrapper.user .copy-button {
                  margin-right: 6px; /* Adjust mobile margin */
@@ -804,6 +797,7 @@
                         <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a2 2 0 0 1 2.83 2.83l-8.49 8.48"></path>
                     </svg>
                 </button>
+                <!-- Save button restored for UI, functionality connected via JS -->
                 <button class="action-button" id="save-button">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -870,7 +864,7 @@
             animateWelcomeText();
             updateStatus();
             setInterval(updateStatus, 5000);
-            setupSaveButton(); // Setup save button listener
+            setupSaveButton(); // Restore call to setup save button listener
         }
 
         // --- Event Handlers ---
@@ -965,8 +959,7 @@
                 // Backend termination depends on server/library implementation supporting the signal.
                 currentAbortController.abort();
                 console.log("Abort signal sent.");
-                // Check if the message bubble is empty and remove it (logic moved to AbortError catch)
-                // State reset (icon, controller, wrapper ref) happens in the finally block of sendMessage
+                // Bubble removal logic moved to AbortError catch block in sendMessage
             } else {
                  console.log("No active stream to stop.");
                  setSendButtonState('idle'); // Reset if state is inconsistent
@@ -994,8 +987,10 @@
 
             // --- Regular Message ---
             const userMessageWrapper = appendMessage('user', message); // Get wrapper
-            // Scroll immediately after user message is appended
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+            // Scroll immediately after user message is appended and rendered
+            requestAnimationFrame(() => {
+                 chatMessages.scrollTop = chatMessages.scrollHeight;
+            });
 
             messageInput.classList.add('thinking'); // Indicate processing start visually
 
@@ -1011,10 +1006,10 @@
             assistantElementBubble.classList.add('is-waiting'); // Add class for styling
 
             userHasScrolled = false; // Reset scroll lock for new message
-            // Ensure initial scroll to show waiting bubble if needed
-            setTimeout(() => {
+            // Ensure initial scroll includes the new waiting bubble
+            requestAnimationFrame(() => {
                 if (!userHasScrolled) chatMessages.scrollTop = chatMessages.scrollHeight;
-            }, 50);
+            });
 
 
             try {
@@ -1099,7 +1094,6 @@
                      // If no content AND no waiting span, remove the bubble wrapper
                      console.log("Removing empty bubble after successful stream.");
                      currentAssistantMessageWrapper.remove();
-                     currentAssistantMessageWrapper = null; // Clear reference
                  }
 
 
@@ -1120,10 +1114,9 @@
                 if (error.name === 'AbortError') {
                     console.log('Stream stopped by user.');
                      // Check if content is still empty / only whitespace OR only the waiting span was present
-                     const bubbleIsEmpty = assistantMessageContent.trim() === '';
-                     if (currentAssistantMessageWrapper && bubbleIsEmpty) {
-                         console.log("Removing empty bubble on abort.");
-                         currentAssistantMessageWrapper.remove(); // Remove the whole wrapper
+                     if (currentAssistantMessageWrapper && assistantMessageContent.trim() === '') {
+                          console.log("Removing empty bubble on abort.");
+                          currentAssistantMessageWrapper.remove(); // Remove the whole wrapper
                      } else if (currentAssistantMessageWrapper) {
                          // Add copy button even for partial content if it exists
                          currentAssistantMessageWrapper.dataset.rawText = assistantMessageContent;
@@ -1137,14 +1130,16 @@
                 }
             } finally {
                 // Always reset button state and controller when stream ends
-                setSendButtonState('idle'); // This now also resets currentAssistantMessageWrapper
+                setSendButtonState('idle');
             }
         }
 
         function handleCommand(message) {
              const command = message.substring(1).toLowerCase();
              appendMessage('user', message, true); // Display command visually
-             chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll after command input
+             requestAnimationFrame(() => { // Scroll after command input
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+             });
 
              fetch('/api/command', {
                  method: 'POST',
@@ -1198,8 +1193,7 @@
                 addCopyButton(wrapperDiv, rawTextContent, sender);
             }
 
-            // Scroll logic is handled in sendMessage after user message append
-            // and during streaming
+            // Scroll logic handled after append in calling function (sendMessage)
 
             // Return the wrapper element now (contains the bubble and potentially the button)
             return wrapperDiv;
@@ -1209,7 +1203,6 @@
          function addCopyButton(wrapperDiv, textContent, sender) {
              // Ensure textContent is a non-empty string before adding button
              if (!wrapperDiv || wrapperDiv.querySelector('.copy-button') || typeof textContent !== 'string' || !textContent.trim()) {
-                 // console.log("Skipping copy button add:", { hasWrapper: !!wrapperDiv, hasButton: !!wrapperDiv?.querySelector('.copy-button'), textContent });
                  return;
              }
 
@@ -1222,7 +1215,6 @@
 
              copyButton.onclick = (event) => {
                  event.stopPropagation(); // Prevent potential wrapper events
-                 // Retrieve raw text from wrapper dataset if available, otherwise use provided textContent
                  const textToCopy = wrapperDiv.dataset.rawText || textContent;
                  copyToClipboard(textToCopy, copyButton);
              };
@@ -1240,7 +1232,6 @@
                 return;
             }
             try {
-                 // Use the text passed to the function, ensuring it's the raw content
                 await navigator.clipboard.writeText(text);
                 console.log('Text copied to clipboard');
 
@@ -1250,7 +1241,6 @@
                 buttonElement.disabled = true;
 
                 setTimeout(() => {
-                    // Check if the button still exists before restoring
                     if (document.body.contains(buttonElement)) {
                          buttonElement.innerHTML = originalIcon;
                          buttonElement.disabled = false;
@@ -1294,13 +1284,14 @@
         }
 
         // --- Save Button Setup ---
+        // Re-added setupSaveButton function
         function setupSaveButton() {
             const saveButton = document.getElementById('save-button');
             if (saveButton) {
                 saveButton.addEventListener('click', async () => {
                     let messageDiv; // To display feedback
                     try {
-                        // Assuming /api/save endpoint exists and works as before
+                        // Call the new dedicated /api/save endpoint
                         const response = await fetch('/api/save', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' }
@@ -1308,37 +1299,34 @@
 
                         const data = await response.json();
                         messageDiv = document.createElement('div');
-                        // Ensure chatMessages exists before appending
                         if (chatMessages) {
                              chatMessages.appendChild(messageDiv);
                         } else {
                              console.error("Cannot find chatMessages element to append feedback.");
-                             return; // Exit if container not found
+                             return;
                          }
-
 
                         if (response.ok) {
                             messageDiv.className = 'message system-message';
                             messageDiv.textContent = data.message || 'Chat saved successfully.';
                         } else {
-                            throw new Error(data.error || 'Failed to save chat history');
+                            // Use error message from backend response if available
+                            throw new Error(data.error || `Failed to save chat (Status: ${response.status})`);
                         }
                     } catch (error) {
                         console.error('Error saving chat history:', error);
-                         if (!messageDiv && chatMessages) { // Ensure messageDiv exists for error
+                         if (!messageDiv && chatMessages) {
                              messageDiv = document.createElement('div');
                              chatMessages.appendChild(messageDiv);
                          }
-                         if (messageDiv) { // Check if messageDiv was created
+                         if (messageDiv) {
                             messageDiv.className = 'message system-message error'; // Add error class
                             messageDiv.textContent = `Error saving: ${error.message}`;
                          }
                     } finally {
                          // Auto-remove feedback message after a delay
                          if (messageDiv && chatMessages) {
-                             // Scroll to show feedback
                              setTimeout(() => { chatMessages.scrollTop = chatMessages.scrollHeight; }, 50);
-                             // Remove after delay
                              setTimeout(() => {
                                  messageDiv.style.transition = 'opacity 0.5s ease-out';
                                  messageDiv.style.opacity = '0';

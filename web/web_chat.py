@@ -3,7 +3,7 @@ from typing import Optional, List, Dict, Any
 import threading
 import os
 import logging
-from datetime import datetime, time as dt_time
+from datetime import datetime, time as dt_time, timezone # Added timezone
 import json
 import time
 import traceback
@@ -31,9 +31,9 @@ class WebChat:
         self.system_prompt = "Default system prompt."
         self.retriever = None
         self.transcript_state = TranscriptState()
-        self.last_saved_index = 0
-        self.last_archive_index = 0
-        self.current_chat_file = None
+        self.last_saved_index = 0 # Tracks index in chat_history *for saving*
+        self.last_archive_index = 0 # Tracks index in chat_history *for archiving*
+        self.current_chat_file = None # Base filename for archive
         self.initial_transcript_content: Optional[str] = None
         self.initial_transcript_total_bytes: int = 0
         self.initial_transcript_sent: bool = False
@@ -67,6 +67,7 @@ class WebChat:
             logger.info("WebChat: Loading resources...")
             base_prompt = get_latest_system_prompt(self.config.agent_name) or "Assistant."
             logger.info(f"Base prompt loaded ({len(base_prompt)} chars).")
+            # Combine instructions into the base prompt permanently during loading
             source_instr = "\n\n## Source Attribution Requirements\n1. ALWAYS specify the exact source file..."
             realtime_instr = "\n\nIMPORTANT: Prioritize [REAL-TIME...] updates..."
             synth_instr = "\nSynthesizing from Context: When answering... combine related pieces... Do not state incomplete..."
@@ -86,7 +87,7 @@ class WebChat:
             if self.config.memory is not None: self.reload_memory(); logger.info("Memory loaded.")
             if self.config.listen_transcript: self.load_initial_transcript()
             logger.info("WebChat: Resources loaded ok.")
-            logger.debug(f"Final system prompt len: {len(self.system_prompt)} chars.")
+            logger.debug(f"Final system prompt len (before time inject): {len(self.system_prompt)} chars.")
         except Exception as e:
             logger.error(f"WebChat: Error loading resources: {e}", exc_info=True)
             if not self.system_prompt or self.system_prompt == "Default system prompt.": self.system_prompt = "Error loading config."
@@ -105,8 +106,10 @@ class WebChat:
                  mem_section = "\n\n## Previous Chat History (Memory)\n" + summary
                  start_index = self.system_prompt.find("## Previous Chat History")
                  if start_index != -1:
-                     end_index = self.system_prompt.find("\n\n## ", start_index + 1); end_index = end_index if end_index != -1 else len(self.system_prompt)
-                     self.system_prompt = self.system_prompt[:start_index] + self.system_prompt[end_index:]
+                     # Find the start of the *next* section or end of string
+                     next_section_index = self.system_prompt.find("\n\n## ", start_index + len("## Previous Chat History"))
+                     end_index = next_section_index if next_section_index != -1 else len(self.system_prompt)
+                     self.system_prompt = self.system_prompt[:start_index].strip() + self.system_prompt[end_index:].strip()
                      logger.info(f"Replacing memory section.")
                  self.system_prompt += mem_section; logger.info(f"Appended/Replaced memory ({len(summary)} chars).")
              else: logger.debug("No content for memory.")
@@ -128,35 +131,39 @@ class WebChat:
                 user_msg_content = data['message']
                 logger.info(f"WebChat: Received msg: {user_msg_content[:100]}...")
 
-                current_sys_prompt = self.system_prompt
+                # Start with the base loaded system prompt
+                turn_system_prompt = self.system_prompt
                 llm_messages = [m for m in self.chat_history if m.get('role') in ['user', 'assistant']]
                 logger.debug(f"Building context from history ({len(llm_messages)} msgs).")
 
+                # Add retrieved context if available
                 retrieved_docs = self.get_document_context(user_msg_content)
                 if retrieved_docs:
                      items = [f"[Ctx {i+1} from {d.metadata.get('file_name','?')}({d.metadata.get('score',0):.2f})]:\n{d.page_content}" for i, d in enumerate(retrieved_docs)]
                      context_block = "\n\n---\nRetrieved Context:\n" + "\n\n".join(items)
                      logger.debug(f"Adding context ({len(context_block)} chars) to sys prompt.")
-                     current_sys_prompt += context_block
+                     turn_system_prompt += context_block
                 else: logger.debug("No context retrieved.")
 
-                transcript_content_to_add = ""; final_user_content_for_llm = user_msg_content
+                # --- Add Transcript Updates to History (if enabled) ---
+                transcript_content_to_add = "";
                 if self.config.listen_transcript:
                     if not self.initial_transcript_sent:
                         if self.initial_transcript_content:
                             label = "[FULL INITIAL TRANSCRIPT]"; transcript_content_to_add = f"{label}\n{self.initial_transcript_content}"
                             self.initial_transcript_sent = True; logger.info(f"Adding FULL initial tx ({len(self.initial_transcript_content)} chars).")
-                        else: logger.warning("Tx listening on, but no initial tx."); self.initial_transcript_sent = True
+                        else: logger.warning("Tx listening on, but no initial tx."); self.initial_transcript_sent = True # Mark as sent even if empty
                     else:
                         with self.transcript_lock:
                             if self.pending_transcript_update:
                                 label = "[REAL-TIME Meeting Transcript Update]"; transcript_content_to_add = f"{label}\n{self.pending_transcript_update}"
                                 logger.info(f"Adding PENDING real-time tx ({len(self.pending_transcript_update)} chars).")
-                                self.pending_transcript_update = None
+                                self.pending_transcript_update = None # Clear pending update
                 if transcript_content_to_add:
                      llm_messages.append({'role': 'user', 'content': transcript_content_to_add})
-                     self.chat_history.append({'role': 'user', 'content': transcript_content_to_add})
+                     self.chat_history.append({'role': 'user', 'content': transcript_content_to_add, 'type': 'transcript_update'}) # Add type for potential filtering later
 
+                # --- Append Actual User Message ---
                 llm_messages.append({'role': 'user', 'content': user_msg_content})
                 self.chat_history.append({'role': 'user', 'content': user_msg_content})
                 logger.debug(f"Appended user message(s). History size: {len(self.chat_history)}")
@@ -165,19 +172,36 @@ class WebChat:
                 model=self.config.llm_model_name; max_tokens=self.config.llm_max_output_tokens
                 logger.debug(f"WebChat: Using LLM: {model}, MaxTokens: {max_tokens}")
 
+                # --- Inject Current Time into System Prompt for this turn ---
+                now_utc = datetime.now(timezone.utc)
+                time_str = now_utc.strftime('%A, %Y-%m-%d %H:%M:%S %Z') # e.g., Tuesday, 2025-04-08 10:30:55 UTC
+                time_context = f"Current Time Context: {time_str}\n"
+                final_system_prompt_for_turn = time_context + "\n" + turn_system_prompt
+                logger.debug(f"Final sys prompt for turn includes time. Len: {len(final_system_prompt_for_turn)}")
+                # --- End Time Injection ---
+
                 def generate():
                     response_content = ""; stream_error = None
                     try:
-                        logger.debug(f"LLM call. Msgs: {len(llm_messages)}, Final SysPromptLen: {len(current_sys_prompt)}")
+                        logger.debug(f"LLM call. Msgs: {len(llm_messages)}, Final SysPromptLen: {len(final_system_prompt_for_turn)}")
                         if logger.isEnabledFor(logging.DEBUG): last_msg=llm_messages[-1]; logger.debug(f" -> Last Msg: Role={last_msg['role']}, Len={len(last_msg['content'])}, Starts='{last_msg['content'][:150]}...'")
-                        with self.client.messages.stream(model=model, max_tokens=max_tokens, system=current_sys_prompt, messages=llm_messages) as stream:
+
+                        # Use the final system prompt with time context
+                        with self.client.messages.stream(model=model, max_tokens=max_tokens, system=final_system_prompt_for_turn, messages=llm_messages) as stream:
                             for text in stream.text_stream: response_content += text; yield f"data: {json.dumps({'delta': text})}\n\n"
                         logger.info(f"LLM response ok ({len(response_content)} chars).")
-                    except Exception as e: logger.error(f"LLM stream error: {e}", exc_info=True); stream_error = str(e)
+                    except Exception as e:
+                         if "aborted" in str(e).lower() or "cancel" in str(e).lower():
+                              logger.warning(f"LLM stream aborted or cancelled: {e}")
+                              stream_error="Stream stopped."
+                         else: logger.error(f"LLM stream error: {e}", exc_info=True); stream_error = str(e)
                     if stream_error: yield f"data: {json.dumps({'error': f'Error: {stream_error}'})}\n\n"
 
-                    if not stream_error and response_content: self.chat_history.append({'role': 'assistant', 'content': response_content}); logger.debug(f"Appended assistant response. History size: {len(self.chat_history)}")
+                    if not stream_error and response_content:
+                        self.chat_history.append({'role': 'assistant', 'content': response_content})
+                        logger.debug(f"Appended assistant response. History size: {len(self.chat_history)}")
 
+                    # --- Auto-Archive Logic ---
                     archive_msgs = self.chat_history[self.last_archive_index:]
                     if archive_msgs:
                         content_to_save = format_chat_history(archive_msgs)
@@ -199,13 +223,65 @@ class WebChat:
                             'initial_transcript_processed': init_tx_proc, 'initial_transcript_progress_percent': proc_perc,
                             'has_pending_transcript_update': has_pending})
 
+        # --- NEW SAVE ROUTE for UI button ---
+        @self.app.route('/api/save', methods=['POST'])
+        def save_chat_api():
+            logger.info("Received request to /api/save")
+            try:
+                # Filter messages for saving (user and assistant only)
+                # Use self.last_saved_index to track what's already been saved
+                raw_msgs_to_save = self.chat_history[self.last_saved_index:]
+                filtered_msgs_to_save = [
+                    m for m in raw_msgs_to_save
+                    if m.get('role') in ['user', 'assistant'] and m.get('type') != 'transcript_update'
+                ]
+                logger.debug(f"API Save: Found {len(raw_msgs_to_save)} raw msgs since last save, filtered to {len(filtered_msgs_to_save)} user/assistant msgs.")
+
+                if not filtered_msgs_to_save:
+                    logger.info("API Save: No new user/assistant messages to save.")
+                    return jsonify({'message': 'No new messages to save.'}), 200
+
+                content = format_chat_history(filtered_msgs_to_save)
+                timestamp = datetime.now().strftime('%Y%m%d-T%H%M%S')
+                clean_save_filename = f"chat_D{timestamp}_aID-{self.config.agent_name}_eID-{self.config.event_id}_SAVED.txt"
+                logger.info(f"API Save: Attempting to save clean chat to: {clean_save_filename}")
+
+                s3_client = get_s3_client()
+                aws_s3_bucket = os.getenv('AWS_S3_BUCKET')
+                save_success = False
+                saved_key = None # Initialize saved_key
+
+                if s3_client and aws_s3_bucket:
+                     try:
+                         base_path = f"organizations/river/agents/{self.config.agent_name}/events/{self.config.event_id or '0000'}/chats/saved"
+                         saved_key = f"{base_path}/{clean_save_filename}"
+                         s3_client.put_object(Bucket=aws_s3_bucket, Key=saved_key, Body=content.encode('utf-8'), ContentType='text/plain; charset=utf-8')
+                         save_success = True
+                         logger.info(f"API Save: Successfully saved clean chat to: {saved_key}")
+                     except Exception as put_e:
+                         logger.error(f"API Save: Error directly saving clean chat to {saved_key}: {put_e}", exc_info=True)
+                         save_success = False
+
+                if save_success:
+                    # Update last_saved_index to the end of the full history checked
+                    self.last_saved_index = self.last_saved_index + len(raw_msgs_to_save)
+                    return jsonify({'message': f'Saved chat as {clean_save_filename}'}), 200
+                else:
+                    return jsonify({'error': 'Error saving chat to S3.'}), 500
+
+            except Exception as e:
+                logger.error(f"Error in /api/save route: {e}", exc_info=True)
+                return jsonify({'error': 'Internal server error during save.'}), 500
+        # --- END NEW SAVE ROUTE ---
+
+
         @self.app.route('/api/command', methods=['POST'])
         def command():
             data = request.json; cmd = data.get('command','').lower(); msg = f"Cmd: !{cmd}"; code=200; resp={}
             if not cmd: return jsonify({'error': 'No command'}), 400
             logger.info(f"WebChat: Cmd: !{cmd}")
             try:
-                # Command logic... (Assuming previous logic was correct, just fixing syntax below)
+                # Command logic...
                 if cmd == 'help': msg = "Cmds: !help, !clear, !save, !memory, !listen-transcript"
                 elif cmd == 'clear':
                     self.chat_history=[]; self.last_saved_index=0; self.last_archive_index=0
@@ -214,28 +290,61 @@ class WebChat:
                     if self.config.listen_transcript: self.load_initial_transcript(); msg='History/Tx state cleared. Initial tx reloaded.'
                     else: msg='History/Tx state cleared.'
                 elif cmd == 'save':
-                    msgs = self.chat_history[self.last_saved_index:];
-                    if not msgs: msg='Nothing new.'
-                    else: content = format_chat_history(msgs); success, fname = save_chat_to_s3(self.config.agent_name, content, self.config.event_id, True, self.current_chat_file);
-                    if success: self.last_saved_index = len(self.chat_history); msg = f'Saved as {fname}'
-                    else: msg = 'Error saving.'; code = 500
+                    # --- This block now just calls the same logic as the API route ---
+                    # --- It effectively duplicates the /api/save logic but via command ---
+                    raw_msgs_to_save = self.chat_history[self.last_saved_index:]
+                    filtered_msgs_to_save = [
+                        m for m in raw_msgs_to_save
+                        if m.get('role') in ['user', 'assistant'] and m.get('type') != 'transcript_update'
+                    ]
+                    logger.debug(f"!save Cmd: Found {len(raw_msgs_to_save)} raw msgs, filtered to {len(filtered_msgs_to_save)} user/assistant msgs.")
+
+                    if not filtered_msgs_to_save:
+                        msg='Nothing new to save (only non-chat messages found).'
+                        code = 200
+                    else:
+                        content = format_chat_history(filtered_msgs_to_save)
+                        timestamp = datetime.now().strftime('%Y%m%d-T%H%M%S')
+                        clean_save_filename = f"chat_D{timestamp}_aID-{self.config.agent_name}_eID-{self.config.event_id}_SAVED_CMD.txt" # Added _CMD suffix
+                        logger.info(f"!save Cmd: Attempting to save clean chat to: {clean_save_filename}")
+
+                        s3_client = get_s3_client()
+                        aws_s3_bucket = os.getenv('AWS_S3_BUCKET')
+                        save_success = False
+                        saved_key = None
+
+                        if s3_client and aws_s3_bucket:
+                             try:
+                                 base_path = f"organizations/river/agents/{self.config.agent_name}/events/{self.config.event_id or '0000'}/chats/saved"
+                                 saved_key = f"{base_path}/{clean_save_filename}"
+                                 s3_client.put_object(Bucket=aws_s3_bucket, Key=saved_key, Body=content.encode('utf-8'), ContentType='text/plain; charset=utf-8')
+                                 save_success = True
+                                 logger.info(f"!save Cmd: Successfully saved clean chat to: {saved_key}")
+                             except Exception as put_e:
+                                 logger.error(f"!save Cmd: Error directly saving clean chat to {saved_key}: {put_e}", exc_info=True)
+                                 save_success = False
+
+                        if save_success:
+                            self.last_saved_index = self.last_saved_index + len(raw_msgs_to_save)
+                            msg = f'Saved chat as {clean_save_filename}'
+                        else:
+                            msg = 'Error saving chat.'; code = 500
+                    # --- End Duplicated Save Logic ---
                 elif cmd == 'memory':
                      if self.config.memory is None: self.config.memory = [self.config.agent_name]; self.reload_memory(); msg='Memory ON.'
-                     else: self.config.memory = None; self.load_resources(); msg='Memory OFF.'
+                     else: self.config.memory = None; self.load_resources(); msg='Memory OFF.' # Reload resources to remove memory section
                 elif cmd == 'listen-transcript':
                      self.config.listen_transcript = not self.config.listen_transcript; status = "ENABLED" if self.config.listen_transcript else "DISABLED"
-                     if self.config.listen_transcript: loaded = self.load_initial_transcript(); msg = f"Tx listening {status}." + (" Initial tx loaded." if loaded else "")
+                     if self.config.listen_transcript: loaded = self.load_initial_transcript(); msg = f"Tx listening {status}." + (" Initial tx loaded." if loaded else " No initial tx found.")
                      else: self.initial_transcript_content=None; self.initial_transcript_sent=False; self.transcript_state=TranscriptState(); msg = f"Tx listening {status}."
                 else: msg = f"Unknown cmd: !{cmd}"; code = 400
 
                 resp['message'] = msg
-                # Corrected Block: Calculate status vars separately
                 if code == 200:
                     init_tx_processed_flag = self.initial_transcript_sent
                     processed_percent = 100 if init_tx_processed_flag else 0
                     with self.transcript_lock:
                          has_pending_update = self.pending_transcript_update is not None
-                    # Assign status dictionary using calculated vars
                     resp['status'] = {
                         'listen_transcript': self.config.listen_transcript,
                         'memory_enabled': self.config.memory is not None,
@@ -273,7 +382,6 @@ class WebChat:
 
     def check_transcript_updates(self):
         if not self.config.listen_transcript: return
-        if not self.initial_transcript_sent: return
         try:
             new_content = read_new_transcript_content(self.transcript_state, self.config.agent_name, self.config.event_id, False)
             if new_content:
