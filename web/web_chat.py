@@ -133,8 +133,15 @@ class WebChat:
 
                 # Start with the base loaded system prompt
                 turn_system_prompt = self.system_prompt
-                llm_messages = [m for m in self.chat_history if m.get('role') in ['user', 'assistant']]
+
+                # --- Build message list for API, ensuring only role/content ---
+                llm_messages = [
+                    {"role": m["role"], "content": m["content"]} # Select only needed keys
+                    for m in self.chat_history
+                    if m.get("role") in ["user", "assistant"] # Filter for valid roles
+                ]
                 logger.debug(f"Building context from history ({len(llm_messages)} msgs).")
+                # --- End Message List Build ---
 
                 # Add retrieved context if available
                 retrieved_docs = self.get_document_context(user_msg_content)
@@ -160,11 +167,16 @@ class WebChat:
                                 logger.info(f"Adding PENDING real-time tx ({len(self.pending_transcript_update)} chars).")
                                 self.pending_transcript_update = None # Clear pending update
                 if transcript_content_to_add:
+                     # Add transcript update as a user message FOR THE CURRENT LLM CALL ONLY
+                     # Ensure it only has role/content for the API
                      llm_messages.append({'role': 'user', 'content': transcript_content_to_add})
-                     self.chat_history.append({'role': 'user', 'content': transcript_content_to_add, 'type': 'transcript_update'}) # Add type for potential filtering later
+                     # Add to persistent history WITH the extra type field (safe now)
+                     self.chat_history.append({'role': 'user', 'content': transcript_content_to_add, 'type': 'transcript_update'})
 
                 # --- Append Actual User Message ---
+                # Add to LLM messages for this turn (already has only role/content)
                 llm_messages.append({'role': 'user', 'content': user_msg_content})
+                # Add to persistent history (without type field)
                 self.chat_history.append({'role': 'user', 'content': user_msg_content})
                 logger.debug(f"Appended user message(s). History size: {len(self.chat_history)}")
 
@@ -174,7 +186,7 @@ class WebChat:
 
                 # --- Inject Current Time into System Prompt for this turn ---
                 now_utc = datetime.now(timezone.utc)
-                time_str = now_utc.strftime('%A, %Y-%m-%d %H:%M:%S %Z') # e.g., Tuesday, 2025-04-08 10:30:55 UTC
+                time_str = now_utc.strftime('%A, %Y-%m-%d %H:%M:%S %Z')
                 time_context = f"Current Time Context: {time_str}\n"
                 final_system_prompt_for_turn = time_context + "\n" + turn_system_prompt
                 logger.debug(f"Final sys prompt for turn includes time. Len: {len(final_system_prompt_for_turn)}")
@@ -198,12 +210,15 @@ class WebChat:
                     if stream_error: yield f"data: {json.dumps({'error': f'Error: {stream_error}'})}\n\n"
 
                     if not stream_error and response_content:
+                        # Add assistant response to persistent history (without type field)
                         self.chat_history.append({'role': 'assistant', 'content': response_content})
                         logger.debug(f"Appended assistant response. History size: {len(self.chat_history)}")
 
                     # --- Auto-Archive Logic ---
                     archive_msgs = self.chat_history[self.last_archive_index:]
                     if archive_msgs:
+                        # Note: format_chat_history should ideally only format user/assistant
+                        # If it formats based on role only, transcript updates might still appear here
                         content_to_save = format_chat_history(archive_msgs)
                         if content_to_save:
                              success, _ = save_chat_to_s3(self.config.agent_name, content_to_save, self.config.event_id, False, self.current_chat_file)
@@ -223,7 +238,6 @@ class WebChat:
                             'initial_transcript_processed': init_tx_proc, 'initial_transcript_progress_percent': proc_perc,
                             'has_pending_transcript_update': has_pending})
 
-        # --- NEW SAVE ROUTE for UI button ---
         @self.app.route('/api/save', methods=['POST'])
         def save_chat_api():
             logger.info("Received request to /api/save")
@@ -263,7 +277,7 @@ class WebChat:
                          save_success = False
 
                 if save_success:
-                    # Update last_saved_index to the end of the full history checked
+                    # Update last_saved_index to the end of the full history slice checked
                     self.last_saved_index = self.last_saved_index + len(raw_msgs_to_save)
                     return jsonify({'message': f'Saved chat as {clean_save_filename}'}), 200
                 else:
@@ -272,8 +286,6 @@ class WebChat:
             except Exception as e:
                 logger.error(f"Error in /api/save route: {e}", exc_info=True)
                 return jsonify({'error': 'Internal server error during save.'}), 500
-        # --- END NEW SAVE ROUTE ---
-
 
         @self.app.route('/api/command', methods=['POST'])
         def command():
@@ -291,7 +303,6 @@ class WebChat:
                     else: msg='History/Tx state cleared.'
                 elif cmd == 'save':
                     # --- This block now just calls the same logic as the API route ---
-                    # --- It effectively duplicates the /api/save logic but via command ---
                     raw_msgs_to_save = self.chat_history[self.last_saved_index:]
                     filtered_msgs_to_save = [
                         m for m in raw_msgs_to_save
