@@ -11,7 +11,10 @@ import math
 
 from config import AppConfig
 from utils.retrieval_handler import RetrievalHandler
-from utils.transcript_utils import TranscriptState, read_new_transcript_content, read_all_transcripts_in_folder
+# Import get_latest_transcript_file directly
+from utils.transcript_utils import TranscriptState, read_new_transcript_content, read_all_transcripts_in_folder, get_latest_transcript_file
+# Import S3 client getter
+from utils.s3_utils import get_s3_client
 from utils.s3_utils import (
     get_latest_system_prompt, get_latest_frameworks, get_latest_context,
     get_agent_docs, load_existing_chats_from_s3, save_chat_to_s3, format_chat_history
@@ -20,8 +23,7 @@ from anthropic import Anthropic
 
 logger = logging.getLogger(__name__)
 
-# Constants removed (chunk size no longer needed for initial load)
-# TRANSCRIPT_CHUNK_SIZE_BYTES = 4000
+# Constants removed
 
 class WebChat:
     def __init__(self, config: AppConfig):
@@ -29,11 +31,11 @@ class WebChat:
         self.app = Flask(__name__, template_folder='templates', static_folder='static')
         self.app.config['SECRET_KEY'] = os.urandom(24)
         self.setup_routes()
-        self.chat_history = [] # Stores augmented user messages
+        self.chat_history = []
         self.client = None
         self.system_prompt = "Default system prompt."
         self.retriever = None
-        self.transcript_state = TranscriptState() # For tracking *new* bytes after initial load
+        self.transcript_state = TranscriptState() # State for read_new_transcript_content
         self.scheduler_thread = None
         self.last_saved_index = 0
         self.last_archive_index = 0
@@ -42,9 +44,7 @@ class WebChat:
         # State for transcript processing
         self.initial_transcript_content: Optional[str] = None
         self.initial_transcript_total_bytes: int = 0
-        # This now acts more like a flag: 0 means not sent, >0 means sent.
-        self.initial_transcript_processed_bytes: int = 0
-        # self.transcript_chunk_size removed
+        self.initial_transcript_processed_bytes: int = 0 # 0 = not sent, >0 = sent
 
         try:
              if not hasattr(config, 'session_id') or not config.session_id: config.session_id = datetime.now().strftime('%Y%m%d-T%H%M%S')
@@ -75,7 +75,6 @@ class WebChat:
             base_prompt = get_latest_system_prompt(self.config.agent_name) or "Assistant."
             logger.info(f"Base prompt loaded ({len(base_prompt)} chars).")
             source_instr = "\n\n## Source Attribution Requirements\n1. ALWAYS specify the exact source file when quoting...\n...(omitted for brevity)..."
-            # Update prompt to mention FULL transcript label
             realtime_instr = "\n\nIMPORTANT: Prioritize transcript content from `[REAL-TIME Meeting Transcript Update]` and `[FULL INITIAL TRANSCRIPT]` labels found within the user messages in the conversation history for 'now' or 'current state' queries."
             self.system_prompt = base_prompt + source_instr + realtime_instr
 
@@ -94,7 +93,7 @@ class WebChat:
             if self.config.memory is not None: self.reload_memory(); logger.info("Memory loaded.")
 
             if self.config.listen_transcript:
-                self.load_initial_transcript()
+                self.load_initial_transcript() # This initializes self.transcript_state
 
             logger.info("WebChat: Resources loaded ok.")
             logger.debug(f"Final system prompt len: {len(self.system_prompt)} chars (excluding transcript).")
@@ -167,21 +166,17 @@ class WebChat:
                 if self.config.listen_transcript and self.initial_transcript_content and self.initial_transcript_processed_bytes == 0:
                     label = "[FULL INITIAL TRANSCRIPT]"
                     transcript_content_to_add = f"{label}\n{self.initial_transcript_content}"
-                    # Mark as processed immediately
+                    # Mark as processed immediately by setting processed = total
                     self.initial_transcript_processed_bytes = self.initial_transcript_total_bytes
                     logger.info(f"Adding FULL initial transcript ({len(self.initial_transcript_content)} chars / {self.initial_transcript_total_bytes} bytes). Marked as processed.")
 
                 # 2. If initial transcript is already sent, check for real-time updates
                 elif self.config.listen_transcript:
-                    # Ensure initial load is marked done before checking real-time
-                    if self.initial_transcript_total_bytes > 0 and self.initial_transcript_processed_bytes != self.initial_transcript_total_bytes:
-                         logger.warning("Attempted real-time check before initial transcript was marked as fully processed. This shouldn't happen.")
-                    else:
-                         tx_update = self.check_transcript_updates()
-                         if tx_update:
-                             label = "[REAL-TIME Meeting Transcript Update]"
-                             transcript_content_to_add = f"{label}\n{tx_update}"
-                             logger.info(f"Adding real-time transcript update ({len(tx_update)} chars).")
+                     tx_update = self.check_transcript_updates() # Uses read_new_transcript_content with state
+                     if tx_update:
+                         label = "[REAL-TIME Meeting Transcript Update]"
+                         transcript_content_to_add = f"{label}\n{tx_update}"
+                         logger.info(f"Adding real-time transcript update ({len(tx_update)} chars).")
 
                 # Combine original user message with the transcript content for THIS turn's input
                 final_user_content_for_llm = user_msg_content
@@ -194,6 +189,7 @@ class WebChat:
                 # Store the augmented message in persistent history *before* generating response
                 self.chat_history.append({'role': 'user', 'content': final_user_content_for_llm})
                 logger.debug(f"Appended augmented user message to self.chat_history. History size: {len(self.chat_history)}")
+
 
                 # --- Call LLM ---
                 if not self.client: return jsonify({'error': 'AI client missing'}), 500
@@ -243,20 +239,15 @@ class WebChat:
         def status():
              mem = getattr(self.config, 'memory', None) is not None
              tx = getattr(self.config, 'listen_transcript', False)
-             # Check if content exists and if processed bytes equals total bytes (and total > 0)
              init_tx_processed_flag = bool(self.initial_transcript_content and self.initial_transcript_processed_bytes >= self.initial_transcript_total_bytes and self.initial_transcript_total_bytes > 0)
-             # Calculate percentage (safe division)
-             processed_percent = 0
-             if self.initial_transcript_content and self.initial_transcript_total_bytes > 0:
-                 # Use processed_bytes, which is now either 0 or total_bytes
-                 processed_percent = 100 if self.initial_transcript_processed_bytes > 0 else 0
+             processed_percent = 100 if init_tx_processed_flag else 0
 
              return jsonify({
                  'agent_name': self.config.agent_name,
                  'listen_transcript': tx,
                  'memory_enabled': mem,
-                 'initial_transcript_processed': init_tx_processed_flag, # True only if loaded and marked as sent
-                 'initial_transcript_progress_percent': processed_percent # Will be 0 or 100
+                 'initial_transcript_processed': init_tx_processed_flag,
+                 'initial_transcript_progress_percent': processed_percent
              })
 
         # Command endpoint
@@ -274,7 +265,7 @@ class WebChat:
                     self.initial_transcript_processed_bytes = 0
                     self.transcript_state = TranscriptState()
                     if self.config.listen_transcript:
-                         self.load_initial_transcript()
+                         self.load_initial_transcript() # Reloads and resets state
                          msg='History and transcript state cleared. Initial transcript reloaded.'
                     else:
                          msg='History and transcript state cleared.'
@@ -293,7 +284,7 @@ class WebChat:
                      self.config.listen_transcript = not self.config.listen_transcript
                      status = "ENABLED" if self.config.listen_transcript else "DISABLED"
                      if self.config.listen_transcript:
-                          loaded = self.load_initial_transcript()
+                          loaded = self.load_initial_transcript() # Loads/reloads and resets state
                           msg = f"Transcript listening {status}." + (" Initial transcript loaded/reloaded." if loaded else " Failed to load initial transcript.")
                      else:
                           self.initial_transcript_content = None
@@ -317,34 +308,63 @@ class WebChat:
                 return jsonify(resp), code
             except Exception as e: logger.error(f"Cmd !{cmd} error: {e}", exc_info=True); return jsonify({'error': str(e)}), 500
 
-    # load_initial_transcript remains the same
     def load_initial_transcript(self):
-        """Load initial transcript content into state, don't add to system prompt."""
+        """Load initial transcript, store locally, AND initialize TranscriptState."""
         self.initial_transcript_content = None
         self.initial_transcript_total_bytes = 0
-        self.initial_transcript_processed_bytes = 0
-        self.transcript_state = TranscriptState()
-        logger.info("Attempting to load initial transcript...")
+        self.initial_transcript_processed_bytes = 0 # Reset processed flag
+        self.transcript_state = TranscriptState() # Reset S3 read state too
+        logger.info("Attempting to load initial transcript and initialize S3 state...")
+
+        s3_client = get_s3_client()
+        aws_s3_bucket = os.getenv('AWS_S3_BUCKET')
+        if not s3_client or not aws_s3_bucket:
+            logger.error("S3 client or bucket not available for initializing transcript state.")
+            return False
+
         try:
+            # Load the full content first
             full_content = read_all_transcripts_in_folder(self.config.agent_name, self.config.event_id)
-            if full_content:
-                if isinstance(full_content, str):
-                    self.initial_transcript_content = full_content
-                    self.initial_transcript_total_bytes = len(full_content.encode('utf-8'))
-                    # Reset processed bytes here, it will be set to total_bytes when sent
-                    self.initial_transcript_processed_bytes = 0
-                    logger.info(f"Stored initial transcript ({len(full_content)} chars / {self.initial_transcript_total_bytes} bytes). Ready to be sent.")
-                    return True
+            if full_content and isinstance(full_content, str):
+                self.initial_transcript_content = full_content
+                self.initial_transcript_total_bytes = len(full_content.encode('utf-8'))
+                logger.info(f"Stored initial transcript ({len(full_content)} chars / {self.initial_transcript_total_bytes} bytes).")
+
+                # NOW, find the latest actual S3 file to initialize TranscriptState
+                latest_key = get_latest_transcript_file(self.config.agent_name, self.config.event_id, s3_client)
+                if latest_key:
+                    try:
+                        metadata = s3_client.head_object(Bucket=aws_s3_bucket, Key=latest_key)
+                        current_s3_size = metadata['ContentLength']
+                        current_s3_modified = metadata['LastModified']
+
+                        # Initialize the state to match the end of the file we just loaded
+                        self.transcript_state.file_positions[latest_key] = current_s3_size
+                        self.transcript_state.last_modified[latest_key] = current_s3_modified
+                        self.transcript_state.current_latest_key = latest_key
+                        logger.info(f"Initialized TranscriptState for S3 key '{latest_key}' (Size: {current_s3_size}, Mod: {current_s3_modified}).")
+                        return True # Successful load and state initialization
+
+                    except Exception as head_e:
+                        logger.error(f"Failed to get S3 metadata for key '{latest_key}' to initialize state: {head_e}")
+                        # Proceeding without state initialization, real-time updates might be incorrect
+                        return True # Content was loaded, but state init failed
                 else:
-                    logger.error("Loaded transcript content is not a string.")
-                    self.initial_transcript_content = None
-                    return False
-            else:
+                    logger.warning("Could not find latest S3 transcript key to initialize state after loading content.")
+                    # Proceeding without state initialization
+                    return True # Content was loaded, but state init failed
+            elif not full_content:
                 logger.warning("No initial transcript content found or read.")
                 return False
+            else: # Not a string
+                logger.error("Loaded transcript content is not a string.")
+                self.initial_transcript_content = None
+                return False
+
         except Exception as e:
-            logger.error(f"Error loading all transcripts: {e}", exc_info=True)
+            logger.error(f"Error loading all transcripts or initializing state: {e}", exc_info=True)
             return False
+
 
     # check_transcript_updates checks S3 for new bytes AFTER initial load is sent
     def check_transcript_updates(self) -> Optional[str]:
@@ -353,14 +373,18 @@ class WebChat:
         # Check if initial load exists AND has been marked as processed/sent
         initial_load_sent = bool(self.initial_transcript_content and self.initial_transcript_processed_bytes >= self.initial_transcript_total_bytes)
         if not initial_load_sent:
-            # Don't check for real-time updates if initial load hasn't been sent yet
             return None
 
         try:
-            # Uses TranscriptState to track position in S3 file(s)
+            # Uses TranscriptState which should now be initialized correctly
             new_content = read_new_transcript_content(self.transcript_state, self.config.agent_name, self.config.event_id, False)
             if new_content:
+                # Log when new content IS detected by this check
+                logger.info(f"Real-time check found new transcript content via S3 state ({len(new_content)} chars).")
                 return new_content
+            # No need to log every time no new content is found, reduces noise
+            # else:
+            #     logger.debug("Real-time check: No new content detected via S3 state.")
             return None
         except Exception as e:
             logger.error(f"Real-time transcript check error: {e}", exc_info=True)
