@@ -81,14 +81,15 @@ def read_new_transcript_content(state: TranscriptState, agent_name: str, event_i
         last_mod = state.last_modified.get(latest_key)
         is_new = (latest_key != state.current_latest_key)
         is_mod = (last_mod is None or current_modified > last_mod)
-        has_new = (current_size > last_pos)
+        has_new = (current_size > last_pos) # Use this variable
 
         if not is_new and not is_mod: logger.debug(f"Transcript {latest_key} unchanged."); return None
 
         start_read_pos = 0 # Default for new file or reset
         if not is_new:
-            if not has_new_bytes and is_mod: logger.warning(f"Tx {latest_key} modified but no size increase. Reading from start."); start_read_pos = 0
-            elif has_new_bytes: logger.debug(f"Tx {latest_key} updated. Reading from pos {last_pos}."); start_read_pos = last_pos
+            # Replace 'has_new_bytes' with 'has_new' here
+            if not has_new and is_mod: logger.warning(f"Tx {latest_key} modified but no size increase. Reading from start."); start_read_pos = 0
+            elif has_new: logger.debug(f"Tx {latest_key} updated. Reading from pos {last_pos}."); start_read_pos = last_pos
             else: logger.debug(f"No new bytes detected for {latest_key}."); return None
         else: logger.info(f"New transcript file: {latest_key}. Reading full content.")
 
