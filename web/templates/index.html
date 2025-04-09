@@ -811,8 +811,14 @@
                         <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a2 2 0 0 1 2.83 2.83l-8.49 8.48"></path>
                     </svg>
                 </button>
-                <!-- Removed Save button from here as it's not functional -->
-                <!-- <button class="action-button" id="save-button"> ... </button> -->
+                <!-- Save button restored -->
+                <button class="action-button" id="save-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                </button>
             </div>
             <textarea id="message-input" placeholder="Ask anything" rows="1"></textarea>
             <!-- Send button's onclick is now managed dynamically -->
@@ -872,7 +878,7 @@
             animateWelcomeText();
             updateStatus();
             setInterval(updateStatus, 5000);
-            // setupSaveButton(); // Removed call to non-functional save button setup
+            setupSaveButton(); // Restore call to setup save button listener
         }
 
         // --- Event Handlers ---
@@ -993,7 +999,7 @@
             // Clear input, reset height, keep it enabled, and unfocus
             messageInput.value = '';
             messageInput.style.height = initialHeight;
-            messageInput.blur(); // <<<<------ ADDED THIS LINE TO UNFOCUS
+            messageInput.blur(); // Unfocus after send
 
             // Handle commands first
             if (message.startsWith('!')) {
@@ -1302,7 +1308,61 @@
         }
 
         // --- Save Button Setup ---
-        // Removed setupSaveButton function as the save icon is not implemented in backend
+        // Re-added setupSaveButton function to connect UI button
+        function setupSaveButton() {
+            const saveButton = document.getElementById('save-button');
+            if (saveButton) {
+                saveButton.addEventListener('click', async () => {
+                    let messageDiv; // To display feedback
+                    try {
+                        // Call the dedicated /api/save endpoint
+                        const response = await fetch('/api/save', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' }
+                        });
+
+                        const data = await response.json();
+                        messageDiv = document.createElement('div');
+                        if (chatMessages) {
+                             chatMessages.appendChild(messageDiv);
+                        } else {
+                             console.error("Cannot find chatMessages element to append feedback.");
+                             return;
+                         }
+
+                        if (response.ok) {
+                            messageDiv.className = 'message system-message';
+                            messageDiv.textContent = data.message || 'Chat saved successfully.';
+                        } else {
+                            // Use error message from backend response if available
+                            throw new Error(data.error || `Failed to save chat (Status: ${response.status})`);
+                        }
+                    } catch (error) {
+                        console.error('Error saving chat history:', error);
+                         if (!messageDiv && chatMessages) {
+                             messageDiv = document.createElement('div');
+                             chatMessages.appendChild(messageDiv);
+                         }
+                         if (messageDiv) {
+                            messageDiv.className = 'message system-message error'; // Add error class
+                            messageDiv.textContent = `Error saving: ${error.message}`;
+                         }
+                    } finally {
+                         // Auto-remove feedback message after a delay
+                         if (messageDiv && chatMessages) {
+                             setTimeout(() => { chatMessages.scrollTop = chatMessages.scrollHeight; }, 50);
+                             setTimeout(() => {
+                                 messageDiv.style.transition = 'opacity 0.5s ease-out';
+                                 messageDiv.style.opacity = '0';
+                                 setTimeout(() => messageDiv.remove(), 500);
+                             }, 4000);
+                         }
+                    }
+                });
+            } else {
+                console.warn("Save button element not found");
+            }
+        }
 
         // --- Run Initialization ---
         document.addEventListener('DOMContentLoaded', initializeChat);
