@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 from typing import List, Dict, Optional
 import os
+import sys # Import sys for stderr logging
 import argparse
 from dotenv import load_dotenv
 
@@ -31,10 +32,10 @@ class AppConfig:
     anthropic_api_key: Optional[str] = None
     openai_api_key: Optional[str] = None
     event_id: str = '0000'  # Default event ID
-    session_id: str = None  # Will be set to timestamp on initialization
+    session_id: Optional[str] = None  # Will be set to timestamp on initialization
 
-    # Pinecone index name
-    index: str = "magicchat"
+    # Pinecone index name - Default to None, allow Optional string
+    index: Optional[str] = None
 
     # LLM Model Name (Centralized Definition)
     llm_model_name: str = "claude-3-7-sonnet-20250219" # Default model
@@ -61,7 +62,8 @@ class AppConfig:
         parser.add_argument('--listen-all', action='store_true', help='Enable all listening at startup.')
         parser.add_argument('--all', action='store_true', help='Read all transcripts in the selected folder at launch, ignore further updates.')
         parser.add_argument('--event', type=str, default='0000', help='Event ID (default: 0000)')
-        parser.add_argument('--index', type=str, default='magicchat', help='Pinecone index name to fetch context from')
+        # Ensure argparse default is also None
+        parser.add_argument('--index', type=str, default=None, help='Pinecone index name to fetch context from (default: None/Disabled)')
         # Add optional CLI override for max tokens
         parser.add_argument('--max-tokens', type=int, help='Override the default max output tokens for the LLM')
 
@@ -87,6 +89,8 @@ class AppConfig:
             print(f"Warning: Invalid value for max_tokens ('{args.max_tokens or max_tokens_from_env}'). Using default: {default_max_tokens}", file=sys.stderr)
             llm_max_tokens = default_max_tokens
 
+        # Explicitly check args.index before assigning
+        # print(f"DEBUG: args.index before cls() call = {args.index}, type: {type(args.index)}") # Optional debug
 
         config = cls(
             agent_name=args.agent,
@@ -106,7 +110,7 @@ class AppConfig:
             aws_s3_bucket=os.getenv('AWS_S3_BUCKET'),
             anthropic_api_key=os.getenv('ANTHROPIC_API_KEY'),
             openai_api_key=os.getenv('OPENAI_API_KEY'),
-            index=args.index,
+            index=args.index, # Assign directly from args (should be None if flag omitted)
             llm_model_name="claude-3-7-sonnet-20250219", # Keep this hardcoded for now, or add CLI arg
             llm_max_output_tokens=llm_max_tokens # Use the determined value
         )
@@ -122,7 +126,14 @@ class AppConfig:
         if not self.anthropic_api_key: missing_vars.append('ANTHROPIC_API_KEY')
         if not self.openai_api_key: missing_vars.append('OPENAI_API_KEY')
 
+        # Only require Pinecone API key if an index is actually specified
+        # pinecone_api_key = os.getenv('PINECONE_API_KEY')
+        # if self.index and not pinecone_api_key:
+        #     missing_vars.append('PINECONE_API_KEY (required when --index is used)')
+
         if missing_vars: raise ValueError(f"Missing environment variables: {', '.join(missing_vars)}")
         if self.interface_mode not in {'cli', 'web', 'web_only'}: raise ValueError(f"Invalid interface mode: {self.interface_mode}")
         if not isinstance(self.llm_model_name, str) or not self.llm_model_name: raise ValueError("LLM model name must be a non-empty string")
         if not isinstance(self.llm_max_output_tokens, int) or self.llm_max_output_tokens <= 0: raise ValueError("LLM max output tokens must be a positive integer")
+        # Validate index type (can be None or string)
+        if self.index is not None and not isinstance(self.index, str): raise ValueError("Index must be a string if provided")

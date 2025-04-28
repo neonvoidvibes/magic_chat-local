@@ -1,3 +1,4 @@
+# FILE: utils/retrieval_handler.py
 """Utilities for retrieving relevant document context for chat."""
 import logging
 import traceback
@@ -28,7 +29,7 @@ class RetrievalHandler:
 
     def __init__(
         self,
-        index_name: str = "magicchat",
+        index_name: Optional[str] = None, # Updated to allow None
         agent_name: Optional[str] = None,
         session_id: Optional[str] = None,
         event_id: Optional[str] = None,
@@ -54,10 +55,14 @@ class RetrievalHandler:
 
         pc = init_pinecone();
         if not pc: raise RuntimeError("Failed Pinecone init")
-        try:
-            self.index = pc.Index(self.index_name)
-            logger.info(f"Retriever: Connected to index '{self.index_name}'. Default top_k={self.top_k}")
-        except Exception as e: raise RuntimeError(f"Failed connection to index '{self.index_name}'") from e
+        self.index = None # Initialize index to None
+        if self.index_name:
+            try:
+                self.index = pc.Index(self.index_name)
+                logger.info(f"Retriever: Connected to index '{self.index_name}'. Default top_k={self.top_k}")
+            except Exception as e: raise RuntimeError(f"Failed connection to index '{self.index_name}'") from e
+        else:
+            logger.warning(f"Retriever: No index name provided. Retrieval from Pinecone is disabled.")
 
     def _transform_query(self, query: str) -> str:
         """Uses LLM to rewrite the query for better vector search."""
@@ -95,10 +100,15 @@ class RetrievalHandler:
         is_transcript: bool = False
     ) -> List[Document]:
         """Retrieve relevant document chunks, applying query transformation."""
+        # --- Check if retrieval is enabled ---
+        if self.index is None:
+             logger.debug("Retriever: Retrieval disabled (no index). Returning empty context.")
+             return []
+
         k = top_k or self.top_k
         logger.debug(f"Retriever: Original query: '{query[:100]}...' (is_tx={is_transcript})")
 
-        # 1. Transform the query
+        # 1. Transform the query (only if retrieval is enabled)
         transformed_query = self._transform_query(query)
         if transformed_query != query:
             logger.info(f"Retriever: Using transformed query: '{transformed_query[:100]}...'")
